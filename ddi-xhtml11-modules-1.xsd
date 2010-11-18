@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- DDI 3.0 Candidate Release June 22, 2007 -->
 <xs:schema targetNamespace="http://www.w3.org/1999/xhtml"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns="http://www.w3.org/1999/xhtml"
@@ -7,7 +8,7 @@
   <xs:annotation>
     <xs:documentation>
       This schema includes all modules for XHTML1.1 Document Type.
-      $Id$
+      $Id: ddi-xhtml11-modules-1.xsd,v 1.1 2007/02/08 16:03:11 jgager Exp $
     </xs:documentation>
     <xs:documentation source="XHTML/xhtml-copyright-1.xsd"/>
   </xs:annotation>

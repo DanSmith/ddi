@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DDI 3.0 Candidate Release June 22, 2007 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:profile:3_0_CR" xmlns:r="ddi:reusable:3_0_CR" targetNamespace="ddi:profile:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0_CR" schemaLocation="reusable.xsd"/>
+   <xs:element name="DDIProfile" type="DDIProfileType">
+      <xs:annotation>
+         <xs:documentation>Provides a description of which elements and attributes of the DDI are used in a particular profile of use. A profile of use is that set of fields used in a given instance, or supported by a DDI-conformant application. It uses XPath expressions which identify the used or unused fields in terms of the DDI instance.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:complexType name="DDIProfileType">
+      <xs:sequence>
+         <xs:element ref="r:MaintainableID">
+            <xs:annotation>
+               <xs:documentation>Identifies the DDI Profile.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="XPathVersion" type="xs:decimal">
+            <xs:annotation>
+               <xs:documentation>Provides the version of XPath used. Values are 1.0, 2.0 at this time.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="DDINamespace" type="xs:decimal" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>Provides the version of DDI schemas used. Values are 3.0, 3.1, etc.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Used">
+               <xs:annotation>
+                  <xs:documentation>Describes an element in the DDI which is used by the profile.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element ref="NotUsed">
+               <xs:annotation>
+                  <xs:documentation>Describes an element in the DDI which is not used by the profile.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+         </xs:choice>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="UsedType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="required" type="xs:boolean" default="false">
+               <xs:annotation>
+                  <xs:documentation>If true indicates that an element described as optional in DDI is required by the profile.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="path" type="xs:string" use="required">
+               <xs:annotation>
+                  <xs:documentation>Contains an XPath which points to an element or attribute in DDI instances which is used by the profile. All sub-elements of a used element are assumed to be supported unless explicitly addressed by the profile. The number of supported repetitions may be included in the XPath expression.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name="NotUsedType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="path" type="xs:string" use="required">
+               <xs:annotation>
+                  <xs:documentation>Contains an XPath which points to an element or attribute in DDI instances which is not used by the profile. All sub-elements of an unused element are assumed to be included unless explicitly addressed by the profile. The number of supported repetitions may be included in the XPath expression.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:element name="Used" type="UsedType">
+      <xs:annotation>
+         <xs:documentation>Describes an element in the DDI which is used by the profile.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="NotUsed" type="NotUsedType">
+      <xs:annotation>
+         <xs:documentation>Describes an element in the DDI which is not used by the profile.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+</xs:schema>

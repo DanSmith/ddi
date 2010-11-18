@@ -1,222 +1,349 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="ddi:archive:0_1" xmlns="ddi:archive:0_1" xmlns:r="ddi:reusable:0_1" xmlns:o="ddi:organizations:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	
-	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd" />
-	<xs:import namespace="ddi:organizations:0_1" schemaLocation="organizations.xsd" />
-	
-	<xs:element name="Archive" type="ArchiveType"/>
-	
-	<xs:complexType name="ArchiveType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element ref="r:Identification">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Item" type="ItemType">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Access" type="AccessType">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element ref="o:Organizations">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="ItemType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Location" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CallNumber" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="URI" type="xs:anyURI" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Format" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Media" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="StudyClass" type="StudyClassType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="OriginalArchive" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="AvailabilityStatus" type="r:StructuredStringType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="DataFileQuantity" type="xs:integer" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<!-- Is there a vocab here? -->
-			<xs:element name="CompletenessOfCollection" type="r:StructuredStringType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="StudyClassType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:simpleContent>
-			<xs:extension base="xs:string">
-				<!-- Need controlled vocaulary -->
-				<xs:attribute name="type" type="xs:string" use="required"/>
-			</xs:extension>
-		</xs:simpleContent>
-	</xs:complexType>
-
-	<xs:complexType name="AccessType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="ConfidentialityStatement" type="FormType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="AccessPermission" type="FormType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Restrictions" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CitationRequirement" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="DepositRequirement" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="AccessConditions" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Disclaimer" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="AccessRestrictionDate" type="r:AccessRestrictionDateType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Contact" type="ContactType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="ContactType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Affiliation" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="URI" type="xs:anyURI" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Email" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="FormType">
-		<xs:annotation>
-			<xs:documentation></xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Required" type="xs:boolean" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="FormNumber" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="URI" type="xs:anyURI" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
+<!-- DDI 3.0 Candidate Release June 22, 2007 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:archive:3_0_CR" xmlns:r="ddi:reusable:3_0_CR" xmlns:o="ddi:organizations:3_0_CR" targetNamespace="ddi:archive:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0_CR" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:organizations:3_0_CR" schemaLocation="organization.xsd"/>
+   <xs:element name="Archive" type="ArchiveType">
+      <xs:annotation>
+         <xs:documentation>Archive is the element which contains relevant archival information pertinent to the contents of a DDI instance.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:complexType name="ArchiveType">
+      <xs:annotation>
+         <xs:documentation>ArchiveType structures the contents of the archive element. This includes metadata which identifies the archive and the organizations which maintain it, the item being described as a unitary whole, access, funding for the archive process, and lifecycle events for the instance.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="r:MaintainableID">
+            <xs:annotation>
+               <xs:documentation>Provides identifying information for the archive.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="ArchiveSpecific">
+            <xs:annotation>
+               <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
+            </xs:annotation>
+         </xs:element>         
+         <xs:element ref="o:Organizations">
+            <xs:annotation>
+               <xs:documentation>A list of the organizations related to the DDI instance. This includes information on the archives responsible for creating and maintaing the intance.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="r:LifecycleInformation" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>LifecycleInformation contains the description of a set of lifecycle events, described in terms of the DDI lifecycle model. It may be extended by specific users.</xs:documentation>
+            </xs:annotation>
+         </xs:element>        
+         <xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Material related to this item from the archive's perspective.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Notes on any archival information presented in this module.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="ArchiveSpecificType">
+      <xs:annotation>
+         <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
+      </xs:annotation>  
+      <xs:sequence>
+	<xs:element ref="ArchiveOrganizationReference">
+            <xs:annotation>
+               <xs:documentation>A reference to the organization acting as the archive.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+	<xs:element ref="Item" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes the subject of the DDI metadata as viewed by the archive (eg, as a single item which has been archived). This may be a Group, Element, or StudyUnit.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Access" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes access to the metadata in the DDI instance and related data files in the archive.</xs:documentation>
+            </xs:annotation>
+         </xs:element>   
+         <xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes the archive's sources of funding (grants, etc.)</xs:documentation>
+            </xs:annotation>
+         </xs:element>         
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="ArchiveOrganizationReference" type="r:ReferenceType">
+    <xs:annotation>
+       <xs:documentation>A reference to the organization acting as the archive.</xs:documentation>
+    </xs:annotation>
+   </xs:element>   
+   <xs:element name="ArchiveSpecific" type="ArchiveSpecificType">
+    <xs:annotation>
+       <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
+    </xs:annotation>
+   </xs:element>   
+   
+   <xs:complexType name="ItemType">
+      <xs:annotation>
+         <xs:documentation>ItemType structures the Item element, which describes the archived item as managed by the archive. This is typically specific to a particular holding.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="Location" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes the location of the item in an archive. Can be repeated to support different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="CallNumber" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The Items call number in the archive.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="URI" type="xs:anyURI" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The URL or URN where the DDI instance containing the metadata can be obtained from the archive.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Format" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes the format of data or metadata holdings. Can be repeated to support different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Media" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes the media of data or metadata holdings. Can be repeated to support different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="StudyClass" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The type of study which is documented by the DDI instance.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="OriginalArchiveOrganizationReference" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>The original archive for the documented material, expressed as a reference to the organization listed in the organization scheme.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="AvailabilityStatus" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>A human-readable description of the availability status. Can be repeated to support different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="DataFileQuantity" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The number of data files of the documented holding, expressed as an integer.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="CollectionCompleteness" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>The completeness of the collection, described in human-readable terms.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="StudyClassType">
+      <xs:annotation>
+         <xs:documentation>The type of study documented by the DDI metadata, expressed in human-readable form and as a value from a controlled vocabulary.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+      	<xs:element ref="ClassDescription" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Human-readable description of the type of the study.</xs:documentation>
+            </xs:annotation>
+        </xs:element>
+      	<xs:element ref="ClassType" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Description of the type of the study taken from a controlled vocabulary.</xs:documentation>
+            </xs:annotation>
+        </xs:element>        
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="ClassDescription" type="r:InternationalStringType">
+    <xs:annotation>
+       <xs:documentation>Human-readable description of the type of the study.</xs:documentation>
+    </xs:annotation>
+   </xs:element>   
+   <xs:element name="ClassType" type="r:CodeValueType">
+    <xs:annotation>
+       <xs:documentation>Description of the type of the study taken from a controlled vocabulary.</xs:documentation>
+    </xs:annotation>
+   </xs:element>  
+   <xs:complexType name="AccessType">
+      <xs:annotation>
+         <xs:documentation>Describes the aspects of access to the archive's holding.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="ConfidentialityStatement" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Provides confidentiality statement and/or reference to it's network location.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="AccessPermission" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Gives the network location and identifying number of the access permission and confidentiality agreement forms, and whether they are required or not.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Restrictions" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Restrictions to access, described in a human-readable fashion.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="CitationRequirement" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes a citation requirement. May be repeated for different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="DepositRequirement" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes deposit requirements. May be repeated for different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="AccessConditions" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes conditions for access. May be repeated for different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Disclaimer" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes a disclaimer. May be repeated for different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="AccessRestrictionDate" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>Provides dates for which access is restricted.Describes the date or range of dates for access restrictions to all or portions of the data.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="ContactOrganizationReference" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Provides contact information regarding the archive's holding, expressed as a reference to an individual or organization listed in the organization scheme.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="FormType">
+      <xs:annotation>
+         <xs:documentation>FormType describes the forms needed for such functions as access permisssion to the archive and statements of confidentiality.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="Required" type="xs:boolean" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>States whether or not the form is required.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="FormNumber" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>Provides the number of the concerned form.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="URI" type="xs:anyURI" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>An Internet location such as a URL or URN where the form is to be found.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Statement" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Provides a textual statement regarding access forms.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="Item" type="ItemType">
+      <xs:annotation>
+         <xs:documentation>Describes the subject of the DDI metadata as viewed by the archive (eg, as a single item which has been archived). This may be a Group, Element, or StudyUnit.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Access" type="AccessType">
+      <xs:annotation>
+         <xs:documentation>Describes the aspects of access to the archive's holding.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Location" type="r:InternationalStringType">
+      <xs:annotation>
+         <xs:documentation>Describes the location of the item in an archive. Can be repeated to support different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Format" type="r:InternationalStringType">
+      <xs:annotation>
+         <xs:documentation>Describes the format of data or metadata holdings. Can be repeated to support different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Media" type="r:InternationalStringType">
+      <xs:annotation>
+         <xs:documentation>Describes the media of data or metadata holdings. Can be repeated to support different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="StudyClass" type="StudyClassType">
+      <xs:annotation>
+         <xs:documentation>The type of study which is documented by the DDI instance.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="OriginalArchiveOrganizationReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>The original archive for the documented material, expressed in human-readable form. Can be repeated to support different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="AvailabilityStatus" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>A human-readable description of the availability status. Can be repeated to support different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="CollectionCompleteness" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>The completeness of the collection, described in human-readable terms.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="ConfidentialityStatement" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>Provides confidentiality statement and/or reference to it's network location.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="AccessPermission" type="FormType">
+      <xs:annotation>
+         <xs:documentation>Gives the network location and identifying number of the access permission and confidentiality agreement forms, and whether they are required or not.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Restrictions" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>Restrictions to access, described in a human-readable fashion.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="CitationRequirement" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>Describes a citation requirement. May be repeated for different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="DepositRequirement" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>Describes deposit requirements. May be repeated for different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="AccessConditions" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>Describes conditions for access. May be repeated for different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Disclaimer" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>Describes a disclaimer. May be repeated for different languages.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="AccessRestrictionDate" type="r:AccessRestrictionDateType">
+      <xs:annotation>
+         <xs:documentation>Provides dates for which access is restricted.Describes the date or range of dates for access restrictions to all or portions of the data.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="ContactOrganizationReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Provides contact information regarding the archive's holding.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Email" type="r:EmailType">
+      <xs:annotation>
+         <xs:documentation>The e-mail for contacting the archive concerning the documented holding.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Statement" type="r:InternationalStringType">
+      <xs:annotation>
+         <xs:documentation>Ptovides a textual statement regarding access forms.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
 </xs:schema>

@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DDI 3.0 Candidate Release June 22, 2007 -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:organizations:3_0_CR" xmlns:r="ddi:reusable:3_0_CR" targetNamespace="ddi:organizations:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0_CR" schemaLocation="reusable.xsd"/><!--ORGANIZATION IDENTIFICATION - FROM Pascal -->
+   <xs:attributeGroup name="PRIVACY">
+      <xs:attribute name="privacy" type="PrivacyCodeType" use="optional"/>
+   </xs:attributeGroup>
+   <xs:simpleType name="PrivacyCodeType">
+      <xs:annotation>
+         <xs:documentation>Element's privacy/security</xs:documentation>
+      </xs:annotation>
+      <xs:union memberTypes="xs:string RecommendedPrivacyCodeType"/>
+   </xs:simpleType>
+   <xs:simpleType name="RecommendedPrivacyCodeType">
+      <xs:annotation>
+         <xs:documentation>Enumeration of recommended  privacy type</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="public"/>
+         <xs:enumeration value="restricted"/>
+         <xs:enumeration value="private"/>
+      </xs:restriction>
+   </xs:simpleType><!--ROOT-->
+   <xs:element name="Organizations" type="OrganizationsType">
+      <xs:annotation>
+         <xs:documentation>DDI 3.0 module to describes organizations/individuals and their roles in the survey life cycle</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:complexType name="OrganizationsType">
+      <xs:sequence>
+         <xs:element ref="r:MaintainableID"/>
+         <xs:element ref="Organization" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes an organization.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Individual" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes an individual.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Role" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes the organizations and individuals related to the lifecycle of the data as well as their roles and relationships.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Relation" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes relations between two actors (organizations and/or individuals)</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType><!--ORGANIZATION-->
+   <xs:complexType name="OrganizationType">
+      <xs:annotation>
+         <xs:documentation>Describes an organization</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:choice>
+            <xs:element ref="OrganizationReference">
+               <xs:annotation>
+                  <xs:documentation>Reference to an existing organization.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:sequence>
+               <xs:element ref="r:VersionableID" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element name="Name" type="xs:string" minOccurs="0"/>
+               <xs:element ref="Nickname" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Generic description</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Keyword" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>For classification, </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Location" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A physical (or virtual) location</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="URL" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Organization web site</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Email" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Generic email address</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="InstantMessaging" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>IMessaging for the organization (can be used for live technical support, sales, etc.)</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="GeographicCoverage" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>The geographic coverage for the whole organization</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Generic note</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Individual" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Provides flexibility to define individuals directly within an organization (i.e. staff).</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Relation" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Describes relations between actors in the context of the organization.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:choice>
+      </xs:sequence>
+      <xs:attributeGroup ref="PRIVACY"/>
+   </xs:complexType><!--INDIVIDUAL-->
+   <xs:complexType name="IndividualType">
+      <xs:annotation>
+         <xs:documentation>Describes an individual</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="r:IdentifiableID" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="IndividualName" minOccurs="0"/>
+         <xs:element ref="Nickname" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Organization" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Provides flexibility to define an organization directly within an individual (recommeded if only used once)</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Title" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>- The job title, functional position or  function
+- Applies only to individuals
+- Maps to vCard TITLE</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Keyword" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>For classification, </xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Location" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="URL" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Email" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="InstantMessaging" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Language" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Language spoken by individual</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Relation" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes relations between this individual and other actors</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+      <xs:attributeGroup ref="PRIVACY"/>
+      <xs:attribute name="individualReference" type="xs:NCName" use="optional">
+         <xs:annotation>
+            <xs:documentation>Points to an existing individual</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+   </xs:complexType>
+   <xs:complexType name="IndividualNameType">
+      <xs:annotation>
+         <xs:documentation>An individual name</xs:documentation>
+      </xs:annotation>
+      <xs:sequence minOccurs="0">
+         <xs:element name="Prefix" type="xs:string" minOccurs="0"/>
+         <xs:element name="First" type="xs:string" minOccurs="0"/>
+         <xs:element name="Middle" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element name="Last" type="xs:string" minOccurs="0"/>
+         <xs:element name="Suffix" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name="IndividualTitleType">
+      <xs:annotation>
+         <xs:documentation>Title of an individual, with provision for referencing an organization to provide context.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="Title" type="xs:string"/>
+         <xs:element ref="OrganizationReference" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="PRIVACY"/>
+   </xs:complexType>
+   <xs:complexType name="IndividualLanguageType">
+      <xs:annotation>
+         <xs:documentation>Language of an individual</xs:documentation>
+      </xs:annotation>
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attribute name="ISO" type="LanguageLevelCodeType" use="optional"/>
+            <xs:attribute name="read" type="LanguageLevelCodeType" use="optional"/>
+            <xs:attribute name="write" type="LanguageLevelCodeType" use="optional"/>
+            <xs:attribute name="speak" type="LanguageLevelCodeType" use="optional"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:simpleType name="LanguageLevelCodeType">
+      <xs:annotation>
+         <xs:documentation>Describes the level of fluency of an individual in a natural language.</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:NMTOKENS">
+         <xs:enumeration value="Native"/>
+         <xs:enumeration value="Fluent"/>
+         <xs:enumeration value="Good"/>
+         <xs:enumeration value="Basic"/>
+         <xs:enumeration value="Unspecified"/>
+      </xs:restriction>
+   </xs:simpleType><!--RELATION AND ROLE-->
+   <xs:complexType name="RoleType">
+      <xs:annotation>
+         <xs:documentation>Describe the role of actor(s) in relation to another DDI entity/ies (needs refinement)</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="r:IdentifiableID" minOccurs="0"/>
+         <xs:element ref="EntityReference" maxOccurs="unbounded"/>
+         <xs:choice maxOccurs="unbounded">
+            <xs:element ref="OrganizationReference"/>
+            <xs:element ref="IndividualReference"/>
+         </xs:choice>
+         <xs:element ref="r:Description" maxOccurs="unbounded"/>
+         <xs:element ref="Keyword" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Period" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Time period of this role </xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="PRIVACY"/>
+   </xs:complexType>
+   <xs:complexType name="RelationType">
+      <xs:annotation>
+         <xs:documentation>Establish a relation between actors (organization and individuals)</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="r:IdentifiableID" minOccurs="0"/>
+         <xs:choice maxOccurs="unbounded">
+            <xs:element ref="OrganizationReference"/>
+            <xs:element ref="IndividualReference"/>
+         </xs:choice>
+         <xs:element ref="r:Description" maxOccurs="unbounded"/>
+         <xs:element ref="Keyword" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Period" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Time period this reationship is valid for.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="PRIVACY"/>
+   </xs:complexType><!--LOCATION-->
+   <xs:complexType name="LocationType">
+      <xs:annotation>
+         <xs:documentation>describes a physical location</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="LocationReference" minOccurs="0"/>
+         <xs:element ref="Name" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Nickname" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Address" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Country" minOccurs="0"/>
+         <xs:element ref="Telephone" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="URL" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="Email" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="InstantMessaging" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="GeographicLocation" minOccurs="0"/>
+         <xs:element ref="GeographicCoverage" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The Geographic coverage for this location</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="r:TimeZone" minOccurs="0"/>
+         <xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="type" type="xs:string">
+         <xs:annotation>
+            <xs:documentation>reference to another location or possibly an organization or individual ID. Information for this location can then supplement or override the reference values.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+      <xs:attributeGroup ref="PRIVACY"/>
+      <xs:attributeGroup ref="r:GLOBALS"/>
+   </xs:complexType>
+   <xs:complexType name="AddressType" mixed="true">
+      <xs:annotation>
+         <xs:documentation>A location address. (Note that country is not included in this element)</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="Line" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element name="City" type="xs:string" minOccurs="0"/>
+         <xs:element name="State" type="xs:string" minOccurs="0"/>
+         <xs:element name="Postal" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="PRIVACY"/>
+      <xs:attribute name="type" type="xs:string" use="optional"/>
+      <xs:attribute name="vcardType" type="xs:NMTOKENS" use="optional"/>
+   </xs:complexType>
+   <xs:simpleType name="AddressTypeCodeType">
+      <xs:annotation>
+         <xs:documentation>Type of address</xs:documentation>
+      </xs:annotation>
+      <xs:union memberTypes="xs:NMTOKENS VCardAddressTypeCodeType"/>
+   </xs:simpleType>
+   <xs:simpleType name="VCardAddressTypeCodeType">
+      <xs:annotation>
+         <xs:documentation>Enumeration of vCard address types. Default is intl postal parcel work</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:NMTOKENS">
+         <xs:enumeration value="dom"/>
+         <xs:enumeration value="intl"/>
+         <xs:enumeration value="postal"/>
+         <xs:enumeration value="parcel"/>
+         <xs:enumeration value="home"/>
+         <xs:enumeration value="pref"/>
+      </xs:restriction>
+   </xs:simpleType>
+   <xs:element name="Category" type="xs:string">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+   </xs:element><!--TELEPHONE-->
+   <xs:complexType name="TelephoneType">
+      <xs:annotation>
+         <xs:documentation>A telephone number</xs:documentation>
+      </xs:annotation>
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attributeGroup ref="PRIVACY"/>
+            <xs:attribute name="type" type="TelephoneTypeCodeType" use="optional"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:simpleType name="TelephoneTypeCodeType">
+      <xs:annotation>
+         <xs:documentation>Type of telephone number</xs:documentation>
+      </xs:annotation>
+      <xs:union memberTypes="xs:NMTOKENS VCardTelephoneTypeCodeType"/>
+   </xs:simpleType>
+   <xs:simpleType name="VCardTelephoneTypeCodeType">
+      <xs:annotation>
+         <xs:documentation>Enumeration of telephone type defined by the vCard specification. Default is voice</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:NMTOKENS">
+         <xs:enumeration value="home"/>
+         <xs:enumeration value="msg"/>
+         <xs:enumeration value="work"/>
+         <xs:enumeration value="pref"/>
+         <xs:enumeration value="voice"/>
+         <xs:enumeration value="fax"/>
+         <xs:enumeration value="cell"/>
+         <xs:enumeration value="video"/>
+         <xs:enumeration value="pager"/>
+         <xs:enumeration value="bbs"/>
+         <xs:enumeration value="modem"/>
+         <xs:enumeration value="car"/>
+         <xs:enumeration value="isdn"/>
+      </xs:restriction>
+   </xs:simpleType><!--INSTANT MESSAGING-->
+   <xs:complexType name="InstantMessagingType">
+      <xs:annotation>
+         <xs:documentation>An Instant messaging account identification</xs:documentation>
+      </xs:annotation>
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
+            <xs:attributeGroup ref="PRIVACY"/>
+            <xs:attribute name="type" type="InstantMessagingTypeCodeType" use="optional"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:simpleType name="InstantMessagingTypeCodeType">
+      <xs:annotation>
+         <xs:documentation>Type of Instant Messaging account</xs:documentation>
+      </xs:annotation>
+      <xs:union memberTypes="xs:string CommonInstantMessagingTypeCodeType"/>
+   </xs:simpleType>
+   <xs:simpleType name="CommonInstantMessagingTypeCodeType">
+      <xs:annotation>
+         <xs:documentation>Enumeration of common public instant messaging networks. See http://en.wikipedia.org/wiki/Instant_messaging</xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="aim">
+            <xs:annotation>
+               <xs:documentation>AOL Instant Messenger</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="icq">
+            <xs:annotation>
+               <xs:documentation>ICQ</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="jabber">
+            <xs:annotation>
+               <xs:documentation>Jabber</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="google">
+            <xs:annotation>
+               <xs:documentation>Google Talk</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="msn">
+            <xs:annotation>
+               <xs:documentation>Microsoft Messenger</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="qq">
+            <xs:annotation>
+               <xs:documentation>QQ or OICQ (China)</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="skype">
+            <xs:annotation>
+               <xs:documentation>Skype</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="yahoo">
+            <xs:annotation>
+               <xs:documentation>Yahoo Messenger</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+      </xs:restriction>
+   </xs:simpleType><!--WEB SITE URL-->
+   <xs:complexType name="URLType">
+      <xs:annotation>
+         <xs:documentation>A web site URL</xs:documentation>
+      </xs:annotation>
+      <xs:simpleContent>
+         <xs:extension base="xs:anyURI">
+            <xs:attributeGroup ref="PRIVACY"/>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
+   <xs:element name="Organization" type="OrganizationType">
+      <xs:annotation>
+         <xs:documentation>Describes an organization or an individual</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="OrganizationReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to an existing organization.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Individual" type="IndividualType">
+      <xs:annotation>
+         <xs:documentation>Describes an organization or an individual</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Role" type="RoleType">
+      <xs:annotation>
+         <xs:documentation>Describes the role of organizations and/or individuals in relation to a DDI entity like a survey</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Relation" type="RelationType">
+      <xs:annotation>
+         <xs:documentation>Describes relations between two actors (organizations and/or individuals)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Nickname" type="r:InternationalStringType"/>
+   <xs:element name="Keyword" type="r:InternationalStringType">
+      <xs:annotation>
+         <xs:documentation>For classification, </xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Location" type="LocationType">
+      <xs:annotation>
+         <xs:documentation>A physical (or virtual) location</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Telephone" type="TelephoneType"/>
+   <xs:element name="URL" type="URLType">
+      <xs:annotation>
+         <xs:documentation>Organization web site</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Email" type="r:EmailType">
+      <xs:annotation>
+         <xs:documentation>Generic email address</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="InstantMessaging" type="InstantMessagingType">
+      <xs:annotation>
+         <xs:documentation>Instant messaging for the organization (can be used for live technical support, sales, etc.)</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="GeographicCoverage" type="r:GeographicCoverageType">
+      <xs:annotation>
+         <xs:documentation>The geographic coverage for the whole organization</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="IndividualName" type="IndividualNameType"/>
+   <xs:element name="Title" type="IndividualTitleType">
+      <xs:annotation>
+         <xs:documentation>The job title, functional position or  function. Applies only to individuals.Maps to vCard TITLE.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Language" type="IndividualLanguageType">
+      <xs:annotation>
+         <xs:documentation>Language spoken by individual</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="LocationReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to a related location for an individual or organization.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="EntityReference" type="r:ReferenceType"/>
+   <xs:element name="IndividualReference" type="r:ReferenceType"/>
+   <xs:element name="Period" type="r:DateType">
+      <xs:annotation>
+         <xs:documentation>Time period of this role. </xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Name" type="r:InternationalStringType"/>
+   <xs:element name="Address" type="AddressType"/>
+   <xs:element name="Country" type="r:CountryType"/>
+   <xs:element name="GeographicLocation" type="r:PointType"/>
+</xs:schema>
