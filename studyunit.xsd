@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
@@ -77,12 +77,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Allows the use of a controlled vocabulary to list all of the units of analysis used in the study. Should be repeated to describe multiple units of analysis.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element name="AnalysisUnitsCovered" type="r:InternationalStringType" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>A narrative of the units of analysis in the study unit. May be repeated to provide for multiple-language support.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-        <xs:element ref="KindOfData" minOccurs="0" maxOccurs="unbounded">
+		  <xs:element ref="AnalysisUnitsCovered" minOccurs="0" maxOccurs="unbounded">
+		      <xs:annotation>
+			<xs:documentation>A narrative of the units of analysis in the study unit. May be repeated to provide for multiple-language support.</xs:documentation>
+		      </xs:annotation>
+		</xs:element>
+                <xs:element ref="KindOfData" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Describes, with a string or a term from a controlled vocabulary, the kind of data documented in the logical product(s) of a study unit. Examples include survey data, census/enumeration data, administrative data, measurement data, assessment data, demographic data, voting data, etc.</xs:documentation>
                   </xs:annotation>
@@ -107,31 +107,37 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Contains documentation and metadata regarding the concepts and universes used by the study unit. This includes over-rides for documentation and metadata inherited from parent groups, if any.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="ConceptualComponentReference" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="d:DataCollection" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Contains documentation and metadata regarding the data collection methods and processes of the study unit. This includes over-rides for documentation and metadata inherited from parent groups, if any.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="DataCollectionReference" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="l:BaseLogicalProduct" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Contains documentation and metadata regarding the logical data products of the study unit. This includes over-rides for documentation and metadata inherited from parent groups, if any.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="LogicalProductReference" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="p:PhysicalDataProduct" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Contains documentation and metadata regarding a physical structure of data products of the study unit.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="PhysicalDataProductReference" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="pi:PhysicalInstance" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Contains documentation and metadata regarding a physical instance of one of the data products of the study unit.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="PhysicalInstanceReference" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="a:Archive" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Archive serves as a packet containing both persistent and transient information. Describes archive-specific material including item record information as well as lifecycle information. The metadata in the package is divided into elements that are persistent (should remain with the Study Unit through its life-cycle), and transient (pertinent only to the Study Unit as held by that archive).</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="ArchiveReference" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="pr:DDIProfile" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Contains a DDI Profile which is used by the study unit, and which can be referenced externally.</xs:documentation>
@@ -203,4 +209,15 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
        </xs:enumeration>
       </xs:restriction>
    </xs:simpleType>
+ <xs:element name="AnalysisUnitsCovered" type="r:InternationalStringType">
+     <xs:annotation>
+	<xs:documentation>A narrative of the units of analysis in the study unit. May be repeated to provide for multiple-language support.</xs:documentation>
+     </xs:annotation>
+</xs:element>
+<xs:element name="ConceptualComponentReference" type="r:ReferenceType"/>
+<xs:element name="DataCollectionReference" type="r:ReferenceType"/>
+<xs:element name="LogicalProductReference" type="r:ReferenceType"/>
+<xs:element name="PhysicalDataProductReference" type="r:ReferenceType"/>
+<xs:element name="PhysicalInstanceReference" type="r:ReferenceType"/>
+<xs:element name="ArchiveReference" type="r:ReferenceType"/>
 </xs:schema>

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:instance:3_1" xmlns:a="ddi:archive:3_1" xmlns:cm="ddi:comparative:3_1" xmlns:c="ddi:conceptualcomponent:3_1" xmlns:d="ddi:datacollection:3_1" xmlns:ds="ddi:dataset:3_1" xmlns:dc="ddi:dcelements:3_1" xmlns:pr="ddi:ddiprofile:3_1" xmlns:g="ddi:group:3_1" xmlns:m3="ddi:physicaldataproduct_ncube_inline:3_1" xmlns:l="ddi:logicalproduct:3_1" xmlns:m1="ddi:physicaldataproduct_ncube_normal:3_1" xmlns:p="ddi:physicaldataproduct:3_1" xmlns:pi="ddi:physicalinstance:3_1" xmlns:r="ddi:reusable:3_1" xmlns:s="ddi:studyunit:3_1" xmlns:m2="ddi:physicaldataproduct_ncube_tabular:3_1" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:m4="ddi:physicaldataproduct_proprietary:3_1" targetNamespace="ddi:instance:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:instance:3_1" xmlns:a="ddi:archive:3_1" xmlns:cm="ddi:comparative:3_1" xmlns:c="ddi:conceptualcomponent:3_1" xmlns:d="ddi:datacollection:3_1" xmlns:ds="ddi:dataset:3_1" xmlns:dc="ddi:dcelements:3_1" xmlns:pr="ddi:ddiprofile:3_1" xmlns:g="ddi:group:3_1" xmlns:m3="ddi:physicaldataproduct_ncube_inline:3_1" xmlns:l="ddi:logicalproduct:3_1" xmlns:m1="ddi:physicaldataproduct_ncube_normal:3_1" xmlns:p="ddi:physicaldataproduct:3_1" xmlns:pi="ddi:physicalinstance:3_1" xmlns:r="ddi:reusable:3_1" xmlns:s="ddi:studyunit:3_1" xmlns:m2="ddi:physicaldataproduct_ncube_tabular:3_1" xmlns:m4="ddi:physicaldataproduct_proprietary:3_1" targetNamespace="ddi:instance:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
 	<xs:import namespace="ddi:archive:3_1" schemaLocation="archive.xsd"/>
 	<xs:import namespace="ddi:comparative:3_1" schemaLocation="comparative.xsd"/>

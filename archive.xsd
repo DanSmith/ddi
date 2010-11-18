@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
@@ -35,8 +35,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
                <xs:element ref="ArchiveModuleName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="ArchiveSpecific">
                   <xs:annotation>
                      <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
@@ -496,8 +496,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:extension base="r:MaintainableType">
                <xs:sequence>
                <xs:element ref="OrganizationSchemeName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>               
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>               
                   <xs:element ref="Organization" minOccurs="0" maxOccurs="unbounded">
                      <xs:annotation>
                         <xs:documentation>Describes an organization.</xs:documentation>
@@ -556,7 +556,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                         </xs:element>
                         <xs:element ref="DDIMaintenanceAgencyID" minOccurs="0" maxOccurs="unbounded">
                            <xs:annotation>
-                              <xs:documentation>An official DDI maintenance agency ID provided by the cited registry for the organization.</xs:documentation>
+                              <xs:documentation>Contains the official DDI ID of the maintence agency as registered with the DDI registry by the parent organization or individual. A single organization or individual may have one or more DDI Maintenance Agency IDs registered within the DDI registry (i.e., an organization may have a DDI Maintenance Agency ID for each project managed by the organization) The structure of this string is described by Part I of the Technical Documentation and the content is registered within the DDI registry as a unique identifer.</xs:documentation>
                            </xs:annotation>
                         </xs:element>
                         <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -621,7 +621,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                         </xs:element>
                         <xs:element ref="VersionDistinction" minOccurs="0" maxOccurs="unbounded">
                            <xs:annotation>
-                              <xs:documentation>Provides an external link to images associated with the organization (logos, etc.).</xs:documentation>
+                              <xs:documentation>Describes the data versioning scheme(s) used by an organization. If more than one, Name should differentiate between a standard versioning structure used by the oranization and special structures used by specific projects or studies. Information on what drives and major and minor change and how they are structured.</xs:documentation>
                            </xs:annotation>
                         </xs:element>                        
                      </xs:sequence>
@@ -649,8 +649,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	   </xs:annotation>      
 	   <xs:sequence>
 	   <xs:element ref="VersionDistinctionName" maxOccurs="unbounded"/>
-	   <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
 	   <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
+	   <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
 	   </xs:sequence>
       </xs:complexType>
       <xs:element name="VersionDistinctionName" type="r:NameType"/>
@@ -679,9 +679,14 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   </xs:element>
                         <xs:element ref="DDIMaintenanceAgencyID" minOccurs="0" maxOccurs="unbounded">
                            <xs:annotation>
-                              <xs:documentation>An official DDI maintenance agency ID provided by the cited registry for the individual.</xs:documentation>
+                              <xs:documentation>Contains the official DDI ID of the maintence agency as registered with the DDI registry by the parent organization or individual. A single organization or individual may have one or more DDI Maintenance Agency IDs registered within the DDI registry (i.e., an organization may have a DDI Maintenance Agency ID for each project managed by the organization) The structure of this string is described by Part I of the Technical Documentation and the content is registered within the DDI registry as a unique identifer.</xs:documentation>
                            </xs:annotation>
-                        </xs:element>                  
+                        </xs:element>
+                        <xs:element ref="ResearcherID" minOccurs="0" maxOccurs="unbounded">
+                           <xs:annotation>
+                              <xs:documentation>Captures an individuals assigned researcher ID within a specified system. Includes the type or researcher ID provided, the ID, a URI of the location or link, and a description of the researcher ID provided. E.g., Rajiv Agrwal, type=researcherID,  ID=A-8725-2008), URI=www.researcherid.com/rid/A-8725-2008 which brings you to the researchers page.</xs:documentation>
+                           </xs:annotation>
+                        </xs:element>                        
                   <xs:element ref="Organization" minOccurs="0" maxOccurs="unbounded">
                      <xs:annotation>
                         <xs:documentation>Organization with which an individual is associated if the individual is not nested within an organization or if the individual is associated with an additional organziation.</xs:documentation>
@@ -837,6 +842,17 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             </xs:extension>
          </xs:simpleContent>
       </xs:complexType>
+      <xs:complexType name="ResearcherIDType">
+         <xs:annotation>
+            <xs:documentation>Captures an individuals assigned researcher ID within a specified system. Includes the type or researcher ID provided, the ID, a URI of the location or link, and a description of the researcher ID provided. E.g., Rajiv Agrwal, type=researcherID,  ID=A-8725-2008), URI=www.researcherid.com/rid/A-8725-2008 which brings you to the researchers page.</xs:documentation>
+         </xs:annotation>
+         <xs:sequence>
+         	<xs:element name="Type" type="r:CodeValueType"/>
+         	<xs:element name="Identifier" type="xs:string"/>
+         	<xs:element name="URI" type="xs:anyURI" minOccurs="0"/>
+         	<xs:element ref="r:Description" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
       <xs:simpleType name="LanguageLevelCodeType">
          <xs:annotation>
             <xs:documentation>Describes the level of fluency of an individual in a natural language.</xs:documentation>
@@ -848,7 +864,9 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:enumeration value="Basic"/>
             <xs:enumeration value="Unspecified"/>
          </xs:restriction>
-      </xs:simpleType><!--RELATION AND ROLE-->
+      </xs:simpleType>
+      
+      <!--RELATION AND ROLE-->
       <xs:complexType name="RoleType">
          <xs:annotation>
             <xs:documentation>Describes the role of individuals or organizations in relation to the DDI instance.and the life cycle of the data that is being documented </xs:documentation>
@@ -1242,6 +1260,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:annotation>
       </xs:element>
       <xs:element name="IndividualName" type="IndividualNameType"/>
+      <xs:element name="ResearcherID" type="ResearcherIDType"/>
       <xs:element name="Position" type="PositionType">
          <xs:annotation>
             <xs:documentation>The job title, functional position or function. Applies only to individuals. Maps to vCard TITLE.</xs:documentation>

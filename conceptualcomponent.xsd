@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
@@ -35,8 +35,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
                <xs:element ref="ConceptualComponentModuleName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>            
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/> 
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>           
                <xs:element ref="r:Coverage" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Provides information about the topical, spatial, and temporal coverage of the conceptual components included in this module.</xs:documentation>
@@ -115,7 +115,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="ConceptSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the concept scheme.</xs:documentation>
+                     <xs:documentation>A display label for the concept scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -165,7 +165,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="UniverseSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the universe scheme.</xs:documentation>
+                     <xs:documentation>A display label for the universe scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -198,7 +198,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="ConceptGroupName" minOccurs="0" maxOccurs="unbounded"/> 
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the concept group.</xs:documentation>
+                     <xs:documentation>A display label for the concept group.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -221,12 +221,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                		<xs:element ref="DefiningConceptReference"/>                		
                </xs:choice>
             </xs:sequence>
-            <xs:attribute name="ordered" type="xs:boolean" use="optional" default="false">
+            <xs:attribute name="isOrdered" type="xs:boolean" use="optional" default="false">
                <xs:annotation>
                   <xs:documentation>Indicates whether the concept scheme is ordered or unordered.  A value of "true" indicates ordered.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="structured" type="xs:boolean" use="optional" default="false">
+            <xs:attribute name="isStructured" type="xs:boolean" use="optional" default="false">
                <xs:annotation>
                   <xs:documentation>Indicates the structure of the relationships in the concept scheme. A value of "true" indicates a hierarchical structure, while a value of "false" indicates an unstructured scheme.</xs:documentation>
                </xs:annotation>
@@ -353,7 +353,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="ConceptName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the concept.</xs:documentation>
+                     <xs:documentation>A display label for the concept.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -386,7 +386,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="DataElementConceptName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the concept.</xs:documentation>
+                     <xs:documentation>A display label for the concept.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -404,7 +404,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Reference to a Concept that has its isCharacteristic attribute set to true, and is used for qualifying this data element concept.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="UniverseReference" minOccurs="0">
+               <xs:element ref="r:UniverseReference" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Reference to a universe associated with this concept.</xs:documentation>
                   </xs:annotation>
@@ -424,17 +424,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:documentation>Container for a data element concept (per ISO/IEC 11179) included in the concept scheme.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="UniverseReference" type="r:ReferenceType">
-      <xs:annotation>
-         <xs:documentation>Reference to the universe which is associated with the data element concept.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:complexType name="SimilarConceptType">
       <xs:annotation>
          <xs:documentation>Reference to another concept that is similar to the one included in the Description element above.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="ConceptReference">
+         <xs:element ref="SimilarConceptReference">
             <xs:annotation>
                <xs:documentation>Reference to another concept that is similar to the one included in the related Description element.</xs:documentation>
             </xs:annotation>
@@ -446,6 +441,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:element>
       </xs:sequence>
    </xs:complexType>
+   <xs:element name="SimilarConceptReference" type="r:ReferenceType"/>
    <xs:complexType name="UniverseType">
       <xs:annotation>
          <xs:documentation>Universe statement associated with the data.</xs:documentation>
@@ -491,7 +487,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="GeographicStructureSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the geographic structure scheme.</xs:documentation>
+                     <xs:documentation>A display label for the geographic structure scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -531,7 +527,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="GeographicLocationSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the geography location scheme.</xs:documentation>
+                     <xs:documentation>A display label for the geography location scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">

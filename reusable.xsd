@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
@@ -300,7 +300,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         <xs:documentation>Assigned ID, unique within its maintainable object.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
-    <xs:attribute name="urn" type="xs:anyURI" use="optional">
+    <xs:attribute name="urn" type="DDIURNType" use="optional">
       <xs:annotation>
         <xs:documentation>DDI-structured URN of the element as described in Part I of the Technical Documentation.</xs:documentation>
       </xs:annotation>
@@ -310,6 +310,11 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         <xs:documentation>Used for inheritance to indicate that the element being described is being added, updated, or deleted at the local level. Add: This element is added to the inherited structure. Update: This element is to be used in place of the inherited element with this ID for local processing. Delete: This element has been removed from the inherited group for local processing. There will be a new ID only in the case of Add.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="objectSource" type="xs:anyURI" use="optional">
+      <xs:annotation>
+        <xs:documentation>When placing obejcts included by reference in-line for the purposes of archiving ro production of unpublished metadata to accompany data subsets, enter the DDI URN here. This addition will NOT cause a version change in the parent maintainable.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>    
   </xs:complexType>
   <xs:complexType name="UserIDType">
 	<xs:annotation>
@@ -322,6 +327,11 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     	</xs:simpleContent>
     	
   </xs:complexType>
+  <xs:simpleType name="DDIURNType">
+  	<xs:restriction base="xs:anyURI">
+  		<xs:pattern value="[Uu][Rr][Nn]:[Dd][Dd][Ii]:[A-Za-z]+\.[A-Za-z][A-Za-z0-9\-]*:[A-Z|a-z]+\.[A-Z|a-z]+[A-Z|a-z|0-9|_|\-]*\.(([0-9\*]+\.[0-9\*]+\.[0-9\*]+)|([0-9\*]+\.[0-9\*]+\.L)|([0-9\*]+\.L\.L)|(L\.L\.L))(:[A-Z|a-z]+\.[A-Z|a-z]+[A-Z|a-z|0-9|_|\-]*\.(([0-9\*]+\.[0-9\*]+\.[0-9\*]+)|([0-9\*]+\.[0-9\*]+\.L)|([0-9\*]+\.L\.L)|(L\.L\.L)))?"/>
+  	</xs:restriction>
+  </xs:simpleType>
   <xs:complexType name="IdentifiableType" abstract="true">
     <xs:complexContent>
       <xs:extension base="AbstractIdentifiableType">
@@ -347,7 +357,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         </xs:sequence>
         <xs:attribute name="version" type="NewVersionType" use="optional">
           <xs:annotation>
-            <xs:documentation>Restricted string - numeric with optional decimal points.</xs:documentation>
+            <xs:documentation>Restricted string - numeric with two decimal positions. Default value is 1.0.0.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="versionDate" type="BaseDateType" use="optional">
@@ -383,7 +393,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           <xs:annotation>
            <xs:documentation>Indicates that the maintainable will not be changed without version, and is a stable target for referencing.</xs:documentation>
         </xs:annotation>
-      </xs:attribute>       
+      </xs:attribute>  
+      <xs:attribute ref="xml:lang" use="optional"/> 
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -409,7 +420,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:documentation/>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:pattern value="([0-9])+(\.([0-9])+)*"/>
+      <xs:pattern value="(([0-9\*]+\.[0-9\*]+\.[0-9\*]+)|([0-9\*]+\.[0-9\*]+\.L)|([0-9\*]+\.L\.L)|(L\.L\.L))"/>
     </xs:restriction>
   </xs:simpleType>
   <!-- Action Code Type -->
@@ -457,7 +468,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           <xs:documentation>Location of the repository containing the series.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element ref="Name">
+      <xs:element ref="SeriesName" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>Series name</xs:documentation>
         </xs:annotation>
@@ -474,6 +485,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       </xs:element>
     </xs:sequence>
   </xs:complexType>
+  <xs:element name="SeriesName" type="NameType"/>
   <xs:complexType name="ReferenceType">
     <xs:annotation>
       <xs:documentation>Used for referencing an identified entity expressed in DDI XML, either by a URN and/or an ID. If both are supplied, the URN takes precedence. At a minimum, one or the other is required. The lateBound attribute has a boolean value, which - if set to true - indicates that the latest version should be used.</xs:documentation>
@@ -533,6 +545,11 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:attribute name="objectLanguage" type="xs:language" use="optional">
       <xs:annotation>
         <xs:documentation>Specifies the language (or language-locale pair) to use for display in references to objects which have multiple languages available.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>   
+    <xs:attribute name="sourceContext" type="xs:anyURI" use="optional">
+      <xs:annotation>
+        <xs:documentation>Provide a DDI URN for the version of the parent maintainable that shows the full context for the referenced object. This is used only when the context of the object within the current version of a maintainable is important to the user and this version is later than the one containing the object itself. For example a occupation classification may be unchanged since version 1.0 of its maintainable but at the point of reference the current version of the maintainable containing the original structure is at version 2.0 etc..</xs:documentation>
       </xs:annotation>
     </xs:attribute>    
   </xs:complexType>
@@ -748,8 +765,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:extension base="IdentifiableType">
         <xs:sequence>
           <xs:element ref="EmbargoName" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="Description" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="Label" minOccurs="0" maxOccurs="unbounded"/>          
+          <xs:element ref="Label" minOccurs="0" maxOccurs="unbounded"/> 
+          <xs:element ref="Description" minOccurs="0" maxOccurs="unbounded"/>         
           <xs:element ref="Date">
             <xs:annotation>
               <xs:documentation>Provides the date of the embargo, which may take the form of a relevant date range.</xs:documentation>
@@ -918,12 +935,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
   </xs:complexType>
   <xs:element name="Label" type="LabelType">
     <xs:annotation>
-      <xs:documentation>An unstructured label for the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character, SPSS 120 characters, and Stata 80 characters). Mnemonics associated with a variable should include both of the following attributes: type="Nickname" and maxLength. Software packages will use this information to select the appropriate mnemonic for use.</xs:documentation>
+      <xs:documentation>A structured display label for the element. Label provides display content of a fully human readable display for the identification of the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character, SPSS 120 characters, and Stata 80 characters).</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:complexType name="LabelType">
+  <xs:complexType name="LabelType" mixed="true">
     <xs:annotation>
-      <xs:documentation>This is an unstructured label for the element. Label provides display content of a fully human readable display for the identification of the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character, SPSS 120 characters, and Stata 80 characters).</xs:documentation>
+      <xs:documentation>A structured display label for the element. Label provides display content of a fully human readable display for the identification of the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character, SPSS 120 characters, and Stata 80 characters).</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="StructuredStringType">
@@ -1673,7 +1690,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:documentation>Maximum bound value.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="TopCode" type="RangeValueType">
+  <xs:element name="TopCode" type="xs:decimal">
     <xs:annotation>
       <xs:documentation>Value implying top coding (all values at or above stated value are coded with this value).</xs:documentation>
     </xs:annotation>
@@ -1698,12 +1715,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           <xs:documentation>The upper bound of the range. If not present, then there is no upper bound.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="TopCode" type="xs:integer" minOccurs="0">
+      <xs:element name="TopCode" type="xs:decimal" minOccurs="0">
         <xs:annotation>
           <xs:documentation>Indicates that any response equal to or greater than this value has been coded as the topcode value.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="BottomCode" type="xs:integer" minOccurs="0">
+      <xs:element name="BottomCode" type="xs:decimal" minOccurs="0">
         <xs:annotation>
           <xs:documentation>Indicates that any response equal to or less than this value has been coded as the bottomcode value.</xs:documentation>
         </xs:annotation>
@@ -1760,9 +1777,9 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:complexContent>
       <xs:extension base="RepresentationType">
         <xs:sequence>
-          <xs:element ref="CodeSchemeReference" minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="CodeSchemeReference">
             <xs:annotation>
-              <xs:documentation>A reference to a code scheme containing the valid response values..</xs:documentation>
+              <xs:documentation>A reference to a code scheme containing the valid response values.</xs:documentation>
             </xs:annotation>
           </xs:element>
         </xs:sequence>
@@ -1776,7 +1793,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:complexContent>
       <xs:extension base="RepresentationType">
         <xs:sequence>
-          <xs:element ref="CategorySchemeReference" minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="CategorySchemeReference">
             <xs:annotation>
               <xs:documentation>A reference to a category scheme describing the representation.</xs:documentation>
             </xs:annotation>
@@ -2349,24 +2366,24 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
   </xs:complexType>
   <xs:complexType name="RelationshipType">
     <xs:annotation>
-      <xs:documentation>Relationship between the item within the DDI Instance to which the external resource is related and that item.</xs:documentation>
+      <xs:documentation>Relationship between thie item and the item within the DDI Instance to which it is related.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element ref="RelatedToReference">
         <xs:annotation>
-          <xs:documentation>Reference to the item within the DDI Instance to which the external resource is related. </xs:documentation>
+          <xs:documentation>Reference to the item within the DDI Instance to which this item is related. </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element ref="RelationshipDescription" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
-          <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which it is related.  </xs:documentation>
+          <xs:documentation>A description of the nature of the relationship between the parent element of the relationship item and the DDI object to which it is related.  </xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RelationshipDescription" type="InternationalStringType">
     <xs:annotation>
-      <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which it is related.</xs:documentation>
+      <xs:documentation>A description of the nature of the relationship between the parent element of the relationship item and the DDI object to which it is related.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:complexType name="ImageType">

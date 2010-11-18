@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
@@ -231,6 +231,11 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Shared documentation regarding physical data products of all members of the group, subject to overrides at a lower level.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="StudyUnit" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Description of an individual study being documented as a member of the group. The study unit description inherits all metadata found at higher levels - that is, all metadata and documentation describing the groups and subgroups of which the study unit is a member. This metadata and documentation may be over-ridden within the study unit.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
                <xs:element ref="SubGroup" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Subordinate group which inherits all the metadata provided in the higher-level groups and subgroups of which this subgroup is a member, subject to overrides within the subgroup itself.</xs:documentation>
@@ -392,11 +397,16 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>References a DDI Profile used by the group or resource package.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-         <xs:element ref="SubGroup" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Includes fully detailed, in-line information about a group that is the child of a higher-level group described in this module.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
+               <xs:element ref="StudyUnit" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Description of an individual study being documented as a member of the group. The study unit description inherits all metadata found at higher levels - that is, all metadata and documentation describing the groups and subgroups of which the study unit is a member. This metadata and documentation may be over-ridden within the study unit.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
+		 <xs:element ref="SubGroup" minOccurs="0" maxOccurs="unbounded">
+                   <xs:annotation>
+                    <xs:documentation>Includes fully detailed, in-line information about a group that is the child of a higher-level group described in this module.</xs:documentation>
+                   </xs:annotation>
+                </xs:element>
          <xs:element ref="Reference" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>References a sub-group that is the child of a higher-level group or sub-group described in this module.</xs:documentation>
@@ -458,13 +468,17 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>   
-   		<xs:element ref="DepositoryStudyUnitReference"/>
+                <xs:choice>
+   		      <xs:element ref="DepositoryStudyUnitReference"/>
+   		      <xs:element ref="DepositoryGroupReference"/>
+   		</xs:choice>
    		<xs:element ref="LocalAddedContent"/>
             </xs:sequence>
    	 </xs:extension>
       </xs:complexContent>
    </xs:complexType>
    <xs:element name="DepositoryStudyUnitReference" type="r:ReferenceType"/>
+   <xs:element name="DepositoryGroupReference" type="r:ReferenceType"/>
    <xs:element name="LocalAddedContent" type="s:StudyUnitType"/>
    
    

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
@@ -32,13 +32,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         <xs:extension base="r:MaintainableType">
       <xs:sequence>
                <xs:element ref="DDIProfileName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>  
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
 	            <xs:annotation>
 	               <xs:documentation>Provides a human-readable description of the profile. XHTML may be used, and it may be supplied in several language-versions.</xs:documentation>
 	            </xs:annotation>
-	         </xs:element>
-		
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>      
+	         </xs:element>    
          <xs:element name="XPathVersion" type="xs:decimal" default="1.0">
             <xs:annotation>
                <xs:documentation>Provides the version of XPath used. Values are 1.0, 2.0 at this time.</xs:documentation>
@@ -49,6 +48,11 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:documentation>Provides the version of DDI schemas used. Values are 3.0, 3.1, etc.</xs:documentation>
             </xs:annotation>
          </xs:element>
+         <xs:element name="XMLPrefixMap" type="XMLPrefixMapType" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>For each XML namespace used in the profile's XPath expressions, the XML namespaces must have their prefix specified using this element.</xs:documentation>
+            </xs:annotation>
+         </xs:element>         
          <xs:element name="Instructions" type="r:StructuredStringType" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Provides human-readable instructions for the profile. XHTML may be used, and it may be supplied in several language-versions.</xs:documentation>
@@ -73,6 +77,16 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
    
    </xs:complexType>
    <xs:element name="DDIProfileName" type="r:NameType"/>
+   
+   <xs:complexType name="XMLPrefixMapType">
+            <xs:annotation>
+               <xs:documentation>For each XML namespace used in the profile's XPath expressions, the XML namespaces must have their prefix specified using this element.</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+                 <xs:element name="XMLPrefix" type="xs:string"/>
+                 <xs:element name="XMLNamespace" type="xs:string"/>
+            </xs:sequence>
+   </xs:complexType>
    <xs:complexType name="UsedType">
       <xs:sequence>
          <xs:element name="AlternateName" type="r:InternationalStringType" minOccurs="0" maxOccurs="unbounded">

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
@@ -29,8 +29,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
                <xs:element ref="LogicalProductName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>            
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/> 
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>           
                <xs:element ref="r:Coverage" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>The Coverage statement at this level may be used to restrict the coverage described in the studyunit module. For example if this specific logical product from a population and housing census only covers housing questions or only provides State and County level data these should be noted here. If there are no changes in the coverage from the coverage of the studyunit module, no entry is needed here.</xs:documentation>
@@ -64,7 +64,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   </xs:element>
                </xs:choice>
                <xs:choice maxOccurs="unbounded" minOccurs="0">
-                  <xs:element ref="CodeScheme" minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="CodeScheme">
                      <xs:annotation>
                         <xs:documentation>Lists the code values used to represent categories for a variable or question. Also describes hierarchical relationships between categories used in the code scheme.</xs:documentation>
                      </xs:annotation>
@@ -111,7 +111,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="CategorySchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the category scheme.</xs:documentation>
+                     <xs:documentation>A display label for the category scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -147,12 +147,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:extension base="r:VersionableType">
       <xs:sequence>
        <xs:element ref="CategoryGroupName" minOccurs="0" maxOccurs="unbounded"/>
-       <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>            
        <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
 	  <xs:annotation>
-	     <xs:documentation>An unstructured label for the Variable. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character,  SPSS 120 characters, and STATA 80 characters).</xs:documentation>
+	     <xs:documentation>A display label for the category group.</xs:documentation>
 	  </xs:annotation>
-       </xs:element>      
+       </xs:element>             
+       <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>                 
          <xs:element ref="Category" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Allows for grouping of categories.</xs:documentation>
@@ -171,16 +171,16 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:VersionableType">
             <xs:sequence>
                <xs:element ref="CategoryName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A display label for the category.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Description/definition of the category. Note that comparison of categories is determined by the Definition rather than the Label. For example, while the Definition of a Chemist in London and a Pharmacist in New York is the same and comparable, the definitions of Chemist in each location differ significantly and are NOT comparable</xs:documentation>
                   </xs:annotation>
-               </xs:element>               
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>An unstructured label for the Variable. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character,  SPSS 120 characters, and STATA 80 characters).</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
+               </xs:element>              
                <xs:element ref="Generation" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Generation/derivation details of the category.</xs:documentation>
@@ -206,7 +206,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="CodeSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the code scheme.</xs:documentation>
+                     <xs:documentation>A display label for the code scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -285,7 +285,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:element>
          <xs:element name="Value" type="xs:string">
             <xs:annotation>
-               <xs:documentation>For microdata an explicit value found in data file. For variables describing the dimensions of NCubes it provides the coordinate value of the category label along within the dimension.</xs:documentation>
+               <xs:documentation>For microdata an explicit value found in data file. For variables describing the dimensions of NCubes it provides the coordinate value of the category label along within the dimension. All values within a CodeScheme must be unique.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="Code" minOccurs="0" maxOccurs="unbounded">
@@ -340,7 +340,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:element ref="VariableSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the variable scheme.</xs:documentation>
+                     <xs:documentation>A display label for the variable scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -390,14 +390,14 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:VersionableType">
             <xs:sequence>
                <xs:element ref="VariableName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">            
+       	    <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+	       <xs:annotation>
+		  <xs:documentation>A display label for the variable.</xs:documentation>
+	       </xs:annotation>
+             </xs:element>
+             <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">            
                   <xs:annotation>
                      <xs:documentation>Additional textual descriptions of the variable.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>A label for the variable. The length of the label may depend on the statistical analysis system used (e.g., some versions of SAS permit 40-character labels, while some versions of SPSS permit 120 characters), although the DDI itself imposes no restrictions on the number of characters allowed.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:UniverseReference" minOccurs="0" maxOccurs="unbounded">
@@ -645,11 +645,11 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:annotation>
          <xs:documentation>Allows selection of specific codes not based on levels.</xs:documentation>
       </xs:annotation>
-      <xs:complexContent>
-         <xs:extension base="r:ReferenceType">
+      <xs:simpleContent>
+         <xs:extension base="xs:string">
             <xs:attribute name="coordinateValue" type="xs:integer" use="optional"/>
          </xs:extension>
-      </xs:complexContent>
+      </xs:simpleContent>
    </xs:complexType>
    <xs:complexType name="GenerationType">
       <xs:annotation>
@@ -698,16 +698,16 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   </xs:annotation>
                </xs:element>
                <xs:element ref="VariableGroupName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A display label for the variable group.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Additional textual descriptions of the variable group.</xs:documentation>
                   </xs:annotation>
                </xs:element>               
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>A label assigned to the variable group. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
                <xs:element ref="r:UniverseReference" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Reference to the universe statement describing the persons or other elements that the data refer to, and to which any analytic results refer.</xs:documentation>
@@ -821,16 +821,16 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:VersionableType">
             <xs:sequence>
 		<xs:element ref="NCubeName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A display label for the NCube.</xs:documentation>
+                  </xs:annotation>
+               </xs:element> 
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Additional textual descriptions of the variable.</xs:documentation>
                   </xs:annotation>
-               </xs:element>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>An unstructured label for the Variable. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>               
+               </xs:element>              
                <xs:element ref="r:UniverseReference" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Reference to the description of the persons or other elements that are the object of the research and to which any analytic results refer.</xs:documentation>
@@ -904,12 +904,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:extension base="r:VersionableType">
       <xs:sequence>
       	 <xs:element ref="DataRelationshipName" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
          <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>A human-readable description explaining how to identify different record types, a unique case within a record type, and how to relate one record type to another record type.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
          <xs:element ref="LogicalRecord" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Describes a  logical record, such as a household, family, or person record. Required to link a description of a physical record structure to its logical record.</xs:documentation>
@@ -933,12 +933,12 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:IdentifiableType">
             <xs:sequence>
                <xs:element ref="LogicalRecordName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Description of the logical record.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="VariableValueReference" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Reference to the variable containing the record type locator.</xs:documentation>
@@ -1112,8 +1112,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:IdentifiableType">
             <xs:sequence>
             	<xs:element ref="RecordRelationshipName" minOccurs="0" maxOccurs="unbounded"/>
-	        <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
 	        <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
+	        <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="RecordReferenceSource">
                   <xs:annotation>
                      <xs:documentation>Reference to the Source Record.</xs:documentation>
@@ -1256,16 +1256,16 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   </xs:annotation>
                </xs:element>
 	       <xs:element ref="NCubeGroupName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A display label for the NCube group.</xs:documentation>
+                  </xs:annotation>
+               </xs:element> 
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Additional textual descriptions of the NCube group.</xs:documentation>
                   </xs:annotation>
-               </xs:element>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>An unstructured label for the NCubeGroup. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>               
+               </xs:element>              
                <xs:element ref="r:UniverseReference" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Reference to the universe statement describing the persons or other elements that are covered by the data, and to which any analytic results refer.</xs:documentation>
@@ -1300,7 +1300,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:sequence>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>An unstructured label for the CoordinateGroup. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints.</xs:documentation>
+                     <xs:documentation>A display label for the coordinate group.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:UniverseReference" minOccurs="0" maxOccurs="unbounded">
@@ -1898,7 +1898,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:element>
    <xs:element name="VariableSchemeReference" type="r:SchemeReferenceType">
       <xs:annotation>
-         <xs:documentation>References a variable scheme for inclusion in another variable scheme.</xs:documentation>
+         <xs:documentation>References a variable scheme for inclusion.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="CategoryReference" type="r:ReferenceType">

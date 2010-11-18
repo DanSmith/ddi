@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
 
 This file is part of DDI 3.1 XML Schema.
 
 DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by the
+it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
 DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
-You should have received a copy of the GNU General Public License along
+You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
@@ -38,8 +38,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
                <xs:element ref="DataCollectionModuleName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>            
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>            
                <xs:element ref="r:Coverage" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Describes the coverage of the data collection activity.</xs:documentation>
@@ -507,7 +507,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="InterviewerInstructionSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the interviewer instruction scheme.</xs:documentation>
+                     <xs:documentation>A display label for the interviewer instruction scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -540,20 +540,20 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:VersionableType">
             <xs:sequence>
                <xs:element ref="InstructionName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>               
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">               
                   <xs:annotation>
-                     <xs:documentation>A short description of the interviewer instruction.</xs:documentation>
+                     <xs:documentation>A display label for the interviewer instruction.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>               
                <xs:element name="AssociatedImage" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>An image associated with the interviewer instruction, located at the provided URI.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element name="InstructionText" type="r:StructuredStringType" minOccurs="0" maxOccurs="unbounded">
+               <xs:element name="InstructionText" type="DynamicTextType" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>This provides the textual content of the instruction.</xs:documentation>
+                     <xs:documentation>This provides the textual content of the instruction. If conditional content is used, a generic text version should also be provided.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -573,8 +573,8 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
 		<xs:element ref="InstrumentName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>               
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>  
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>             
                <xs:element ref="Type" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Describes the type of the instrument, according to the documentor's type classification.</xs:documentation>
@@ -615,7 +615,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="ControlConstructSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the Control Construct Scheme.</xs:documentation>
+                     <xs:documentation>A display label for the Control Construct Scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -650,6 +650,9 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:complexContent>
         <xs:extension base="r:VersionableType">
            <xs:sequence>
+               <xs:element ref="ConstructName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="ExternalAid" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                  <xs:documentation>A pointer to an exteral aid presented by the instrument such as a text card, image, audio, or audiovisual aid. Typically a URN. Use type attribute to describe the type of external aid provided. Example of terms to use would include: imageOnly audioOnly audioVisual multiMedia. ExternalAid will be be available each time the control construct is invoked. Care should be taken when placing an ExternalAid in RepeatWhile, RepeatUntil and Loop constructs as it will recure each time the conditional statement is checked. This does not include interviewer instructions, which are handled separately.</xs:documentation>
@@ -671,6 +674,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         </xs:extension>
     </xs:complexContent>
    </xs:complexType>
+   <xs:element name="ConstructName" type="r:NameType"/>
    <xs:element name="IfThenElse" type="IfThenElseType" substitutionGroup="ControlConstruct"/>
    <xs:complexType name="IfThenElseType">
       <xs:annotation>
@@ -689,6 +693,11 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Reference to the control construct which should be triggered if the associated condition is met.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="ElseIf" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Use for multiple branching from a single point in the flow logic represpented by the flow logic If, Then, ElseIf, Then, etc.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
                <xs:element ref="ElseConstructReference" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Reference to the control construct which is triggered if the associated condition is not met.</xs:documentation>
@@ -698,6 +707,25 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:complexType name="ElseIfType">
+      <xs:annotation>
+         <xs:documentation>Use for multiple branching from a single point in the flow logic represpented by the flow logic If, Then, ElseIf, Then, etc.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+               <xs:element ref="IfCondition">
+                  <xs:annotation>
+                     <xs:documentation>The condition which must be met to trigger the Then clause, expressed as a Coding. The condition is an expression in the programming language used in the instrument.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>    
+               <xs:element ref="ThenConstructReference">
+               
+                  <xs:annotation>
+                     <xs:documentation>Reference to the control construct which should be triggered if the associated condition is met.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
+      </xs:sequence>
+   </xs:complexType>
+   <xs:element name="ElseIf" type="ElseIfType"/>
    <xs:element name="RepeatUntil" type="RepeatUntilType" substitutionGroup="ControlConstruct"/>
    <xs:complexType name="RepeatUntilType">
       <xs:annotation>
@@ -928,7 +956,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="QuestionSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A short description of the question scheme.</xs:documentation>
+                     <xs:documentation>A display label for the question scheme.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -1254,7 +1282,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:OtherMaterialType">
-            <xs:attribute name="displayText" type="xs:boolean" default="true"/>
+            <xs:attribute name="isDisplayed" type="xs:boolean" default="true"/>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
@@ -1270,17 +1298,17 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:complexType>
    <xs:complexType name="SpecificSequenceType">
       <xs:annotation>
-         <xs:documentation>Describes the ordering of questions when not otherwise indicated. There are a set number of values for QuestionSequenceType, but also a provision for describing an alternate ordering using a command language.</xs:documentation>
+         <xs:documentation>Describes the ordering of items when not otherwise indicated. There are a set number of values for ItemSequenceType, but also a provision for describing an alternate ordering using a command language.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-        <xs:element ref="QuestionSequenceType"/>
-        <xs:element ref="AlternateSequenceType"/>
+        <xs:element ref="ItemSequenceType"/>
+        <xs:element ref="AlternateSequenceType" minOccurs="0"/>
       </xs:sequence>
    </xs:complexType>
-   <xs:element name="QuestionSequenceType" type="QuestionSequenceTypeType" default="InOrderOfAppearance"/>
-   <xs:simpleType name="QuestionSequenceTypeType">
+   <xs:element name="ItemSequenceType" type="ItemSequenceTypeType" default="InOrderOfAppearance"/>
+   <xs:simpleType name="ItemSequenceTypeType">
       <xs:annotation>
-         <xs:documentation>Describes the types of sequences of questions.</xs:documentation>
+         <xs:documentation>Describes the types of sequences of items.</xs:documentation>
       </xs:annotation>
       <xs:restriction base="xs:string">
          <xs:enumeration value="InOrderOfAppearance">
@@ -1587,7 +1615,7 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:documentation>Reference to a variable used in the coding process.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="ExternalInformation" type="r:ReferenceType">
+   <xs:element name="ExternalInformation" type="r:OtherMaterialType">
       <xs:annotation>
          <xs:documentation>Reference to an external source of information used in the coding process, for example a value from a chart, etc.</xs:documentation>
       </xs:annotation>
