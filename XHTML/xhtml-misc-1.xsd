@@ -7,7 +7,7 @@
     <xs:documentation>
       This is the XML Schema Miscellaneous Legacy 
       Markup module for XHTML
-      $Id: xhtml-misc-1.xsd,v 1.1 2003/12/17 03:09:17 ahby Exp $
+      $Id$
     </xs:documentation>
     <xs:documentation source="xhtml-copyright-1.xsd"/>
   </xs:annotation>

@@ -11,7 +11,7 @@
           Defines containers for the XHTML datatypes, many of
           these imported from other specifications and standards.
           
-          $Id: xhtml-datatypes-1.xsd,v 1.1 2003/12/17 03:09:17 ahby Exp $
+          $Id$
         </xs:documentation>
         <xs:documentation source="xhtml-copyright-1.xsd"/>
         <xs:documentation 

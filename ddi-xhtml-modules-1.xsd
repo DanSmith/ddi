@@ -7,7 +7,7 @@
   <xs:annotation>
     <xs:documentation>
       This schema includes all modules for XHTML1.1 Document Type.
-      $Id: xhtml11-modules-1.xsd,v 1.2 2004/01/15 06:01:40 speruvem Exp $
+      $Id$
     </xs:documentation>
     <xs:documentation source="XHTML/xhtml-copyright-1.xsd"/>
   </xs:annotation>

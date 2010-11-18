@@ -15,7 +15,7 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>

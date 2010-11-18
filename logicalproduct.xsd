@@ -13,14 +13,14 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The Coverage statement at this level restricts the coverage from that described in the studyunit. For example if this specific logical product from a population and housing census only covers housing questions or only provides State and County level data these should be noted here. If there are no changes in the coverage from the coverage of the studyunit, no entry is needed.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Include Other Materials not noted in the studyunit or datacollection that have a specific relation to this logical product. For example the printed data dictionary or printed output for the logical product.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
@@ -31,12 +31,12 @@
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="CategoryScheme" type="CategorySchemeType">
 					<xs:annotation>
-						<xs:documentation>A category scheme - contains a collection of categories, and category groups, which can contain hierarchical relationships between categories.</xs:documentation>
+						<xs:documentation>A category scheme - contains a collection of categories and category groups. Categories are described first and then organized into category groups. Category groups provide coding values, relationship information (order, hierarchy, most descrete items, etc.). Note that the idea of a category group has changed from 2.1 [see CategoryGroup for additional information.]</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="CategorySchemeReference" type="r:ReferenceType">
 					<xs:annotation>
-						<xs:documentation>A reference to a previously defined category scheme.</xs:documentation>
+						<xs:documentation>A reference to a previously defined category scheme either internal to or external to the xml instance.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
@@ -69,7 +69,7 @@
 					<!-- No notes on what this should look like. -->
 					<xs:element name="ProgrammingGuide" type="r:StructuredStringType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation></xs:documentation>
+							<xs:documentation>This is currently a place holder, but can contain a writen description of how the logical contents of the file relate to each other for programming purposes. For example, noting that there are household, family and person items where the household is identifed by variableH the unique family by the concatonation of variableH and variableF and the unique person within a household by the contactonation of variableH and variableP. This section will be expanded in a future version to contain a machine actionable guide to the logical product.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -82,17 +82,17 @@
 		<xs:sequence>
 			<xs:element ref="r:Identification">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Unique identification of the category scheme.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Category" type="CategoryType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>A description of a particular response.</xs:documentation>
+					<xs:documentation>A description of a particular category or response. These items will be used to build category groups.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CategoryGroup" type="CategoryGroupType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>A description of response categories that might be grouped together.</xs:documentation>
+					<xs:documentation>A description of a group of categories that have a specific relationship, such as the categories Male and Female grouped as Gender. Categories can belong to multiple groups. The group provides the unique category values for the categories. If the category values change, a new group is needed. For example, an integrated data set where the origial variables are retained and one used 0=Male 1=Female and the used 1=Male and 2=Female. This would result in two category groups each referencing the same two categories but providing different category values.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -116,7 +116,7 @@
 			</xs:element>
 			<xs:element name="Definition" type="r:StructuredStringType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Additional textual descriptions of the category groupx`.</xs:documentation>
+					<xs:documentation>Definition of the label. Note that comparison of categories is done on the definition rather than the label. For example, the definition of a Chemist in London and a Pharmisist in New York is the same and comparable, the definitions of Chemist in each location differ signficantly and are NOT comparable.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -143,9 +143,9 @@
 					<xs:documentation>Used to describe the levels of the category hierarchy.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CategoryRefernce" type="CategoryValueReferenceType" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="CategoryReference" type="CategoryValueReferenceType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Reference to included category.</xs:documentation>
+					<xs:documentation>Reference to included category is found in the ReferenceType. This standard type is extended by the CategoryValueReferenceType which allows for additional information regarding the category as well as nesting of cateogries.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -153,12 +153,12 @@
 
 	<xs:complexType name="LevelType">
 		<xs:annotation>
-			<xs:documentation>Used to describe the levels of the category hierarchy.</xs:documentation>
+			<xs:documentation>Used to describe the levels of the category hierarchy. Levels take the place of category groups as they were used in DDI versions through 2.1. Note that the attribute "levelNumber" is used for referencing from specific categories to their level identifer.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Name" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Name of category level.</xs:documentation>
+					<xs:documentation>Name of category level. This should be short and explicit, such as "Major Industrial Groups (2 digit SIC Codes)" or "NUTS 1".</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Description" type="r:StructuredStringType" minOccurs="0" maxOccurs="unbounded">
@@ -168,12 +168,12 @@
 			</xs:element>
 			<xs:element name="RelationshipType" type="CategoryRelationCodeType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Code describing the relationship between categories.  Possible values are either Nominal, Ordinal, or Interval.</xs:documentation>
+					<xs:documentation>Code describing the relationship between categories of the level.  Possible values are either Nominal, Ordinal, or Interval. Note that different levels may have different values within the same hierarchy. For example Level 1 items may be ordinal and Level 2 (the children of Level 1 items) may be nominal.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Interval" type="IntervalType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Identifies the inteval between each value of the categorys for this variable.</xs:documentation>
+					<xs:documentation>Identifies the inteval between each value of the categories for this variable. Used only for cateories with interval relationship</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -298,19 +298,19 @@
 					<xs:documentation>Additional textual descriptions of the variable.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The group of persons or other elements that are the object of research and to which any analytic results refer. Age, nationality, and residence commonly help to delineate a given universe, but any of a number of factors may be involved, such as sex, race, income, veteran status, criminal convictions, etc. The universe may consist of elements other than persons, such as housing units, court cases, deaths, countries, etc. In general, it should be possible to tell from the description of the universe whether a given individual or element (hypothetical or real) is a member of the population under study. A "level" attribute is included to permit coding of the level to which universe applies, i.e., the study level, the file level (if different from study), the record group, the variable group, the nCube group, the variable, or the nCube level. The "clusion" attribute provides for specification of groups included (I) in or excluded (E) from the universe. If all the variables/nCubes described in the data documentation relate to the same population, e.g., the same set of survey respondents, this element would be unnecessary at data description level. In this case, universe can be fully described at the study level.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ConceptReference" type="r:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>General concept to which this varaible belongs.</xs:documentation>
+					<xs:documentation>General concept to which this varaible belongs. The concept itself is found in the studyunit. Reference to a concept may either be made directly through this element or via a reference to a question that is linked to a concept.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Question" type="r:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Reference to question for this variable.</xs:documentation>
+					<xs:documentation>Reference to question(s) used to collect data for this variable. The quesion is found in the datacollection schema.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Embargo" type="r:ReferenceType" minOccurs="0">
@@ -358,7 +358,7 @@
 		<xs:sequence>
 			<xs:element name="DataType" type="r:DataTypeCodeType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Indicates whether data is alphabetic, numberic or mixed.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<!-- Need to define complete vocabulary for this.  Examples are count, frequency, identity, time, entity, etc. -->
@@ -369,7 +369,7 @@
 			</xs:element>
 			<xs:element name="WeightVariableReference" type="r:ReferenceType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Reference to weight variable for this variable.</xs:documentation>
+					<xs:documentation>Reference to weight variable to be used with this variable.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="StandardWeightReference" type="r:ReferenceType" minOccurs="0">
@@ -379,17 +379,17 @@
 			</xs:element>
 			<xs:element name="Imputation" type="r:ReferenceType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>According to the Statistical Terminology glossary maintained by the National Science Foundation, this is "the process by which one estimates missing values for items that a survey respondent failed to provide," and if applicable in this context, it refers to the type of procedure used. When applied to an nCube, imputation takes into consideration all of the dimensions that are part of that nCube.</xs:documentation>
+					<xs:documentation>According to the Statistical Terminology glossary maintained by the National Science Foundation, this is "the process by which one estimates missing values for items that a survey respondent failed to provide," and if applicable in this context, it refers to the type of procedure used. When applied to an nCube, imputation takes into consideration all of the dimensions that are part of that nCube. The imputation information referenced is found in the datacollection module.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ConcatenatedValue" type="r:ReferenceType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Provides a reference to another variable, which describes the method for deriving the value of this varialbe, by concatenating a collection of other variables.</xs:documentation>
+					<xs:documentation>Provides a reference to another variable, which describes the method for deriving the value of this varialbe, by concatenating a collection of other variables. This is useful in creating concatonated keys.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="CodingInstructions" type="r:ReferenceType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Any special instructions to those who converted information from one form to another for a particular variable. This might include the reordering of numeric information into another form or the conversion of textual information into numeric information.</xs:documentation>
+					<xs:documentation>Any special instructions to those who converted information from one form to another for a particular variable. This might include the reordering of numeric information into another form or the conversion of textual information into numeric information. The specifics of this process are provided in the data collection module.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Derivation" type="DerivationType" minOccurs="0">
@@ -412,7 +412,7 @@
 				</xs:sequence>
 				<xs:element name="CategoryGroupReference" type="CategoryGroupReferenceType">
 					<xs:annotation>
-						<xs:documentation>References a category group, that specifies the possible values for this variable.</xs:documentation>
+						<xs:documentation>References a category group (internal or external DDI formated), that specifies the possible values for this variable. Note that either the full category group or portions (levels or ranges) can be used.</xs:documentation>
 					</xs:annotation>
 				</xs:element>				
 				<xs:sequence>
@@ -441,7 +441,7 @@
 		</xs:attribute>
 		<xs:attribute name="decimals" type="xs:integer" use="optional">
 			<xs:annotation>
-				<xs:documentation>Refers to the number of decimal points in the variable.</xs:documentation>
+				<xs:documentation>Refers to the number of decimal places in the variable.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<!-- Should this be a controlled vocabulary? -->
@@ -483,7 +483,7 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="TopCode" type="RangeValueType">
+			<xs:element name="TopCode" type="RangeValueType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -504,27 +504,27 @@
 		<xs:sequence>
 			<xs:element name="CategoryGroupRef" type="r:ReferenceType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Idenfies the CategoryGroup used in this variable</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="IncludedLevel" type="xs:integer" maxOccurs="unbounded">
+			<xs:element name="IncludedLevel" type="xs:integer" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Use to identify specific levels to include when the full category group is not being used.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="IncludedCategoryReference" type="IncludedCategoryReferenceType">
+			<xs:element name="IncludedCategoryReference" minOccurs="0" type="IncludedCategoryReferenceType" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Allows selection of categories to use not based on levels.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DataExisitence" type="DataExisitenceType">
+			<xs:element name="DataExisitence" minOccurs="0" type="DataExisitenceType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Allows for inclusion of upper level categories that will not have associated data. In this case they act as the old version 2 form of category group.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="VariableConcatenation" type="VariableConcatenationType">
+			<xs:element name="VariableConcatenation" minOccurs="0" type="VariableConcatenationType">
 				<xs:annotation>
-					<xs:documentation>Describes the concatenation of other variables, based on a category value of this variable,that can be used to identify or locate a specific record of this type.</xs:documentation>
+					<xs:documentation>Describes the concatenation of other variables, based on a category value of this variable,that can be used to identify or locate a specific record of this type. Used to identify unique identification string for a record of a specific category type. For example: A summary level indicating a state record may only require a STATE code to identify it in addition to its summary level category value, while a COUNTY would require a specific summary level value plus a STATE code and a COUNTY code.</xs:documentation>
 				</xs:annotation>
 			</xs:element>			
 		</xs:sequence>
@@ -573,12 +573,12 @@
 		<xs:choice>
 			<xs:element name="Level" type="xs:integer" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>IF you are saying only certain levels will have data, use this element. Indicates the levels that will have data.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DiscreteCategory" type="xs:boolean" fixed="true">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>If only the most discrete data elements will have data use this element (It has a fixed value so putting it in the xml will indicate which categories will have data based on their description in the category group.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
@@ -599,17 +599,17 @@
 		<xs:sequence>
 			<xs:element name="ComponentReference" type="r:ReferenceType">
 				<xs:annotation>
-					<xs:documentation>Reference to variable or category.</xs:documentation>
+					<xs:documentation>Reference to variable or category used for the derivation.</xs:documentation>
 				</xs:annotation>
-			</xs:element>
+				</xs:element>
 			<xs:element name="Description" type="r:StructuredStringType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Description of the derivation.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Command" type="CommandType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Command for creating the derivation. This is the part that should be machine actionable.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -642,7 +642,7 @@
 			</xs:element>
 			<xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>A short description of the variable. The length of this phrase may depend on the statistical analysis system used (e.g., some versions of SAS permit 40-character labels, while some versions of SPSS permit 120 characters), although the DDI itself imposes no restrictions on the number of characters allowed.</xs:documentation>
+					<xs:documentation>A short description of the variable group. The length of this phrase may depend on the statistical analysis system used (e.g., some versions of SAS permit 40-character labels, while some versions of SPSS permit 120 characters), although the DDI itself imposes no restrictions on the number of characters allowed.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Definition" type="r:StructuredStringType" minOccurs="0" maxOccurs="unbounded">
@@ -650,14 +650,14 @@
 					<xs:documentation>Additional textual descriptions of the variable group.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The group of persons or other elements that are the object of research and to which any analytic results refer. Age, nationality, and residence commonly help to delineate a given universe, but any of a number of factors may be involved, such as sex, race, income, veteran status, criminal convictions, etc. The universe may consist of elements other than persons, such as housing units, court cases, deaths, countries, etc. In general, it should be possible to tell from the description of the universe whether a given individual or element (hypothetical or real) is a member of the population under study. A "level" attribute is included to permit coding of the level to which universe applies, i.e., the study level, the file level (if different from study), the record group, the variable group, the nCube group, the variable, or the nCube level. The "clusion" attribute provides for specification of groups included (I) in or excluded (E) from the universe. If all the variables/nCubes described in the data documentation relate to the same population, e.g., the same set of survey respondents, this element would be unnecessary at data description level. In this case, universe can be fully described at the study level.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ConceptReference" type="r:ReferenceType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>General concept to which this varaible belongs.</xs:documentation>
+					<xs:documentation>General concept to which this varaible group belongs.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="VariableReference" type="r:ReferenceType" minOccurs="0" maxOccurs="unbounded">
@@ -667,7 +667,7 @@
 			</xs:element>
 			<xs:element name="VariableGroupReference" type="r:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Constituent variable group.</xs:documentation>
+					<xs:documentation>Constituent variable group. This allows for nesting of variable groups.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -744,7 +744,7 @@
 					<xs:documentation>Additional textual descriptions of the variable.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The group of persons or other elements that are the object of research and to which any analytic results refer. Age, nationality, and residence commonly help to delineate a given universe, but any of a number of factors may be involved, such as sex, race, income, veteran status, criminal convictions, etc. The universe may consist of elements other than persons, such as housing units, court cases, deaths, countries, etc. In general, it should be possible to tell from the description of the universe whether a given individual or element (hypothetical or real) is a member of the population under study. A "level" attribute is included to permit coding of the level to which universe applies, i.e., the study level, the file level (if different from study), the record group, the variable group, the nCube group, the variable, or the nCube level. The "clusion" attribute provides for specification of groups included (I) in or excluded (E) from the universe. If all the variables/nCubes described in the data documentation relate to the same population, e.g., the same set of survey respondents, this element would be unnecessary at data description level. In this case, universe can be fully described at the study level.</xs:documentation>
 				</xs:annotation>
@@ -808,7 +808,7 @@
 					<xs:documentation>A short description of the variable. The length of this phrase may depend on the statistical analysis system used (e.g., some versions of SAS permit 40-character labels, while some versions of SPSS permit 120 characters), although the DDI itself imposes no restrictions on the number of characters allowed.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The group of persons or other elements that are the object of research and to which any analytic results refer. Age, nationality, and residence commonly help to delineate a given universe, but any of a number of factors may be involved, such as sex, race, income, veteran status, criminal convictions, etc. The universe may consist of elements other than persons, such as housing units, court cases, deaths, countries, etc. In general, it should be possible to tell from the description of the universe whether a given individual or element (hypothetical or real) is a member of the population under study. A "level" attribute is included to permit coding of the level to which universe applies, i.e., the study level, the file level (if different from study), the record group, the variable group, the nCube group, the variable, or the nCube level. The "clusion" attribute provides for specification of groups included (I) in or excluded (E) from the universe. If all the variables/nCubes described in the data documentation relate to the same population, e.g., the same set of survey respondents, this element would be unnecessary at data description level. In this case, universe can be fully described at the study level.</xs:documentation>
 				</xs:annotation>

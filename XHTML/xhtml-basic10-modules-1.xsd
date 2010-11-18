@@ -7,7 +7,7 @@
   <xs:annotation>
     <xs:documentation>
       This schema includes all modules for XHTML Basic 1.0 Document Type.
-      $Id: xhtml-basic10-modules-1.xsd,v 1.1 2004/01/07 06:21:55 speruvem Exp $
+      $Id$
     </xs:documentation>
     <xs:documentation source="xhtml-copyright-1.xsd"/>
   </xs:annotation>

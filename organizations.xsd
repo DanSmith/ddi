@@ -30,6 +30,7 @@
 	</xs:element>
 	<xs:complexType name="OrganizationsType">
 		<xs:sequence>
+			<xs:element ref="r:Identification"/>
 			<xs:element name="Organization" type="OrganizationType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Describes an organization or an individual</xs:documentation>
@@ -98,7 +99,7 @@
 					<xs:documentation>The geographic coverage for the whole organization</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Generic note</xs:documentation>
 				</xs:annotation>
@@ -159,7 +160,7 @@
 					<xs:documentation>Language spoken by individual</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="Relation" type="RelationType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Describes relations between this individual and other actors</xs:documentation>
@@ -220,8 +221,9 @@
 			<xs:documentation>Describe the role of actor(s) in relation to another DDI entity/ies (needs refinement)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="EntityRef" type="xs:NCName" maxOccurs="unbounded"/>
-			<xs:element name="ActorRef" type="xs:NCName" maxOccurs="unbounded"/>
+			<xs:element ref="r:Identification"/>
+			<xs:element name="EntityRef" type="r:ReferenceType" maxOccurs="unbounded"/>
+			<xs:element name="ActorRef" type="r:ReferenceType" maxOccurs="unbounded"/>
 			<xs:element name="Description" maxOccurs="unbounded"/>
 			<xs:element name="Keyword" type="r:InternationalStringType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="Period" type="r:DateType" minOccurs="0" maxOccurs="unbounded">
@@ -229,7 +231,7 @@
 					<xs:documentation>Time period of this role </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Note" type="r:NoteType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="r:GLOBALS"/>
 		<xs:attributeGroup ref="PRIVACY"/>
@@ -239,7 +241,8 @@
 			<xs:documentation>Establish a relation between actors (organization and individuals)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ActorRef" type="xs:NCName" maxOccurs="unbounded"/>
+			<xs:element ref="r:Identification"/>
+			<xs:element name="ActorRef" type="r:ReferenceType" maxOccurs="unbounded"/>
 			<xs:element name="Description" type="r:StructuredStringType"/>
 			<xs:element name="Keyword" type="r:InternationalStringType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="Period" type="r:DateType" minOccurs="0" maxOccurs="unbounded">
@@ -247,7 +250,7 @@
 					<xs:documentation>Time period this reationship is valid for.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Note" type="r:NoteType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attributeGroup ref="r:GLOBALS"/>
 		<xs:attributeGroup ref="PRIVACY"/>
@@ -273,7 +276,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:Timezone" minOccurs="0"/>
-			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Note" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attribute name="type" type="xs:string"/>
 		<xs:attribute name="locationRef" type="xs:NCName" use="optional">

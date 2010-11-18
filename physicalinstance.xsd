@@ -15,12 +15,12 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Citation">
+			<xs:element ref="r:Citation" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -116,7 +116,7 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Path" type="xs:string" maxOccurs="unbounded">
+			<xs:element name="Path" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -144,11 +144,6 @@
 					<xs:documentation>One or more statistical measures which describe the responses to a particular variable.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CategoryStatistic" type="CategoryStatisticType" minOccurs="0" maxOccurs="unbounded">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -172,6 +167,11 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="CategoryStatistic" type="CategoryStatisticType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -180,23 +180,31 @@
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="CategoryReference" type="r:ReferenceType">
+			<xs:element name="CategoryValue" type="xs:string">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="TotalResponses" type="xs:integer" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The number of responses to the variable. The number of responses to this variable. This element might be used if the number of responses does not match added case counts. It may also be used to sum the frequencies for variable categories.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SummaryStatistic" type="SummaryStatisticType" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="CategorySummaryStatistic" type="CategorySummaryStatisticType" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-		<xs:attribute name="type" type="CategoryTypeCodeType" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="CategorySummaryStatisticType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Value" type="xs:decimal">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="type" type="CategoryStatisticTypeCodeType" use="required"/>
 	</xs:complexType>
 	
 	<xs:complexType name="SummaryStatisticType">
@@ -211,7 +219,7 @@
 			</xs:element>
 			<xs:element name="WeightUsed" type="r:ReferenceType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Reference to a weight described in the sample procedure in the mehtodology description.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="WeightVariableReference" type="r:ReferenceType" minOccurs="0">
@@ -219,32 +227,111 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="IncludedMissingCategoryReference" type="r:ReferenceType" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="ExcludedMissingCategoryValue" type="xs:string" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Reference to </xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Value" type="xs:string">
+			<xs:element name="Value" type="xs:decimal">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+		<xs:attribute name="type" type="SummaryStatisticTypeCodeType" use="required"/>
 	</xs:complexType>
-
-	<xs:simpleType name="CategoryTypeCodeType">
+	
+	<xs:simpleType name="SummaryStatisticTypeCodeType">
 		<xs:annotation>
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:NMTOKEN">
-   			<xs:enumeration value="Category">
+			<xs:enumeration value="Mean">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Mean</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-   			<xs:enumeration value="CategoryGroup">
+			<xs:enumeration value="Mode">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Mode</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Median">
+				<xs:annotation>
+					<xs:documentation>Median</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ValidCases">
+				<xs:annotation>
+					<xs:documentation>Valid Cases</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="InvalidCases">
+				<xs:annotation>
+					<xs:documentation>Invalid Cases</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Minimum">
+				<xs:annotation>
+					<xs:documentation>Mimimum</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Maximum">
+				<xs:annotation>
+					<xs:documentation>Maximum</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="StandardDeviation">
+				<xs:annotation>
+					<xs:documentation>Standard Deviation</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CategoryStatisticTypeCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Frequency">
+				<xs:annotation>
+					<xs:documentation>Frequency</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Percent">
+				<xs:annotation>
+					<xs:documentation>Percent</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CrossTabulation">
+				<xs:annotation>
+					<xs:documentation>Cross Tabulation</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ValidCases">
+				<xs:annotation>
+					<xs:documentation>Valid Cases</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="InvalidCases">
+				<xs:annotation>
+					<xs:documentation>Invalid Cases</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Minimum">
+				<xs:annotation>
+					<xs:documentation>Mimimum</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Maximum">
+				<xs:annotation>
+					<xs:documentation>Maximum</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="StandardDeviation">
+				<xs:annotation>
+					<xs:documentation>Standard Deviation</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>

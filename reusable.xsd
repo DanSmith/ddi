@@ -6,13 +6,16 @@
 
 <!-- BASIC TYPES -->	
     <xs:attributeGroup name="GLOBALS">
+    		<xs:annotation>
+    			<xs:documentation>GLOBALS is an attribute group containing the set of repeated XML attributes available throughout DDI 3.0. ID provides a unique identifier within the domain of its maintaining agency - that is, no two IDs for the maintaining agency may be the same. xml:lang is the attribute as provided for in the XML specification. [ISSUE: ALL IDs WITHIN AGENCY ARE UNIQUE? OF DO THEY ALSO NEED TO BE TYPED? WHAT ABOUT VERSIONS AND AGENCIES HERE?]</xs:documentation>
+		</xs:annotation>
         <xs:attribute name="ID" type="xs:NCName"/>
         <xs:attribute ref="xml:lang"/>
     </xs:attributeGroup>
 
 	<xs:complexType name="IdentifiedStringType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>IdentifiedString Type provides a structure for IdentifiedString elements. These have an ID and language (as global attributes) but adds two new XML attributes, which tell you whether the identifed string is a translation, or if it is not translatable. [ISSUE: Why not say what it is a translation of?]</xs:documentation>
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
@@ -25,14 +28,14 @@
 	
 	<xs:simpleType name="BaseDateType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>BaseDateType is a union type which allows date-times, dates, year-months, and years as valid values. These are formatted according to ISO 8601.</xs:documentation>
 		</xs:annotation>
 		<xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear"/>
 	</xs:simpleType>
 
 	<xs:complexType name="DateType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>DateType provides the structure of a Date element, which permits for single, simple dates (of BaseDateType), date ranges, and re-occurring cycles. [ISSUE: DO WE SUPPORT NON-GREGORIAN CALENDARS? WE WILL CERTAINLY NEED SOME HISTORIC ONES...]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:choice>
@@ -66,7 +69,7 @@
 
 	<xs:complexType name="InternationalStringType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>InternationalStringType allows for the marking-up of strings in various languages, which may be translated from other sources, and which may or may not be themselves translated.[ISSUE: DO WE ALLOW FOR ID OF SOURCE IN CASE OF TRANSLATION?]</xs:documentation>
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
@@ -80,7 +83,7 @@
 	<!-- Right now, the subset is just block level elements.  Further discussion should take place as to exactly which subset of XHTML should be used. -->
 	<xs:complexType name="StructuredStringType" mixed="true">
 		<xs:annotation>
-			<xs:documentation>Provides for string content, in which xhtml content can exist.</xs:documentation>
+			<xs:documentation>Provides for string content, in which xhtml content can exist. May be marked as a translation, and as translatable or not. [ISSUE: DO WE ALLOW FOR ID OF SOURCE IN CASE OF TRANSLATION?]</xs:documentation>
 		</xs:annotation>
 		<xs:choice maxOccurs="unbounded">
 			<xs:group ref="xhtml:BlkNoForm.mix"/>
@@ -95,7 +98,7 @@
 		 If it is internal only, use just an ID. -->
 	<xs:complexType name="IdentifiedStructuredStringType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Combines the features of IdentifedStringType and StructuredStringType</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element ref="Identification">
@@ -126,7 +129,7 @@
 	</xs:element>
 	<xs:complexType name="IdentificationType">
 		<xs:annotation>
-			<xs:documentation>Type to provide an identification, agency, and version information. Used to identify any entity defined in the DDI. An entity can either be identified by a URN, or a combination of ID/Agency/Version. Set includes elements covering all instances of version Statement in DDI v.2.0</xs:documentation>
+			<xs:documentation>Type to provide an identification, agency, and version information. Used to identify any entity defined in the DDI. An entity can either be identified by a URN, or a combination of ID/Agency/Version. Set includes elements covering all instances of version Statement in DDI v.2.0. [MUST UPDATE WITH CURRENT SCHEME]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:choice maxOccurs="2">
@@ -141,41 +144,41 @@
 							<xs:documentation>ID assigned to the entity by the agency.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="IdentifyingAgency" type="xs:NCName">
+					<xs:element name="IdentifyingAgency" type="xs:NCName" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Reference to the agency maintaining the identification.</xs:documentation>
+							<xs:documentation>Reference to the agency maintaining the identification. This is optional, and is assumed to be inherited from a parent object's identifying agency if it is not present.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="VersionNumber" type="xs:string" default="1.0">
+					<xs:element name="Version" type="xs:string" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Version Number.</xs:documentation>
+							<xs:documentation>Version number, expressed as a two part numeric string composed of two positive integers separated by a period. The first number being major version, the second minor: 1.0. Optionally, a third integer may indicate sub-version: 1.0.2. Please see documentation for a definition of each type of version, and the conditions which cause versioning.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="VersionDate" type="DateType" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Date the version took place.</xs:documentation>
+							<xs:documentation>Date the version took place. [Or is this the dates for which the version is relevant? We need to make sure we have good-for dates.]</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="VersionResponsibility" type="xs:NCName" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Reference to the organization responsible for the version change.</xs:documentation>
+							<xs:documentation>Reference to the organization responsible for the version change.  This should be an identifying code taken from a publically-maintained list. [Is this needed? This is maintenance agency?]</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="Affiliation" type="xs:NCName" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation></xs:documentation>
+							<xs:documentation>Reference to an affiliated organization. This should be an identifying code taken from a publically-maintained list.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="VersionReason" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>Textual description of the reason for a version change.</xs:documentation>
+							<xs:documentation>Textual description of the reason for a version change. [Change tag name to 'version rationale'?</xs:documentation>
 						</xs:annotation>
 					</xs:element>					
 				</xs:sequence>
 			</xs:choice>
 			<xs:element name="Name" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Name given the entity being identified.</xs:documentation>
+					<xs:documentation>Human-readable name given the entity being identified.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -183,13 +186,13 @@
 
 	<xs:complexType name="ReferenceType">
 		<xs:annotation>
-			<xs:documentation>Type for referencing and identified entity, either by a URN, or the combination of ID/Agency/Version.</xs:documentation>
+			<xs:documentation>Type for referencing and identified entity, either by a URN, or the combination of ID/Agency/Version. [UPDATE FOR LATEST SCHEME]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:choice maxOccurs="2">
 				<xs:element name="URN" type="URNType">
 					<xs:annotation>
-						<xs:documentation>URN providing identification. Specifics of URN structre TBD.</xs:documentation>
+						<xs:documentation>URN providing identification. [Specifics of URN structre TBD.]</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:sequence>
@@ -198,14 +201,14 @@
 							<xs:documentation>ID assigned to the entity by the agency.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="IdentifyingAgency" type="xs:NCName">
+					<xs:element name="IdentifyingAgency" type="xs:NCName" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Reference to the agency maintaining the identification.</xs:documentation>
+							<xs:documentation>Reference to the agency maintaining the identification. This should be an identifying code taken from a publically-maintained list.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="VersionNumber" type="VersionType" default="1.0">
+					<xs:element name="Version" type="VersionType" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Version Number. The version can be identified as lateBound, meaning that the latest version should be taken.</xs:documentation>
+							<xs:documentation>Version. The version can be identified as lateBound, meaning that the latest version should be taken.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -213,7 +216,7 @@
 		</xs:sequence>
 		<xs:attribute name="isExternal" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Identifies that the reference is to an external source. If the value of this is try, than a URI must be provided.</xs:documentation>
+				<xs:documentation>Identifies that the reference is to an external source. If the value of this is true, then a URI must be provided.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="URI" type="xs:anyURI" use="optional">
@@ -225,7 +228,7 @@
 
 	<xs:complexType name="VersionType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Version number of the referenced object, expressed as a two part numeric string composed of two positive integers separated by a period. The first number being major version, the second minor: 1.0. Optionally, a third integer may indicate sub-version: 1.0.2. Please see documentation for a definition of each type of version, and the conditions which cause versioning. The lateBound attribute has a boolean value, which - if set to true - indicates that the latest version should be used. [QUERY: Allow wildcarding of version references with *?]</xs:documentation>
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
@@ -236,7 +239,7 @@
 
 	<xs:complexType name="URNType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>The URN of the referenced object. This must be constructed according to the rules found in the documentation. [UPDATE REFERENCE TO DOC, PROVIDE SPECIFICS.]</xs:documentation>
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xs:anyURI">
@@ -263,13 +266,13 @@
 			</xs:element>
 			<xs:element name="AlternateTitle" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>An alternative title by which a data collection is commenly referred to or an abbreviation  for the title.</xs:documentation>
+					<xs:documentation>An alternative title by which a data collection is commonly referred to or an abbreviation  for the title.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<!-- Do we need a specific structured type for identifying a creator? -->
+			
 			<xs:element name="Creator" type="InternationalStringType" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Person, corporate body, or agency responsible for the data/documents's substantive and intellectual content.</xs:documentation>
+					<xs:documentation>Person, corporate body, or agency responsible for the data/documents's substantive and intellectual content. [Do we need a specific structured type for identifying a creator?]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Publisher" type="InternationalStringType">
@@ -279,30 +282,30 @@
 			</xs:element>
 			<xs:element name="Contributor" type="ContributorType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The name of a contributing author or creator, who worked in support of the primary creator given above.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="PublicationDate" type="DateType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The date of publication.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<!-- Code list, build a new reusable type for this? -->
 			<xs:element name="Language" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The language of the referenced work, expressed either as a two-character ISO language code or as a pair of two-character codes indicating language and local, as per ISO [INSERT CORRECT ISO STANDARD].</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<!-- Should this have a controlled vocab? --><!-- Is this a specific class, or can we create a generic identifier type, that contains and id and a type?  Perhaps we create this type as generic, and the use restriction to limit the type list? -->
 			<xs:element name="InternationalIdentifier" type="TypedStringType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>ISBN, ISSN or similar designator.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<!-- Should this occur N times? -->
 			<xs:element name="Copyright" type="InternationalStringType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The copyright statement.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -316,7 +319,7 @@
 			<xs:extension base="InternationalStringType">
 				<xs:attribute name="type" type="xs:string" use="required">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>The contributor's name.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<!-- Should this be a controlled vocab? -->
@@ -328,7 +331,7 @@
 				<!-- Should this be a controlled vocab? -->
 				<xs:attribute name="affiliation" type="xs:string" use="optional">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>The human-readable affiliation of the contributor.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
@@ -338,22 +341,22 @@
 	<xs:element name="FundingInformation" type="FundingInformationType"/>
 	<xs:complexType name="FundingInformationType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Funding Information provides information about the agency which funded the relevant work. The role attribute indicates  what role this agency played. [Why do we not have a human-readable agency name? Controlled vocabulary for role?]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Agency" type="xs:NCName">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Reference to the agency funding the relevant work. This should be an identifying code taken from a publically-maintained list.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="AgencyAbbreviation" type="xs:string">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>An abbreviation used to refer to the funding agency given in Agency. </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="GrantNumber" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The identification number of the grant which provided funding for the work. [This should be repeatable, right? One work may have many grants?]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -363,28 +366,33 @@
 	<xs:element name="Embargo" type="EmbargoType"/>
 	<xs:complexType name="EmbargoType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Embargo provides information on variables/nCubes which are not currently available because of policies established by the principal investigators and/or data producers.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element ref="Identification"/>
+			<xs:element ref="Identification">
+				<xs:annotation>
+					<xs:documentation>Identifies the embargo pertaining the relevant item.</xs:documentation>
+				</xs:annotation>
+			
+			</xs:element>
 			<xs:element name="Date" type="DateType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Provides the date of the embargo, which may take the form of a relevant date range.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Reason" type="StructuredStringType" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Provides a summary of the reason for the embargo.[Rename rationale?]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Agency" type="xs:NCName">
 				<xs:annotation>
-					<xs:documentation>Agency responsible for placing the embargo</xs:documentation>
+					<xs:documentation>Agency responsible for placing the embargo, expressed as a code taken from a publically available list.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EnforcementAgency" type="xs:NCName" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Agency responsible for the enforcement of the embargo</xs:documentation>
+					<xs:documentation>Agency responsible for the enforcement of the embargo, expressed as a code taken from a publically-available list. [Does this need to be repeatable?]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -393,7 +401,7 @@
 	<xs:element name="LifecycleInformation" type="LifecycleInformationType"/>
 	<xs:complexType name="LifecycleInformationType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>LifecycleInformationType contains a set of identified lifecycle events, which indicate the date, agency, and description of a particular lifecycle event. Note that the agency which documents a lifecycle event is not necessaruily the same agency as the one which performed the operation being documented as a lifecycle event.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="LifecycleEvent" type="LifecycleEventType" maxOccurs="unbounded"/>
@@ -402,13 +410,13 @@
 
 	<xs:complexType name="LifecycleEventType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>LifecycleEvent can be any event which is judged to be significant enough to document by the agency maintaining the documentation for a particular set of data. The type attribute may be used to create indicate which type of event in a typology meaningful to the documentor.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element ref="Identification"/>
 			<xs:element name="Date" type="DateType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The date of the lifecycle event (may include time, or a range of dates, etc).</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Agency" type="xs:NCName">
@@ -418,17 +426,17 @@
 			</xs:element>
 			<xs:element name="Description" type="StructuredStringType" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A human-readable description of the event. This may be provided in several paralell languages.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="type" type="xs:string" use="optional"/>
 	</xs:complexType>
 	
-	<xs:element name="Universe" type="UniverseType"/>
-	<xs:complexType name="UniverseType">
+	<xs:element name="Coverage" type="CoverageType"/>
+	<xs:complexType name="CoverageType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>CoverageType describes the temporal, geographic and topical coverage. At the instance level these descriptions should be inclusive of the coverage of all modules in the instance. The element is available within individual modules and can be used to refine the coverage to that of the individual module.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:choice>
@@ -439,7 +447,7 @@
 				</xs:element>
 				<xs:element name="TopicalCoverage" type="TopicalCoverageType">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>A description of the topical coverage of a study.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
@@ -451,7 +459,7 @@
 				</xs:element>
 				<xs:element name="SpatialCoverage" type="GeographicCoverageType">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>Description of the geographic coverage of a study.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
@@ -463,7 +471,7 @@
 				</xs:element>
 				<xs:element name="TemporalCoverage" type="TemporalCoverageType">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>Description of the temporal coverage of a study.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:choice>
@@ -473,34 +481,33 @@
 	<xs:element name="Label" type="LabelType"/>
 	<xs:complexType name="LabelType">
 		<xs:annotation>
-			<xs:documentation>Provides for a string content with the a type indentifier.</xs:documentation>
+			<xs:documentation>Provides for a string content with a type indentifier.</xs:documentation>
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="InternationalStringType">
 				<xs:attribute name="geographyID" type="xs:NCName" use="optional">
 					<xs:annotation>
-						<xs:documentation>References a specific geographic location defined in the Spatial coverage of a universe. The value here is one of the GeographyCode/Value(s).</xs:documentation>
+						<xs:documentation>References a specific geographic location defined in the Spatial coverage of a universe. The value is one of the GeographyCode/Value(s).</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<!-- Need vocabulary -->
 				<xs:attribute name="language" type="xs:string" use="optional">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>[USE ISO LANGUAGE-LOCALE CODES?]</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="year" type="BaseDateType" use="optional">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>This allows the specification of valid date for the label. Similar to specifying the geography or language.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="type" type="xs:string" use="optional">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>A value taken from a controlled vocabulary, describing the type of the label..</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 				<xs:attribute name="maxLength" type="xs:integer" use="optional">
 					<xs:annotation>
-						<xs:documentation></xs:documentation>
+						<xs:documentation>A positive integer which indicates the maximum inclusive allowed number of characters in the label.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
@@ -510,19 +517,19 @@
 <!-- TOPICAL COVERAGE -->
 	<xs:complexType name="TopicalCoverageType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>TopicalCoverageType structures elements which describe the topical coverage of the study or module.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element ref="Identification"/>
 			<!-- Need complete list of controlled vocab, then change type to restricted type. -->
 			<xs:element name="Subject" type="TypedStringType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The type of subject for which topical coverage is being described.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Keyword" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A keyword (which can be supplied in multiple language-equivalent forms) to support searches on topical coverage. </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<!-- Need complete list of controlled vocab, then change type to restricted type. -->
@@ -554,47 +561,48 @@
 	<xs:element name="Software" type="SoftwareType"/>
 	<xs:complexType name="SoftwareType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Describes a specific software package, which may be commercially available or bespoke. </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Name" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The name of the software package.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Description" type="StructuredStringType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A description of the software package, intended to be human-readable.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 		<xs:attributeGroup ref="GLOBALS"/>
 		<xs:attribute name="version" type="xs:string" use="required">
 			<xs:annotation>
-				<xs:documentation></xs:documentation>
+				<xs:documentation>The version of the software package, in the form used by its supplier or creator.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="package" type="xs:string" use="required">
 			<xs:annotation>
-				<xs:documentation></xs:documentation>
+				<xs:documentation>[WHAT IS THIS?]</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="product" type="xs:string" use="required">
 			<xs:annotation>
-				<xs:documentation></xs:documentation>
+				<xs:documentation>[WHAT IS THIS? DUPLICATEIVE WITH "Name" ABOVE?]</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="date" type="xs:date" use="optional">
 			<xs:annotation>
-				<xs:documentation></xs:documentation>
+				<xs:documentation>The date when the soiftware package was documented. [IS THIS NEEDED? IS THIS CORECT?]</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
 
 <!-- GEOGRAPHIC COVERAGE -->
+<!-- STOPPED HERE -->
 	<xs:complexType name="GeographicCoverageType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Describes the geographic coverage of a study or module.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element ref="Identification"/>
@@ -608,17 +616,17 @@
 					<xs:documentation>The purpose of this element is to provide text that will map to the Dublin Core element Geographic Cover.  One or more descriptions of this geography will also be designated in Row 29 - GeographyName (as part of Geography > GeographyValues) but this element is different in two ways: 1) it is designed to be more detailed and descriptive than GeographyName, which matches with the code given in Row 26 - GeographyCode, and 2) it can describe a geographic area that is a grouping of several geographies (e.g. a study that covers 3 countries, each of which would be given its own Geography > GeographyValues > GeographyName > GeographyCode).  Among other goals, this method is designed to ensure that overall geographic coverage is machine actionable separate from geographic levels.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StructureDescription" type="ReferenceType" minOccurs="0">
+			<xs:element name="GeographyStructureDescription" type="ReferenceType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Points to a variable describing the geographic levels available in the data such as the variable "Summary Level" in U.S. Census data.  This reference is needed for assistance in programming.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="LowestGeographicDescription" type="GeographicDescriptionCodeType" minOccurs="0">
+			<xs:element name="SpatialObject" type="GeographicDescriptionCodeType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type and codification of geographic variables (point, line, polygon).</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:choice maxOccurs="unbounded">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element name="Geography" type="GeographyType">
 					<xs:annotation>
 						<xs:documentation>Generic Geography class, used for any level of geography, either overall coverage or levels for which data is provided in the study.  The first occurrence of this is Geography that describes the overall coverage area, which can also be distinguished by a Geography for which TopLevelGeography value is set at True. However, there may be multiple occurrences.</xs:documentation>
@@ -640,22 +648,22 @@
 		<xs:restriction base="xs:NMTOKEN">
    			<xs:enumeration value="Point">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A single geographical point (eg, an address).</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="Polygon">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A geographic area described with a set of three or more points.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="Line">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A set of points describing a line.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="LinearRing">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A point with a defined radius (eg. area within x miles of a specific point.)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -663,50 +671,50 @@
 
 	<xs:complexType name="GeographyType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Describes how geography is handled for the documentation of a particular study or group of studies.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<!-- Question: Do we need the full identification, or will just an ID do here? -->
 			<xs:element ref="Identification"/>		
 			<xs:element name="Level" type="GeographicLevelType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A single level in a geographical breakdown (eg, country, province, etc.)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ParentGeography" type="ReferenceType" minOccurs="0">
+			<xs:element name="ParentGeography" type="ReferenceType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A reference to a containing geography.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Values" type="GeographyValuesType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>This allows for specification of specific values (eg. for the geographic Level of "country" allows specification of Germany, Norway, Sweden etc.)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="GeographicTime" type="DateType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The date (and, optionally, time) of a specific geographic identification.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="hasSummaryData" type="xs:boolean" use="required">
 			<xs:annotation>
-				<xs:documentation></xs:documentation>
+				<xs:documentation>A true value indicates the presence of summary data. [SHOULD THIS DEFAULT TO FALSE?]</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="topLevel" type="xs:boolean" use="required">
 			<xs:annotation>
-				<xs:documentation></xs:documentation>
+				<xs:documentation>A true value indicates that this is the top level geography - that is, it is not contained in any other geography used in the geographical scheme being documented.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="lowestLevel" type="xs:boolean" use="required">
 			<xs:annotation>
-				<xs:documentation></xs:documentation>
+				<xs:documentation>A true value indicates tbhat this is the lowest-level geography used in the geographical scheme being documented.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="exhaustiveCoverage" type="xs:boolean" use="required">
 			<xs:annotation>
-				<xs:documentation></xs:documentation>
+				<xs:documentation>Does this geographic level completely fill it's parent level. Counties are exhaustive within States. Places are NOT exhaustive within States.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
@@ -716,9 +724,9 @@
 			<xs:documentation>Set of north, south, east, west coordinates defining a box which contains the geographic region.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="NorthLatitude" type="LatitudeType">
+			<xs:element name="WestLongitude" type="LongitudeType">
 				<xs:annotation>
-					<xs:documentation>North latitude of the bounding box.</xs:documentation>
+					<xs:documentation>West longitude of the bounding box.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="EastLongitude" type="LongitudeType">
@@ -731,9 +739,9 @@
 					<xs:documentation>South latitude of the bounding box.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="WestLongitude" type="LongitudeType">
+			<xs:element name="NorthLatitude" type="LatitudeType">
 				<xs:annotation>
-					<xs:documentation>West longitude of the bounding box.</xs:documentation>
+					<xs:documentation>North latitude of the bounding box.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -741,7 +749,7 @@
 
 	<xs:simpleType name="LongitudeType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>A longitudinal value.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:decimal">
 			<xs:minInclusive value="-180"/>
@@ -751,7 +759,7 @@
 
 	<xs:simpleType name="LatitudeType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>A latitudinal value.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:decimal">
 			<xs:minInclusive value="-90"/>
@@ -786,7 +794,7 @@
 			</xs:choice>
 			<xs:element name="VariableReference" type="ReferenceType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A reference to a variable which corresponds to the geography level. The variable containing the value needed to identify this level (eg. if the level is County, this would be the variable containing the county code only as its parent level would provide the location of the state code.)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -814,7 +822,7 @@
 			</xs:element>			
 			<xs:element name="GeographyValue" type="GeographyValueType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A single geographical value, identifying a geography covered in a study, etc. [IS THIS CORRECT?]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -822,7 +830,7 @@
 
 	<xs:complexType name="GeographyValueType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Provides the value or values which specify a particular geography within the scheme being used. [DO WE NEED AN ATTRIBUTE/ELEMENT TO INDICATE THE CODING SCHEME?]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="GeographyCode" type="GeographyCodeType">
@@ -850,15 +858,15 @@
 
 	<xs:complexType name="GeographyCodeType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>A coded geographical identifier. [DO WE NEED A FIELD INDICATING WHICH CODELIST THIS COMES FROM? SOME AUTHORITIES HAVE MORE THAN ONE! (ALSO, WHICH VERSION...)]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="Value" type="xs:NCName">
+			<xs:element name="Value" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>Code value</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Authority" type="xs:NCName">
+			<xs:element name="Authority" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>Code authority</xs:documentation>
 				</xs:annotation>
@@ -871,14 +879,14 @@
 			<xs:documentation>A closed plane figure bounded by three or more line segments.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="Point" type="PointType" minOccurs="3" maxOccurs="unbounded">
+			<xs:element name="Point" type="PointType" minOccurs="4" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>A point consisting of a latitude and longitude.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="GeographicTime" type="DateType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A time which corresponds to the identification of a geopgraphic region described by a polygon. This may be a range if historical.</xs:documentation>
 				</xs:annotation>
 			</xs:element>			
 		</xs:sequence>
@@ -891,12 +899,12 @@
 		<xs:sequence>
 			<xs:element name="Latitude" type="LatitudeType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A latitudinal coordinate.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Longitude" type="LongitudeType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A longitudinal coordinate.</xs:documentation>
 				</xs:annotation>
 			</xs:element>			
 		</xs:sequence>
@@ -906,22 +914,22 @@
 	<xs:element name="OtherMaterial" type="OtherMaterialType"/>
 	<xs:complexType name="OtherMaterialType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>OtherMaterialsType describes the structure of the OtherMaterials element, used to reference external resources. It includes citations to materials related to the content of the DDI Instance. This includes citations to such material, an external reference to a URL (or other URI), and a statement about the relationship between the cited OtherMaterial the contents of the DDI instance. [ISSUES: GRANULARITY? URI OR URN?] </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Citation" type="CitationType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>This is a citation for the Other Material.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ExternalRef" type="xs:anyURI" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>ExternalRef contains a URI - typically a URL - which references the location of the cited OtherMaterial. [ISSUE: IS THIS A STRUCTURED URN?]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Relationship" type="xs:NCName" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The item within the DDI Instance to which the material is related. [ISSUE: HOW WILL THIS WORK?]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -938,81 +946,81 @@
 	<xs:element name="Note" type="NoteType"/>
 	<xs:complexType name="NoteType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>This is a footnote or annotation which is meant to be associated with some subject within the documentation, and to be an inherent part of the documentation. (This is distinct from XML comments or other types of system-level annotations, which my be removed during processing in some cases.)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Subject" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The subject of the note.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Reference" type="xs:string" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A reference to some other part of the DDI documentation set.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Responsibility" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The person or agency responsible for adding the note.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Header" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A brief label or heading for the note contents.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Content" type="StructuredStringType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The content of the note.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 		<xs:attributeGroup ref="GLOBALS"/>
 		<xs:attribute name="type" type="NoteTypeCodeType" use="required">
 			<xs:annotation>
-				<xs:documentation>Identifies the type of material.</xs:documentation>
+				<xs:documentation>Identifies the type of material in the note.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
 
 	<xs:simpleType name="NoteTypeCodeType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>A standard typology of notes. [IS THIS COMPLETE?]</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:NMTOKEN">
    			<xs:enumeration value="Processing">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A note related to the processing of the DDI documentation set.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="Footnote">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A footnote related to the data or metadata being documented.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="Addendum">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>An addendum to the information contained in the data or metadata being documented. Information of a factual nature as opposed to commentary.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="System">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A note generated by the processing system which produced the data or metadata.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="Problem">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A problem, as reported by the human user or system generated. Generally a temporary note providing information for review and correction.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="Comment">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A human-readable comment.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="Other">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Any other type of note.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -1021,18 +1029,18 @@
 <!-- TEMPORAL COVERAGE -->
 	<xs:complexType name="TemporalCoverageType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Describes the temporal coverage of a study or module.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element ref="Identification"/>
 			<xs:element name="AdministrativeDate" type="AdministrativeDateType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Listing of pertinent coverage dates by type.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="ReferenceDate" type="DateType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Dates falling outside of the standard dates such as; data collected for an earlier reference year, or data aggregated to a geography other than that represented by the collection date.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -1040,7 +1048,7 @@
 
 	<xs:complexType name="AccessRestrictionDateType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Describes the start and/or end date for access restrictions to all or portions of the data.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="DateType">
@@ -1062,7 +1070,7 @@
 
 	<xs:complexType name="AdministrativeDateType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Dates related to specific administrative aspects of the study and resultant data.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="DateType">
@@ -1073,87 +1081,87 @@
 
 	<xs:simpleType name="AdminDateCodeType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Types of allowable dates.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:NMTOKEN">
    			<xs:enumeration value="DataProcessing">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date when data was processed.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="PilotDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Dates of a pilot study.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="TrainingDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Dates of training (interviewer or enumerator training, data processing training, etc.)</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="EventDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of a specific event related to the study.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="DesignDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of the study design.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="PostAnalysisDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of Post Collection Analysis</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="PublicationDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of Publication.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="DepositDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date deposited in an archive or library.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="ReleaseDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of data release.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="ProductionDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of data or metadata production.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="HarvestingDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of data harvesting.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="CollectionDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of data collection.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="ReportingDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The reporting date of the data</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="VersionDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Date of specific version.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="CopyrightDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Copyright date.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
    			<xs:enumeration value="SoftwareDate">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Version date of software.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -1197,7 +1205,7 @@
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<!--<xs:pattern value="[\p{LN}]+@[\p{LN}]+\.[\p{LN}]+}"/>-->
-			<xs:pattern value="([0-9a-zA-Z]*[\.]*)+\@[0-9a-zA-Z]+\.[0-9a-zA-Z]+"/>
+			<xs:pattern value="([\.a-zA-Z0-9_\-])+@([a-zA-Z0-9_\-])+(([a-zA-Z0-9_\-])*\.([a-zA-Z0-9_\-])+)+"/>
 		</xs:restriction>
 	</xs:simpleType>
 

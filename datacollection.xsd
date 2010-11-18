@@ -17,7 +17,7 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -743,7 +743,7 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Missing" type="xs:boolean">
+			<xs:element name="Missing" type="xs:boolean" minOccurs="0" default="false">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>

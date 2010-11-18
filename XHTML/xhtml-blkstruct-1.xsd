@@ -13,7 +13,7 @@
       support block-level structural markup.            
           
       This is the XML Schema Block Structural module for XHTML
-      $Id: xhtml-blkstruct-1.xsd,v 1.1 2003/12/17 03:09:17 ahby Exp $
+      $Id$
     </xs:documentation>
     <xs:documentation source="xhtml-copyright-1.xsd"/>
   </xs:annotation>

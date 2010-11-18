@@ -13,7 +13,7 @@
         used to define a base URI against which relative URIs in the
         document will be resolved.
 
-        $Id: xhtml-base-1.xsd,v 1.1 2003/12/17 03:09:17 ahby Exp $
+        $Id$
       </xs:documentation>
       <xs:documentation source="xhtml-copyright-1.xsd"/>
       <xs:documentation 

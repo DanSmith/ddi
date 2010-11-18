@@ -4,6 +4,7 @@
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
 	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd" />
 	<xs:import namespace="ddi:archive:0_1" schemaLocation="archive.xsd" />
+	<xs:import namespace="ddi:dcelements:0_1" schemaLocation="dcelements.xsd" />
 	<xs:import namespace="ddi:group:0_1" schemaLocation="group.xsd" />
 	<xs:import namespace="ddi:studyunit:0_1" schemaLocation="studyunit.xsd"/>
 
@@ -11,62 +12,62 @@
 
 	<xs:complexType name="DDIInstanceType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>DDIInstanceType is the XML type of the top-level wrapper for any DDI document. It is divided into a set of top-level elements, which generally correspond to the modular breakdown within DDI. (Note that some modules are sub-components of other, higher-level modules). Every DDI Instance will use this wrapper, regardless of its contents.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element ref="a:Archive">
+			<xs:element ref="a:Archive" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Package - Describes archive-specific material including item record information.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:Identification">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>This module identifies the DDI Instance.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Citation">
+			<xs:element ref="r:Citation" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>This element contains references to the subject of contained metadata. Note that the citation is optional, because the DDI Instance may contain only reusable component pieces of metadata sets, which are not directly concerned with a single study or studies.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>This element contains descriptions of temporal, geographic and topical coverage. At the instance level these descriptions should be inclusive of the coverage of all modules in the instance. The element is available within individual modules and can be used to refine the coverage to that of the individual module.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Contents" type="ContentsType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>This element contains a listing of the documented items in the physical DDI instance, whether described in-line or by reference. Items are listed no matter how incompletely they are documented. [DO WE MEAN STUDYUNITS? WE NEED TO CLARIFY WHAT WE MEAN HERE... WHAT LEVEL/GRANULARITY? WHICH CONTENTS? IS THIS A "HISTORY OF THE INSTANCE" SECTION? WHAT IS THE PURPOSE OF THIS?]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:LifecycleInformation" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>LifecycleInformation contains the description of a set of lifecycle events, described in terms of the DDI lifecycle model, potentially as extended by specific users.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="g:Group" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Group contains the StudyUnits and sub-Groups which make up the structural framework for the description of metadata in a DDI Instance.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="s:StudyUnit" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A StudyUnit corresponds to the documentation for a single, "simple" study. (In the 2.* version of DDI, this was the scope of a single DDI instance.)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>OtherMaterials element includes citations to materials related to the content of the DDI Instance. This includes citations to such material, an external reference to a URL (or other URI), and a statement about the relationship between the cited OtherMaterial the contents of the DDI instance. [ISSUES: GRANULARITY? URI OR URN?] </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The Note element is used to include notes which are relevant to the contents of the entire DDI Instance. These Notes may be typed, using a controlled vocabulary.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="TranslationInformation" type="TranslationType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>TranslationInformation contains information about the translation of the content of the DDI Instance. This includes human-readable information about which language(s) are involved in translation. [ISSUE: WHAT IS THIS FOR? THIS SEEMS VERY LIMITED...]</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -74,12 +75,12 @@
 
 	<xs:complexType name="ContentsType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>ContentsType describes the structure of the Contents element - a listing of the items addressed by the contents of a DDI Instance. [ISSUE: IS THIS USED ANYWHERE ELSE?]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="ContentItem" type="ContentItemType">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The ContentItem element references a specific item which is part of the content of a DDI instance, whether described inside the DDI Instance or included by reference. [ISSUE: IS THIS TRUE? SEE ABOVE UNDER Content ELEMENT.] </xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -87,7 +88,7 @@
 
 	<xs:complexType name="ContentItemType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>ContentItemType structures the ContentItem element. [ISSUE: IS THIS USED ANYWHERE ELSE?]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Reference" type="r:ReferenceType">
@@ -112,7 +113,7 @@
 
 	<xs:complexType name="TranslationType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>[ISSUE: WHAT IS THIS? WHAT IS ITS PURPOSE?]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Language" type="xs:string" maxOccurs="unbounded">

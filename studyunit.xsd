@@ -15,77 +15,77 @@
 	
 	<xs:complexType name="StudyUnitType">
 		<xs:annotation>
-			<xs:documentation></xs:documentation>
+			<xs:documentation>Describes the study unit, with all of its associated documentation and metadata. A Study Unit corresponds to the "study" as described in a traditional codebook, and as such is the proper contents of a single DDI instance in earlier versions of the standard. Typically, a 2.* or earlier version can have its content marked up in DDI version 3.0 with a single study unit containing the bulk of the documentation and metadata. (See other documentation for more detail regarding the mappings between 2.* and 3.0.) [INSERT REFERENCE]</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element ref="r:Identification">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Identifies the study unit.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:Citation">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains the citation information for the study unit.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Abstract" type="r:IdentifiedStructuredStringType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>A human-readable anstract of the study unit.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains details of the study unit's funding, including information about grants, agencies, etc.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Purpose" type="r:IdentifiedStructuredStringType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>The purpose of the study, in human-readable form.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="r:Universe" minOccurs="0">
+			<xs:element ref="r:Coverage" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Describes the coverage of the study unit.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains references to other relevant material to the study unit, whether in DDI form or external.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains notes pertinent to the study unit and its contents.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:Embargo" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Embargo information about the study unit.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="c:ConceptualComponents" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains documentation and metadata regarding the conceptual aspects of the study unit. This includes over-rides for documentation and metadata inherited from parent groups, if any.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="d:DataCollection" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains documentation and metadata regarding the data collection methods and processes of the study unit. This includes over-rides for documentation and metadata inherited from parent groups, if any.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="l:BaseLogicalProduct" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains documentation and metadata regarding the logical data products of the study unit. This includes over-rides for documentation and metadata inherited from parent groups, if any.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="pd:PhysicalDataProduct" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains documentation and metadata regarding a physical structure of data products of the study unit. This includes over-rides for documentation and metadata inherited from parent groups, if any.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="pi:PhysicalInstance" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation></xs:documentation>
+					<xs:documentation>Contains documentation and metadata regarding a physical instance of one of the data products of the study unit. This includes over-rides for documentation and metadata inherited from parent groups, if any.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

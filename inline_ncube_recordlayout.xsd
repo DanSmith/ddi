@@ -138,9 +138,9 @@
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="RecordReference" type="r:ReferenceType">
+			<xs:element name="MeasureReference" type="r:ReferenceType">
 				<xs:annotation>
-					<xs:documentation>Reference to RecordGroup description.</xs:documentation>
+					<xs:documentation>Reference to the measure description.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Value" type="xs:string">

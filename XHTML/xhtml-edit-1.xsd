@@ -12,7 +12,7 @@
          This module declares element types and attributes used to indicate
          inserted and deleted content while editing a document.
 
-          $Id: xhtml-edit-1.xsd,v 1.1 2003/12/17 03:09:17 ahby Exp $
+          $Id$
         </xs:documentation>
       <xs:documentation source="xhtml-copyright-1.xsd"/>
       <xs:documentation 

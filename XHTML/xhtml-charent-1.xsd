@@ -33,7 +33,7 @@
       XML Schema does not support Entities, hence Entities are enable
       through an Internal DTD Subset.
       
-      $Id: xhtml-charent-1.xsd,v 1.1 2003/12/17 03:09:17 ahby Exp $
+      $Id$
     </xs:documentation>
     <xs:documentation source="xhtml-copyright-1.xsd"/>
   </xs:annotation>

@@ -57,7 +57,7 @@
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="RecordsPerCase" type="xs:integer" minOccurs="0">
+			<xs:element name="RecordsPerCase" type="xs:integer" default="1">
 				<xs:annotation>
 					<xs:documentation>Used for card-image data or other files in which there are multiple records per case.</xs:documentation>
 				</xs:annotation>
@@ -72,7 +72,7 @@
 					<xs:documentation>Character set used in file e.g., us-ascii, ebcdic, unicode UTF-8 etc.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Format" type="xs:string">
+			<xs:element name="Format" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Physical format of data file.</xs:documentation>
 				</xs:annotation>
@@ -82,7 +82,7 @@
 					<xs:documentation>General information about missing data e.g., that missing data have been standardized acorss the collection, missing data are present because of merging, etc.</xs:documentation>
 				</xs:annotation>
 			</xs:element>			
-			<xs:element name="RecordGroup" type="RecordGroupType" maxOccurs="unbounded">
+			<xs:element name="RecordGroup" type="RecordGroupType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -123,12 +123,12 @@
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="RecordReference" type="r:ReferenceType">
+			<xs:element name="RecordReference" type="r:ReferenceType" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="LinkKeyVariable" type="LinkKeyVariableType" minOccurs="0">
+			<xs:element name="LinkKeyVariable" type="LinkKeyVariableType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
 				</xs:annotation>
@@ -142,11 +142,6 @@
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="LocationReference" type="r:ReferenceType">
-				<xs:annotation>
-					<xs:documentation></xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element name="VariableReference" type="r:ReferenceType">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
@@ -190,6 +185,11 @@
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
+			<xs:element name="VariableReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation>Reference to the variable represented by this data item.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="PhysicalLocation" type="PhysicalLocationType" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation></xs:documentation>
@@ -197,9 +197,6 @@
 			</xs:element>
 		</xs:sequence>
 		<xs:attribute ref="xml:lang"/>
-		<xs:attribute name="decimalSeperator" type="r:OneCharStringType"/>
-		<xs:attribute name="groupingSeperator" type="r:OneCharStringType"/>
-		<xs:attribute name="type" type="r:DataTypeCodeType"/>
 	</xs:complexType>
 
 	<xs:complexType name="PhysicalLocationType">
@@ -225,12 +222,12 @@
 			<xs:documentation></xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="FormatScheme" type="xs:string">
+			<xs:element name="FormatScheme" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The used scheme for format definitions. Common data formats are described by the XML Schema primitives. It should be strongly encouraged to use these formats. Other formats (specially binary formats) are defined by the format definitions of SAS and SPSS. SAS seems to have the most comprehensive list of formats and would therefore necessary. SPSS is convenient for the user. A format scheme including formats of programming languages seems to be reasonable. A corresponding list of formats could be borrowed from the function scanf (C++) and the Java scanner class (work to do). Allowed values: XMLSchema (default) | SAS | SPSS | other. other schemes should be definable by user definitions.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Format" type="xs:string">
+			<xs:element name="Format" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>"A controlled list of formats in dependency from the choosen formatScheme. XML Schema: primitives. Data formats in SAS (informats): 
 					http://support.sas.com/onlinedoc/913/docMainpage.jsp 
@@ -242,37 +239,37 @@
 					<xs:documentation>An explicit definition of the data type is convenient. It is necessary in the case of some numeric data formats, if the format definition could read real values, but the values are indeed integer values. So data processing tools on the basis of the data definition in DDI documents could use the appropriate data type, i.e. integer for integer values. Theoretically this should be only possible for some real data formats (some SAS / SPSS formats), in all other cases an application could derive the data type from the format definition. Allowed values: integer (default) | real | string.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Delimiter" type="xs:string">
+			<xs:element name="Delimiter" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Delimiter definition for delimited (free field) data. Allowed values: EMPTY (default) | TAB | Blank | ANYSTRING. If a delimiter is used, free field (delimited data) is assumed; then i.e. binary formats should theoretically not be possible.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="VariableNames" type="xs:boolean">
+			<xs:element name="VariableNames" type="xs:boolean" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Variable names are in the first row of the data file. Default: false. This makes only sense in case of delimited data.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StartPosition" type="xs:string">
+			<xs:element name="StartPosition" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>position of first character of the data item in fixed format OR array number of data item for delimited files.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Width" type="xs:string">
+			<xs:element name="Width" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>data item width for fixed format file, maximum width for delimited file.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DecimalPositions" type="xs:integer">
+			<xs:element name="DecimalPositions" type="xs:integer" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Number of decimal places for data with an implied decimal separator. Another expression is decimal scaling factor (SAS). Default: 0.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="DecimalSeperator" type="xs:string">
+			<xs:element name="DecimalSeperator" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data). Allowed values: none (default) | dot | comma | other. "other" should be definable by user definitions. Data processing tools on the basis of the data definition in DDI documents could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition makes only sense with some XML Schema primitives.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="GroupingSeperator" type="xs:string">
+			<xs:element name="GroupingSeperator" type="xs:string" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data). Allowed values: none (default) | dot | comma | other. "other" should be definable by user definitions. The decimal separator definition makes only sense with some XML Schema primitives.</xs:documentation>
 				</xs:annotation>

@@ -7,7 +7,7 @@
     <xs:documentation>
       Notations module
       This is the XML Schema module for data type notations for XHTML
-      $Id: xhtml-notations-1.xsd,v 1.2 2004/01/15 06:01:40 speruvem Exp $
+      $Id$
     </xs:documentation>
     <xs:documentation source="xhtml-copyright-1.xsd"/>
   </xs:annotation>

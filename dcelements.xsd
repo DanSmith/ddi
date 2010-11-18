@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="ddi:dcelements:0_1" xmlns="ddi:dcelements:0_1" xmlns:r="ddi:reusable:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+
+<!-- Per discussion with Mark and other SRG memebers, we need to optionally allow the native Dublin Core namespace - with extensions - to be used as well as the constructs given here. The rule would be that you always supply a native DDI DC set, but can aldo supply a "shadow" set of DC elements in their own namespace, alongside, so that non-DDI applications will have access to something which they recognize.-->
+	
+	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd" />
+	
+	<xs:element name="DCElements" type="DCElementsType"/>
+	
+	<xs:complexType name="DCElementsType">
+		<xs:annotation>
+			<xs:documentation>The DCElementsType describes the contents of a Dublin Core reference. [NOTE: TAKE DESCRIPTIONS OF ELEMENTS FROM DC DOCUMENTATION, AND ADD BETTER VERSION INFORMATION DESCRIBING RELATIONSHIP BETWEEN THE TWO.]</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation>Contains specific identifer for this xml instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Citation">
+				<xs:annotation>
+					<xs:documentation>Contains citation information for this xml instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Coverage">
+				<xs:annotation>
+					<xs:documentation>Contains topical, temporal and geographic coverage information for this xml instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>[NOTE: SHOULD NOT CONTAIN THIS - WLT]</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>[NOTE: SHOULD NOT CONTAIN THIS - WLT]</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>
