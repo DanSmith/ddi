@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
+<!--
+
+Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+
+This file is part of DDI 3.0 XML Schema.
+
+DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License along
+with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:group:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:a="ddi:archive:3_0_CR3" xmlns:c="ddi:conceptualcomponent:3_0_CR3" xmlns:cm="ddi:comparative:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:l="ddi:logicalproduct:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" xmlns:pi="ddi:physicalinstance:3_0_CR3" xmlns:m1="ddi:physicaldataproduct/ncube/normal:3_0_CR3" xmlns:m2="ddi:physicaldataproduct/ncube/tabular:3_0_CR3" xmlns:m3="ddi:physicaldataproduct/ncube/inline:3_0_CR3" xmlns:s="ddi:studyunit:3_0_CR3" xmlns:pr="ddi:profile:3_0_CR3" targetNamespace="ddi:group:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <xs:import namespace="ddi:archive:3_0_CR3" schemaLocation="archive.xsd"/>
@@ -22,7 +42,7 @@
    </xs:element>
    <xs:complexType name="ResourcePackageType">
       <xs:annotation>
-         <xs:documentation>The Resource is a specialized type of Group which is intended to hold re-usable metadata such as Category Schemes, Variables, etc. It is placed in the Resource construct for the purposes of being included by reference in other Groups and StudyUnits which describe studies, but does not directly describe existing studies itself.</xs:documentation>
+         <xs:documentation>The Resource Package is a specialized structure which is intended to hold reusable metadata such as Category Schemes, Variable Schemes, etc. These are placed in the Resource Package for the purpose of being included by reference in Groups and StudyUnits. The Resource Package has a similar structure to the Group.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
@@ -34,14 +54,14 @@
                </xs:element>
                <xs:element ref="Abstract" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Human-readable summary of material in the resource package.</xs:documentation>
+                     <xs:documentation>Human-readable summary of the material in the resource package.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="Purpose" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Human-readable explaination of why the creator grouped these objects together for reuse.</xs:documentation>
+                     <xs:documentation>Human-readable explanation of why the creator grouped these objects together for reuse. When creating documentation from incomplete legacy materials this field may contain a statement such as "Unavailable", "Not provided by creator", or other similar statements.</xs:documentation>
                   </xs:annotation>
-               </xs:element>               
+               </xs:element>
                <xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Provides information about the agency and grant(s) which funded the resource package.</xs:documentation>
@@ -74,32 +94,32 @@
                </xs:element>
                <xs:element ref="Concepts" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Lists, or references, the concepts describing the data that are being documented.</xs:documentation>
+                     <xs:documentation>Documents, or references, concept schemes, universe schemes, geographic structure and geographic location schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="DataCollection" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Shared documentation regarding data collection.</xs:documentation>
+                     <xs:documentation>Reusable documentation regarding the data collection process.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="LogicalProduct" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Shared documentation regarding the logical data products.</xs:documentation>
+                     <xs:documentation>Reusable  documentation pertaining to the logical description of data.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="PhysicalDataProduct" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Shared documentation regarding physical data products.</xs:documentation>
+                     <xs:documentation>Reusable documentation regarding a physical data product.</xs:documentation>
                   </xs:annotation>
-               </xs:element>               
+               </xs:element>
                <xs:element ref="cm:Comparison" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Provides documentation regarding the comparability of varous DDI resources.</xs:documentation>
+                     <xs:documentation>Provides documentation regarding the comparability of various DDI resources.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="pr:DDIProfile" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Contains a DDI Profile which can be referenced externally.</xs:documentation>
+                     <xs:documentation>Contains a reusable DDI Profile.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="DDIProfileReference" minOccurs="0" maxOccurs="unbounded">
@@ -107,11 +127,26 @@
                      <xs:documentation>References a DDI Profile used by the resource package.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+<!-- INDIVIDUAL SCHEMES -->
+               <xs:element ref="a:OrganizationScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="c:ConceptScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="c:UniverseScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="c:GeographicStructureScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="c:GeographicLocationScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="d:InterviewerInstructionScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="d:ControlConstructScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="d:QuestionScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="l:CategoryScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="l:CodeScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="l:NCubeScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="l:VariableScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="p:PhysicalStructureScheme" minOccurs="0" maxOccurs="unbounded"/>
+           <xs:element ref="p:RecordLayoutScheme" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   
+
    <xs:complexType name="GroupType">
       <xs:annotation>
          <xs:documentation>Groups are used to document related data. They may contain subgroups or individual study items, and may also contain metadata which is applicable to all members of the group, and is subject to over-rides at the lower levels. Thus, metadata is inherited down the grouping structure. The purpose of groups is described using the attributes which summarize relationships along the dimensions of time, panel, geography, instrument and language. These attributes allow the purpose to be machine-actionable, while the group also includes an element for describing the purpose in human-readable format.</xs:documentation>
@@ -131,14 +166,14 @@
                </xs:element>
                <xs:element ref="Purpose" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Human-readable explaination of why the creator grouped these objects together. Example: Grouping of Longitudinal Survey elements. Example: Collection of StudyUnits to be used by class SOC1257- Impact of Aging on Social Services. Use this element to describe the nature of a series and/or the reason for treating the studyunits as a group. Include information on the limitations of the grouping and intended usage if applicable.</xs:documentation>
+                     <xs:documentation>Human-readable explanation of why the creator grouped these objects together. Example: Grouping of Longitudinal Survey elements. Example: Collection of StudyUnits to be used by class SOC1257- Impact of Aging on Social Services. Use this element to describe the nature of a series and/or the reason for treating the included study units and/or subgroups as a group. Include information on the limitations of the grouping and intended usage if applicable. When creating documentation from incomplete legacy materials this field may contain a statement such as "Unavailable", "Not provided by creator", or other similar statements.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:SeriesStatement" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Information regarding the official series of which a study unit or group of study units is a part. You may point to the URL of a series repository and then use the Name field to indicate the series itself as identified in that repository. Fields also exist for describing the series and providing abbreviations.</xs:documentation>
+                     <xs:documentation>Information regarding the official series of which a study unit or group of study units is a part. One may point to the URL of a series repository and then use the Name field to indicate the series itself as identified in that repository. Fields also exist for describing the series and providing abbreviations.</xs:documentation>
                   </xs:annotation>
-               </xs:element>                
+               </xs:element>
                <xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Provides information about the agency and grant(s) which funded the group.</xs:documentation>
@@ -176,19 +211,19 @@
                </xs:element>
                <xs:element ref="DataCollection" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Shared documentation regarding data collection for all members of the group, subject to over-rides at a lower level.</xs:documentation>
+                     <xs:documentation>Shared documentation regarding data collection for all members of the group, subject to overrides at a lower level.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="LogicalProduct" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Shared documentation regarding the logical data products of all members of the group, subject to over-rides at a lower level.</xs:documentation>
+                     <xs:documentation>Shared documentation regarding the logical data products of all members of the group, subject to overrides at a lower level.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="PhysicalDataProduct" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Shared documentation regarding physical data products of all members of the group, subject to over-rides at a lower level.</xs:documentation>
+                     <xs:documentation>Shared documentation regarding physical data products of all members of the group, subject to overrides at a lower level.</xs:documentation>
                   </xs:annotation>
-               </xs:element>                 
+               </xs:element>
                <xs:element ref="StudyUnit" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Description of an individual study being documented as a member of the group. The study unit description inherits all metadata found at higher levels - that is, all metadata and documentation describing the groups and subgroups of which the study unit is a member. This metadata and documentation may be over-ridden within the study unit.</xs:documentation>
@@ -196,7 +231,7 @@
                </xs:element>
                <xs:element ref="SubGroup" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Subordinate group which inherits all the metadata provided in the higher-level groups and subgroups of which this subgroup is a member, subject to over-rides within the sub-group itself.</xs:documentation>
+                     <xs:documentation>Subordinate group which inherits all the metadata provided in the higher-level groups and subgroups of which this subgroup is a member, subject to overrides within the subgroup itself.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="cm:Comparison" minOccurs="0">
@@ -206,7 +241,7 @@
                </xs:element>
                <xs:element ref="pr:DDIProfile" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Contains a DDI Profile which is used by the group, and which can be referenced externally. If contained in a ResourcePackage, it is intended only for re-use elsewhere.</xs:documentation>
+                     <xs:documentation>Contains a DDI Profile which is used by the group, and which can be referenced externally. If contained in a ResourcePackage, it is intended only for reuse elsewhere.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="DDIProfileReference" minOccurs="0" maxOccurs="unbounded">
@@ -257,9 +292,9 @@
             </xs:attribute>
             <xs:attribute name="groupInherits" type="xs:boolean" default="true">
                <xs:annotation>
-                  <xs:documentation>Allows for inheritance of all properties and modules - and the use of lower-level over-rides - to be sitched off for specific groups.</xs:documentation>
+                  <xs:documentation>Default is true, and allows for inheritance of all properties and modules, and the use of lower-level over-rides. If set to false, inheritance is switched off for specific groups.</xs:documentation>
                </xs:annotation>
-            </xs:attribute>            
+            </xs:attribute>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
@@ -268,8 +303,8 @@
          <xs:documentation>The subgroup element is a container for a group that is a child of a higher-level group described in this module, but may also be a parent to other (subordinate) groups. A group can be fully described, or just referenced, within its subgroup container.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
-      	<xs:extension base="r:VersionableType">
-      		<xs:sequence>
+        <xs:extension base="r:VersionableType">
+            <xs:sequence>
                <xs:element ref="r:Citation" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Includes bibliographic citation information for the group.</xs:documentation>
@@ -282,14 +317,14 @@
                </xs:element>
                <xs:element ref="Purpose" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Human-readable explaination of why the creator grouped these objects together. Example: Grouping of Longitudinal Survey elements. Example: Collection of StudyUnits to be used by class SOC1257- Impact of Aging on Social Services. Use this element to describe the nature of a series and/or the reason for treating the studyunits as a group. Include information on the limitations of the grouping and intended usage if applicable.</xs:documentation>
+                     <xs:documentation>Human-readable explanation of why the creator grouped these objects together. Example: Grouping of Longitudinal Survey elements. Example: Collection of StudyUnits to be used by class SOC1257- Impact of Aging on Social Services. Use this element to describe the nature of a series and/or the reason for treating the studyunits as a group. Include information on the limitations of the grouping and intended usage if applicable.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:SeriesStatement" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Information regarding the official series of which a study unit or group of study units is a part. You may point to the URL of a series repository and then use the Name field to indicate the series itself as identified in that repository. Fields also exist for describing the series and providing abbreviations.</xs:documentation>
                   </xs:annotation>
-               </xs:element>                
+               </xs:element>
                <xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Provides information about the agency and grant(s) which funded the group.</xs:documentation>
@@ -339,12 +374,12 @@
                   <xs:annotation>
                      <xs:documentation>Shared documentation regarding physical data products of all members of the group, subject to over-rides at a lower level.</xs:documentation>
                   </xs:annotation>
-               </xs:element>                 
+               </xs:element>
                <xs:element ref="StudyUnit" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Description of an individual study being documented as a member of the group. The study unit description inherits all metadata found at higher levels - that is, all metadata and documentation describing the groups and subgroups of which the study unit is a member. This metadata and documentation may be over-ridden within the study unit.</xs:documentation>
                   </xs:annotation>
-               </xs:element>      		
+               </xs:element>
                <xs:element ref="cm:Comparison" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Provides documentation regarding the comparability of study units or subgroups within the containing group.</xs:documentation>
@@ -359,19 +394,19 @@
                   <xs:annotation>
                      <xs:documentation>References a DDI Profile used by the group or resource package.</xs:documentation>
                   </xs:annotation>
-               </xs:element>      
-		 <xs:element ref="SubGroup" minOccurs="0" maxOccurs="unbounded">
-		    <xs:annotation>
-		       <xs:documentation>Includes fully detailed, in-line information about a group that is the child of a higher-level group described in this module.</xs:documentation>
-		    </xs:annotation>
-		 </xs:element>
-		 <xs:element ref="Reference" minOccurs="0" maxOccurs="unbounded">
-		    <xs:annotation>
-		       <xs:documentation>References a sub-group that is the child of a higher-level group or sub-group described in this module.</xs:documentation>
-		    </xs:annotation>
-		 </xs:element>
-      		</xs:sequence>
-	    <xs:attribute name="time" type="TimeGroupCodeType" use="required">
+               </xs:element>
+         <xs:element ref="SubGroup" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Includes fully detailed, in-line information about a group that is the child of a higher-level group described in this module.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Reference" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>References a sub-group that is the child of a higher-level group or sub-group described in this module.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+            </xs:sequence>
+        <xs:attribute name="time" type="TimeGroupCodeType" use="required">
                <xs:annotation>
                   <xs:documentation>Indicates how all members of the group are related along the dimension of time (for example single occurrence, multiple occurrence, etc.).</xs:documentation>
                </xs:annotation>
@@ -413,12 +448,12 @@
             </xs:attribute>
             <xs:attribute name="groupInherits" type="xs:boolean" default="true">
                <xs:annotation>
-                  <xs:documentation>Allows for inheritance of all properties and modules - and the use of lower-level over-rides - to be sitched off for specific groups.</xs:documentation>
+                  <xs:documentation>Default is true, and allows for inheritance of all properties and modules, and the use of lower-level over-rides. If set to false, inheritance is switched off for specific groups.</xs:documentation>
                </xs:annotation>
-            </xs:attribute>            
+            </xs:attribute>
          </xs:extension>
-      </xs:complexContent>      
-   </xs:complexType>   
+      </xs:complexContent>
+   </xs:complexType>
    <xs:complexType name="ConceptType">
       <xs:annotation>
          <xs:documentation>Allows for inclusion of a fully marked up Conceptual Components module or referencing such a module that is external to the instance.</xs:documentation>
@@ -472,7 +507,7 @@
    </xs:complexType>
    <xs:complexType name="PhysicalDataProductType">
       <xs:annotation>
-         <xs:documentation>Allows for inclusion of a physical data product for re-use by reference.</xs:documentation>
+         <xs:documentation>Allows for inclusion of a physical data product for reuse by reference.</xs:documentation>
       </xs:annotation>
       <xs:choice>
          <xs:element ref="p:PhysicalDataProduct">
@@ -486,10 +521,10 @@
             </xs:annotation>
          </xs:element>
       </xs:choice>
-   </xs:complexType>   
+   </xs:complexType>
    <xs:complexType name="StudyUnitType">
       <xs:annotation>
-         <xs:documentation>Allows for inclusuion of a study unit that belongs to the group as a direct child. Sub-groups may also contain study units, and individual study units and sub-groups may be members of a single group. Study units can be included in any group or sub-group either as in-line documentation/metadata or by reference.</xs:documentation>
+         <xs:documentation>Allows for inclusion of a study unit that belongs to the group as a direct child. Subgroups may also contain study units, and individual study units and subgroups may be members of a single group. Study units can be included in any group or subgroup either as in-line documentation/metadata or by reference.</xs:documentation>
       </xs:annotation>
       <xs:choice>
          <xs:element ref="s:StudyUnit">
@@ -719,7 +754,7 @@
    </xs:element>
    <xs:element name="Purpose" type="r:IdentifiedStructuredStringType">
       <xs:annotation>
-         <xs:documentation>Human-readable explaination of why the creator grouped these objects together. Example: Grouping of Longitudinal Survey elements. Example: Collection of StudyUnits to be used by class SOC1257- Impact of Aging on Social Services. Use this element to describe the nature of a series and/or the reason for treating the studyunits as a group. Include information on the limitations of the grouping and intended usage if applicable.</xs:documentation>
+         <xs:documentation>Human-readable explanation of why the creator published these objects.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Concepts" type="ConceptType">

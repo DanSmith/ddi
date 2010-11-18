@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
+<!--
+
+Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+
+This file is part of DDI 3.0 XML Schema.
+
+DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License along
+with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:instance:3_0_CR3" xmlns:a="ddi:archive:3_0_CR3" xmlns:cm="ddi:comparative:3_0_CR3" xmlns:c="ddi:conceptualcomponent:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:ds="ddi:dataset:3_0_CR3" xmlns:dc="ddi:dcelements:3_0_CR3" xmlns:pr="ddi:profile:3_0_CR3" xmlns:g="ddi:group:3_0_CR3" xmlns:m3="ddi:physicaldataproduct/ncube/inline:3_0_CR3" xmlns:l="ddi:logicalproduct:3_0_CR3" xmlns:m1="ddi:physicaldataproduct/ncube/normal:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" xmlns:pi="ddi:physicalinstance:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3"  xmlns:s="ddi:studyunit:3_0_CR3" xmlns:m2="ddi:physicaldataproduct/ncube/tabular:3_0_CR3" targetNamespace="ddi:instance:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:import namespace="ddi:archive:3_0_CR3" schemaLocation="archive.xsd"/>
@@ -20,21 +40,21 @@
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <xs:import namespace="ddi:studyunit:3_0_CR3" schemaLocation="studyunit.xsd"/>
    <xs:import namespace="ddi:physicaldataproduct/ncube/tabular:3_0_CR3" schemaLocation="tabular_ncube_recordlayout.xsd"/>
-   
-   
-   
-   
+
+
+
+
    <xs:element name="DDIInstance" type="DDIInstanceType"/>
    <xs:complexType name="DDIInstanceType">
       <xs:annotation>
-         <xs:documentation>DDIInstanceType is the XML type of the top-level wrapper for any DDI document. It is divided into a set of top-level elements, which generally correspond to the modular breakdown within DDI. (Note that some modules are sub-components of other, higher-level modules). Every DDI Instance will use this wrapper, regardless of its contents.</xs:documentation>
+         <xs:documentation>DDIInstance is  the top-level wrapper for any DDI document. It may contain a set of top-level elements, which generally correspond to the modular breakdown within DDI. (Note that some modules are sub-components of other, higher-level modules). Every DDI Instance will use this wrapper, regardless of its contents.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
                <xs:element ref="r:Citation" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>This element contains references to the subject of contained metadata. Note that the citation is optional, because the DDI Instance may contain only reusable component pieces of metadata sets, which are not directly concerned with a single study or studies.</xs:documentation>
+                     <xs:documentation>Citation for the Instance. Note that the citation is optional, because the DDI Instance may contain only reusable component pieces of metadata sets, which are not directly concerned with a single study or studies.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Coverage" minOccurs="0">
@@ -44,12 +64,12 @@
                </xs:element>
                <xs:element ref="g:Group" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Group contains the StudyUnits and sub-Groups which make up the structural framework for the description of metadata in a DDI Instance.</xs:documentation>
+                     <xs:documentation>Group is a framework for documenting related studies or groups of studies.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="g:ResourcePackage" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Resource is a type of Group which contains metadata intended for inclusion by reference in other Groups, SubGroups, and StudyUnits, but does not itself directly describe studies. Resource is a container for re-use.</xs:documentation>
+                     <xs:documentation>Resource is a type of Group which contains metadata intended for inclusion by reference in other Groups, SubGroups, and StudyUnits, but does not itself directly describe studies. Resource contains information intended for reuse.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="s:StudyUnit" minOccurs="0" maxOccurs="unbounded">
@@ -64,12 +84,12 @@
                </xs:element>
                <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>The Note element is used to include notes which are relevant to the contents of the entire DDI Instance. These Notes may be typed, using a controlled vocabulary.</xs:documentation>
+                     <xs:documentation>The Note element is used to include notes which are relevant to the contents of the entire DDI Instance. A note type may be specified using a controlled vocabulary.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="TranslationInformation" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>TranslationInformation contains information about the translation of the content of the DDI Instance. This includes human-readable information about which language(s) are involved in translation.</xs:documentation>
+                     <xs:documentation>TranslationInformation contains information about the translation of the content of the DDI Instance. This includes human-readable information about which language(s) are involved in the translation.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -102,7 +122,11 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-      <xs:attribute ref="xml:lang"/>
+      <xs:attribute ref="xml:lang">
+         <xs:annotation>
+             <xs:documentation>Indicates language of tag content</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
    </xs:complexType>
    <xs:element name="TranslationInformation" type="TranslationType">
       <xs:annotation>

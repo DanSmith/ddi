@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
+<!--
+
+Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3,
+ 2008-03-31
+
+This file is part of the of DDI 3.0 XML Schema.
+
+DDI 3.0 XML Schema is free software: you can redistribute it and/or 
+modify it under the terms of the GNU General Public License as
+ published 
+by the Free Software Foundation, either version 3 of the License, or
+ (at 
+your option) any later version.
+
+DDI 3.0 XML Schema is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ General 
+Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+ 
+with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:reusable:3_0_CR3" xmlns:dc="ddi:dcelements:3_0_CR3" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="ddi:reusable:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="ddi-xhtml11.xsd"/>
@@ -12,26 +37,6 @@
       <xs:attribute name="id" type="xs:NCName"/>
       <xs:attribute ref="xml:lang"/>
    </xs:attributeGroup>
-   <xs:complexType name="IdentifiedStringType">
-      <xs:annotation>
-         <xs:documentation>Provides a structure for elements containing an identified string. These have an id and language (as global attributes) but also two other XML attributes, which indicate whether the identifed string is a translation, or if it is translatable.</xs:documentation>
-      </xs:annotation>
-      <xs:simpleContent>
-         <xs:extension base="xs:string">
-            <xs:attributeGroup ref="GLOBALS"/>
-            <xs:attribute name="translated" type="xs:boolean" default="false">
-               <xs:annotation>
-                  <xs:documentation>If the identified string is a translation, the value should be set to true. The default, false, means it is not a translation.</xs:documentation>
-               </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="translatable" type="xs:boolean" default="true">
-               <xs:annotation>
-                  <xs:documentation>If the identified string is a translatable, the value should be set to true, the default. A value of false, means it is not translatable.</xs:documentation>
-               </xs:annotation>
-            </xs:attribute>
-         </xs:extension>
-      </xs:simpleContent>
-   </xs:complexType>
    <xs:simpleType name="BaseDateType">
       <xs:annotation>
          <xs:documentation>Union type which allows date-times, dates, year-months, and years as valid values. These are formatted according to ISO 8601.</xs:documentation>
@@ -54,7 +59,7 @@
    </xs:complexType>
    <xs:complexType name="DateType">
       <xs:annotation>
-         <xs:documentation>Provides the structure of a Date element, which allows a choice between single, simple dates (of BaseDateType) or date ranges. If the Date element contains a range, Cycle may be used to indicate occurrence  of this range within a series of ranges as an integer identifying the cycle. ISO-formatted dates are required for all fields; optionally, historically-formatted dates may be supplied.</xs:documentation>
+         <xs:documentation>Provides the structure of a Date element, which allows a choice between single, simple dates (of BaseDateType) or date ranges. If the Date element contains a range, Cycle may be used to indicate occurrence of this range within a series of ranges as an integer identifying the cycle. ISO-formatted dates are required for all fields; a historically-formatted date may be provided in addition to the ISO-formatted date.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:choice>
@@ -76,7 +81,7 @@
                </xs:element>
                <xs:element ref="EndDate" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>End of a date range.</xs:documentation>
+                     <xs:documentation>End of a date range. If range is continuing on, end date can be blank.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="HistoricalEndDate" minOccurs="0">
@@ -86,7 +91,7 @@
                </xs:element>
                <xs:element name="Cycle" type="xs:integer" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Indicates the occurrence of a date range within a series of ranges.</xs:documentation>
+                     <xs:documentation>Indicates the sequence of a date range within several ranges.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -111,7 +116,7 @@
          <xs:extension base="xs:string">
             <xs:attribute ref="xml:lang">
                <xs:annotation>
-                  <xs:documentation>Indicates the langauge of content.</xs:documentation>
+                  <xs:documentation>Indicates the language of content.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="translated" type="xs:boolean" default="false">
@@ -129,7 +134,7 @@
    </xs:complexType>
    <xs:complexType name="StructuredStringType" mixed="true">
       <xs:annotation>
-         <xs:documentation>Provides for string content that may be marked up in XHTML.</xs:documentation>
+         <xs:documentation>Provides for string content that may be marked up using XHTML formatting tags.</xs:documentation>
       </xs:annotation>
       <xs:choice maxOccurs="unbounded" minOccurs="0">
          <xs:group ref="xhtml:BlkNoForm.mix"/>
@@ -177,14 +182,9 @@
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="xs:string">
-            <xs:attribute name="otherValue" type="xs:string" use="optional">
-               <xs:annotation>
-                  <xs:documentation>Other Value.</xs:documentation>
-               </xs:annotation>
-            </xs:attribute>
             <xs:attribute name="codeListID" type="xs:string" use="optional">
                <xs:annotation>
-                  <xs:documentation>Identification of the code list that this value is taken from.</xs:documentation>
+                  <xs:documentation>Identifies the code list that the value is taken from.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="codeListAgency" type="xs:string" use="optional">
@@ -194,12 +194,97 @@
             </xs:attribute>
             <xs:attribute name="codeListVersion" type="xs:string" default="1.0">
                <xs:annotation>
-                  <xs:documentation>Version of the code list.</xs:documentation>
+                  <xs:documentation>Version of the code list. (Default value is 1.0)</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="otherValue" type="xs:string" use="optional">
+               <xs:annotation>
+                  <xs:documentation>Other Value.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
+
+<!-- Commands -->
+
+<xs:complexType name="CommandFileType">
+      <xs:annotation>
+         <xs:documentation>References a file which contains commands.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="Location" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Documents the location of the command file as human-readable text.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="Path" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Provides a machine-readable path expression for the command file's location (e.g. Java).</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="URI" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>URI for the command file.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+      <xs:attribute name="formalLanguage" type="xs:string" use="optional">
+         <xs:annotation>
+            <xs:documentation>Indicates the formal language of the command file.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+   </xs:complexType>
+      <xs:element name="CommandFile" type="CommandFileType">
+         <xs:annotation>
+            <xs:documentation>References a file which contains commands.</xs:documentation>
+         </xs:annotation>
+   </xs:element>
+   
+<xs:element name="Command" type="CommandType">
+      <xs:annotation>
+         <xs:documentation>A complete structure to describe formal transformation procedures of variables. This could be an XML structure like MathML or a simple string.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:complexType name="CommandType">
+      <xs:annotation>
+         <xs:documentation>A complete structure to describe formal transformation procedures of variables. This could be an XML structure like MathML or a simple string.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+      	<xs:element name="CommandText" type="xs:string" minOccurs="0">
+	   <xs:annotation>
+		<xs:documentation>Human-readable text of a command.</xs:documentation>
+	   </xs:annotation>
+	</xs:element>   
+      	<xs:element ref="CommandFile" minOccurs="0" maxOccurs="unbounded">
+	   <xs:annotation>
+		<xs:documentation>An etxernal file containing the commands for creating the generation.</xs:documentation>
+	   </xs:annotation>
+	</xs:element>	
+      	<xs:element ref="StructuredCommand" minOccurs="0">
+	   <xs:annotation>
+		<xs:documentation>Used to insert extensions to provide structured language for external namespaces such as MathML.</xs:documentation>
+	   </xs:annotation>
+	</xs:element>  
+      </xs:sequence>
+	    <xs:attribute name="formalLanguage" type="xs:string" use="optional">
+	       <xs:annotation>
+		  <xs:documentation>Name of formal language used (for example, MathML, SPSS).</xs:documentation>
+	       </xs:annotation>
+	    </xs:attribute>
+   </xs:complexType>
+   <xs:complexType name="StructuredCommandType" abstract="true">
+      <xs:annotation>
+         <xs:documentation>This type structures an empty stub which is used as the basis for extensions added using external namespaces such as MathML. The DDI 3.0 extension methodology is used here - a new module is declared, and the StructuredCommand element is used as the head of a substitution group to insert whatever XML is needed to express the command.</xs:documentation>
+      </xs:annotation>   
+   </xs:complexType>
+
+   <xs:element name="StructuredCommand" type="StructuredCommandType">
+      <xs:annotation>
+         <xs:documentation>Contains a command expressed in XML, which is attached as an extension to this abstract stub (see the DDI 3.0 extension methodology documentation).</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
+
    <!-- Identifiable -->
    <xs:complexType name="AbstractIdentifiableType" abstract="true">
       <xs:annotation>
@@ -212,9 +297,21 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-      <xs:attribute name="id" type="BaseIDType" use="required"/>
-      <xs:attribute name="urn" type="xs:anyURI" use="optional"/>
-      <xs:attribute name="action" type="ActionCodeType" use="optional"/>
+      <xs:attribute name="id" type="BaseIDType" use="required">
+         <xs:annotation>
+            <xs:documentation>Assigned ID, unique within its maintainable object.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>   
+      <xs:attribute name="urn" type="xs:anyURI" use="optional">
+         <xs:annotation>
+            <xs:documentation>DDI-structured URN of the element as described in Part I of the Technical Documentation.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>   
+      <xs:attribute name="action" type="ActionCodeType" use="optional">
+         <xs:annotation>
+            <xs:documentation>Used for inheritance to indicate that the element being described is being added, updated, or deleted at the local level. Add: This element is added to the inherited structure. Update: This element is to be used in place of the inherited element with this ID for local processing. Delete: This element has been removed from the inherited group for local processing. There will be a new ID only in the case of Add.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>   
    </xs:complexType>
    <xs:complexType name="IdentifiableType" abstract="true">
       <xs:complexContent>
@@ -229,7 +326,7 @@
             <xs:sequence>
                <xs:element name="VersionResponsibility" type="xs:string" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Reference to the person and/or ogranization responsible for the version change.  This is primarily intended for internal use.</xs:documentation>
+                     <xs:documentation>Person and/or organization within the MaintenanceAgency responsible for the version change. This is primarily intended for internal use.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="VersionRationale" minOccurs="0" maxOccurs="unbounded">
@@ -238,8 +335,16 @@
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
-            <xs:attribute name="version" type="NewVersionType" use="optional"/>
-            <xs:attribute name="versionDate" type="xs:dateTime" use="optional"/>
+            <xs:attribute name="version" type="NewVersionType" use="optional">
+	         <xs:annotation>
+	            <xs:documentation>Restricted string - numeric with optional decimal points.</xs:documentation>
+	         </xs:annotation>
+	    </xs:attribute>   
+            <xs:attribute name="versionDate" type="BaseDateType" use="optional">
+	         <xs:annotation>
+	            <xs:documentation>Date of version. Duration should not be used in this field, even though allowed by the ISO format enforced by the parser.</xs:documentation>
+	         </xs:annotation>
+	    </xs:attribute>   
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
@@ -253,7 +358,11 @@
    <xs:complexType name="AbstractMaintainableType" abstract="true">
       <xs:complexContent>
          <xs:extension base="AbstractVersionableType">
-            <xs:attribute name="agency" type="xs:NCName" use="optional"/>
+            <xs:attribute name="agency" type="xs:NCName" use="optional">
+	         <xs:annotation>
+	            <xs:documentation>Maintaining agency as described in Part 1 of the Technical Specification.</xs:documentation>
+	         </xs:annotation>
+	    </xs:attribute>   
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
@@ -266,7 +375,7 @@
    </xs:complexType><!-- ID Type -->
    <xs:simpleType name="BaseIDType">
       <xs:annotation>
-         <xs:documentation>IDType provides a type which is used for restricting the characters in codes and IDs throughout all SDMX-ML messages. Valid characters include A-Z, a-z, @, 0-9, _, -, $.</xs:documentation>
+         <xs:documentation>Provides a type which is used for restricting the characters in codes and IDs. Valid characters include A-Z, a-z, @, 0-9, _, -, $.</xs:documentation>
       </xs:annotation>
       <xs:restriction base="xs:string">
          <xs:pattern value="([A-Z]|[a-z]|\*|@|[0-9]|_|$|\-)*"/>
@@ -287,35 +396,51 @@
       <xs:restriction base="xs:string">
          <xs:enumeration value="Add">
             <xs:annotation>
-               <xs:documentation>Add</xs:documentation>
+               <xs:documentation>The element is in addition to the included Scheme</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Update">
             <xs:annotation>
-               <xs:documentation>Update</xs:documentation>
+               <xs:documentation>The element updates the element with the same ID in the included Scheme. This new element replaces or updates the included element for local use.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Delete">
             <xs:annotation>
-               <xs:documentation>Delete</xs:documentation>
+               <xs:documentation>The element with the same ID in the included Scheme should be treated as deleted for local use.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
    </xs:simpleType>
   <xs:complexType name="SeriesStatementType">
 	<xs:annotation>
-		<xs:documentation>Series statement contains information about the series to which a study unit or group of study units belongs.</xs:documentation>
+		<xs:documentation>Series statement contains information about the series to which a study unit or group of study units belongs. You may point to the URL of a series repository and then use the Name field to indicate the series itself as identified in that repository. Fields also exist for describing the series and providing abbreviations.</xs:documentation>
 	</xs:annotation>
 	<xs:sequence>
-		<xs:element name="SeriesRepositoryLocation" type="xs:anyURI" minOccurs="0"/>
-		<xs:element ref="Name"/>
-		<xs:element name="Abbreviation" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-		<xs:element ref="SeriesDescription" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:element name="SeriesRepositoryLocation" type="xs:anyURI" minOccurs="0">
+			<xs:annotation>
+				<xs:documentation>Location of the repository containing the series.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element ref="Name">
+			<xs:annotation>
+				<xs:documentation>Series name</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element name="Abbreviation" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation>Abbreviation of the series name</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element ref="SeriesDescription" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation>Human-readable description of the series.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
 	</xs:sequence>
    </xs:complexType>   
    <xs:complexType name="ReferenceType">
       <xs:annotation>
-         <xs:documentation>Used for referencing an identified entity expressed in DDI XML, either by a URN and/or an ID. If both are supplied, the URN takes precedence. At a minimum, one or the other is required.</xs:documentation>
+         <xs:documentation>Used for referencing an identified entity expressed in DDI XML, either by a URN and/or an ID. If both are supplied, the URN takes precedence. At a minimum, one or the other is required. The lateBound attribute has a boolean value, which - if set to true - indicates that the latest version should be used.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element ref="Module" minOccurs="0">
@@ -342,7 +467,7 @@
                </xs:element>
                <xs:element name="IdentifyingAgency" type="xs:NCName" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>If referencing a maintained element you must include an IdentifyingAgency. This is the URN of the identifying agency.</xs:documentation>
+                     <xs:documentation>Maintaining agency as described in Part 1 of the Technical Specification.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="Version" minOccurs="0">
@@ -368,20 +493,58 @@
             <xs:documentation>A fixed attribute value identifying which elements are references.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
+      <xs:attribute name="lateBound" type="xs:boolean" default="false"/>
    </xs:complexType>
+   
+      <xs:complexType name="SchemeReferenceType">
+         <xs:annotation>
+            <xs:documentation>This is a type of reference used only by schemes to include or exclude specific items from imported schemes of the same type.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+      	<xs:extension base="ReferenceType">
+      	   <xs:sequence>
+      		<xs:element ref="Exclude" minOccurs="0" maxOccurs="unbounded">
+   		       <xs:annotation>
+			  <xs:documentation>An item from the referenced scheme which should be excluded from use for the purposes of the reference.</xs:documentation>
+		       </xs:annotation>
+       	        </xs:element>
+      	    </xs:sequence>
+      	</xs:extension>
+      </xs:complexContent>
+      </xs:complexType>
+      <xs:element name="SchemeReference" type="SchemeReferenceType"/>
+  <xs:complexType name="ExcludeType">
+      <xs:annotation>
+         <xs:documentation>An item from the referenced scheme which should be excluded from use for the purposes of the reference. If the version field is not used, then the referenced scheme must include only one item with that ID.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="ID" type="xs:NCName">
+          <xs:annotation>
+             <xs:documentation>ID of excluded item</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+         <xs:element name="Version" type="VersionType" minOccurs="0">
+          <xs:annotation>
+             <xs:documentation>Version number of excluded item, provided only for versionable items. If not supplied for a reference to a versionable item, all items with the corresponding ID value are excluded.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+   </xs:complexType>     
+   <xs:element name="Exclude" type="ExcludeType"/>
+   
    <xs:complexType name="VersionType">
       <xs:annotation>
-         <xs:documentation>Version number of the referenced object, expressed as a two-part numeric string composed of two positive integers separated by a period. The first number indicates a major version, the second a minor one: 1.0. Optionally, a third integer may indicate sub-version: 1.0.2. The lateBound attribute has a boolean value, which - if set to true - indicates that the latest version should be used. In DDI 3.0, any child object is assumed to inherit its version and maintainence agency from its parent. Thus, the information does not have to be unneccessarily repeated. However, an object can over-ride this inheritance by describing its own maintenance agency and version.</xs:documentation>
+         <xs:documentation>Version number of the referenced object, expressed as a two-part numeric string composed of two positive integers separated by a period. The first number indicates a major version, the second a minor one: 1.0. Optionally, a third integer may indicate sub-version: 1.0.2. In DDI 3.0, any child object is assumed to inherit its version and maintenance agency from its parent. Thus, the information does not have to be unnecessarily repeated. However, an object can over-ride this inheritance by describing its own maintenance agency and version.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="xs:string">
-            <xs:attribute name="lateBound" type="xs:boolean" default="false"/>
+            
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
    <xs:complexType name="URNType">
       <xs:annotation>
-         <xs:documentation>Container for a URN which complies with DDI conventions. The format of this URN includes the protocol ('urn'), the standard (DDI), the version of the standard, and the object's class (which may be compound, with maintainable, and child versionable/identifiable separated by '.'), followed by an equals sign ('='). After the equals sign comes the maintenance agency and the object's ID, separated by colons. If the ID of the object is compound, the maintainable and the child versionable/maintainable each have an ID with version in parenthesis following, using the dot ('.') to separate parent and child objects. Example: urn:ddi:3_0:VariableScheme.Variable=pop.umn.edu:Vscheme6(1.1).V1(1.1)</xs:documentation>
+         <xs:documentation>Container for a URN which complies with DDI conventions. The format of this URN includes the protocol ('urn'), the standard (DDI), the version of the standard, and the object's class (which may be compound, with maintainable, and child versionable/identifiable separated by '.'), followed by an equals sign ('='). After the equals sign comes the maintenance agency and the object's ID, separated by colons. If the ID of the object is compound, the maintainable and the child versionable/maintainable each have an ID with version in square brackets following, using the dot ('.') to separate parent and child objects. Example: urn:ddi:3_0:VariableScheme.Variable=MPC:Vscheme6[1.1].V1[1.1]</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="xs:anyURI">
@@ -407,49 +570,6 @@
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
-   <xs:complexType name="SchemeType">
-      <xs:annotation>
-         <xs:documentation>A reference to a Scheme.</xs:documentation>
-      </xs:annotation>
-      <xs:choice maxOccurs="2">
-         <xs:element ref="URN">
-            <xs:annotation>
-               <xs:documentation>URN of the scheme that is being referenced.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:sequence>
-            <xs:element name="ID" type="xs:NCName">
-               <xs:annotation>
-                  <xs:documentation>ID of the scheme that is being referenced.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element name="IdentifyingAgency" type="xs:NCName" minOccurs="0">
-               <xs:annotation>
-                  <xs:documentation>Reference to the agency maintaining the scheme that is being referenced. The agency will be referenced with a code from a DDI agency list.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="Version" minOccurs="0">
-               <xs:annotation>
-                  <xs:documentation>Version of the scheme that is being referenced. The version can be identified as lateBound, meaning that the latest version should be used.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="Exclude" minOccurs="0" maxOccurs="unbounded">
-               <xs:annotation>
-                  <xs:documentation>An item from the referenced scheme which should be excluded from use for the purposes of the reference.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-         </xs:sequence>
-      </xs:choice>
-   </xs:complexType>
-   <xs:complexType name="ExcludeType">
-      <xs:annotation>
-         <xs:documentation>An item from the referenced scheme which should be excluded from use for the purposes of the reference. If the version field is not used, then the referenced scheme must include only one item with that ID.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element name="ID" type="xs:NCName"/>
-         <xs:element name="Version" type="VersionType"/>
-      </xs:sequence>
-   </xs:complexType>
    <xs:element name="Citation" type="CitationType">
       <xs:annotation>
          <xs:documentation>Provides bibliographic citation information for a DDI instance, a group of studies, a study unit, or a physical instance. Note that a native DDI citation is required - the citation information may be repeated using DCElements if desired, but a citation must not consist only of DCElements.</xs:documentation>
@@ -462,7 +582,7 @@
       <xs:sequence>
          <xs:element ref="Title" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Full authoritative title.</xs:documentation>
+               <xs:documentation>Full authoritative title. Field may be repeated to document multiple languages.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="SubTitle" minOccurs="0" maxOccurs="unbounded">
@@ -517,6 +637,16 @@
          </xs:element>
       </xs:sequence>
    </xs:complexType>
+   <xs:complexType name="CreatorType">
+      <xs:annotation>
+         <xs:documentation>Holds the nam,e of the creator. The affiliation attribute holds a human-readable string indicating the creator's affiliation.</xs:documentation>
+      </xs:annotation>  
+      <xs:simpleContent>
+      	<xs:extension base="InternationalStringType">
+      		<xs:attribute name="affiliation" type="xs:string" use="optional"/>
+      	</xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>
    <xs:complexType name="ContributorType">
       <xs:annotation>
          <xs:documentation>The contributor's name.</xs:documentation>
@@ -548,7 +678,7 @@
       <xs:sequence>
          <xs:element ref="AgencyOrganizationReference" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, that served as a funding source.</xs:documentation>
+               <xs:documentation>Reference to an organization or individual, defined in the organization scheme, that served as a funding source.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element name="GrantNumber" type="xs:string" minOccurs="0" maxOccurs="unbounded">
@@ -565,12 +695,12 @@
    </xs:complexType>
    <xs:element name="Embargo" type="EmbargoType">
       <xs:annotation>
-         <xs:documentation>Provides information aboput data that are not currently available because of policies established by the principal investigators and/or data producers.</xs:documentation>
+         <xs:documentation>Provides information about data that are not currently available because of policies established by the principal investigators and/or data producers.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="EmbargoType">
       <xs:annotation>
-         <xs:documentation>Provides information aboput data that are not currently available because of policies established by the principal investigators and/or data producers.</xs:documentation>
+         <xs:documentation>Provides information about data that are not currently available because of policies established by the principal investigators and/or data producers.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="IdentifiableType">
@@ -587,12 +717,12 @@
                </xs:element>
                <xs:element ref="AgencyOrganizationReference">
                   <xs:annotation>
-                     <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the embargo.</xs:documentation>
+                     <xs:documentation>Reference to an organization or individual, defined in the organization scheme, responsible for the embargo.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="EnforcementAgencyOrganizationReference" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for enforcing the embargo.</xs:documentation>
+                     <xs:documentation>Reference to an organization or individual, defined in the organization scheme, responsible for enforcing the embargo.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -601,31 +731,31 @@
    </xs:complexType>
    <xs:element name="LifecycleInformation" type="LifecycleInformationType">
       <xs:annotation>
-         <xs:documentation>Allows a listing of events in the life cycle os a data set or collection. Identification, date, agency, and descriptive information are provided for each event. Note that the agency that documents a lifecycle event is not necessarily the same agency as the one that performed the operation being documented as a lifecycle event.</xs:documentation>
+         <xs:documentation>Allows a listing of events in the life cycle of a data set or collection. Identification, date, agency, and descriptive information are provided for each event. Note that the agency that documents a lifecycle event is not necessarily the same agency as the one that performed the operation being documented as a lifecycle event.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="LifecycleInformationType">
       <xs:annotation>
-         <xs:documentation>Allows a listing of events in the life cycle os a data set or collection. Identification, date, agency, and descriptive information are provided for each event. Note that the agency that documents a lifecycle event is not necessarily the same agency as the one that performed the operation being documented as a lifecycle event.</xs:documentation>
+         <xs:documentation>Allows a listing of events in the life cycle of a data set or collection. Identification, date, agency, and descriptive information are provided for each event. Note that the agency that documents a lifecycle event is not necessarily the same agency as the one that performed the operation being documented as a lifecycle event.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element ref="LifecycleEvent" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>A life cycle event can be any event which is judged to be significant enough to document by the agency maintaining the documentation for a particular set of data. The type attribute may be used to create indicate which type of event in a typology meaningful to the documentor.</xs:documentation>
+               <xs:documentation>Documents an event in the life cycle of a study or group of studies. A life cycle event can be any event which is judged to be significant enough to document by the agency maintaining the documentation for a particular set of data. The element EventType indicates the type of event, using a typology meaningful to the documentor.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
    </xs:complexType>
    <xs:complexType name="LifecycleEventType">
       <xs:annotation>
-         <xs:documentation>A life cycle event can be any event which is judged to be significant enough to document by the agency maintaining the documentation for a particular set of data. The type attribute may be used to create indicate which type of event in a typology meaningful to the documentor.</xs:documentation>
+         <xs:documentation>Documents an event in the life cycle of a study or group of studies. A life cycle event can be any event which is judged to be significant enough to document by the agency maintaining the documentation for a particular set of data. The element EventType indicates the type of event, using a typology meaningful to the documentor.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="IdentifiableType">
             <xs:sequence>
                <xs:element ref="EventType" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Type of the life cycle event.</xs:documentation>
+                     <xs:documentation>Indicates the type of event, using a typology meaningful to the documentor.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="Date">
@@ -635,7 +765,7 @@
                </xs:element>
                <xs:element ref="AgencyOrganizationReference">
                   <xs:annotation>
-                     <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the lifecycle event.</xs:documentation>
+                     <xs:documentation>Reference to an organization or individual, defined in the organization scheme, responsible for the life cycle event.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="Description" maxOccurs="unbounded">
@@ -649,7 +779,7 @@
    </xs:complexType>
    <xs:complexType name="CodeType">
       <xs:annotation>
-         <xs:documentation>Structures the Expression of a Coding in the collection process.</xs:documentation>
+         <xs:documentation>Structures the expression of a coding in the data collection process.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element name="Code" type="xs:string">
@@ -670,7 +800,7 @@
       </xs:sequence>
       <xs:attribute name="programmingLanguage" type="xs:string" use="optional">
          <xs:annotation>
-            <xs:documentation>The programming language the Code is expressed in.</xs:documentation>
+            <xs:documentation>The programming language in which the Code is expressed.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
    </xs:complexType>
@@ -724,12 +854,12 @@
    </xs:complexType>
    <xs:element name="Label" type="LabelType">
       <xs:annotation>
-         <xs:documentation>An unstructured label for the Variable. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character,  SPSS 120 characters, and STATA 80 characters). Place mnemonics associated with variable in r:Name of the r:Identification.</xs:documentation>
+         <xs:documentation>An unstructured label for the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character, SPSS 120 characters, and Stata 80 characters). Mnemonics associated with a variable should include both of the following attributes: type="Nickname" and maxLength. Software packages will use this information to select the appropriate mnemonic for use.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="LabelType">
       <xs:annotation>
-         <xs:documentation>An unstructured label for the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character,  SPSS 120 characters, and STATA 80 characters). Mnemonics associated with a variable should include both of the following attributes:  type="Nickname" and maxLength. Software packages will use this information to select the appropriate mnemonic for use.</xs:documentation>
+         <xs:documentation>An unstructured label for the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character, SPSS 120 characters, and Stata 80 characters). Mnemonics associated with a variable should include both of the following attributes: type="Nickname" and maxLength. Software packages will use this information to select the appropriate mnemonic for use.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="InternationalStringType">
@@ -740,7 +870,7 @@
             </xs:attribute>
             <xs:attribute name="validForDate" type="BaseDateType" use="optional">
                <xs:annotation>
-                  <xs:documentation>Allows the specification of valid date for the label.The date must be formatted according to ISO 8601.</xs:documentation>
+                  <xs:documentation>Allows the specification of valid date for the label. The date must be formatted according to ISO 8601.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="type" type="xs:string" use="optional">
@@ -777,9 +907,34 @@
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+  <xs:complexType name="InternationalCodeValueType">
+      <xs:annotation>
+         <xs:documentation>Provides a code value, as well as a reference to the code list from which the value is taken. Note that the CodeValue can be restricted to reference an enumeration. Provides a language-locale identifier.</xs:documentation>
+      </xs:annotation>
+      <xs:simpleContent>
+         <xs:extension base="InternationalStringType">
+            <xs:attribute name="codeListID" type="xs:string" use="optional">
+               <xs:annotation>
+                  <xs:documentation>Identifies the code list that the value is taken from.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="codeListAgency" type="xs:string" use="optional">
+               <xs:annotation>
+                  <xs:documentation>Agency maintaining the code list.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="codeListVersion" type="xs:string" default="1.0">
+               <xs:annotation>
+                  <xs:documentation>Version of the code list. (Default value is 1.0)</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:simpleContent>
+   </xs:complexType>   
+   
    <xs:complexType name="TypedStringType">
       <xs:annotation>
-         <xs:documentation>Provides for string content with a type indentifier.</xs:documentation>
+         <xs:documentation>Provides for string content with a type identifier.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="InternationalStringType"><!-- Need CV -->
@@ -791,36 +946,8 @@
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
-   <xs:element name="Command" type="CommandType">
-      <xs:annotation>
-         <xs:documentation>Command for creating the derivation. This is the part that should be machine actionable.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:complexType name="CommandType">
-      <xs:annotation>
-         <xs:documentation>A complete structure to describe formal transformation procedures of variables should stay below this element. This could be a XML structure like MathML or a simple string.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-      	<xs:element name="CommandText" type="xs:string" minOccurs="0"/>
-      	<xs:element ref="StructuredCommand" minOccurs="0"/>
-      </xs:sequence>
-	    <xs:attribute name="formalLanguage" type="xs:string" use="optional">
-	       <xs:annotation>
-		  <xs:documentation>Name of used formal language (for example MathML, SPSS).</xs:documentation>
-	       </xs:annotation>
-	    </xs:attribute>
-   </xs:complexType>
-   <xs:complexType name="StructuredCommandType" abstract="true">
-      <xs:annotation>
-         <xs:documentation>This type structures an empty stub which is used as the basis for extensions added using external namespaces such as MathML. The DDI 3.0 extension methodology is used here - a new module is declared, and the StructuredCommand element is used as the head of a substitution group to insert whatever XML is needed to express the command.</xs:documentation>
-      </xs:annotation>   
-   </xs:complexType>
-
-   <xs:element name="StructuredCommand" type="StructuredCommandType">
-      <xs:annotation>
-         <xs:documentation>Contains a command expressed in XML, which is attached as an extension to this abstract stub (see the DDI 3.0 extension methodology documentation).</xs:documentation>
-      </xs:annotation>
-   </xs:element>
+   
+   
    
    <xs:element name="Software" type="SoftwareType">
       <xs:annotation>
@@ -864,12 +991,12 @@
             <xs:sequence>
                <xs:element ref="BoundingBox" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>The Bounding Box is a 'rectangle, oriented to the x and y axes, which bounds a geographic feature or a geographic dataset. It is specified by two coordiantes: xmin, ymin and xmax,ymax.' [FGDC]. In the DDI, it describes the full extent of the geographic coverage, and is designed to be used by systems that search for geography by coordinates. It is compatible with the description and structure found in FGDC and other geographic metadata structures.</xs:documentation>
+                     <xs:documentation>The Bounding Box is a 'rectangle, oriented to the x and y axes, which bounds a geographic feature or a geographic dataset. It is specified by two coordinates: xmin, ymin and xmax,ymax.' [FGDC]. In the DDI, it describes the full extent of the geographic coverage, and is designed to be used by systems that search for geography by coordinates. It is compatible with the description and structure found in FGDC and other geographic metadata structures.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="Description" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Providea a human-readable summary of the information included in Geography and Geography Reference. It may include information on all levels of spatial coverage, in addition to the overall coverage. This field can map to Dublin Core Coverage, which does not support structured strings. Therefore, if there is intent to map to Dublin Core, the text should not be marked up with XHTML.</xs:documentation>
+                     <xs:documentation>Provides a human-readable summary of the information included in Geography and Geography Reference. It may include information on all levels of spatial coverage, in addition to the overall coverage. This field can map to Dublin Core Coverage, which does not support structured strings. Therefore, if there is intent to map to Dublin Core, the text should not be marked up with XHTML.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="GeographyStructureVariable" minOccurs="0">
@@ -882,14 +1009,14 @@
                      <xs:documentation>Contains information on the most discrete type of spatial representation to which data in this file can be attached (point, line, polygon, linear ring). For example, a raw data file with an address attached to each case is 'point'. When the microdata file is anonymized and the geographic information is for a state or other defined area, it is 'polygon'. Some data, such as traffic or criminal incidence data may have a street range identification or 'line', and some such as communications data have a point with a radius or 'linear ring'. </xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="GeographicStructureReference" minOccurs="0">
+               <xs:element ref="GeographicStructureSchemeReference" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Contains information on the hierarchy of the geographic structure. The structure can be defined within the DDI or an external structure can be referenced.</xs:documentation>
                   </xs:annotation>
                </xs:element>              
-               <xs:element ref="GeographicLocationReference" minOccurs="0">
+               <xs:element ref="GeographicLocationSchemeReference" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Contains information on the specific geographic areas defined in the data set such as cities, countries, or states. The areas can be defined within the DDI or an external structure can be referenced.</xs:documentation>
+                     <xs:documentation>Contains information on the specific geographic areas defined in the dataset such as cities, countries, or states. The areas can be defined within the DDI or an external structure can be referenced.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="SummaryDataReference" minOccurs="0" maxOccurs="unbounded">
@@ -923,7 +1050,7 @@
          </xs:element>
          <xs:element name="LevelName" type="xs:string">
             <xs:annotation>
-               <xs:documentation>Human-readable name of the Geographic Level. This field may be used by outside systems to identify the highest or lowest geographic level in a consistant manner regardless of whether the DDI instance contains a detailed Geographic Structure section.</xs:documentation>
+               <xs:documentation>Human-readable name of the Geographic Level. This field may be used by outside systems to identify the highest or lowest geographic level in a consistent manner regardless of whether the DDI instance contains a detailed Geographic Structure section.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
@@ -935,7 +1062,7 @@
       <xs:restriction base="xs:NMTOKEN">
          <xs:enumeration value="Point">
             <xs:annotation>
-               <xs:documentation>Single geographical point (eg, an address).</xs:documentation>
+               <xs:documentation>Single geographical point (e.g., an address).</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Polygon">
@@ -950,7 +1077,7 @@
          </xs:enumeration>
          <xs:enumeration value="LinearRing">
             <xs:annotation>
-               <xs:documentation>An area with a defined radius (eg. area within x miles of a specific point.)</xs:documentation>
+               <xs:documentation>An area with a defined radius (e.g., area within x miles of a specific point.)</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
@@ -996,7 +1123,7 @@
 		       </xs:element>
 		       <xs:element ref="GeographicLayerBase" minOccurs="2" maxOccurs="unbounded">
 			  <xs:annotation>
-			     <xs:documentation>Use for gegraphic polygons that are the result of layering 2 or more geographic hierarchies where the polygone being described is the interect of the layers. For example: State - County - County Subdivision - Place/Remainder - Tract [The portion of a tract that is within a single place (or non-place area) and a single county subdivision] This polygon is made by overlaying the following three geographic hierarchies: 1) State - Place, 2) State - County - Tract, and 3) State - County - Subdivision. The three GeographicLayerBase elements would point to Tract, Place, and County Subdivision.</xs:documentation>
+			     <xs:documentation>Use for geographic polygons that are the result of layering two or more geographic hierarchies where the polygon being described is the intersect of the layers. For example: State - County - County Subdivision - Place/Remainder - Tract [The portion of a tract that is within a single place (or non-place area) and a single county subdivision] This polygon is made by overlaying the following three geographic hierarchies: 1) State - Place, 2) State - County - Tract, and 3) State - County - Subdivision. The three GeographicLayerBase elements would point to Tract, Place, and County Subdivision.</xs:documentation>
 			  </xs:annotation>
 		       </xs:element>               
                </xs:choice>
@@ -1006,13 +1133,13 @@
    </xs:complexType>
    <xs:complexType name="ParentGeographyType">
       <xs:annotation>
-         <xs:documentation>A type for referencing a parent geography and describing whether the geographic level completely fills its parent level.</xs:documentation>
+         <xs:documentation>References a parent geography and describes whether the geographic level completely fills its parent level.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="ReferenceType">
             <xs:attribute name="isExhaustiveCoverage" type="xs:boolean" use="required">
                <xs:annotation>
-                  <xs:documentation>Does this geographic level completely fill its parent level. Counties are exhaustive within States. Places are NOT exhaustive within States.</xs:documentation>
+                  <xs:documentation>Indicates whether the geographic level completely fills its parent level. Counties are exhaustive within States. Places are NOT exhaustive within States.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
          </xs:extension>
@@ -1039,7 +1166,7 @@
 	      </xs:choice>
 	      <xs:element ref="AuthorityOrganizationReference">
 		    <xs:annotation>
-		       <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the code.</xs:documentation>
+		       <xs:documentation>Reference to an organization or individual, defined in the organization scheme, responsible for the code.</xs:documentation>
 		    </xs:annotation>
        	      </xs:element>   
 	     <xs:choice>
@@ -1065,22 +1192,22 @@
       <xs:sequence>
          <xs:element ref="WestLongitude">
             <xs:annotation>
-               <xs:documentation>West longitude of the bounding box.</xs:documentation>
+               <xs:documentation>West longitude of the bounding box. (xmin)</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="EastLongitude">
             <xs:annotation>
-               <xs:documentation>East longitude of the bounding box.</xs:documentation>
+               <xs:documentation>East longitude of the bounding box. (xmax)</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="SouthLatitude">
             <xs:annotation>
-               <xs:documentation>South latitude of the bounding box.</xs:documentation>
+               <xs:documentation>South latitude of the bounding box. (ymin)</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="NorthLatitude">
             <xs:annotation>
-               <xs:documentation>North latitude of the bounding box.</xs:documentation>
+               <xs:documentation>North latitude of the bounding box. (ymax)</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
@@ -1117,7 +1244,7 @@
                </xs:element>
                <xs:element ref="AuthorityOrganizationReference">
                   <xs:annotation>
-                     <xs:documentation>Reference to an organization, defined in the organziation scheme, responsible for defining the code. This is used as a mandatory field and replaces/overrides any value provided as part of the Code element which precedes it.</xs:documentation>
+                     <xs:documentation>Reference to an organization, defined in the organization scheme, responsible for defining the code. This is used as a mandatory field and replaces/overrides any value provided as part of the Code element which precedes it.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -1146,8 +1273,7 @@
       <xs:sequence>
          <xs:element ref="VariableReference" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>References the single code (as in the case of a single level hierarchy like a Metroplitan Area within a single country where there is one unique code, or a Variable describing the contcatenation order being used in the codes provided in the GeographicValues. This may require creating a concatenated Varible to meet this specificiation.
-		</xs:documentation>
+               <xs:documentation>References the single code (as in the case of a single level hierarchy like a Metroplitan Area within a single country where there is one unique code, or a Variable describing the concatenation order being used in the codes provided in the GeographicValues. This may require creating a concatenated Varible to meet this specificiation.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element name="ExternalAuthorityReference" type="xs:anyURI" minOccurs="0">
@@ -1157,7 +1283,7 @@
          </xs:element>
          <xs:element ref="GeographyValue" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Used to spoecify a geographical value.</xs:documentation>
+               <xs:documentation>Used to specify a geographical value.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
@@ -1208,7 +1334,7 @@
    </xs:complexType>
    <xs:complexType name="PolygonType">
       <xs:annotation>
-         <xs:documentation>A closed plane figure bounded by three or more line segments, representign a geographic area.</xs:documentation>
+         <xs:documentation>A closed plane figure bounded by three or more line segments, representing a geographic area.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
 	      <xs:choice>
@@ -1251,30 +1377,30 @@
       <xs:sequence>
          <xs:element ref="XCoordinate">
             <xs:annotation>
-               <xs:documentation>An X coordiante (latitudinal equivilent) value.</xs:documentation>
+               <xs:documentation>An X coordinate (latitudinal equivalent) value.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="YCoordinate">
             <xs:annotation>
-               <xs:documentation>A Y coordinate (longitudinal equivilent) value.</xs:documentation>
+               <xs:documentation>A Y coordinate (longitudinal equivalent) value.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
    </xs:complexType>
    <xs:complexType name="SpatialCoordinateType">
       <xs:annotation>
-         <xs:documentation>A geographic point consisting of a latitude and longitude.</xs:documentation>
+         <xs:documentation>Describes a coordinate (such as an X or Y coordinate)</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element name="CoordinateValue" type="xs:string">
             <xs:annotation>
-               <xs:documentation>An X coordiante (latitudinal equivilent) value.</xs:documentation>
+               <xs:documentation>The value of the coordinate</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
       <xs:attribute name="coordinateType" type="PointFormatType" use="required">
          <xs:annotation>
-            <xs:documentation>Does this geographic level completely fill it's parent level. Counties are exhaustive within States. Places are NOT exhaustive within States.</xs:documentation>
+            <xs:documentation>Identifies the type of point coordinate system using a controlled vocabulary. Point formats include decimal degree, degrees minutes seconds, decimal minutes, meters, and fee.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
    </xs:complexType>
@@ -1312,7 +1438,7 @@
    </xs:simpleType><!-- REPRESENTATION -->
    <xs:complexType name="RepresentationType" abstract="true">
       <xs:annotation>
-         <xs:documentation>Abstract type for the head of a substitution group for of a representation, to be used for either a variable or a question. If specific values are used to denote missing values, these can be indicated as a space-delimited list in the missingValue attribute. If the missing value is indicated by a blank, this should be indicatedby setting the value of blankIsMissingValue to true.</xs:documentation>
+         <xs:documentation>Abstract type for the head of a substitution group for a variable representation or a question response domain. If specific values are used to denote missing values, these can be indicated as a space-delimited list in the missingValue attribute. If the missing value is indicated by a blank, this should be indicated by setting the value of blankIsMissingValue to true.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
       	<xs:element name="RecommendedDataType" type="CodeValueType" minOccurs="0">
@@ -1322,13 +1448,25 @@
       	</xs:element>
       	<xs:element name="GenericOutputFormat" type="CodeValueType" minOccurs="0">
 	      <xs:annotation>
-		 <xs:documentation>This field provides the recommended treatment of the data for display by an application. The value should come from a controlled vocabulary. </xs:documentation>
+		 <xs:documentation>This field provides a recommended generic treatment of the data for display by an application. The value should come from a controlled vocabulary. </xs:documentation>
 	      </xs:annotation>      	
       	</xs:element>      	
       </xs:sequence>
-      <xs:attribute name="missingValue" type="xs:NMTOKENS" use="optional"/>
-      <xs:attribute name="blankIsMissingValue" type="xs:boolean" use="optional"/>   
-      <xs:attribute name="classificationLevel" type="CategoryRelationCodeType" use="optional"/>
+      <xs:attribute name="missingValue" type="xs:NMTOKENS" use="optional">
+         <xs:annotation>
+            <xs:documentation>List the values used to represent missing data in a space delimited array.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>   
+      <xs:attribute name="blankIsMissingValue" type="xs:boolean" use="optional">   
+         <xs:annotation>
+            <xs:documentation>When value is true a blank or empty variable content should be treated as a missing value.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>   
+      <xs:attribute name="classificationLevel" type="CategoryRelationCodeType" use="optional">
+         <xs:annotation>
+            <xs:documentation>Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>   
    </xs:complexType>
    <xs:complexType name="TextRepresentationType">
       <xs:annotation>
@@ -1336,10 +1474,21 @@
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="RepresentationType">
-            <xs:attribute name="maxLength" type="xs:integer" use="optional"/>
-            <xs:attribute name="minLength" type="xs:integer" use="optional"/>
-            <xs:attribute name="regExp" type="xs:string" use="optional"/>
-            
+            <xs:attribute name="maxLength" type="xs:integer" use="optional">
+              <xs:annotation>
+                 <xs:documentation>Maximum length of the text.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>   
+            <xs:attribute name="minLength" type="xs:integer" use="optional">
+              <xs:annotation>
+                 <xs:documentation>Minimum length of the text.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>   
+            <xs:attribute name="regExp" type="xs:string" use="optional">
+              <xs:annotation>
+                 <xs:documentation>Regular expression defining the allowed syntax of the text.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>               
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
@@ -1350,8 +1499,7 @@
       <xs:restriction base="xs:NMTOKEN">
          <xs:enumeration value="Nominal">
             <xs:annotation>
-               <xs:documentation>The categories in the domain have no greater than or less than relationship between them (sometimes called categorical or discrete). 
-</xs:documentation>
+               <xs:documentation>A relationship of less than, or greater than, cannot be established among the included categories. This type of relationship is also called categorical or discrete.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Ordinal">
@@ -1361,20 +1509,17 @@
          </xs:enumeration>
          <xs:enumeration value="Interval">
             <xs:annotation>
-               <xs:documentation>The categories in the domain are in rank order and have a consistant interval between each category so that differences between arbitrary pairs of measurements can be meaningfully compared.
-</xs:documentation>
+               <xs:documentation>The categories in the domain are in rank order and have a consistent interval between each category so that differences between arbitrary pairs of measurements can be meaningfully compared.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Ratio">
             <xs:annotation>
-               <xs:documentation>The categories have all the features of interval measurement and also have meaningful ratios between arbitrary pairs of numbers.
-</xs:documentation>
+               <xs:documentation>The categories have all the features of interval measurement and also have meaningful ratios between arbitrary pairs of numbers.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Continuous">
             <xs:annotation>
-               <xs:documentation>A grouping of interval and ratio classification levels to be used when more defininitive information is not available.
-</xs:documentation>
+               <xs:documentation>May be used to identify both interval and ratio classification levels, when more precise information is not available.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>         
       </xs:restriction>
@@ -1385,10 +1530,14 @@
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="RepresentationType">
-            <xs:attribute name="type" type="DateTypeCodeType" use="required"/>
+            <xs:attribute name="type" type="DateTypeCodeType" use="required">
+               <xs:annotation>
+                  <xs:documentation>Value of the date type selected from a controlled vocabulary.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
             <xs:attribute name="format" type="xs:string" use="optional">
                <xs:annotation>
-                  <xs:documentation>Describes the format of the date field, in formats such as YYYY/MM or MM-DD-YY, etc. If this attribute is ommited, then the format is assumed to be the XML Schema format corresponding to the type attribute value.</xs:documentation>
+                  <xs:documentation>Describes the format of the date field, in formats such as YYYY/MM or MM-DD-YY, etc. If this attribute is omitted, then the format is assumed to be the XML Schema format corresponding to the type attribute value.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
          </xs:extension>
@@ -1424,7 +1573,7 @@
             </xs:attribute>
             <xs:attribute name="startValue" type="xs:double" use="optional">
                <xs:annotation>
-                  <xs:documentation>Start, or seed, value for a incremental numeric represenation.</xs:documentation>
+                  <xs:documentation>Start, or seed, value for an incremental numeric representation.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="endValue" type="xs:double" use="optional">
@@ -1434,49 +1583,13 @@
             </xs:attribute>
             <xs:attribute name="interval" type="xs:double" use="optional">
                <xs:annotation>
-                  <xs:documentation>Value to increase, or step value" for a incremental numeric representation.</xs:documentation>
+                  <xs:documentation>Value to increase, or step value for a incremental numeric representation.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   <xs:element name="ValidDataRange" type="DataRangeType">
-      <xs:annotation>
-         <xs:documentation>Describes a valid range for text characters.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="InvalidDataRange" type="DataRangeType">
-      <xs:annotation>
-         <xs:documentation>Describes an invalid range for text characters.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:complexType name="DataRangeType">
-      <xs:annotation>
-         <xs:documentation>Defines a bounding value for text character range.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element ref="MinimumValue">
-            <xs:annotation>
-               <xs:documentation>Minimum bound value.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="MaximumValue">
-            <xs:annotation>
-               <xs:documentation>Maximum bound value.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="TopCode" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Value implying top coding (all values at or above stated value are coded with this value).</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-      <xs:attribute name="measurementUnit" type="xs:string" use="optional">
-         <xs:annotation>
-            <xs:documentation>Records the measurement unit, for example 'km', 'miles', etc.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
-   </xs:complexType>
+
    <xs:element name="MinimumValue" type="RangeValueType">
       <xs:annotation>
          <xs:documentation>Minimum bound value.</xs:documentation>
@@ -1523,7 +1636,11 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-      <xs:attribute name="regExp" type="xs:string" use="optional"/>
+      <xs:attribute name="regExp" type="xs:string" use="optional">
+         <xs:annotation>
+            <xs:documentation>Regular expression defining the allowed syntax of the number.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>   
    </xs:complexType>
    <xs:element name="Low" type="NumberRangeValueType">
       <xs:annotation>
@@ -1541,7 +1658,11 @@
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="xs:decimal">
-            <xs:attribute name="included" type="xs:boolean" default="true"/>
+            <xs:attribute name="included" type="xs:boolean" default="true">
+               <xs:annotation>
+                  <xs:documentation>Indicates that the value is included in the range.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>   
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
@@ -1551,7 +1672,11 @@
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="xs:string">
-            <xs:attribute name="included" type="xs:boolean" use="required"/>
+            <xs:attribute name="included" type="xs:boolean" use="required">
+               <xs:annotation>
+                  <xs:documentation>Indicates that the value is included in the range.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>   
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
@@ -1580,7 +1705,7 @@
             <xs:sequence>
                <xs:element ref="CategorySchemeReference" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A reference to a category scheme describing the representation. </xs:documentation>
+                     <xs:documentation>A reference to a category scheme describing the representation.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -1616,7 +1741,7 @@
    </xs:element>
    <xs:element name="CategorySchemeReference" type="ReferenceType">
       <xs:annotation>
-         <xs:documentation>A reference to a category scheme describing the valuid response values.</xs:documentation>
+         <xs:documentation>A reference to a category scheme describing the valid response values.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="GeographicRepresentationType">
@@ -1633,7 +1758,7 @@
                </xs:element>
                <xs:element name="CoordinateSystem" type="xs:string">
                   <xs:annotation>
-                     <xs:documentation>The precision of the numeric response to be applied by default to the responses, expressed as an integer indicating the number of decimal places to the right of the decimal separator.</xs:documentation>
+                     <xs:documentation> The coordinate system used for obtaining coordinate points.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element name="CoordinateZone" type="xs:string" minOccurs="0">
@@ -1666,6 +1791,26 @@
                      <xs:documentation>Use for address match coordinates only. Example: street segment match, ZIPcode centroid, etc. </xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="CoordinatePairs" minOccurs="1" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Field to capture coordinate pairs as individual pairs or as an array of pairs.</xs:documentation>
+                  </xs:annotation>
+               </xs:element> 
+               <xs:element ref="AlternateOffset" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Allows entry of a non-standard offset figure.</xs:documentation>
+                  </xs:annotation>
+               </xs:element> 
+               <xs:element ref="AlternateObject" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Allows identification of an alternate object when the default object is not measureable.</xs:documentation>
+                  </xs:annotation>
+               </xs:element> 
+               <xs:element ref="AlternateCoordinateSystem" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Allows collection of data for a case in a different coordinate system than stated in the response structure.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>                
             </xs:sequence>
             <xs:attribute name="format" type="PointFormatType" use="required">
                <xs:annotation>
@@ -1680,6 +1825,69 @@
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   
+       <xs:element name="CoordinatePairs" type="CoordinatePairsType">
+	  <xs:annotation>
+	     <xs:documentation>Field to capture coordinate pairs as individual pairs or as an array of pairs.</xs:documentation>
+	  </xs:annotation>
+       </xs:element>   
+       <xs:element name="AlternateOffset" type="TextDomainType">
+	  <xs:annotation>
+	     <xs:documentation>Allows entry of a non-standard offset figure.</xs:documentation>
+	  </xs:annotation>
+       </xs:element>   
+       <xs:element name="AlternateObject" type="TextDomainType">
+	  <xs:annotation>
+	     <xs:documentation>Allows identification of an alternate object when the default object is not measureable.</xs:documentation>
+	  </xs:annotation>
+       </xs:element>   
+       <xs:element name="AlternateCoordinateSystem" type="TextDomainType">
+	  <xs:annotation>
+	     <xs:documentation>Allows collection of data for a case in a different coordinate system than stated in the response structure.</xs:documentation>
+	  </xs:annotation>
+       </xs:element> 
+       <xs:complexType name="CoordinatePairsType">
+   		<xs:annotation>
+   			<xs:documentation>Field to capture coordinate pairs as individual pairs or as an array of pairs.</xs:documentation>
+   		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="TextDomainType">
+			    <xs:attribute name="maxArray" type="xs:integer" default="1">
+			       <xs:annotation>
+				  <xs:documentation>The maximum number of coordinate pairs listed in the array. The two values in a coordinate pair are separated by a comma. Pairs in an array are separated by the character indicated in the arraySeparator attribute. Default value is "1".</xs:documentation>
+			       </xs:annotation>
+			    </xs:attribute>
+			    <xs:attribute name="arraySeparator" type="xs:string" use="optional">
+			       <xs:annotation>
+				  <xs:documentation>The character used to separate arrays, if present. If not given a value, and if the maxArray attribute has a value greater than one, the separator is assumed to be whitespace.</xs:documentation>
+			       </xs:annotation>
+			    </xs:attribute>				
+			    
+			</xs:extension>
+		</xs:complexContent>
+   	</xs:complexType>   
+     <xs:complexType name="TextDomainType">
+      <xs:annotation>
+         <xs:documentation>Structures the response domain for a textual response.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="TextRepresentationType">
+            <xs:sequence>
+               <xs:element ref="Label" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Label for the response domain as a human-readable string.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Description" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A human-readable description of the response domain.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>   	
+       
    <!-- PROPRIETARY -->
    <xs:complexType name="ProprietaryInfoType">
    		<xs:annotation>
@@ -1691,11 +1899,15 @@
    	</xs:complexType>
    	<xs:complexType name="ProprietaryPropertyType">
    		<xs:annotation>
-   			<xs:documentation>A name-value pair providing information proprietary to the software package which produced the data. The name of a property is supplied, along with a value, which may come from a controlled vocabulary.</xs:documentation>
+   			<xs:documentation>A name-value pair providing information proprietary to the software package used to produce the data. The name of a property is supplied, along with a value, which may come from a controlled vocabulary.</xs:documentation>
    		</xs:annotation>
    		<xs:simpleContent>
    			<xs:extension base="CodeValueType">
-   				<xs:attribute name="name" type="xs:string" use="required"/>
+   				<xs:attribute name="name" type="xs:string" use="required">
+   				     <xs:annotation>
+   				          <xs:documentation>Name of the property</xs:documentation>
+   				     </xs:annotation>
+   				</xs:attribute>
    			</xs:extension>
    		</xs:simpleContent>
 	</xs:complexType>
@@ -1742,7 +1954,7 @@
          </xs:element>
          <xs:element name="MIMEType" type="xs:string" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>Provides a standard Inmternet MIME type for use by processing applications.</xs:documentation>
+               <xs:documentation>Provides a standard Internet MIME type for use by processing applications.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
@@ -1799,7 +2011,7 @@
    </xs:complexType>
    <xs:complexType name="RelationshipType">
       <xs:annotation>
-         <xs:documentation>Relationship between the item within the DDI Instance to which the external resource is relatedand that item. </xs:documentation>
+         <xs:documentation>Relationship between the item within the DDI Instance to which the external resource is related and that item.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element ref="RelatedToReference">
@@ -1813,6 +2025,35 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
+   </xs:complexType>
+   <xs:element name="RelationshipDescription" type="InternationalStringType">
+      <xs:annotation>
+         <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which it is related.</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
+   <xs:complexType name="ImageType">
+    <xs:annotation>
+       <xs:documentation>A reference to an image, with a description of ts properties and type.</xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+    	<xs:extension base="xs:anyURI">
+    		<xs:attribute name="dpi" type="xs:integer" use="optional">
+		    <xs:annotation>
+		       <xs:documentation>Provides the resolution of the image in dots per inch to assist in selecting the appropriate image for various uses.</xs:documentation>
+		    </xs:annotation>    		
+    		</xs:attribute>
+    		<xs:attribute ref="xml:lang" use="optional">
+		    <xs:annotation>
+		       <xs:documentation>Allows differention of image content by language, such as the language of a logo.</xs:documentation>
+		    </xs:annotation>    		
+    		</xs:attribute>
+    		<xs:attribute name="type" type="xs:string" use="optional">
+		    <xs:annotation>
+		       <xs:documentation>Use to identify type or specific intended use of the image (e.g., logo, web-logo, print-logo, photo, etc.).</xs:documentation>
+		    </xs:annotation>    		
+    		</xs:attribute>    		
+    	</xs:extension>
+    </xs:simpleContent>
    </xs:complexType>
    <xs:simpleType name="NoteTypeCodeType">
       <xs:annotation>
@@ -1899,11 +2140,6 @@
     
 
 <!--EMAIL-->
-   <xs:element name="Email" type="EmailType">
-      <xs:annotation>
-         <xs:documentation>An email address.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:complexType name="EmailType">
       <xs:annotation>
          <xs:documentation>Email address type (Currently restricted to Internet format user@server.ext.)</xs:documentation>
@@ -1918,6 +2154,16 @@
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
+  <xs:element name="DefaultDecimalSeparator" type="OneCharStringType">
+      <xs:annotation>
+         <xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. On the basis of the data definition in DDI documents, data processing tools could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition only makes sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="DefaultDigitGroupSeparator" type="OneCharStringType">
+      <xs:annotation>
+         <xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
+      </xs:annotation>
+   </xs:element>    
    <xs:simpleType name="EmailTypeCodeType">
       <xs:annotation>
          <xs:documentation>Type of address.</xs:documentation>
@@ -1951,12 +2197,12 @@
    </xs:simpleType>
    <xs:element name="TimeZone" type="TimeZoneCodeType">
       <xs:annotation>
-         <xs:documentation>Contains a coded value specifying a time zone as an offset from Greenwich Meridian Time.</xs:documentation>
+         <xs:documentation>Coded values specifying time zones as an offset from Greenwich Meridian Time. For example, United States Eastern Standard Time is -5.00.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:simpleType name="TimeZoneCodeType">
       <xs:annotation>
-         <xs:documentation>Coded values specifying time zones as an offset from Greenwich Meridian Time.</xs:documentation>
+         <xs:documentation>Coded values specifying time zones as an offset from Greenwich Meridian Time. For example, United States Eastern Standard Time is -5.00.</xs:documentation>
       </xs:annotation>
       <xs:restriction base="xs:string">
          <xs:enumeration value="Other"/>
@@ -2059,38 +2305,6 @@
          <xs:enumeration value="-12.00"/>
       </xs:restriction>
    </xs:simpleType>
-   <xs:simpleType name="DataTypeCodeType">
-      <xs:annotation>
-         <xs:documentation>Provides an enumerated list of data types.</xs:documentation>
-      </xs:annotation>
-      <xs:restriction base="xs:NMTOKEN">
-         <xs:enumeration value="String">
-            <xs:annotation>
-               <xs:documentation>A string datatype corresponding to W3C XML Schema's xs:string datatype.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="Boolean">
-            <xs:annotation>
-               <xs:documentation>A datatype corresponding to W3C XML Schema's xs:boolean datatype.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="URI">
-            <xs:annotation>
-               <xs:documentation>A datatype corresponding to W3C XML Schema's xs:anyURI datatype.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="InclusiveValueRange">
-            <xs:annotation>
-               <xs:documentation>This value indicates that the startValue and endValue attributes provide an inclusive numeric range of type xs:double.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="ExclusiveValueRange">
-            <xs:annotation>
-               <xs:documentation>This value indicates that the startValue and endValue attributes provide an exclusive numeric range, of type xs:double.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-      </xs:restriction>
-   </xs:simpleType>
    <xs:simpleType name="NumericTypeCodeType">
       <xs:annotation>
          <xs:documentation>Provides an enumerated list of data types.</xs:documentation>
@@ -2098,104 +2312,104 @@
       <xs:restriction base="xs:NMTOKEN">
          <xs:enumeration value="BigInteger">
             <xs:annotation>
-               <xs:documentation>An integer datatype corresponding to W3C XML Schema's xs:integer datatype.</xs:documentation>
+               <xs:documentation>An integer of unlimited size. An integer datatype corresponding to W3C XML Schema's xs:integer datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Integer">
             <xs:annotation>
-               <xs:documentation>An integer datatype corresponding to W3C XML Schema's xs:int datatype.</xs:documentation>
+               <xs:documentation>An integer number can hold a whole number, but no fraction. Integers may be either signed (allowing negative values) or unsigned (nonnegative values only). An integer datatype corresponding to W3C XML Schema's xs:int datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Long">
             <xs:annotation>
-               <xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:long datatype.</xs:documentation>
+               <xs:documentation>An integer of up to 32 bits in size (corresponding to an unsigned range of 0 to 4,294,967,295 or a signed range of -2,147,483,648 to +2,147,483,647).  A numeric datatype corresponding to W3C XML Schema's xs:long datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Short">
             <xs:annotation>
-               <xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:short datatype.</xs:documentation>
+               <xs:documentation>An integer of up to 16 bits in size (corresponding to an unsigned range of 0 to 65,535 or a signed range of -32,768 to +32,767), A numeric datatype corresponding to W3C XML Schema's xs:short datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Decimal">
             <xs:annotation>
-               <xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:decimal datatype.</xs:documentation>
+               <xs:documentation>A real number (allows fractions expressed as decimals). A numeric datatype corresponding to W3C XML Schema's xs:decimal datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Float">
             <xs:annotation>
-               <xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:float datatype.</xs:documentation>
+               <xs:documentation>Real numbers that may be stored in scientific notation (example: 20.0005, 99.9, -5000.12, 6.02e23). A numeric datatype corresponding to W3C XML Schema's xs:float datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Double">
             <xs:annotation>
-               <xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:double datatype.</xs:documentation>
+               <xs:documentation>Float of up to 32 bits. A numeric datatype corresponding to W3C XML Schema's xs:double datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Count">
             <xs:annotation>
-               <xs:documentation>A simple incrementing Integer type. The isSequence facet must be set to true, and the interval facet must be set to "1".</xs:documentation>
+               <xs:documentation>Ordinal number of objects in a finite set, discrete. A simple incrementing Integer type. The isSequence facet must be set to true, and the interval facet must be set to "1".</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Incremental">
             <xs:annotation>
-               <xs:documentation>This value indicates that the value increments according to the value provided in the interval facet, and has a true value for the isSequence facet.</xs:documentation>
+               <xs:documentation>A value that is continuous and infinite can be interval or ratio. This value indicates that the value increments according to the value provided in the interval facet, and has a true value for the isSequence facet.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
    </xs:simpleType>
    <xs:simpleType name="DateTypeCodeType">
       <xs:annotation>
-         <xs:documentation>Provides an enumerated list of data types.</xs:documentation>
+         <xs:documentation>Provides an enumerated list of data types.(ISO 8601 usage)</xs:documentation>
       </xs:annotation>
       <xs:restriction base="xs:NMTOKEN">
          <xs:enumeration value="DateTime">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:dateTime datatype.</xs:documentation>
+               <xs:documentation>Contains both the date and time as  dateTtime. A time datatype corresponding to W3C XML Schema's xs:dateTime datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Date">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:date datatype.</xs:documentation>
+               <xs:documentation>Contains the full date from the Gregorian calender YYYY-MM-DD unless an alternative format is provided. A time datatype corresponding to W3C XML Schema's xs:date datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Time">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:time datatype.</xs:documentation>
+               <xs:documentation>Contains the full time on a 24-hour clock system unless alternative format is provided. hh:mm:ss. Precision can be dropped resulting in hh:mm or hh.  A time zone can be added timeZ using the standard time zone designation +-hh:mm or +-hh. A time datatype corresponding to W3C XML Schema's xs:time datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Year">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gYear datatype.</xs:documentation>
+               <xs:documentation>Contains the 4 digit year YYYY. A time datatype corresponding to W3C XML Schema's xs:gYear datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Month">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gMonth datatype.</xs:documentation>
+               <xs:documentation>Contains the 2 digit month MM. A time datatype corresponding to W3C XML Schema's xs:gMonth datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Day">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gDay datatype.</xs:documentation>
+               <xs:documentation>Contains the 2 digit day DD. A time datatype corresponding to W3C XML Schema's xs:gDay datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="MonthDay">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gMonthDay datatype.</xs:documentation>
+               <xs:documentation>Contains the 2 digit month followed by the 2 digit day as MM-DD unless an alternative format is provided. A time datatype corresponding to W3C XML Schema's xs:gMonthDay datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="YearMonth">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gYearMonth datatype.</xs:documentation>
+               <xs:documentation>Contains the 4 digit year followed by the 2 digit month as YYYY-MM unless an alternative format is provided. A time datatype corresponding to W3C XML Schema's xs:gYearMonth datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Duration">
             <xs:annotation>
-               <xs:documentation>A time datatype corresponding to W3C XML Schema's xs:duration datatype.</xs:documentation>
+               <xs:documentation>Provides a duration of time represetned by one of the following formats (specific format must be declared) PnnYnnMnnDTnnHnnMnnS where n is replaced with the number of unit types for example "P3Y6M4DT12H30M0S" defines "a period of three years, six months, four days, twelve hours, thirty minutes, and zero seconds". Elements may be omitted if their value is zero. T is used to separate date and time elements so that P3M is 3 months and PT3M is three minutes. Alternative format PdateTtime  "P0003-06-04T12:30:00". A time datatype corresponding to W3C XML Schema's xs:duration datatype.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
          <xs:enumeration value="Timespan">
             <xs:annotation>
-               <xs:documentation>A complex datatype specifying a start date (xs:dateTime) and a duration (xs:duration). Note that this is not allowed as thre text type representing a dimension.</xs:documentation>
+               <xs:documentation>This is not allowed as a date type when describing an NCube dimension as it represents two dimensions. Complex structure containing start/end, start/duration, or duration/end. Start and end can follow any of the designated datetime structures and should be declared in format. star>/end example: "2007-03-01T13:00:00/2008-05-11T15:30:00" start/duration example:  "2007-03-01T13:00:00/P1Y2M10DT2H30M" duration/end example "P1Y2M10DT2H30M/2008-05-11T15:30:00" For start/end expressions, if any elment are missing from the end valude, they are assumed to be the same as for the start value including the time zone if used. For example a 2 hour meeting "2007-12-14T13:30/15:30". A complex datatype specifying a start date (xs:dateTime) and a duration (xs:duration). Note that this is not allowed as thre text type representing a dimension.</xs:documentation>
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
@@ -5924,6 +6138,11 @@
          <xs:documentation>References the module containing an entity which is being referenced, in case there have been local modifications made to inherited properties.</xs:documentation>
       </xs:annotation>
    </xs:element>
+   <xs:element name="Scheme" type="ReferenceType">
+      <xs:annotation>
+         <xs:documentation>References the scheme containing an item which is being referenced.</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
    <xs:element name="VersionDate" type="DateType">
       <xs:annotation>
          <xs:documentation>Date the version took effect.</xs:documentation>
@@ -5934,11 +6153,6 @@
          <xs:documentation>Textual description of the rationale/purpose for a version change.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="CodeValue" type="xs:string">
-      <xs:annotation>
-         <xs:documentation>Provides a code value.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:element name="Name" type="InternationalStringType">
       <xs:annotation>
          <xs:documentation>Human-readable name given the entity being identified. May be repeated to provide language and/or geographic alternatives.</xs:documentation>
@@ -5947,11 +6161,6 @@
    <xs:element name="Version" type="VersionType">
       <xs:annotation>
          <xs:documentation>Version of the entity that is being referenced. The version can be identified as lateBound, meaning that the latest version should be used.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="Scheme" type="SchemeType">
-      <xs:annotation>
-         <xs:documentation>Containing scheme of the entity that is being referenced.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Title" type="InternationalStringType">
@@ -5969,7 +6178,7 @@
          <xs:documentation>An alternative title by which a data collection is commonly referred, or an abbreviation  for the title.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="Creator" type="InternationalStringType">
+   <xs:element name="Creator" type="CreatorType">
       <xs:annotation>
          <xs:documentation>Person, corporate body, or agency responsible for the substantive and intellectual content of the described object.</xs:documentation>
       </xs:annotation>
@@ -5999,11 +6208,6 @@
          <xs:documentation>The copyright statement.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="Agency" type="InternationalStringType">
-      <xs:annotation>
-         <xs:documentation>Indicates the agency funding the described entity. Can be repeated for different language-versions.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:element name="Rationale" type="StructuredStringType">
       <xs:annotation>
          <xs:documentation>Indicates the reason for the embargo.</xs:documentation>
@@ -6016,7 +6220,7 @@
    </xs:element>
    <xs:element name="EventType" type="CodeValueType">
       <xs:annotation>
-         <xs:documentation/>
+         <xs:documentation>May be used to qualify the event according to a typology meaningful to the documentor.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Description" type="StructuredStringType">
@@ -6059,12 +6263,12 @@
          <xs:documentation>Description of the temporal coverage of the data described in a particular DDI module.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="Subject" type="TypedStringType">
+   <xs:element name="Subject" type="InternationalCodeValueType">
       <xs:annotation>
          <xs:documentation>A subject or list of subjects that indicate the topical coverage of the data described in a particular module/section.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="Keyword" type="InternationalStringType">
+   <xs:element name="Keyword" type="InternationalCodeValueType">
       <xs:annotation>
          <xs:documentation>A keyword (which can be supplied in multiple language-equivalent forms) to support searches on topical coverage. </xs:documentation>
       </xs:annotation>
@@ -6136,7 +6340,7 @@
    </xs:element>
       <xs:element name="GeographicLayerBase" type="ReferenceType">
          <xs:annotation>
-            <xs:documentation>Use for gegraphic polygons that are the result of layering 2 or more geographic hierarchies where the polygone being described is the interect of the layers. For example: State - County - County Subdivision - Place/Remainder - Tract [The portion of a tract that is within a single place (or non-place area) and a single county subdivision] This polygon is made by overlaying the following three geographic hierarchies: 1) State - Place, 2) State - County - Tract, and 3) State - County - Subdivision. The three GeographicLayerBase elements would point to Tract, Place, and County Subdivision.</xs:documentation>
+            <xs:documentation>Use for geographic polygons that are the result of layering 2 or more geographic hierarchies where the polygon being described is the intersect of the layers. For example: State - County - County Subdivision - Place/Remainder - Tract [The portion of a tract that is within a single place (or non-place area) and a single county subdivision] This polygon is made by overlaying the following three geographic hierarchies: 1) State - Place, 2) State - County - Tract, and 3) State - County - Subdivision. The three GeographicLayerBase elements would point to Tract, Place, and County Subdivision.</xs:documentation>
          </xs:annotation>
    </xs:element>
    <xs:element name="Values" type="GeographyValuesType">
@@ -6149,24 +6353,29 @@
          <xs:documentation>Reference to a previously defined set of geographic values.</xs:documentation>
       </xs:annotation>
    </xs:element>
+   <xs:element name="GeographicLocationSchemeReference" type="SchemeReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to a previously defined set of geographic values.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:element name="WestLongitude" type="LongitudeType">
       <xs:annotation>
-         <xs:documentation>West longitude of the bounding box.</xs:documentation>
+         <xs:documentation>West longitude of the bounding box. (xmin)</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="EastLongitude" type="LongitudeType">
       <xs:annotation>
-         <xs:documentation>East longitude of the bounding box.</xs:documentation>
+         <xs:documentation>East longitude of the bounding box. (xmax)</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="SouthLatitude" type="LatitudeType">
       <xs:annotation>
-         <xs:documentation>South latitude of the bounding box.</xs:documentation>
+         <xs:documentation>South latitude of the bounding box. (ymin)</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="NorthLatitude" type="LatitudeType">
       <xs:annotation>
-         <xs:documentation>North latitude of the bounding box.</xs:documentation>
+         <xs:documentation>North latitude of the bounding box. (ymax)</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="CoverageLimitation" type="InternationalStringType">
@@ -6176,8 +6385,7 @@
    </xs:element>
    <xs:element name="VariableReference" type="ReferenceType">
       <xs:annotation>
-         <xs:documentation>References the single code (as in the case of a single level hierarchy like a Metroplitan Area within a single country where there is one unique code, or a Variable describing the contcatenation order being used in the codes provided in the GeographicValues. This may require creating a concatenated Varible to meet this specificiation.
-</xs:documentation>
+         <xs:documentation>References the single code (as in the case of a single level hierarchy like a Metroplitan Area within a single country where there is one unique code, or a Variable describing the concatenation order being used in the codes provided in the GeographicValues. This may require creating a concatenated Varible to meet this specificiation.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="GeographyValue" type="GeographyValueType">
@@ -6217,17 +6425,17 @@
    </xs:element>
    <xs:element name="XCoordinate" type="SpatialCoordinateType">
       <xs:annotation>
-         <xs:documentation>An X coordiante (latitudinal equivilent) value.</xs:documentation>
+         <xs:documentation>An X coordiante (longitudinal equivilent) value.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="YCoordinate" type="SpatialCoordinateType">
       <xs:annotation>
-         <xs:documentation>A Y coordinate (longitudinal equivilent) value.</xs:documentation>
+         <xs:documentation>A Y coordinate (latitudinal equivilent) value.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Relationship" type="RelationshipType">
       <xs:annotation>
-         <xs:documentation>Relationship between the item within the DDI Instance to which the external resource is relatedand that item. </xs:documentation>
+         <xs:documentation>Relationship between the item within the DDI Instance to which the external resource is related and that item. </xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="RelatedToReference" type="ReferenceType">
@@ -6285,28 +6493,23 @@
          <xs:documentation>Reference to an Enforcement Agency in the organization scheme.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="Exclude" type="ExcludeType">
-      <xs:annotation>
-         <xs:documentation>An item to be excluded from the containing scheme reference.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="RelationshipDescription" type="InternationalStringType">
-      <xs:annotation>
-         <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which it is related.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:element name="SeriesStatement" type="SeriesStatementType">
 	<xs:annotation>
 		<xs:documentation>Series statement contains information about the series to which a study unit or group of study units belongs.</xs:documentation>
 	</xs:annotation>
    </xs:element>
    <xs:element name="SeriesDescription" type="StructuredStringType"/> 
-   <xs:element name="AnalysisUnit" type="CodeType">
+   <xs:element name="AnalysisUnit" type="CodeValueType">
          <xs:annotation>
             <xs:documentation>The analysis unit, which is a term which may come from a controlled vocabulary.</xs:documentation>
          </xs:annotation>
      </xs:element>
    <xs:element name="GeographicStructureReference" type="ReferenceType">
+      <xs:annotation>
+         <xs:documentation>A reference to an internal or external geographic structure in DDI 3.0 XML.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="GeographicStructureSchemeReference" type="SchemeReferenceType">
       <xs:annotation>
          <xs:documentation>A reference to an internal or external geographic structure in DDI 3.0 XML.</xs:documentation>
       </xs:annotation>
@@ -6324,6 +6527,11 @@
  <xs:element name="GeographicLevelDescription" type="StructuredStringType">
     <xs:annotation>
        <xs:documentation>Human-readable description of a geographic level, when there is no formal DDI description of it.</xs:documentation>
+    </xs:annotation>
+ </xs:element> 
+ <xs:element name="Image" type="ImageType">
+    <xs:annotation>
+       <xs:documentation>A reference to an image, with fields describing its properties and type.</xs:documentation>
     </xs:annotation>
  </xs:element>    
 </xs:schema>

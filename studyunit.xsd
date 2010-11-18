@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
+<!--
+
+Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+
+This file is part of DDI 3.0 XML Schema.
+
+DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License along
+with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:studyunit:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:a="ddi:archive:3_0_CR3" xmlns:c="ddi:conceptualcomponent:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:l="ddi:logicalproduct:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" xmlns:pi="ddi:physicalinstance:3_0_CR3"  xmlns:pr="ddi:profile:3_0_CR3" targetNamespace="ddi:studyunit:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <xs:import namespace="ddi:archive:3_0_CR3" schemaLocation="archive.xsd"/>
@@ -24,19 +44,19 @@
                </xs:element>
                <xs:element ref="Abstract" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A human-readable abstract of the study unit describing the nature and scope of the data collection, special characteristics of its content. Note that detailed information on the purpose of the study and structured coverage information are to be entered in Purpose and Coverage.</xs:documentation>
+                     <xs:documentation>A human-readable abstract of the study unit describing the nature and scope of the data collection, special characteristics of its content. Note that detailed information on the purpose of the study and structured coverage information are to be entered in Purpose and Coverage. During study development, or when creating documentation from incomplete legacy materials, this field should contain an appropriate statement such as "Under development", "Unavailable", "Not provided by creator", or some other similar statement.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:UniverseReference" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>The group of persons or other elements that are the object of research and to which any analytic results refer. Age, nationality, and residence commonly help to delineate a given universe, but any of a number of factors may be involved, such as sex, race, income, veteran status, criminal convictions, etc. The universe may consist of elements other than persons, such as housing units, court cases, deaths, countries, etc. In general, it should be possible to tell from the description of the universe whether a given individual or element (hypothetical or real) is a member of the population under study. A universe may be described as "inclusive" or "exclusive". This studyunit level reference is normally to the top level of the UniverseScheme.</xs:documentation>
+                     <xs:documentation>Reference to the universe statement from the universe scheme, describing the group of persons or other elements that are the object of research and to which any analytic results refer. Age, nationality, and residence commonly help to delineate a given universe, but any of a number of factors may be involved, such as sex, race, income, veteran status, criminal convictions, etc. The universe may consist of elements other than persons, such as housing units, court cases, deaths, countries, etc. In general, it should be possible to tell from the description of the universe whether a given individual or element (hypothetical or real) is a member of the population under study. A universe may be described as "inclusive" or "exclusive". This studyunit level reference is normally to the top level of the UniverseScheme. During development or when creating documentation from incomplete legacy materials this field should contain an appropriate statement such as "Under development", "Unavailable", "Not provided by creator", or other similar statement.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:SeriesStatement" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Information regarding the official series of which a study unit or group of study units is a part. You may point to the URL of a series repository and then use the Name field to indicate the series itself as identified in that repository. Fields also exist for describing the series and providing abbreviations.</xs:documentation>
+                     <xs:documentation>Information regarding the official series of which a study unit or group of study units is a part. One may point to the URL of a series repository and then use the Name field to indicate the series itself as identified in that repository. Fields also exist for describing the series and providing abbreviations.</xs:documentation>
                   </xs:annotation>
-               </xs:element>               
+               </xs:element>
                <xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Contains details of the study unit's funding, including information about grants, agencies, etc.</xs:documentation>
@@ -44,7 +64,7 @@
                </xs:element>
                <xs:element ref="Purpose" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>The purpose of the study, in human-readable form. This should include detailed information on the investigator's primary study questions or hypotheses as well as information on any legal basis for the data collection, such as laws requiring the collection of census data for apportionment purposes.</xs:documentation>
+                     <xs:documentation>The purpose of the study, in human-readable form. This should include detailed information on the investigator's primary study questions or hypotheses as well as information on any legal basis for the data collection, such as laws requiring the collection of census data for apportionment purposes. During study development, or when creating documentation from incomplete legacy materials, this field should contain an appropriate statement such as "Under development", "Unavailable", "Not provided by creator", or some other similar statement.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Coverage" minOccurs="0">
@@ -54,19 +74,19 @@
                </xs:element>
                <xs:element ref="r:AnalysisUnit" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Describes the unit of analysis if shared by all variables contained directly in the study unit, using a term which may be taken from a controlled vocabulary.</xs:documentation>
+                     <xs:documentation>Allows the use of a controlled vocabulary to list all of the units of analysis used in the study. Should be repeated to describe multiple units of analysis.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element name="AnalysisUnitsCovered" type="r:InternationalStringType" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A narrative of the units of analysis in the study unit. May be repeated to provide for multiple-language support.</xs:documentation>
                   </xs:annotation>
-               </xs:element>               
-		<xs:element ref="KindOfData" minOccurs="0" maxOccurs="unbounded">
+               </xs:element>
+        <xs:element ref="KindOfData" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Describes, with a string or a term from a controlled vocabulary, the kind of data. Examples include survey data, census/enumeration data, aggregate data, clinical data, event/transaction data, program source code, machine-readable text, administrative records data, experimental data, psychological test, textual data, coded textual, coded documents, time budget diaries, observation data/ratings, process-produced data, etc.</xs:documentation>
+                     <xs:documentation>Describes, with a string or a term from a controlled vocabulary, the kind of data documented in the logical product(s) of a study unit. Examples include survey data, census/enumeration data, administrative data, measurement data, assessment data, demographic data, voting data, etc.</xs:documentation>
                   </xs:annotation>
-               </xs:element>               
+               </xs:element>
                <xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Contains references to other materials relevent to the study unit, whether in DDI form or external. References can be made from items in this section to any identifiable element in the instance.</xs:documentation>
@@ -109,7 +129,7 @@
                </xs:element>
                <xs:element ref="a:Archive" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Archive serves as a packet containing both persistant and transcient information. Describes archive-specific material including item record information as well as lifecycle information. The metadata in the package is divided into elements that are persistant (should remain with the Study Unit through its life-cycle), and transcient (pertinent only to the Study Unit as held by that archive).</xs:documentation>
+                     <xs:documentation>Archive serves as a packet containing both persistent and transient information. Describes archive-specific material including item record information as well as lifecycle information. The metadata in the package is divided into elements that are persistent (should remain with the Study Unit through its life-cycle), and transient (pertinent only to the Study Unit as held by that archive).</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="pr:DDIProfile" minOccurs="0" maxOccurs="unbounded">
@@ -128,22 +148,26 @@
    </xs:complexType>
    <xs:complexType name="KindOfDataType">
          <xs:annotation>
-            <xs:documentation>Describes, with a string or a term from a controlled vocabulary, the kind of data. Examples include survey data, census/enumeration data, aggregate data, clinical data, event/transaction data, program source code, machine-readable text, administrative records data, experimental data, psychological test, textual data, coded textual, coded documents, time budget diaries, observation data/ratings, process-produced data, etc.</xs:documentation>
+            <xs:documentation>Describes, with a string or a term from a controlled vocabulary, the kind of data documented in the logical product(s) of a study unit. Examples include survey data, census/enumeration data, administrative data, measurement data, assessment data, demographic data, voting data, etc.</xs:documentation>
          </xs:annotation>
          <xs:simpleContent>
-         	<xs:extension base="r:CodeValueType">
-         		<xs:attribute name="type" type="KindOfDataTypeType" use="optional"/>
-         	</xs:extension>
+            <xs:extension base="r:CodeValueType">
+                <xs:attribute name="type" type="KindOfDataTypeType" use="optional">
+                              <xs:annotation>
+                                     <xs:documentation>Provides a description of the types of data described by the KindOfData element.</xs:documentation>
+                              </xs:annotation>
+                        </xs:attribute>
+            </xs:extension>
          </xs:simpleContent>
    </xs:complexType>
    <xs:element name="Abstract" type="r:IdentifiedStructuredStringType">
       <xs:annotation>
-         <xs:documentation>A human-readable abstract of the study unit describing the nature and scope of the data collection, special characteristics of its content. Note that detailed information on the purpose of the study and structured coverage information are to be entered in Purpose and Coverage.</xs:documentation>
+         <xs:documentation>A human-readable abstract of the study unit describing the nature and scope of the data collection, special characteristics of its content. Note that detailed information on the purpose of the study and structured coverage information are to be entered in Purpose and Coverage. During study development, or when creating documentation from incomplete legacy materials, this field should contain an appropriate statement such as "Under development", "Unavailable", "Not provided by creator", or some other similar statement</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Purpose" type="r:IdentifiedStructuredStringType">
       <xs:annotation>
-         <xs:documentation>The purpose of the study, in human-readable form. This should include detailed information on the investigator's primary study questions or hypotheses as well as information on any legal basis for the data collection, such as laws requiring the collection of census data for apportionment purposes.</xs:documentation>
+         <xs:documentation>The purpose of the study, in human-readable form. This should include detailed information on the investigator's primary study questions or hypotheses as well as information on any legal basis for the data collection, such as laws requiring the collection of census data for apportionment purposes. During study development, or when creating documentation from incomplete legacy materials, this field should contain an appropriate statement such as "Under development", "Unavailable", "Not provided by creator", or some other similar statement.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="DDIProfileReference" type="r:ReferenceType">
@@ -153,18 +177,30 @@
    </xs:element>
       <xs:element name="KindOfData" type="KindOfDataType">
          <xs:annotation>
-            <xs:documentation>Describes, with a string or a term from a controlled vocabulary, the kind of data. Examples include survey data, census/enumeration data, aggregate data, clinical data, event/transaction data, program source code, machine-readable text, administrative records data, experimental data, psychological test, textual data, coded textual, coded documents, time budget diaries, observation data/ratings, process-produced data, etc.</xs:documentation>
+            <xs:documentation>Describes, with a string or a term from a controlled vocabulary, the kind of data documented in the logical product(s) of a study unit. Examples include survey data, census/enumeration data, administrative data, measurement data, assessment data, demographic data, voting data, etc.</xs:documentation>
          </xs:annotation>
    </xs:element>
-   
+
    <xs:simpleType name="KindOfDataTypeType">
       <xs:annotation>
          <xs:documentation>Provides a description of the types of data described by the KindOfData element.</xs:documentation>
       </xs:annotation>
       <xs:restriction base="xs:string">
-       <xs:enumeration value="Qualitative"/>
-       <xs:enumeration value="Quantitative"/>
-       <xs:enumeration value="Mixed"/>
+       <xs:enumeration value="Qualitative">
+          <xs:annotation>
+             <xs:documentation>Narrative or descriptive accounts that may be subjected to interpretive analysis</xs:documentation>
+          </xs:annotation>
+       </xs:enumeration>
+       <xs:enumeration value="Quantitative">
+          <xs:annotation>
+             <xs:documentation>Numerical or coded data that may be subjected to statistical analysis</xs:documentation>
+          </xs:annotation>
+       </xs:enumeration>
+       <xs:enumeration value="Mixed">
+          <xs:annotation>
+             <xs:documentation>Both qualitative and quantitative data within the same collection.</xs:documentation>
+          </xs:annotation>
+       </xs:enumeration>
       </xs:restriction>
    </xs:simpleType>
 </xs:schema>

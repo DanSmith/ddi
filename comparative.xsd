@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
+<!--
+
+Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+
+This file is part of DDI 3.0 XML Schema.
+
+DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License along
+with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:comparative:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="ddi:datacollection:3_0_CR3" schemaLocation="datacollection.xsd"/>
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
@@ -109,8 +129,8 @@
             <xs:annotation>
                <xs:documentation>Provides a type code for commonality of the two schemes/items. Suggested values are "Identical", "High", "Medium", "Low", "None".</xs:documentation>
             </xs:annotation>
-         </xs:element>         
-         <xs:element name="CommonalityWeight" type="xs:float" minOccurs="0">
+         </xs:element>
+         <xs:element name="CommonalityWeight" type="CommonalityWeightType" minOccurs="0">
             <xs:annotation>
                <xs:documentation>A value between 0 and 1 expressing the degree of commonality (0 indicates none, 1 indicates that they are identical).</xs:documentation>
             </xs:annotation>
@@ -119,16 +139,30 @@
             <xs:annotation>
                <xs:documentation>A user-defined property defining the corrrespondence.</xs:documentation>
             </xs:annotation>
-         </xs:element>      
+         </xs:element>
       </xs:sequence>
-   </xs:complexType>   
+   </xs:complexType>
+   <xs:simpleType name="CommonalityWeightType">
+    <xs:restriction base="xs:float">
+        <xs:minInclusive value="0"/>
+        <xs:maxInclusive value="1"/>
+    </xs:restriction>
+   </xs:simpleType>
    <xs:complexType name="UserDefinedCorrespondencePropertyType">
             <xs:annotation>
-               <xs:documentation>A property defining the correspondence of two schemes/items, consisting of a name and a value.</xs:documentation>
-            </xs:annotation>   
+               <xs:documentation>User-defined correspondence of two schemes or items, consisting of a name and a value.</xs:documentation>
+            </xs:annotation>
             <xs:sequence>
-            	<xs:element name="Name" type="xs:string"/>
-            	<xs:element name="Value" type="xs:string"/>
+                <xs:element name="Name" type="xs:string">
+                   <xs:annotation>
+                      <xs:documentation>Name for the correspondence of two schemes or items</xs:documentation>
+                   </xs:annotation>
+                </xs:element>
+                <xs:element name="Value" type="xs:string">
+                   <xs:annotation>
+                      <xs:documentation>Value for the correspondence of two schemes or items</xs:documentation>
+                   </xs:annotation>
+                </xs:element>
             </xs:sequence>
    </xs:complexType>
    <xs:complexType name="CodeMapType">
@@ -148,14 +182,14 @@
                      <xs:documentation>References the coce scheme that is the target for the mapping.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-		 <xs:element ref="Correspondence">
-		    <xs:annotation>
-		       <xs:documentation>Describes the difference between source and target.</xs:documentation>
-		    </xs:annotation>
-		 </xs:element>               
+         <xs:element ref="Correspondence">
+            <xs:annotation>
+               <xs:documentation>Describes the difference between source and target schemes.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
                <xs:element ref="d:GenerationInstruction" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Allows for use of programmatic logic to construct a detailed comparison map between individual codes in the source an and target schemes.</xs:documentation>
+                     <xs:documentation>Allows for use of programmatic logic to construct a detailed comparison map between individual codes in the source and target schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -169,7 +203,7 @@
       <xs:sequence>
          <xs:element name="SourceItem" type="xs:NCName">
             <xs:annotation>
-               <xs:documentation>References an item in the source scheme. For codes, this is the code value - for other items, it is the ID.</xs:documentation>
+               <xs:documentation>References an item in the source scheme.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element name="TargetItem" type="xs:NCName">
@@ -179,13 +213,13 @@
          </xs:element>
          <xs:element ref="Correspondence">
             <xs:annotation>
-               <xs:documentation>Describes the difference between source and target.</xs:documentation>
+               <xs:documentation>Describes the correspondence between source and target items</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
       <xs:attribute name="alias" type="xs:NCName" use="optional">
          <xs:annotation>
-            <xs:documentation>Allows for an alias to be assigned to the correspondence between two items, so that it can be referred to with a single name, referring to both of the related items.</xs:documentation>
+            <xs:documentation>Allows for an alias to be assigned to the correspondence between two items, so that it can be referred to with a single name, that would include both related items.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
    </xs:complexType>
@@ -235,10 +269,10 @@
       </xs:annotation>
    </xs:element>
    <xs:element name="Correspondence" type="CorrespondenceType">
-	  <xs:annotation>
-	     <xs:documentation>Describes the correspondence between the target and source schemes.</xs:documentation>
-	  </xs:annotation>
-    </xs:element>   
+      <xs:annotation>
+         <xs:documentation>Describes the correspondence between the target and source schemes.</xs:documentation>
+      </xs:annotation>
+    </xs:element>
    <xs:element name="ItemMap" type="ItemMapType">
       <xs:annotation>
          <xs:documentation>Maps an individual item in the source scheme to an item in the target scheme. </xs:documentation>
@@ -253,7 +287,7 @@
       <xs:annotation>
          <xs:documentation>Describes the differences between source and target schemes/items. </xs:documentation>
       </xs:annotation>
-   </xs:element>   
+   </xs:element>
    <xs:element name="CommonalityTypeCoded" type="r:CodeValueType">
       <xs:annotation>
          <xs:documentation>Provides a type code defining the commonality between source and target schemes/items.</xs:documentation>
@@ -263,5 +297,5 @@
       <xs:annotation>
          <xs:documentation>Provides a user-defined name-value pair describing the correspondence between source and target schemes/items. </xs:documentation>
       </xs:annotation>
-   </xs:element>   	     
+   </xs:element>
 </xs:schema>

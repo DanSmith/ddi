@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
+<!--
+
+Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+
+This file is part of DDI 3.0 XML Schema.
+
+DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License along
+with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:physicalinstance:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <xs:element name="PhysicalInstance" type="PhysicalInstanceType">
@@ -23,7 +43,7 @@
                   <xs:annotation>
                      <xs:documentation>Allows for assigning a digital fingerprint to the data file.</xs:documentation>
                   </xs:annotation>
-               </xs:element>               
+               </xs:element>
                <xs:element ref="r:Coverage" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Includes information about the topical, spatial, and temporal coverage of the physical instance.</xs:documentation>
@@ -54,11 +74,11 @@
                      <xs:documentation>Includes information about the file structure, as well as other characteristics that are specific to the physical instance.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-		<xs:element ref="r:ProprietaryInfo" minOccurs="0">
+        <xs:element ref="r:ProprietaryInfo" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Contains information proprietary to the software package which produced the data file. This is expressed as a set of name-value pairs. The value may be taken from a controlled vocabulary.</xs:documentation>
-                  </xs:annotation>		
-		</xs:element>
+                  </xs:annotation>
+        </xs:element>
                <xs:element ref="Statistics" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Includes variable and category statistics data documented in the physical instance, or a reference to a physical instance where the statistics are described or located in line.</xs:documentation>
@@ -68,27 +88,31 @@
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   <xs:element name="Fingerprint" type="FingerprintType"/>
+   <xs:element name="Fingerprint" type="FingerprintType">
+      <xs:annotation>
+         <xs:documentation>Allows for assigning a digital fingerprint to the data file.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:complexType name="FingerprintType">
       <xs:annotation>
          <xs:documentation>Allows for assigning a digital fingerprint to the data file.</xs:documentation>
-      </xs:annotation>   
+      </xs:annotation>
       <xs:sequence>
-      	<xs:element name="Value" type="xs:string">
-      		<xs:annotation>
-		         <xs:documentation>Contains the value of the digital fingerprint.</xs:documentation>
-      		</xs:annotation>
-      	</xs:element>
-      	<xs:element name="AlgorithmSpecification" type="xs:string">
-      		<xs:annotation>
-		         <xs:documentation>Specifies the type of the fingerprint (what algorithm or scheme).</xs:documentation>
-      		</xs:annotation>
-      	</xs:element>
-      	<xs:element name="AlgorithmVersion" type="xs:string" minOccurs="0">
-      		<xs:annotation>
-		         <xs:documentation>Contains the version of the algorithm.</xs:documentation>
-      		</xs:annotation>
-      	</xs:element>      	
+        <xs:element name="Value" type="xs:string">
+            <xs:annotation>
+                 <xs:documentation>Contains the value of the digital fingerprint.</xs:documentation>
+            </xs:annotation>
+        </xs:element>
+        <xs:element name="AlgorithmSpecification" type="xs:string">
+            <xs:annotation>
+                 <xs:documentation>Specifies the type of the fingerprint (what algorithm or scheme).</xs:documentation>
+            </xs:annotation>
+        </xs:element>
+        <xs:element name="AlgorithmVersion" type="xs:string" minOccurs="0">
+            <xs:annotation>
+                 <xs:documentation>Contains the version of the algorithm.</xs:documentation>
+            </xs:annotation>
+        </xs:element>
       </xs:sequence>
    </xs:complexType>
    <xs:complexType name="GrossFileStructureType">
@@ -165,7 +189,7 @@
    </xs:complexType>
    <xs:element name="Path" type="PathType">
       <xs:annotation>
-         <xs:documentation>Provides a machine-readable path expression for the data file's location (eg Java).</xs:documentation>
+         <xs:documentation>Provides a machine-readable path expression (e.g., Java). for the data file's location </xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="URI" type="URIType">
@@ -220,7 +244,7 @@
    </xs:complexType>
    <xs:complexType name="StatisticalDataFileReferenceType">
       <xs:annotation>
-         <xs:documentation>This type structures a reference to a physicalinstance that describes a data file containing the summary and/or category statistics OR contains the statistics in-line as in the case of the same data stored as an ascii file and as an ORACLE file where the summary and category statistics are listed only in one of the physical instance files.</xs:documentation>
+         <xs:documentation>References a PhysicalInstance module that describes a data file containing the summary and/or category statistics OR contains the statistics in-line.  For example, when the same data are stored as an ascii file and as an ORACLE file, the summary and category statistics would only be listed in one of the physical instance files, and referenced in the other(s).</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element ref="DataFileReference">
@@ -253,7 +277,7 @@
          <xs:choice>
             <xs:element ref="WeightUsedReference" minOccurs="0">
                <xs:annotation>
-                  <xs:documentation>Reference to a weight described in the sample procedure in the methodology description.</xs:documentation>
+                  <xs:documentation>Reference to a weight described in the sample procedure in the methodology description that was used to create the statisitic.</xs:documentation>
                </xs:annotation>
             </xs:element>
             <xs:element ref="WeightVariableReference" minOccurs="0">
@@ -264,7 +288,7 @@
          </xs:choice>
          <xs:element ref="ExcludedMissingCategoryReference" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Indicates the missing values that were excluded from the statistic. Contains a reference to the category. For the missing value.</xs:documentation>
+               <xs:documentation>Indicates the missing values that were excluded from the statistic. Contains a reference to the category. For the missing value.Indicates the missing values that were excluded from the statistic. Contains a reference to the category for the missing value.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="SummaryStatistic" minOccurs="0" maxOccurs="unbounded">
@@ -308,7 +332,7 @@
          </xs:element>
          <xs:element name="Weighted" type="xs:boolean">
             <xs:annotation>
-               <xs:documentation>Value of true indicates that the weight reference at the variable statistics level is used.</xs:documentation>
+               <xs:documentation>Value of true indicates that the weight referenced at the variable statistics level was used.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element name="Value" type="xs:decimal">
@@ -325,7 +349,7 @@
    </xs:complexType>
    <xs:complexType name="CategoryStatisticTypeCodedType">
       <xs:annotation>
-         <xs:documentation/>
+         <xs:documentation>A suggested enumeration of category statistics.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
          <xs:restriction base="r:CodeValueType">
@@ -374,12 +398,12 @@
                   <xs:documentation>CumulativePercent</xs:documentation>
                </xs:annotation>
             </xs:enumeration>
-            <xs:attribute name="otherValue" type="xs:string" use="optional">
+            <xs:enumeration value="UseOther">
                <xs:annotation>
-                  <xs:documentation/>
+                  <xs:documentation>See otherValue attribute Other</xs:documentation>
                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="codeListID" type="xs:string" fixed="Group Type" use="required">
+            </xs:enumeration>
+            <xs:attribute name="codeListID" type="xs:string" fixed="Category Statistic Type" use="required">
                <xs:annotation>
                   <xs:documentation>Identification of the code list that this value is taken from.</xs:documentation>
                </xs:annotation>
@@ -392,6 +416,11 @@
             <xs:attribute name="codeListVersion" type="xs:string" fixed="1.0">
                <xs:annotation>
                   <xs:documentation>Version of the code list.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="otherValue" type="xs:string" use="optional">
+               <xs:annotation>
+                  <xs:documentation>Other Value.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
          </xs:restriction>
@@ -426,7 +455,7 @@
    </xs:complexType>
    <xs:complexType name="FilterCategoryStatisticsType">
       <xs:annotation>
-         <xs:documentation>Provides filtered category statistics.</xs:documentation>
+         <xs:documentation>Provides a filtered category statistic.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element name="FilterCategoryValue" type="xs:string">
@@ -460,7 +489,7 @@
    </xs:complexType>
    <xs:complexType name="SummaryStatisticType">
       <xs:annotation>
-         <xs:documentation>Includes a summary statictic for a variable.</xs:documentation>
+         <xs:documentation>Includes a summary statistic for a variable.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element ref="SummaryStatisticType">
@@ -616,12 +645,12 @@
                   <xs:documentation>TenthDecile</xs:documentation>
                </xs:annotation>
             </xs:enumeration>
-            <xs:attribute name="otherValue" type="xs:string" use="optional">
+            <xs:enumeration value="UseOther">
                <xs:annotation>
-                  <xs:documentation/>
+                  <xs:documentation>See otherValue attribute Other</xs:documentation>
                </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="codeListID" type="xs:string" fixed="Group Type" use="required">
+            </xs:enumeration>
+            <xs:attribute name="codeListID" type="xs:string" fixed="Summary Statistic Type" use="required">
                <xs:annotation>
                   <xs:documentation>Identification of the code list that this value is taken from.</xs:documentation>
                </xs:annotation>
@@ -634,6 +663,11 @@
             <xs:attribute name="codeListVersion" type="xs:string" fixed="1.0">
                <xs:annotation>
                   <xs:documentation>Version of the code list.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="otherValue" type="xs:string" use="optional">
+               <xs:annotation>
+                  <xs:documentation>Other Value.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
          </xs:restriction>
@@ -649,12 +683,6 @@
          <xs:documentation>A suggested enumeration of summary statistics.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:simpleType name="SummaryStatisticTypeCodeType">
-      <xs:annotation>
-         <xs:documentation>Code list for the type of a summary statistic.</xs:documentation>
-      </xs:annotation>
-      <xs:restriction base="xs:NMTOKEN"/>
-   </xs:simpleType>
    <xs:element name="RecordLayoutReference" type="r:ReferenceType">
       <xs:annotation>
          <xs:documentation>References the record layout of the data documented in the physical instance.</xs:documentation>
@@ -682,7 +710,7 @@
    </xs:element>
    <xs:element name="StatisticalDataFileReference" type="StatisticalDataFileReferenceType">
       <xs:annotation>
-         <xs:documentation>This is a reference to a physicalinstance that describes a data file containing the summary and/or category statistics OR contains the statistics in-line as in the case of the same data stored as an ascii file and as an ORACLE file where the summary and category statistics are listed only in one of the physical instance files.</xs:documentation>
+         <xs:documentation>This is a reference to a PhysicalInstance module that describes a data file containing the summary and/or category statistics OR contains the statistics in-line. For example, when the same data are stored as an ascii file and as an ORACLE file, the summary and category statistics would only be listed in one of the physical instance files, and referenced in the other(s).</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="DataFileReference" type="r:ReferenceType">
