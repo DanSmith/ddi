@@ -6,17 +6,17 @@
 <!-- These are the entity sets for ISO Latin 1 characters for the XHTML -->
 <!ENTITY % HTMLlat1 PUBLIC
    "-//W3C//ENTITIES Latin 1 for XHTML//EN"
-   "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-lat1.ent">
+   "xhtml-lat1.ent">
 %HTMLlat1;
 <!-- These are the entity sets for special characters for the XHTML -->
 <!ENTITY % HTMLsymbol PUBLIC
    "-//W3C//ENTITIES Symbols for XHTML//EN"
-   "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-symbol.ent">
+   "xhtml-symbol.ent">
 %HTMLsymbol;
 <!-- These are the entity sets for symbol characters for the XHTML -->
 <!ENTITY % HTMLspecial PUBLIC
    "-//W3C//ENTITIES Special for XHTML//EN"
-   "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-special.ent">
+   "xhtml-special.ent">
 %HTMLspecial;
 ]>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
