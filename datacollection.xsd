@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:datacollection:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:l="ddi:logicalproduct:3_0_CR3" targetNamespace="ddi:datacollection:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
@@ -123,6 +123,11 @@
       			      <xs:documentation>Describes a data source.</xs:documentation>
       			   </xs:annotation>
       			</xs:element>
+      			<xs:element ref="DataCollectionDate">
+      			   <xs:annotation>
+      			      <xs:documentation>Provides the date or date range of this data collection event and provides a cycle number when this collection is part of a series of data collection events.</xs:documentation>
+      			   </xs:annotation>
+      			</xs:element>      			
       			<xs:element ref="DataCollectionFrequency" minOccurs="0" maxOccurs="unbounded">
       			   <xs:annotation>
       			      <xs:documentation>Describes the frequency of data collection. This may be a single point in time if appropriate, or a cycle.</xs:documentation>
@@ -147,6 +152,18 @@
                   </xs:sequence>
                </xs:extension>
       </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="DataCollectionFrequencyType">
+ <xs:annotation>
+         <xs:documentation>Provides the intended frequency of data collection, for example monthly, yearly, weekly preferably using an optional controlled vocabulary in the IntendedFrequency element. Date of first collection should be provided in StartDate as a basis for defining periodicity. EndDate should be entered for data collection cycles with a known or anticipated end date. EndDate is omitted in data collection series that are intended to be on-going.</xs:documentation>
+      </xs:annotation>
+       <xs:complexContent>
+               <xs:extension base="r:DateType">
+                 <xs:sequence>
+               		<xs:element name="IntendedFrequency" type="r:CodeValueType" minOccurs="0"/>
+               	 </xs:sequence>
+               </xs:extension>
+       </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="DataSourceType">
       <xs:annotation>
@@ -1137,9 +1154,9 @@
          <xs:documentation>A significant characteristic of the data source that may effect understanding or collection of the data. For example: legibility of data source affected due to water damage.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="DataCollectionFrequency" type="r:DateType">
+   <xs:element name="DataCollectionFrequency" type="DataCollectionFrequencyType">
       <xs:annotation>
-         <xs:documentation>Describes the frequency of data collection. This may be a single point in time if appropriate, or a cycle.</xs:documentation>
+         <xs:documentation>Provides the intended frequency of data collection, for example monthly, yearly, weekly preferably using an optional controlled vocabulary in the attribute intendedFrequncy. Date of first collection should be provided in StartDate as a basis for defining periodicity. EndDate should be entered for data collection cycles with a known or anticipated end date. EndDate is omitted in data collection series that are intended to be on-going. </xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="ModeOfCollection" type="r:IdentifiedStructuredStringType">
@@ -1380,6 +1397,11 @@
    <xs:element name="IsOverride" type="r:ReferenceType">
       <xs:annotation>
          <xs:documentation>Provides a reference to the GeneralInstruction which the containing GeneralInstruction overrides.</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
+   <xs:element name="DataCollectionDate" type="r:DateType">
+      <xs:annotation>
+         <xs:documentation>Provides the date or date range of this data collection event and provides a cycle number when this collection is part of a series of data collection events.</xs:documentation>
       </xs:annotation>
    </xs:element>   
 </xs:schema>

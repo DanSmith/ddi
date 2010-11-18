@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:ds="ddi:dataset:3_0_CR3" targetNamespace="ddi:physicaldataproduct:3_0_CR3" elementFormDefault="qualified">
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <!-- PHYSICAL DATA PRODUCT -->
@@ -80,11 +80,6 @@
 			 <xs:element ref="LogicalProductReference" maxOccurs="unbounded">
 			  <xs:annotation>
 			     <xs:documentation>References the logical data product that describes the intellectual content of this physical data product.</xs:documentation>
-			  </xs:annotation>
-		       </xs:element>
-		       <xs:element name="CharacterSet" type="xs:string">
-			  <xs:annotation>
-			     <xs:documentation>Character set used in the data file (e.g., US ASCII, EBCDIC, UTF-8).</xs:documentation>
 			  </xs:annotation>
 		       </xs:element>
 		       <xs:element name="Format" type="xs:string" minOccurs="0">
@@ -206,11 +201,21 @@
    		<xs:extension base="r:IdentifiableType">
    			<xs:sequence>
    				<xs:element ref="PhysicalStructureReference"/>
+			       <xs:element name="CharacterSet" type="r:CodeValueType">
+				  <xs:annotation>
+				     <xs:documentation>Character set used in the data file (e.g., US ASCII, EBCDIC, UTF-8). This is a required field. If the character set is not known, for example for some proprietary data files, enter "unspecified".</xs:documentation>
+				  </xs:annotation>
+			       </xs:element>   
+			       <xs:element name="ArrayBase" type="xs:integer">
+				  <xs:annotation>
+				     <xs:documentation>Sets the array base for any arrays used in the definition (that is, whether the first value is in position 0 or 1, etc.). This may be the data array in a delimited data file or the measure array for measures that are bundled and stored in a single location. Array base is generally set to either 0 or 1. There is no override provided as systems processing a record would use a consistent array base.</xs:documentation>
+				  </xs:annotation>
+			       </xs:element>			       
    			</xs:sequence>
    		</xs:extension>
    	</xs:complexContent>
    </xs:complexType>
-   <xs:element name="PhysicalStructureReference">
+   <xs:element name="PhysicalStructureReference" type="PhysicalStructureReferenceType">
      <xs:annotation>
    	 <xs:documentation>References a physical structure and the IDs of the physical record segments from that structure which are used by the physical instance.</xs:documentation>
       </xs:annotation>
@@ -340,12 +345,17 @@
                <xs:documentation>Delimiter definition for delimited (free field) data. Allowed values are: Empty (default), Tab, Blank, AnyString. If a delimiter is used, free field (delimited data) is assumed; binary formats are not allowed.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:sequence minOccurs="0">
-            <xs:element name="StartPosition" type="xs:integer">
+         <xs:sequence>
+            <xs:element name="StartPosition" type="xs:integer" minOccurs="0">
                <xs:annotation>
-                  <xs:documentation>Position of the first character of the data item in fixed format, or array number of the data item for delimited files.</xs:documentation>
+                  <xs:documentation>Position of the first character of the data item in fixed format file.</xs:documentation>
                </xs:annotation>
             </xs:element>
+            <xs:element name="ArrayPosition" type="xs:integer" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Array number of the data item for delimited files.</xs:documentation>
+               </xs:annotation>
+            </xs:element>            
             <xs:element name="EndPosition" type="xs:integer" minOccurs="0">
                <xs:annotation>
                   <xs:documentation>Position of the last character of the data item in fixed format. Must be specified if a value for Width is not provided.</xs:documentation>

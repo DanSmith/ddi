@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct/proprietary:3_0_Beta" xmlns:r="ddi:reusable:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" targetNamespace="ddi:physicaldataproduct/proprietary:3_0_Beta" elementFormDefault="qualified">
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
 	<xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
@@ -21,8 +21,9 @@
 						<xs:element ref="CodedDataAsNumeric"/>
 						<xs:element ref="CodedDataAsText"/>
 					</xs:choice>
-					<xs:element ref="ProprietaryInfo" minOccurs="0"/>
-					<xs:element ref="DataItems"/>
+					<xs:element ref="DefaultVariableSchemeReference"/>
+					<xs:element ref="r:ProprietaryInfo" minOccurs="0"/>
+					<xs:element ref="DataItem" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -34,24 +35,6 @@
 		<xs:sequence>
 			<xs:element ref="r:Description" maxOccurs="unbounded"/>
 		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ProprietaryInfoType">
-		<xs:annotation>
-			<xs:documentation>Contains information proprietary to the software package which produced the data file. This is expressed as a set of name-value pairs. </xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element ref="ProprietaryProperty" maxOccurs="unbounded"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ProprietaryPropertyType">
-		<xs:annotation>
-			<xs:documentation>A name-vlue pair providing information proprietary to the software package which produced the data. The name of a property is supplied, along with a value.</xs:documentation>
-		</xs:annotation>
-		<xs:simpleContent>
-			<xs:extension base="xs:string">
-				<xs:attribute name="name" type="xs:string" use="required"/>
-			</xs:extension>
-		</xs:simpleContent>
 	</xs:complexType>
 	<xs:complexType name="DataItemsType">
 		<xs:annotation>
@@ -68,8 +51,8 @@
 		<xs:sequence>
 			<xs:element ref="VariableReference"/>
 			<xs:element ref="ProprietaryDataType" minOccurs="0"/>
-			<xs:element ref="ProprietaryOutputFormatType" minOccurs="0"/>
-			<xs:element ref="ProprietaryInfo" minOccurs="0"/>
+			<xs:element ref="ProprietaryOutputFormat" minOccurs="0"/>
+			<xs:element ref="r:ProprietaryInfo" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element name="PhysicalRecordSegmentReference" type="r:ReferenceType">
@@ -107,36 +90,26 @@
 			<xs:documentation/>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="ProprietaryInfo" type="ProprietaryInfoType">
-		<xs:annotation>
-			<xs:documentation/>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="ProprietaryProperty" type="ProprietaryPropertyType">
-		<xs:annotation>
-			<xs:documentation/>
-		</xs:annotation>
-	</xs:element>
 	<xs:element name="VariableReference" type="r:ReferenceType">
 		<xs:annotation>
 			<xs:documentation/>
 		</xs:annotation>
 	</xs:element>
+	<xs:element name="DefaultVariableSchemeReference" type="r:ReferenceType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>	
 	<xs:element name="ProprietaryDataType" type="r:CodeValueType">
 		<xs:annotation>
 			<xs:documentation/>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="ProprietaryOutputFormatType" type="r:CodeValueType">
+	<xs:element name="ProprietaryOutputFormat" type="r:CodeValueType">
 		<xs:annotation>
 			<xs:documentation/>
 		</xs:annotation>
 	</xs:element>	
-	<xs:element name="DataItems" type="DataItemsType">
-		<xs:annotation>
-			<xs:documentation/>
-		</xs:annotation>
-	</xs:element>
 	<xs:element name="DataItem" type="DataItemType">
 		<xs:annotation>
 			<xs:documentation/>

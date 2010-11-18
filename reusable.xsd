@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:reusable:3_0_CR3" xmlns:dc="ddi:dcelements:3_0_CR3" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="ddi:reusable:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="ddi-xhtml11.xsd"/>
@@ -867,7 +867,7 @@
                      <xs:documentation>The Bounding Box is a 'rectangle, oriented to the x and y axes, which bounds a geographic feature or a geographic dataset. It is specified by two coordiantes: xmin, ymin and xmax,ymax.' [FGDC]. In the DDI, it describes the full extent of the geographic coverage, and is designed to be used by systems that search for geography by coordinates. It is compatible with the description and structure found in FGDC and other geographic metadata structures.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Description" minOccurs="0">
+               <xs:element ref="Description" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Providea a human-readable summary of the information included in Geography and Geography Reference. It may include information on all levels of spatial coverage, in addition to the overall coverage. This field can map to Dublin Core Coverage, which does not support structured strings. Therefore, if there is intent to map to Dublin Core, the text should not be marked up with XHTML.</xs:documentation>
                   </xs:annotation>
@@ -1327,7 +1327,8 @@
       	</xs:element>      	
       </xs:sequence>
       <xs:attribute name="missingValue" type="xs:NMTOKENS" use="optional"/>
-      <xs:attribute name="blankIsMissingValue" type="xs:boolean" use="optional"/>      
+      <xs:attribute name="blankIsMissingValue" type="xs:boolean" use="optional"/>   
+      <xs:attribute name="classificationLevel" type="CategoryRelationCodeType" use="optional"/>
    </xs:complexType>
    <xs:complexType name="TextRepresentationType">
       <xs:annotation>
@@ -1342,6 +1343,42 @@
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+ <xs:simpleType name="CategoryRelationCodeType">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:restriction base="xs:NMTOKEN">
+         <xs:enumeration value="Nominal">
+            <xs:annotation>
+               <xs:documentation>The categories in the domain have no greater than or less than relationship between them (sometimes called categorical or discrete). 
+</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="Ordinal">
+            <xs:annotation>
+               <xs:documentation>The categories in the domain have a rank order.</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="Interval">
+            <xs:annotation>
+               <xs:documentation>The categories in the domain are in rank order and have a consistant interval between each category so that differences between arbitrary pairs of measurements can be meaningfully compared.
+</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="Ratio">
+            <xs:annotation>
+               <xs:documentation>The categories have all the features of interval measurement and also have meaningful ratios between arbitrary pairs of numbers.
+</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="Continuous">
+            <xs:annotation>
+               <xs:documentation>A grouping of interval and ratio classification levels to be used when more defininitive information is not available.
+</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>         
+      </xs:restriction>
+   </xs:simpleType>   
    <xs:complexType name="DateTimeRepresentationType">
       <xs:annotation>
          <xs:documentation>Structures the representation for any type of time format (including dates, etc.).</xs:documentation>
@@ -1642,7 +1679,37 @@
             </xs:attribute>
          </xs:extension>
       </xs:complexContent>
-   </xs:complexType><!-- OTHER MATERIALS -->
+   </xs:complexType>
+   <!-- PROPRIETARY -->
+   <xs:complexType name="ProprietaryInfoType">
+   		<xs:annotation>
+   			<xs:documentation>Contains information proprietary to the software package which produced the data file. This is expressed as a set of name-value pairs. </xs:documentation>
+   		</xs:annotation>
+   		<xs:sequence>
+   			<xs:element ref="ProprietaryProperty" maxOccurs="unbounded"/>
+   		</xs:sequence>
+   	</xs:complexType>
+   	<xs:complexType name="ProprietaryPropertyType">
+   		<xs:annotation>
+   			<xs:documentation>A name-value pair providing information proprietary to the software package which produced the data. The name of a property is supplied, along with a value, which may come from a controlled vocabulary.</xs:documentation>
+   		</xs:annotation>
+   		<xs:simpleContent>
+   			<xs:extension base="CodeValueType">
+   				<xs:attribute name="name" type="xs:string" use="required"/>
+   			</xs:extension>
+   		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="ProprietaryInfo" type="ProprietaryInfoType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ProprietaryProperty" type="ProprietaryPropertyType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>	
+   <!-- OTHER MATERIALS -->
    <xs:element name="OtherMaterial" type="OtherMaterialType">
       <xs:annotation>
          <xs:documentation>Used to reference external resources that are related to the content of the relevant module. It includes a citation, an external reference using a URL (or other URI), and a reference to the item within the module to which the external resource is related.</xs:documentation>
@@ -1796,11 +1863,6 @@
       <xs:complexContent>
          <xs:extension base="IdentifiableType">
             <xs:sequence>
-               <xs:element ref="AdministrativeDate" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Listing of pertinent coverage dates by type.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
                <xs:element ref="ReferenceDate" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>The time period to which the data refer. This item reflects the time period covered by the data, not dates in the life cycle of a study or collection.</xs:documentation>
@@ -1831,107 +1893,12 @@
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   <xs:complexType name="AdministrativeDateType">
-      <xs:annotation>
-         <xs:documentation>Dates related to specific events in the life cycle of thestudy.</xs:documentation>
-      </xs:annotation>
-      <xs:complexContent>
-         <xs:extension base="DateType">
-            <xs:attribute name="type" type="AdminDateCodeType" use="required">
-               <xs:annotation>
-                  <xs:documentation>Type of the dated administrative event.</xs:documentation>
-               </xs:annotation>
-            </xs:attribute>
-         </xs:extension>
-      </xs:complexContent>
-   </xs:complexType>
-   <xs:simpleType name="AdminDateCodeType">
-      <xs:annotation>
-         <xs:documentation>Types of allowable dates.</xs:documentation>
-      </xs:annotation>
-      <xs:restriction base="xs:NMTOKEN">
-         <xs:enumeration value="DataProcessing">
-            <xs:annotation>
-               <xs:documentation>Date when data was processed.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="PilotDate">
-            <xs:annotation>
-               <xs:documentation>Dates of a pilot study.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="TrainingDate">
-            <xs:annotation>
-               <xs:documentation>Dates of training (interviewer or enumerator training, data processing training, etc.)</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="EventDate">
-            <xs:annotation>
-               <xs:documentation>Date of a specific event related to the study.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="DesignDate">
-            <xs:annotation>
-               <xs:documentation>Date of the study design.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="PostAnalysisDate">
-            <xs:annotation>
-               <xs:documentation>Date of post-collection analysis.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="PublicationDate">
-            <xs:annotation>
-               <xs:documentation>Date of Publication.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="DepositDate">
-            <xs:annotation>
-               <xs:documentation>Date when data and/or documentation were deposited in an archive or library.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="ReleaseDate">
-            <xs:annotation>
-               <xs:documentation>Date of data release.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="ProductionDate">
-            <xs:annotation>
-               <xs:documentation>Date of data or metadata production.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="HarvestingDate">
-            <xs:annotation>
-               <xs:documentation>Date of data harvesting.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="CollectionDate">
-            <xs:annotation>
-               <xs:documentation>Date of data collection.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="ReportingDate">
-            <xs:annotation>
-               <xs:documentation>The reporting date of the data</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="VersionDate">
-            <xs:annotation>
-               <xs:documentation>Date of specific version.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="CopyrightDate">
-            <xs:annotation>
-               <xs:documentation>Copyright date.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="SoftwareDate">
-            <xs:annotation>
-               <xs:documentation>Version date of software.</xs:documentation>
-            </xs:annotation>
-         </xs:enumeration>
-      </xs:restriction>
-   </xs:simpleType><!--EMAIL-->
+   
+
+
+    
+
+<!--EMAIL-->
    <xs:element name="Email" type="EmailType">
       <xs:annotation>
          <xs:documentation>An email address.</xs:documentation>
@@ -6271,11 +6238,6 @@
    <xs:element name="RelationshipDescripton" type="InternationalStringType">
       <xs:annotation>
          <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which i is related.  </xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="AdministrativeDate" type="AdministrativeDateType">
-      <xs:annotation>
-         <xs:documentation>Listing of pertinent coverage dates by type.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="ReferenceDate" type="DateType">

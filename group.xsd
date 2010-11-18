@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:group:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:a="ddi:archive:3_0_CR3" xmlns:c="ddi:conceptualcomponent:3_0_CR3" xmlns:cm="ddi:comparative:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:l="ddi:logicalproduct:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" xmlns:pi="ddi:physicalinstance:3_0_CR3" xmlns:m1="ddi:physicaldataproduct/ncube/normal:3_0_CR3" xmlns:m2="ddi:physicaldataproduct/ncube/tabular:3_0_CR3" xmlns:m3="ddi:physicaldataproduct/ncube/inline:3_0_CR3" xmlns:s="ddi:studyunit:3_0_CR3" xmlns:pr="ddi:profile:3_0_CR3" targetNamespace="ddi:group:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <xs:import namespace="ddi:archive:3_0_CR3" schemaLocation="archive.xsd"/>
@@ -32,12 +32,12 @@
                      <xs:documentation>Includes bibliographic citation information for the resource package.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Abstract" minOccurs="0">
+               <xs:element ref="Abstract" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Human-readable summary of material in the resource package.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Purpose">
+               <xs:element ref="Purpose" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Human-readable explaination of why the creator grouped these objects together for reuse.</xs:documentation>
                   </xs:annotation>
@@ -124,12 +124,12 @@
                      <xs:documentation>Includes bibliographic citation information for the group.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Abstract" minOccurs="0">
+               <xs:element ref="Abstract" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Human-readable summary of the grouped material.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Purpose">
+               <xs:element ref="Purpose" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Human-readable explaination of why the creator grouped these objects together. Example: Grouping of Longitudinal Survey elements. Example: Collection of StudyUnits to be used by class SOC1257- Impact of Aging on Social Services. Use this element to describe the nature of a series and/or the reason for treating the studyunits as a group. Include information on the limitations of the grouping and intended usage if applicable.</xs:documentation>
                   </xs:annotation>
@@ -250,9 +250,9 @@
                   <xs:documentation>Provides a user-defined grouping property, different from those supplied in other attributes.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="userDefinedGroupingPropertyValue" type="xs:string" use="optional">
+            <xs:attribute name="userDefinedGroupPropertyValue" type="xs:string" use="optional">
                <xs:annotation>
-                  <xs:documentation>Provides a value for the user-defined grouping property supplied in userDefinedGroupingProperty.</xs:documentation>
+                  <xs:documentation>Provides a value for the user-defined group property supplied in userDefinedGroupProperty.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="groupInherits" type="xs:boolean" default="true">
@@ -275,12 +275,12 @@
                      <xs:documentation>Includes bibliographic citation information for the group.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Abstract" minOccurs="0">
+               <xs:element ref="Abstract" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Human-readable summary of the grouped material.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Purpose">
+               <xs:element ref="Purpose" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Human-readable explaination of why the creator grouped these objects together. Example: Grouping of Longitudinal Survey elements. Example: Collection of StudyUnits to be used by class SOC1257- Impact of Aging on Social Services. Use this element to describe the nature of a series and/or the reason for treating the studyunits as a group. Include information on the limitations of the grouping and intended usage if applicable.</xs:documentation>
                   </xs:annotation>
@@ -403,12 +403,12 @@
             </xs:attribute>
             <xs:attribute name="userDefinedGroupProperty" type="xs:string" use="optional">
                <xs:annotation>
-                  <xs:documentation>Provides a user-defined grouping property, different from those supplied in other attributes.</xs:documentation>
+                  <xs:documentation>Provides a user-defined group property, different from those supplied in other attributes.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="userDefinedGroupingPropertyValue" type="xs:string" use="optional">
+            <xs:attribute name="userDefinedGroupPropertyValue" type="xs:string" use="optional">
                <xs:annotation>
-                  <xs:documentation>Provides a value for the user-defined grouping property supplied in userDefinedGroupingProperty.</xs:documentation>
+                  <xs:documentation>Provides a value for the user-defined group property supplied in userDefinedGroupProperty.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
             <xs:attribute name="groupInherits" type="xs:boolean" default="true">

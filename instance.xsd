@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:instance:3_0_CR3" xmlns:a="ddi:archive:3_0_CR3" xmlns:cm="ddi:comparative:3_0_CR3" xmlns:c="ddi:conceptualcomponent:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:ds="ddi:dataset:3_0_CR3" xmlns:dc="ddi:dcelements:3_0_CR3" xmlns:pr="ddi:profile:3_0_CR3" xmlns:g="ddi:group:3_0_CR3" xmlns:m3="ddi:physicaldataproduct/ncube/inline:3_0_CR3" xmlns:l="ddi:logicalproduct:3_0_CR3" xmlns:m1="ddi:physicaldataproduct/ncube/normal:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" xmlns:pi="ddi:physicalinstance:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3"  xmlns:s="ddi:studyunit:3_0_CR3" xmlns:m2="ddi:physicaldataproduct/ncube/tabular:3_0_CR3" targetNamespace="ddi:instance:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:import namespace="ddi:archive:3_0_CR3" schemaLocation="archive.xsd"/>

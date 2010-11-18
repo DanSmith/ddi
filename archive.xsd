@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:archive:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:archive:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
@@ -59,6 +59,11 @@
                <xs:documentation>Describes the subject of the DDI metadata as viewed by the archive (eg, as a single item which has been archived). This may be a Group, Element, or StudyUnit.</xs:documentation>
             </xs:annotation>
          </xs:element>
+         <xs:element ref="Collection" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes the archive's collections.</xs:documentation>
+            </xs:annotation>
+         </xs:element>         
          <xs:element ref="DefaultAccess" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Describes access to the metadata in the DDI instance and related data files in the archive.</xs:documentation>
@@ -68,7 +73,7 @@
             <xs:annotation>
                <xs:documentation>Describes the archive's sources of funding (grants, etc.)</xs:documentation>
             </xs:annotation>
-         </xs:element>
+         </xs:element>      
       </xs:sequence>
    </xs:complexType>
    <xs:element name="ArchiveOrganizationReference" type="r:ReferenceType">
@@ -148,6 +153,79 @@
          </xs:element>
       </xs:sequence>
    </xs:complexType>
+   <xs:complexType name="CollectionType">
+      <xs:annotation>
+         <xs:documentation>CollectionType structures the Collection element, which describes the archived collection as managed by the archive. This is typically specific to a particular holding.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="LocationInArchive" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Describes the location of the collection in an archive. Can be repeated to support different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="CallNumber" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The call number in the archive.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="URI" type="xs:anyURI" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The URL or URN where the DDI instance containing the metadata can be obtained from the archive.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="ItemQuantity" type="xs:integer" minOccurs="0">
+             <xs:annotation>
+	                <xs:documentation>The number of items in the collection..</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="StudyClass" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The type of study which is documented by the DDI instance.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Access" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The access restrictions specific to the collection.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="DefaultAccess" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The default access restriction fo each item in the collection.</xs:documentation>
+            </xs:annotation>
+         </xs:element>         
+         <xs:element ref="OriginalArchiveOrganizationReference" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>The original archive for the documented material, expressed as a reference to the organization listed in the organization scheme.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="AvailabilityStatus" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>A human-readable description of the availability status. Can be repeated to support different languages.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="DataFileQuantity" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The number of data files of the documented holding, expressed as an integer.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="CollectionCompleteness" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>The completeness of the collection, described in human-readable terms.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Item" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>An item within the archive-specific collection.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Collection" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>A sub-collection within the archive-specific collection.</xs:documentation>
+            </xs:annotation>
+         </xs:element>         
+      </xs:sequence>
+   </xs:complexType>
+
    <xs:complexType name="StudyClassType">
       <xs:annotation>
          <xs:documentation>The type of study documented by the DDI metadata, expressed in human-readable form and as a value from a controlled vocabulary.</xs:documentation>
@@ -263,6 +341,11 @@
          <xs:documentation>Describes the subject of the DDI metadata as viewed by the archive (eg, as a single item which has been archived). This may be a Group, Element, or StudyUnit.</xs:documentation>
       </xs:annotation>
    </xs:element>
+   <xs:element name="Collection" type="CollectionType">
+      <xs:annotation>
+         <xs:documentation>Describes the subject of the DDI metadata as viewed by the archive (eg, as a collection of items which has been archived). This may be a Group, Element, or StudyUnit.</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
    <xs:element name="DefaultAccess" type="AccessType">
       <xs:annotation>
          <xs:documentation>Describes the aspects of access to the archive's holding.</xs:documentation>
@@ -272,7 +355,7 @@
       <xs:annotation>
          <xs:documentation>Describes the aspects of access to the archive's holding.</xs:documentation>
       </xs:annotation>
-   </xs:element>
+   </xs:element> 
    <xs:element name="LocationInArchive" type="r:InternationalStringType">
       <xs:annotation>
          <xs:documentation>Describes the location of the item in an archive. Can be repeated to support different languages.</xs:documentation>

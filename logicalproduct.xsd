@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:logicalproduct:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:logicalproduct:3_0_CR3" elementFormDefault="qualified">
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <!-- BASE LOGICAL PRODUCT -->
@@ -13,6 +13,11 @@
                      <xs:documentation>The Coverage statement at this level restricts the coverage described in the studyunit module. For example if this specific logical product from a population and housing census only covers housing questions or only provides State and County level data these should be noted here. If there are no changes in the coverage from the coverage of the studyunit module, no entry is needed here.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="DataRelationship" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Contains a written description of how the logical contents of the file relate to each other for programming purposes. For example, noting that there are household, family and person items where the household is identified by variableH the unique family by the concatenation of variableH and variableF and the unique person within a household by the concatenation of variableH and variableP. This section will be expanded in a future version to contain a machine actionable guide to the logical product.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
                <xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Describes Other Materials not noted in the studyunit module or datacollection module that have a specific relation to this logical product. For example the printed data dictionary or printed output for the logical product.</xs:documentation>
@@ -70,13 +75,6 @@
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="BaseLogicalProductType">
-            <xs:sequence>
-               <xs:element ref="DataRelationship" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Contains a written description of how the logical contents of the file relate to each other for programming purposes. For example, noting that there are household, family and person items where the household is identified by variableH the unique family by the concatenation of variableH and variableF and the unique person within a household by the concatenation of variableH and variableP. This section will be expanded in a future version to contain a machine actionable guide to the logical product.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-            </xs:sequence>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType><!-- CATEGORIES -->
@@ -254,6 +252,11 @@
          </xs:annotation>
       </xs:attribute>
       <xs:attribute name="levelNumber" type="xs:integer" use="optional"/>
+      <xs:attribute name="isComprehensive" type="xs:boolean" default="false">
+         <xs:annotation>
+            <xs:documentation>Used in hierarchical structures at upper level values to indicate whether or not the subelements of the code are comprehensive in coverage. Not applicable at isDiscrete="true". </xs:documentation>
+         </xs:annotation>      
+      </xs:attribute>
    </xs:complexType>
    <xs:complexType name="IntervalType">
       <xs:annotation>
@@ -400,7 +403,7 @@
                <xs:documentation>Describes the role of the variable, such as identity, weight, geographic variable, time, date, currency, etc.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="WeightVariableReference" minOccurs="0">
+         <xs:element ref="WeightVariableReference" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Reference to weight variable to be used with this variable.</xs:documentation>
             </xs:annotation>
@@ -894,6 +897,11 @@
                      <xs:documentation>List of all variables used in record either directly or as found in a defined VariableGroup; note that a variable can be used in multiple records. The variables in the logical record can be noted by inclusion or exclusion to facilitate the easiest means of describing the variables in the LogicalRecord. The attribute allVariablesInLogicalProduct when set to true includes all variables in the LogicalProduct. VariableSchemeReference can then be used to exclude individual Variables schemes or include schemes from other logical products. In the same way VariableReference can be used to exclude specific variables from the previously defined variable set or include variables not already included. Most simple LogicalProduct descriptions with a single LogicalRecord can be described using only the attribute allVariablesInLogicalProduct with a value of true.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="NCubesInRecord" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>List of all NCubes used in record.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
             </xs:sequence>
             <xs:attribute name="hasLocator" type="xs:boolean" use="required">
                <xs:annotation>
@@ -907,7 +915,29 @@
             </xs:attribute>
          </xs:extension>
       </xs:complexContent>
-   </xs:complexType>
+   </xs:complexType>   
+   <xs:complexType name="NCubesInRecordType">
+      <xs:annotation>
+         <xs:documentation>Identifies the NCubes in the record type.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="NCubeSchemeReference" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Reference to a NCube scheme to be included in its entirety in the logical record type.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="NCubeReference" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Reference to each NCube in the record type that is from a partially used NCubeScheme.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+      <xs:attribute name="allNCubesInLogicalProduct" type="xs:boolean" use="required">
+         <xs:annotation>
+            <xs:documentation>When the value is true, then the logical record contains all listed NCubes in the logical product module.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+   </xs:complexType>    
    <xs:complexType name="VariableValueReferenceType">
       <xs:annotation>
          <xs:documentation>Describes the variable and value being used.</xs:documentation>
@@ -1329,28 +1359,7 @@
          </xs:enumeration>
       </xs:restriction>
    </xs:simpleType>
-   <xs:simpleType name="CategoryRelationCodeType">
-      <xs:annotation>
-         <xs:documentation/>
-      </xs:annotation>
-      <xs:restriction base="xs:NMTOKEN">
-         <xs:enumeration value="Nominal">
-            <xs:annotation>
-               <xs:documentation/>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="Ordinal">
-            <xs:annotation>
-               <xs:documentation/>
-            </xs:annotation>
-         </xs:enumeration>
-         <xs:enumeration value="Interval">
-            <xs:annotation>
-               <xs:documentation/>
-            </xs:annotation>
-         </xs:enumeration>
-      </xs:restriction>
-   </xs:simpleType>
+  
    <xs:simpleType name="HierarchyCodeType">
       <xs:annotation>
          <xs:documentation/>
@@ -1571,7 +1580,7 @@
          <xs:documentation>Reference to included category is found in the ReferenceType. This standard type is extended by the CodeType which allows for additional information regarding the category as well as nesting of codes.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="RelationshipType" type="CategoryRelationCodeType">
+   <xs:element name="RelationshipType" type="r:CategoryRelationCodeType">
       <xs:annotation>
          <xs:documentation>Code describing the relationship between categories of the level.  Possible values are either Nominal, Ordinal, or Interval. Note that different levels may have different values within the same hierarchy. For example Level 1 items may be ordinal and Level 2 (the children of Level 1 items) may be nominal.</xs:documentation>
       </xs:annotation>
@@ -1816,4 +1825,14 @@
          <xs:documentation>References a file which contains commands.</xs:documentation>
       </xs:annotation>
    </xs:element>
+   <xs:element name="NCubesInRecord" type="NCubesInRecordType">
+      <xs:annotation>
+         <xs:documentation>Lists out the NCubes contained in the record.</xs:documentation>
+      </xs:annotation>
+   </xs:element> 
+   <xs:element name="NCubeSchemeReference" type="r:ReferenceType">
+	   <xs:annotation>
+		<xs:documentation>Reference to a NCube scheme to be included in its entirety in the logical record type.</xs:documentation>
+	   </xs:annotation>
+   </xs:element>	  
 </xs:schema>

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:comparative:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="ddi:datacollection:3_0_CR3" schemaLocation="datacollection.xsd"/>
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
@@ -64,7 +64,7 @@
          <xs:documentation>Maps comparable items from two different schemes.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="r:MaintainableType">
+         <xs:extension base="r:VersionableType">
             <xs:sequence>
                <xs:element ref="SourceSchemeReference">
                   <xs:annotation>
@@ -76,7 +76,12 @@
                      <xs:documentation>References the scheme that is the target for the mapping.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="ItemMap" maxOccurs="unbounded">
+               <xs:element ref="Correspondence">
+                  <xs:annotation>
+                     <xs:documentation>Describes the correspondence between the target and source schemes.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="ItemMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Maps an individual item in the source scheme to an item in the target scheme. </xs:documentation>
                   </xs:annotation>
@@ -85,12 +90,53 @@
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+  <xs:complexType name="CorrespondenceType">
+      <xs:annotation>
+         <xs:documentation>Describes the correspondence between source and target schemes/items.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="Commonality" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Textual description of the common aspects of the two schemes/items.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Difference" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Textual description of the differing aspects of the two schemes/items.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="CommonalityTypeCoded" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>Provides a type code for commonality of the two schemes/items. Suggested values are "Identical", "High", "Medium", "Low", "None".</xs:documentation>
+            </xs:annotation>
+         </xs:element>         
+         <xs:element name="CommonalityWeight" type="xs:float" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>A value between 0 and 1 expressing the degree of commonality (0 indicates none, 1 indicates that they are identical).</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="UserDefinedCorrespondenceProperty" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>A user-defined property defining the corrrespondence.</xs:documentation>
+            </xs:annotation>
+         </xs:element>      
+      </xs:sequence>
+   </xs:complexType>   
+   <xs:complexType name="UserDefinedCorrespondencePropertyType">
+            <xs:annotation>
+               <xs:documentation>A property defining the correspondence of two schemes/items, consisting of a name and a value.</xs:documentation>
+            </xs:annotation>   
+            <xs:sequence>
+            	<xs:element name="Name" type="xs:string"/>
+            	<xs:element name="Value" type="xs:string"/>
+            </xs:sequence>
+   </xs:complexType>
    <xs:complexType name="CodeMapType">
       <xs:annotation>
          <xs:documentation>Maps comparable codes from two different code schemes.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="r:MaintainableType">
+         <xs:extension base="r:VersionableType">
             <xs:sequence>
                <xs:element ref="SourceSchemeReference">
                   <xs:annotation>
@@ -102,9 +148,14 @@
                      <xs:documentation>References the coce scheme that is the target for the mapping.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="d:ControlConstructReference" maxOccurs="unbounded">
+		 <xs:element ref="Correspondence">
+		    <xs:annotation>
+		       <xs:documentation>Describes the difference between source and target.</xs:documentation>
+		    </xs:annotation>
+		 </xs:element>               
+               <xs:element ref="d:GenerationInstruction" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Allows for use of instrument flow logic to construct a detailed comparison map between individual codes in the source an and target schemes.</xs:documentation>
+                     <xs:documentation>Allows for use of programmatic logic to construct a detailed comparison map between individual codes in the source an and target schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -126,12 +177,7 @@
                <xs:documentation>References a comparable item in the target scheme.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element name="MapType" type="xs:string">
-            <xs:annotation>
-               <xs:documentation>Describes the type of correspondence between the items.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Difference">
+         <xs:element ref="Correspondence">
             <xs:annotation>
                <xs:documentation>Describes the difference between source and target.</xs:documentation>
             </xs:annotation>
@@ -143,43 +189,6 @@
          </xs:annotation>
       </xs:attribute>
    </xs:complexType>
-   <xs:complexType name="DifferenceType">
-      <xs:annotation>
-         <xs:documentation>Describes the difference between source and target.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element ref="r:Description" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Textual description of the difference.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="r:Command" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A machine-actionable command for performing an operation on the source to produce the target.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="MapType" type="xs:string">
-            <xs:annotation>
-               <xs:documentation>Describes the type of correspondence between the items.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Difference">
-            <xs:annotation>
-               <xs:documentation>Describes the difference between source and target.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-      <xs:attribute name="alias" type="xs:NCName" use="optional">
-         <xs:annotation>
-            <xs:documentation>Allows for an alias to be assigned to the correspondence between two items, so that it can be referred to with a single name, referring to both of the related items.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
-   </xs:complexType>
-   <xs:element name="Difference" type="DifferenceType">
-      <xs:annotation>
-         <xs:documentation>Describes the difference between source and target.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:element name="ComparisonDescription" type="r:StructuredStringType">
       <xs:annotation>
          <xs:documentation>Description of the comparison, intended to be human-readable.</xs:documentation>
@@ -225,9 +234,34 @@
          <xs:documentation>References the scheme that is the target for the mapping.</xs:documentation>
       </xs:annotation>
    </xs:element>
+   <xs:element name="Correspondence" type="CorrespondenceType">
+	  <xs:annotation>
+	     <xs:documentation>Describes the correspondence between the target and source schemes.</xs:documentation>
+	  </xs:annotation>
+    </xs:element>   
    <xs:element name="ItemMap" type="ItemMapType">
       <xs:annotation>
          <xs:documentation>Maps an individual item in the source scheme to an item in the target scheme. </xs:documentation>
       </xs:annotation>
    </xs:element>
+   <xs:element name="Commonality" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>Describes the commonality between source and target schemes/items. </xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Difference" type="r:StructuredStringType">
+      <xs:annotation>
+         <xs:documentation>Describes the differences between source and target schemes/items. </xs:documentation>
+      </xs:annotation>
+   </xs:element>   
+   <xs:element name="CommonalityTypeCoded" type="r:CodeValueType">
+      <xs:annotation>
+         <xs:documentation>Provides a type code defining the commonality between source and target schemes/items.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="UserDefinedCorrespondenceProperty" type="UserDefinedCorrespondencePropertyType">
+      <xs:annotation>
+         <xs:documentation>Provides a user-defined name-value pair describing the correspondence between source and target schemes/items. </xs:documentation>
+      </xs:annotation>
+   </xs:element>   	     
 </xs:schema>

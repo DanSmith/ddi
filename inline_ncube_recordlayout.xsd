@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. DDI 3.0 Candidate Release 3/7/2008. -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct/ncube/inline:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" targetNamespace="ddi:physicaldataproduct/ncube/inline:3_0_CR3" elementFormDefault="qualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
@@ -12,14 +12,9 @@
       <xs:complexContent>
          <xs:extension base="p:BaseRecordLayoutType">
             <xs:sequence>
-               <xs:element ref="NCubeInstance">
+               <xs:element ref="NCubeInstance" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Container to group data from common NCubes - this allows for NCube level attributes to be defined</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="DataItem" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Identifies a physical storage location for an individual data entry, serving as a link between the physical location and the logical content description of each data item.  Note that only one data item is described here, since the structure describes all data and meta data for the NCube.  That is to day that in this desciption, each row of data in the referenced file corresponds to the same NCube of data.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -43,6 +38,11 @@
                      <xs:documentation>Component to provide cell level attribute values.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="DataItem" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Identifies a physical storage location for an individual data entry, serving as a link between the physical location and the logical content description of each data item.  Note that only one data item is described here, since the structure describes all data and meta data for the NCube.  That is to day that in this desciption, each row of data in the referenced file corresponds to the same NCube of data.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
@@ -57,82 +57,48 @@
                <xs:documentation>References the NCube description in the logical product.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="CoordinateGroup" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Strucutre for identifiying set of common coordinate values in a group.  A group here can then be referenced in a data item to avoid repeating all coordinate values again for the data item. This is useful for attributes that apply to a limited set of cells that are described by a coordinate group in the logical product.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Coordinate" minOccurs="0" maxOccurs="unbounded">
+         <xs:element ref="Dimension" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Specifies this coordinate in the standard matrix descriptive pattern (1,2,3,.n)</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="Attribute" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Value of the measure type</xs:documentation>
+               <xs:documentation>This is an attribute which is attached to the specified DataItem. The content of the attribute can be provided as a single value or reference a location in the data store where the attribute value will be found.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="MeasureValue" maxOccurs="unbounded">
+         <xs:element ref="Measure" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Value of the measure type</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-      <xs:attribute ref="xml:lang"/>
+      <xs:attribute ref="xml:lang" use="optional"/>
       <xs:attribute name="decimalSeparator" type="r:OneCharStringType"/>
       <xs:attribute name="groupingSeparator" type="r:OneCharStringType"/>
       <xs:attribute name="type" type="r:DataTypeCodeType"/>
    </xs:complexType>
-   <xs:complexType name="CoordinateGroupType">
+<xs:element name="Dimension" type="DimensionType"/>
+   <xs:complexType name="DimensionType">
       <xs:annotation>
-         <xs:documentation>Structure for identifiying set of common coordinate values in a group.  A group here can then be referenced in a data item to avoid repeating all coordinate values again for the data item.</xs:documentation>
+         <xs:documentation>A dimension which identifies the region of the cube to which te attribute is attached.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="CoordinateGroupReference">
-            <xs:annotation>
-               <xs:documentation>References coordinate group defined in the logical product.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Coordinate" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Specifies this coordinate in the standard matrix descriptive pattern (1,2,3,.n)</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Attribute" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Component to provide cell level attribute values.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name="CoordinateType">
-      <xs:annotation>
-         <xs:documentation>Coordinate for this particular item, repeated to provide the full matrix of coordinates for the cells within this Cube.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element name="CoordinateNumber" type="xs:integer">
-            <xs:annotation>
-               <xs:documentation>Specifies this coordinate in the standard matrix descriptive pattern (1,2,3,.n)</xs:documentation>
-            </xs:annotation>
-         </xs:element>
          <xs:element ref="VariableReference" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>The variable ID where the coordinate value is found (for files where one of the dimensions of the matrix has a different record for each category and the value of the category is found in a specific variable, e.g., SIC codes in US County Business Patterns).</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="Value" type="xs:string">
-            <xs:annotation>
-               <xs:documentation>Value of the attribute.</xs:documentation>
+               <xs:documentation>References the Variable holding the dimension value.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name="MeasureValueType">
+      <xs:attribute name="rank" type="xs:integer" use="required"/>
+      <xs:attribute name="value" type="xs:string" use="optional"/>
+   </xs:complexType>     
+   <xs:complexType name="MeasureType">
       <xs:annotation>
-         <xs:documentation>Value of the measure type</xs:documentation>
+         <xs:documentation>When individual measures are stored in separately identifiable locations repeat Measure to define each measure and storage location. When multiple measures are stored as an ordered array in a single location list each measure in the array as a MeasureReference with its specified arrayOrder within a single Measure definition.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="MeasureReference">
+         <xs:element ref="MeasureReference" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Reference to the measure description.</xs:documentation>
             </xs:annotation>
@@ -144,6 +110,21 @@
          </xs:element>
       </xs:sequence>
    </xs:complexType>
+   <xs:complexType name="MeasureReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to measure description.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+      	<xs:extension base="r:ReferenceType">
+      		<xs:attribute name="arrayOrder" type="xs:integer" default="0">
+      			<xs:annotation>
+      				<xs:documentation>Note that the attribute arrayOrder assumes an array base of 0. The array order assumes that the measures will always be displayed in the same order and that sparse content (a missing value in the array) will be clear from the choice of delimiter for the array. For example 1,1,1 or 1,,1.</xs:documentation>
+      			</xs:annotation>
+      		</xs:attribute>
+      	</xs:extension>
+      </xs:complexContent>
+   </xs:complexType>   
+   <xs:element name="MeasureReference" type="MeasureReferenceType"/>   
    <xs:complexType name="AttributeType">
       <xs:annotation>
          <xs:documentation>Provides for a choice between an explicit value, or a location in a file where the value can be found.</xs:documentation>
@@ -186,36 +167,19 @@
          <xs:documentation>References the NCube description in the logical product.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="CoordinateGroup" type="CoordinateGroupType">
+   
+   <xs:element name="Measure" type="MeasureType">
       <xs:annotation>
-         <xs:documentation>Strucutre for identifiying set of common coordinate values in a group.  A group here can then be referenced in a data item to avoid repeating all coordinate values again for the data item. This is useful for attributes that apply to a limited set of cells that are described by a coordinate group in the logical product.</xs:documentation>
+         <xs:documentation>When individual measures are stored in separately identifiable locations repeat Measure to define each measure and storage location. When multiple measures are stored as an ordered array in a single location list each measure in the array as a MeasureReference with its specified arrayOrder within a single Measure definition. </xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="Coordinate" type="CoordinateType">
-      <xs:annotation>
-         <xs:documentation>Specifies this coordinate in the standard matrix descriptive pattern (1,2,3,.n)</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="MeasureValue" type="MeasureValueType">
-      <xs:annotation>
-         <xs:documentation>Value of the measure type</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="CoordinateGroupReference" type="r:ReferenceType">
-      <xs:annotation>
-         <xs:documentation>References coordinate group defined in the logical product.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
+   
    <xs:element name="VariableReference" type="r:ReferenceType">
       <xs:annotation>
          <xs:documentation>The variable ID where the coordinate value is found (for files where one of the dimensions of the matrix has a different record for each category and the value of the category is found in a specific variable, e.g., SIC codes in US County Business Patterns).</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="MeasureReference" type="r:ReferenceType">
-      <xs:annotation>
-         <xs:documentation>Reference to the measure description.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
+
    <xs:element name="AttributeReference" type="r:ReferenceType">
       <xs:annotation>
          <xs:documentation>Reference to attribute description.</xs:documentation>
