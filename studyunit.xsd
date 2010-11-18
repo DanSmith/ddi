@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="ddi:studyunit:0_1" xmlns="ddi:studyunit:0_1" xmlns:r="ddi:reusable:0_1" xmlns:c="ddi:concept:0_1" xmlns:d="ddi:datacollection:0_1" xmlns:l="ddi:logicalproduct:0_1" xmlns:pd="ddi:physicaldataproduct:0_1" xmlns:pi="ddi:physicalinstance:0_1" xmlns:m1="ddi:physicaldataproduct/ncube/normal:0_1"  xmlns:m2="ddi:physicaldataproduct/ncube/tabular:0_1" xmlns:m3="ddi:physicaldataproduct/ncube/inline:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd" />
+	<xs:import namespace="ddi:concept:0_1" schemaLocation="conceptualcomponents.xsd" />
+	<xs:import namespace="ddi:datacollection:0_1" schemaLocation="datacollection.xsd" />
+	<xs:import namespace="ddi:logicalproduct:0_1" schemaLocation="logicalproduct.xsd" />
+	<xs:import namespace="ddi:physicaldataproduct:0_1" schemaLocation="physicaldataproduct.xsd"/>
+	<xs:import namespace="ddi:physicalinstance:0_1" schemaLocation="physicalinstance.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct/ncube/normal:0_1" schemaLocation="ncube_recordlayout.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct/ncube/tabular:0_1" schemaLocation="tabular_ncube_recordlayout.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct/ncube/inline:0_1" schemaLocation="inline_ncube_recordlayout.xsd"/>
+	
+	<xs:element name="StudyUnit" type="StudyUnitType"/>
+	
+	<xs:complexType name="StudyUnitType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Citation">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Abstract" type="r:IdentifiedStructuredStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Purpose" type="r:IdentifiedStructuredStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Universe" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Embargo" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="c:ConceptualComponents" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="d:DataCollection" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="l:BaseLogicalProduct" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="pd:PhysicalDataProduct" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="pi:PhysicalInstance" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

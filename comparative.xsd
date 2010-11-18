@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="ddi:comparative:0_1" xmlns="ddi:comparative:0_1" xmlns:c="ddi:concept:0_1" xmlns:d="ddi:datacollection:0_1" xmlns:l="ddi:logicalproduct:0_1" xmlns:r="ddi:reusable:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+	<xs:import namespace="ddi:concept:0_1" schemaLocation="conceptualcomponents.xsd"/>
+	<xs:import namespace="ddi:datacollection:0_1" schemaLocation="datacollection.xsd"/>
+	<xs:import namespace="ddi:logicalproduct:0_1" schemaLocation="logicalproduct.xsd"/>
+	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd"/>
+	
+	<xs:element name="ComparisonStandards" type="ComparisonStandardsType"/>
+	
+	<xs:complexType name="ComparisonStandardsType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ConceptStandard" type="ConceptStandardType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="QuestionStandard" type="QuestionStandardType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VariableStandard" type="VariableStandardType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Study" type="StudyType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="StudyUnitReferenceType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AuthorityReference" type="xs:NCName">
+				<xs:annotation>
+					<xs:documentation>Pointer to reusable agency/actor list.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Difference" type="r:StructuredStringType">
+				<xs:annotation>
+					<xs:documentation>Describes the extent of difference between this term and referenced term.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+<!-- Simplest way to reuse this is to just extend the existing type, and define substitution groups where necessary.  An undesired side
+effect of this is that it does not enforce the use of these new structures in this module.  Is that an issue? -->
+
+<!-- CONCEPT STANDARD -->
+	<xs:complexType name="ConceptStandardType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ConceptScheme" type="c:ConceptSchemeType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="Concept" type="ConceptType" substitutionGroup="c:Concept"/>
+
+	<xs:complexType name="ConceptType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="c:ConceptType">
+				<xs:sequence>
+					<xs:element name="StudyUnitReference" type="StudyUnitReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+
+<!-- QUESTION STANDARD -->
+	<xs:complexType name="QuestionStandardType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="QuestionItem" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="QuestionItem" type="QuestionItemType" substitutionGroup="d:QuestionItem"/>
+	
+	<xs:complexType name="QuestionItemType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="d:QuestionItemType">
+				<xs:sequence>
+					<xs:element name="InstrumentQuestionReference" type="StudyUnitReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:element name="MutipleQuestionItem" type="MultipleQuestionItemType" substitutionGroup="QuestionItem"/>
+
+	<xs:complexType name="MultipleQuestionItemType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="QuestionItemType">
+				<xs:sequence>
+					<xs:element name="SubQuestions" type="QuestionGroupType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<!-- I don't undrestand this, is this supposed to be associated with the Sub Question. -->
+					<xs:element name="Sequence" type="xs:integer">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="QuestionGroupType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="QuestionItem" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="ResponseDomain" type="ResponseDomainType" substitutionGroup="d:ResponseDomain" abstract="true"/>
+
+	<xs:complexType name="ResponseDomainType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="d:ResponseDomainType">
+				<xs:sequence>
+					<xs:element name="InstrumentQuestionReference" type="StudyUnitReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="TextDomain" type="TextDomainType" substitutionGroup="ResponseDomain"/>
+
+	<xs:complexType name="TextDomainType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ResponseDomainType">
+				<xs:attribute name="maxLength" type="xs:integer" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="DateTimeDomain" type="DateTimeDomainType" substitutionGroup="ResponseDomain"/>
+
+	<xs:complexType name="DateTimeDomainType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ResponseDomainType">
+				<xs:attribute name="format" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="NumericDomain" type="NumericDomainType" substitutionGroup="ResponseDomain"/>
+
+	<xs:complexType name="NumericDomainType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ResponseDomainType">
+				<xs:sequence>
+					<xs:element name="NumberRange" type="d:NumberRangeType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ImpliedDecimals" type="xs:integer" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="type" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+<!-- VARIABLE STANDARD -->
+	<xs:complexType name="VariableStandardType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CategoryScheme" type="l:CategorySchemeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A category scheme - contains a collection of categories, and category groups, which can contain hierarchical relationships between categories.</xs:documentation>
+				</xs:annotation>
+			</xs:element>		
+			<xs:element name="Variable" type="VariableType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VariableType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="l:VariableType">
+				<xs:sequence>
+					<xs:element name="StudyUnitReference" type="StudyUnitReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+<!-- OTHER STUDY -->
+	<xs:complexType name="StudyType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StudyURI" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StudyID" type="xs:NCName">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StudyIDSystem" type="xs:string">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StudyIDSystemURI" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StudyTitle" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="NewStudyID" type="xs:NCName">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="r:StructuredStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

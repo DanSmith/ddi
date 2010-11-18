@@ -1,0 +1,2237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="ddi:reusable:0_1" xmlns="ddi:reusable:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+	<xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="ddi-xhtml.xsd"/>
+
+<!-- BASIC TYPES -->	
+    <xs:attributeGroup name="GLOBALS">
+        <xs:attribute name="ID" type="xs:NCName"/>
+        <xs:attribute ref="xml:lang"/>
+    </xs:attributeGroup>
+
+	<xs:complexType name="IdentifiedStringType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attributeGroup ref="GLOBALS"/>
+				<xs:attribute name="translated" type="xs:boolean" default="false"/>
+				<xs:attribute name="translatable" type="xs:boolean" default="true"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="BaseDateType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="xs:dateTime xs:date xs:gYearMonth xs:gYear"/>
+	</xs:simpleType>
+
+	<xs:complexType name="DateType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="Date" type="BaseDateType">
+					<xs:annotation>
+						<xs:documentation>A single point in time.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:sequence>
+					<xs:element name="StartDate" type="BaseDateType">
+						<xs:annotation>
+							<xs:documentation>Start of a date range.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EndDate" type="BaseDateType">
+						<xs:annotation>
+							<xs:documentation>End of a date range.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Cycle" type="xs:integer" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Attribute to indicate the occurrence of this date range within a series of ranges.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+		<!-- Need C.V. for this, -->
+		<xs:attribute name="calendar" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="InternationalStringType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+		        <xs:attribute ref="xml:lang"/>
+				<xs:attribute name="translated" type="xs:boolean" default="false"/>
+				<xs:attribute name="translatable" type="xs:boolean" default="true"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<!-- Right now, the subset is just block level elements.  Further discussion should take place as to exactly which subset of XHTML should be used. -->
+	<xs:complexType name="StructuredStringType" mixed="true">
+		<xs:annotation>
+			<xs:documentation>Provides for string content, in which xhtml content can exist.</xs:documentation>
+		</xs:annotation>
+		<xs:choice maxOccurs="unbounded">
+			<xs:group ref="xhtml:BlkNoForm.mix"/>
+		</xs:choice>
+		<xs:attribute ref="xml:lang"/>
+		<xs:attribute name="translated" type="xs:boolean" default="false"/>
+		<xs:attribute name="translatable" type="xs:boolean" default="true"/>
+	</xs:complexType>
+	
+	<!-- This is used for any structure that needs to be referenced else where. -->
+	<!-- QUESTION: Is the full identification necessary (will it be referenced externally) or only internally?
+		 If it is internal only, use just an ID. -->
+	<xs:complexType name="IdentifiedStructuredStringType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Content" type="StructuredStringType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EmptyType">
+		<xs:annotation>
+			<xs:documentation>An empty complex type.</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+<!-- IDENTIFICATION TYPE -->
+	<xs:element name="Identification" type="IdentificationType">
+		<xs:unique name="OneChoice">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="@type"/>				
+		</xs:unique>	
+	</xs:element>
+	<xs:complexType name="IdentificationType">
+		<xs:annotation>
+			<xs:documentation>Type to provide an identification, agency, and version information. Used to identify any entity defined in the DDI. An entity can either be identified by a URN, or a combination of ID/Agency/Version. Set includes elements covering all instances of version Statement in DDI v.2.0</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice maxOccurs="2">
+				<xs:element name="URN" type="URNType">
+					<xs:annotation>
+						<xs:documentation>URN providing identification. Specifics of URN structre TBD.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:sequence>
+					<xs:element name="ID" type="xs:NCName">
+						<xs:annotation>
+							<xs:documentation>ID assigned to the entity by the agency.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IdentifyingAgency" type="xs:NCName">
+						<xs:annotation>
+							<xs:documentation>Reference to the agency maintaining the identification.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="VersionNumber" type="xs:string" default="1.0">
+						<xs:annotation>
+							<xs:documentation>Version Number.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="VersionDate" type="DateType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Date the version took place.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="VersionResponsibility" type="xs:NCName" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reference to the organization responsible for the version change.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Affiliation" type="xs:NCName" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="VersionReason" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Textual description of the reason for a version change.</xs:documentation>
+						</xs:annotation>
+					</xs:element>					
+				</xs:sequence>
+			</xs:choice>
+			<xs:element name="Name" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Name given the entity being identified.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReferenceType">
+		<xs:annotation>
+			<xs:documentation>Type for referencing and identified entity, either by a URN, or the combination of ID/Agency/Version.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice maxOccurs="2">
+				<xs:element name="URN" type="URNType">
+					<xs:annotation>
+						<xs:documentation>URN providing identification. Specifics of URN structre TBD.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:sequence>
+					<xs:element name="ID" type="xs:NCName">
+						<xs:annotation>
+							<xs:documentation>ID assigned to the entity by the agency.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IdentifyingAgency" type="xs:NCName">
+						<xs:annotation>
+							<xs:documentation>Reference to the agency maintaining the identification.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="VersionNumber" type="VersionType" default="1.0">
+						<xs:annotation>
+							<xs:documentation>Version Number. The version can be identified as lateBound, meaning that the latest version should be taken.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="isExternal" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>Identifies that the reference is to an external source. If the value of this is try, than a URI must be provided.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="URI" type="xs:anyURI" use="optional">
+			<xs:annotation>
+				<xs:documentation>URI identification the location of an external reference.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="VersionType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="lateBound" type="xs:boolean" default="false"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="URNType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:anyURI">
+				<xs:attribute name="type" type="xs:string" fixed="URN"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:element name="Citation" type="CitationType"/>
+	<xs:complexType name="CitationType">
+		<xs:annotation>
+			<xs:documentation>Provides citation information for a study.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Title" type="InternationalStringType">
+				<xs:annotation>
+					<xs:documentation>Full authoritative title.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubTitle" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Secondary title to amplify.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AlternateTitle" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>An alternative title by which a data collection is commenly referred to or an abbreviation  for the title.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- Do we need a specific structured type for identifying a creator? -->
+			<xs:element name="Creator" type="InternationalStringType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Person, corporate body, or agency responsible for the data/documents's substantive and intellectual content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Publisher" type="InternationalStringType">
+				<xs:annotation>
+					<xs:documentation>Person or organization with financial or administrative responsibility.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Contributor" type="ContributorType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PublicationDate" type="DateType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- Code list, build a new reusable type for this? -->
+			<xs:element name="Language" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- Should this have a controlled vocab? --><!-- Is this a specific class, or can we create a generic identifier type, that contains and id and a type?  Perhaps we create this type as generic, and the use restriction to limit the type list? -->
+			<xs:element name="InternationalIdentifier" type="TypedStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- Should this occur N times? -->
+			<xs:element name="Copyright" type="InternationalStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="ContributorType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="InternationalStringType">
+				<xs:attribute name="type" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<!-- Should this be a controlled vocab? -->
+				<xs:attribute name="role" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation>Job title such as data collection staff, editor, research initiator etc.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<!-- Should this be a controlled vocab? -->
+				<xs:attribute name="affiliation" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:element name="FundingInformation" type="FundingInformationType"/>
+	<xs:complexType name="FundingInformationType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Agency" type="xs:NCName">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AgencyAbbreviation" type="xs:string">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GrantNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="role" type="xs:string" use="optional"/>
+	</xs:complexType>
+	
+	<xs:element name="Embargo" type="EmbargoType"/>
+	<xs:complexType name="EmbargoType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="Identification"/>
+			<xs:element name="Date" type="DateType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Reason" type="StructuredStringType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Agency" type="xs:NCName">
+				<xs:annotation>
+					<xs:documentation>Agency responsible for placing the embargo</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EnforcementAgency" type="xs:NCName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Agency responsible for the enforcement of the embargo</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="LifecycleInformation" type="LifecycleInformationType"/>
+	<xs:complexType name="LifecycleInformationType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LifecycleEvent" type="LifecycleEventType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="LifecycleEventType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="Identification"/>
+			<xs:element name="Date" type="DateType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Agency" type="xs:NCName">
+				<xs:annotation>
+					<xs:documentation>Agency responsible for the event.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="StructuredStringType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="type" type="xs:string" use="optional"/>
+	</xs:complexType>
+	
+	<xs:element name="Universe" type="UniverseType"/>
+	<xs:complexType name="UniverseType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="TopicalCoverageReference" type="ReferenceType">
+					<xs:annotation>
+						<xs:documentation>Reference to a previously defined topical coverage.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TopicalCoverage" type="TopicalCoverageType">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="SpatialCoverageReference" type="ReferenceType">
+					<xs:annotation>
+						<xs:documentation>Reference to a previously defined spatial coverage.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SpatialCoverage" type="GeographicCoverageType">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:choice>
+				<xs:element name="TemporalCoverageReference" type="ReferenceType">
+					<xs:annotation>
+						<xs:documentation>Reference to a previously defined temporal coverage.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TemporalCoverage" type="TemporalCoverageType">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="Label" type="LabelType"/>
+	<xs:complexType name="LabelType">
+		<xs:annotation>
+			<xs:documentation>Provides for a string content with the a type indentifier.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="InternationalStringType">
+				<xs:attribute name="geographyID" type="xs:NCName" use="optional">
+					<xs:annotation>
+						<xs:documentation>References a specific geographic location defined in the Spatial coverage of a universe. The value here is one of the GeographyCode/Value(s).</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<!-- Need vocabulary -->
+				<xs:attribute name="language" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="year" type="BaseDateType" use="optional">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="type" type="xs:string" use="optional">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="maxLength" type="xs:integer" use="optional">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+<!-- TOPICAL COVERAGE -->
+	<xs:complexType name="TopicalCoverageType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="Identification"/>
+			<!-- Need complete list of controlled vocab, then change type to restricted type. -->
+			<xs:element name="Subject" type="TypedStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Keyword" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- Need complete list of controlled vocab, then change type to restricted type. -->
+			<!-- Do we want to have a common Language type? -->
+			<!-- Taking out, since the language seems like it would be specific to the keywords, and is inlcuded with xml:lang
+			<xs:element name="Language" type="TypedStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>-->
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TypedStringType">
+		<xs:annotation>
+			<xs:documentation>Provides for a string content with the a type indentifier.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="InternationalStringType">
+				<xs:attribute name="type" type="xs:string" use="required">
+					<xs:annotation>
+						<xs:documentation>Identifies the type of this string.  This type attribute can be restricted to use a controlled vocabulary.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:element name="Software" type="SoftwareType"/>
+	<xs:complexType name="SoftwareType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="StructuredStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="GLOBALS"/>
+		<xs:attribute name="version" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="package" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="product" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="date" type="xs:date" use="optional">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+<!-- GEOGRAPHIC COVERAGE -->
+	<xs:complexType name="GeographicCoverageType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="Identification"/>
+			<xs:element name="BoundingBox" type="BoundingBoxType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The Bounding Box is a specific form of a geographic polygon that describes the full extent of the geographic cover using a four-sided box constructed of 2 longitudes and 2 latitudes. It is used by systems that search for geography by coordinates and is compatible with the description and structure found in FGDC and other geographic metadata structures.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="StructuredStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The purpose of this element is to provide text that will map to the Dublin Core element Geographic Cover.  One or more descriptions of this geography will also be designated in Row 29 - GeographyName (as part of Geography > GeographyValues) but this element is different in two ways: 1) it is designed to be more detailed and descriptive than GeographyName, which matches with the code given in Row 26 - GeographyCode, and 2) it can describe a geographic area that is a grouping of several geographies (e.g. a study that covers 3 countries, each of which would be given its own Geography > GeographyValues > GeographyName > GeographyCode).  Among other goals, this method is designed to ensure that overall geographic coverage is machine actionable separate from geographic levels.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StructureDescription" type="ReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Points to a variable describing the geographic levels available in the data such as the variable "Summary Level" in U.S. Census data.  This reference is needed for assistance in programming.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LowestGeographicDescription" type="GeographicDescriptionCodeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The type and codification of geographic variables (point, line, polygon).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="Geography" type="GeographyType">
+					<xs:annotation>
+						<xs:documentation>Generic Geography class, used for any level of geography, either overall coverage or levels for which data is provided in the study.  The first occurrence of this is Geography that describes the overall coverage area, which can also be distinguished by a Geography for which TopLevelGeography value is set at True. However, there may be multiple occurrences.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="GeographyReference" type="ReferenceType">
+					<xs:annotation>
+						<xs:documentation>Reference to a previousely defined geography.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="GeographicDescriptionCodeType">
+		<xs:annotation>
+			<xs:documentation>Indicates the most descrete level identifed for a single case. Note that data can be collected at a geographic point (address) and reported as such in a protected file, and then aggregated to a polygon for a public file.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+   			<xs:enumeration value="Point">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="Polygon">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="Line">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="LinearRing">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="GeographyType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!-- Question: Do we need the full identification, or will just an ID do here? -->
+			<xs:element ref="Identification"/>		
+			<xs:element name="Level" type="GeographicLevelType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ParentGeography" type="ReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Values" type="GeographyValuesType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GeographicTime" type="DateType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="hasSummaryData" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="topLevel" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lowestLevel" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="exhaustiveCoverage" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="BoundingBoxType">
+		<xs:annotation>
+			<xs:documentation>Set of north, south, east, west coordinates defining a box which contains the geographic region.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NorthLatitude" type="LatitudeType">
+				<xs:annotation>
+					<xs:documentation>North latitude of the bounding box.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EastLongitude" type="LongitudeType">
+				<xs:annotation>
+					<xs:documentation>East longitude of the bounding box.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SouthLatitude" type="LatitudeType">
+				<xs:annotation>
+					<xs:documentation>South latitude of the bounding box.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="WestLongitude" type="LongitudeType">
+				<xs:annotation>
+					<xs:documentation>West longitude of the bounding box.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="LongitudeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="-180"/>
+			<xs:maxInclusive value="180"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="LatitudeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="-90"/>
+			<xs:maxInclusive value="90"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="GeographicLevelType">
+		<xs:annotation>
+			<xs:documentation>Used to identify the geographic level being described.  The level can be identified by a code, given a name, and reference a variable that contains the values for the code.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice maxOccurs="2">
+				<xs:sequence>
+					<!-- Is there a controlled vocabulary for this. -->
+					<xs:element name="Code" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>A numeric code identifying the geographic level (e.g. Multinational, Nation, Region, City, etc.).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Authority" type="xs:NCName">
+						<xs:annotation>
+							<xs:documentation>Reference to the authority defining the code value in this sequence used to identify the geographic level.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:element name="Name" type="InternationalStringType" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Textual description of the level code (e.g. "Nation", "Region").</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="VariableReference" type="ReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GeographyValuesType">
+		<xs:annotation>
+			<xs:documentation>Expresses the values of any geographical area (e.g. which nation is covered in the study).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CoverageLimitation" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Describes limitation of coverage within the parent geography (for example only places over 1,000 population).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VariableReference" type="ReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A pointer to a variable in the study that describes the  particular geography - such as BLOCK.  At this level (i.e. within GeographyValuesType) it can only refer to a specific geographic level.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExternalAuthorityReference" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Link to an external resource that defines the code list.</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="GeographyValue" type="GeographyValueType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GeographyValueType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="GeographyCode" type="GeographyCodeType">
+				<xs:annotation>
+					<xs:documentation>A reference to a standard geography code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GeographyName" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Textual description of the particular geographic entity/code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BoundingPolygon" type="PolygonType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A closed plane figure bounded by three or more line segments which describes the geographic area.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExcludingPolygon" type="PolygonType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A closed plane figure bounded by three or more line segments which describes an area excluded from the geographical area.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GeographyCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Value" type="xs:NCName">
+				<xs:annotation>
+					<xs:documentation>Code value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Authority" type="xs:NCName">
+				<xs:annotation>
+					<xs:documentation>Code authority</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PolygonType">
+		<xs:annotation>
+			<xs:documentation>A closed plane figure bounded by three or more line segments.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Point" type="PointType" minOccurs="3" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A point consisting of a latitude and longitude.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GeographicTime" type="DateType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PointType">
+		<xs:annotation>
+			<xs:documentation>A geographic point consisting of a latitude and longitude.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Latitude" type="LatitudeType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Longitude" type="LongitudeType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+		</xs:sequence>
+	</xs:complexType>
+
+<!-- OTHER MATERIALS -->
+	<xs:element name="OtherMaterial" type="OtherMaterialType"/>
+	<xs:complexType name="OtherMaterialType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Citation" type="CitationType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExternalRef" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Relationship" type="xs:NCName" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="GLOBALS"/>
+		<!-- Need vocabulary for this. -->
+		<xs:attribute name="type" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Identifies the type of material.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+<!-- NOTES -->
+	<xs:element name="Note" type="NoteType"/>
+	<xs:complexType name="NoteType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Subject" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Reference" type="xs:string" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Responsibility" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Header" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Content" type="StructuredStringType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="GLOBALS"/>
+		<xs:attribute name="type" type="NoteTypeCodeType" use="required">
+			<xs:annotation>
+				<xs:documentation>Identifies the type of material.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:simpleType name="NoteTypeCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+   			<xs:enumeration value="Processing">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="Footnote">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="Addendum">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="System">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="Problem">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="Comment">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="Other">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+<!-- TEMPORAL COVERAGE -->
+	<xs:complexType name="TemporalCoverageType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="Identification"/>
+			<xs:element name="AdministrativeDate" type="AdministrativeDateType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReferenceDate" type="DateType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AccessRestrictionDateType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DateType">
+				<xs:sequence>
+					<xs:element name="Reason" type="StructuredStringType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Textual description of the reason for the access restriction.</xs:documentation>
+						</xs:annotation>
+					</xs:element>					
+					<xs:element name="User" type="StructuredStringType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>User group to whom this restriction applies.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AdministrativeDateType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DateType">
+				<xs:attribute name="type" type="AdminDateCodeType" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="AdminDateCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+   			<xs:enumeration value="DataProcessing">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="PilotDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="TrainingDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="EventDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="DesignDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="PostAnalysisDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="PublicationDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="DepositDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="ReleaseDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="ProductionDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="HarvestingDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="CollectionDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="ReportingDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="VersionDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="CopyrightDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="SoftwareDate">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--EMAIL-->
+	<xs:element name="Email" type="EmailType">
+		<xs:annotation>
+			<xs:documentation>An email address (PH)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="EmailType">
+		<xs:annotation>
+			<xs:documentation>Email address type (PH) (Currently restricted to Internet format user@server.ext, needs extension)</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="type" type="EmailTypeCodeType" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="EmailTypeCodeType">
+		<xs:annotation>
+			<xs:documentation>Type of address</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="xs:NMTOKENS VCardEmailTypeCodeType"/>
+	</xs:simpleType>
+	<xs:simpleType name="VCardEmailTypeCodeType">
+		<xs:annotation>
+			<xs:documentation>Enumeration of vCard email types.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKENS">
+			<xs:enumeration value="internet"/>
+			<xs:enumeration value="X.400"/>
+			<xs:enumeration value="pref"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="test" type="InternetEmailType"/>
+	<xs:simpleType name="InternetEmailType">
+		<xs:annotation>
+			<xs:documentation>Pattern for Internet email address (PH)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<!--<xs:pattern value="[\p{LN}]+@[\p{LN}]+\.[\p{LN}]+}"/>-->
+			<xs:pattern value="([0-9a-zA-Z]*[\.]*)+\@[0-9a-zA-Z]+\.[0-9a-zA-Z]+"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="OneCharStringType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+    <xs:element name="Timezone" type="TimezoneCodeType"/>
+    <xs:simpleType name="TimezoneCodeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="12.00"/>
+            <xs:enumeration value="11.45"/>
+            <xs:enumeration value="11.30"/>
+            <xs:enumeration value="11.15"/>
+            <xs:enumeration value="11.00"/>
+            <xs:enumeration value="10.45"/>
+            <xs:enumeration value="10.30"/>
+            <xs:enumeration value="10.15"/>
+            <xs:enumeration value="10.00"/>
+            <xs:enumeration value="09.45"/>
+            <xs:enumeration value="09.30"/>
+            <xs:enumeration value="09.15"/>
+            <xs:enumeration value="09.00"/>
+            <xs:enumeration value="08.45"/>
+            <xs:enumeration value="08.30"/>
+            <xs:enumeration value="08.15"/>
+            <xs:enumeration value="08.00"/>
+            <xs:enumeration value="07.45"/>
+            <xs:enumeration value="07.30"/>
+            <xs:enumeration value="07.15"/>
+            <xs:enumeration value="07.00"/>
+            <xs:enumeration value="06.45"/>
+            <xs:enumeration value="06.30"/>
+            <xs:enumeration value="06.15"/>
+            <xs:enumeration value="06.00"/>
+            <xs:enumeration value="05.45"/>
+            <xs:enumeration value="05.30"/>
+            <xs:enumeration value="05.15"/>
+            <xs:enumeration value="05.00"/>
+            <xs:enumeration value="04.45"/>
+            <xs:enumeration value="04.30"/>
+            <xs:enumeration value="04.15"/>
+            <xs:enumeration value="04.00"/>
+            <xs:enumeration value="03.45"/>
+            <xs:enumeration value="03.30"/>
+            <xs:enumeration value="03.15"/>
+            <xs:enumeration value="03.00"/>
+            <xs:enumeration value="02.45"/>
+            <xs:enumeration value="02.30"/>
+            <xs:enumeration value="02.15"/>
+            <xs:enumeration value="02.00"/>
+            <xs:enumeration value="01.45"/>
+            <xs:enumeration value="01.30"/>
+            <xs:enumeration value="01.15"/>
+            <xs:enumeration value="01.00"/>
+            <xs:enumeration value="00.45"/>
+            <xs:enumeration value="00.30"/>
+            <xs:enumeration value="00.15"/>
+            <xs:enumeration value="00.00"/>
+            <xs:enumeration value="-00.15"/>
+            <xs:enumeration value="-00.30"/>
+            <xs:enumeration value="-00.45"/>
+            <xs:enumeration value="-01.00"/>
+            <xs:enumeration value="-01.15"/>
+            <xs:enumeration value="-01.30"/>
+            <xs:enumeration value="-01.45"/>
+            <xs:enumeration value="-02.00"/>
+            <xs:enumeration value="-02.15"/>
+            <xs:enumeration value="-02.30"/>
+            <xs:enumeration value="-02.45"/>
+            <xs:enumeration value="-03.00"/>
+            <xs:enumeration value="-03.15"/>
+            <xs:enumeration value="-03.30"/>
+            <xs:enumeration value="-03.45"/>
+            <xs:enumeration value="-04.00"/>
+            <xs:enumeration value="-04.15"/>
+            <xs:enumeration value="-04.30"/>
+            <xs:enumeration value="-04.45"/>
+            <xs:enumeration value="-05.00"/>
+            <xs:enumeration value="-05.15"/>
+            <xs:enumeration value="-05.30"/>
+            <xs:enumeration value="-05.45"/>
+            <xs:enumeration value="-06.00"/>
+            <xs:enumeration value="-06.15"/>
+            <xs:enumeration value="-06.30"/>
+            <xs:enumeration value="-06.45"/>
+            <xs:enumeration value="-07.00"/>
+            <xs:enumeration value="-07.15"/>
+            <xs:enumeration value="-07.30"/>
+            <xs:enumeration value="-07.45"/>
+            <xs:enumeration value="-08.00"/>
+            <xs:enumeration value="-08.15"/>
+            <xs:enumeration value="-08.30"/>
+            <xs:enumeration value="-08.45"/>
+            <xs:enumeration value="-09.00"/>
+            <xs:enumeration value="-09.15"/>
+            <xs:enumeration value="-09.30"/>
+            <xs:enumeration value="-09.45"/>
+            <xs:enumeration value="-10.00"/>
+            <xs:enumeration value="-10.15"/>
+            <xs:enumeration value="-10.30"/>
+            <xs:enumeration value="-10.45"/>
+            <xs:enumeration value="-11.00"/>
+            <xs:enumeration value="-11.15"/>
+            <xs:enumeration value="-11.30"/>
+            <xs:enumeration value="-11.45"/>
+            <xs:enumeration value="-12.00"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+	<xs:simpleType name="DataTypeCodeType">
+		<xs:annotation>
+			<xs:documentation>Provides an enumerated list of data types.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="String">
+				<xs:annotation>
+					<xs:documentation>A string datatype corresponding to W3C XML Schema's xs:string datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>	
+			<xs:enumeration value="BigInteger">
+				<xs:annotation>
+					<xs:documentation>An integer datatype corresponding to W3C XML Schema's xs:integer datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Integer">
+				<xs:annotation>
+					<xs:documentation>An integer datatype corresponding to W3C XML Schema's xs:int datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Long">
+				<xs:annotation>
+					<xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:long datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Short">
+				<xs:annotation>
+					<xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:short datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Decimal">
+				<xs:annotation>
+					<xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:decimal datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Float">
+				<xs:annotation>
+					<xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:float datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Double">
+				<xs:annotation>
+					<xs:documentation>A numeric datatype corresponding to W3C XML Schema's xs:double datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Boolean">
+				<xs:annotation>
+					<xs:documentation>A datatype corresponding to W3C XML Schema's xs:boolean datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DateTime">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:dateTime datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Date">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:date datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Time">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:time datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>			
+			<xs:enumeration value="Year">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gYear datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Month">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gMonth datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Day">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gDay datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MonthDay">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gMonthDay datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="YearMonth">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:gYearMonth datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Duration">
+				<xs:annotation>
+					<xs:documentation>A time datatype corresponding to W3C XML Schema's xs:duration datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="URI">
+				<xs:annotation>
+					<xs:documentation>A datatype corresponding to W3C XML Schema's xs:anyURI datatype.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Timespan">
+				<xs:annotation>
+					<xs:documentation>A complex datatype specifying a start date (xs:dateTime) and a duration (xs:duration). Note that this is not allowed as thre text type representing a dimension.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>			
+			<xs:enumeration value="Count">
+				<xs:annotation>
+					<xs:documentation>A simple incrementing Integer type. The isSequence facet must be set to true, and the interval facet must be set to "1".</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="InclusiveValueRange">
+				<xs:annotation>
+					<xs:documentation>This value indicates that the startValue and endValue attributes provide an inclusive numeric range of type xs:double.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ExclusiveValueRange">
+				<xs:annotation>
+					<xs:documentation>This value indicates that the startValue and endValue attributes provide an exclusive numeric range, of type xs:double.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Incremental">
+				<xs:annotation>
+					<xs:documentation>This value indicates that the value increments according to the value provided in the interval facet, and has a true value for the isSequence facet.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ObservationalTimePeriod">
+				<xs:annotation>
+					<xs:documentation>This is a time datatype, and is the conventional representation of time in SDMX formats. It is a union of W3C XML Schema time datatypes and a set of codes for indicating quarterly, tri-annual, bi-annual, and weekly time periods. See common:TimePeriodType for specifics.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>			
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- COUNTRY -->
+	<xs:complexType name="CountryType">
+		<xs:annotation>
+			<xs:documentation>A Country (PH)</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="code" type="CountryCodeType" use="optional">
+					<xs:annotation>
+						<xs:documentation>Unrestricted country code with recommended list of ISO-3166 codes</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="codeClass" type="CountryCodeClassCodeType" use="optional">
+					<xs:annotation>
+						<xs:documentation>ISO-3166 numeric country code</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:simpleType name="CountryCodeType">
+		<xs:annotation>
+			<xs:documentation>Union of xs:string and ISO country codes (PH)</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="xs:string IsoCountryCodeType"/>
+	</xs:simpleType>
+	<xs:simpleType name="IsoCountryCodeType">
+		<xs:annotation>
+			<xs:documentation>Union of ISO numeric, 2-letter and 3-letter country codes (PH)</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="IsoNCountryCodeType Iso2CountryCodeType Iso3CountryCodeType"/>
+	</xs:simpleType>
+	<xs:simpleType name="Iso2CountryCodeType">
+		<xs:annotation>
+			<xs:documentation>Enumaration of ISO 2-letter country codes (PH)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="aw"/>
+			<xs:enumeration value="af"/>
+			<xs:enumeration value="ao"/>
+			<xs:enumeration value="ai"/>
+			<xs:enumeration value="al"/>
+			<xs:enumeration value="ad"/>
+			<xs:enumeration value="an"/>
+			<xs:enumeration value="ae"/>
+			<xs:enumeration value="ar"/>
+			<xs:enumeration value="am"/>
+			<xs:enumeration value="as"/>
+			<xs:enumeration value="aq"/>
+			<xs:enumeration value="tf"/>
+			<xs:enumeration value="ag"/>
+			<xs:enumeration value="au"/>
+			<xs:enumeration value="at"/>
+			<xs:enumeration value="az"/>
+			<xs:enumeration value="bi"/>
+			<xs:enumeration value="be"/>
+			<xs:enumeration value="bj"/>
+			<xs:enumeration value="bf"/>
+			<xs:enumeration value="bd"/>
+			<xs:enumeration value="bg"/>
+			<xs:enumeration value="bh"/>
+			<xs:enumeration value="bs"/>
+			<xs:enumeration value="ba"/>
+			<xs:enumeration value="by"/>
+			<xs:enumeration value="bz"/>
+			<xs:enumeration value="bm"/>
+			<xs:enumeration value="bo"/>
+			<xs:enumeration value="br"/>
+			<xs:enumeration value="bb"/>
+			<xs:enumeration value="bn"/>
+			<xs:enumeration value="bt"/>
+			<xs:enumeration value="bv"/>
+			<xs:enumeration value="bw"/>
+			<xs:enumeration value="cf"/>
+			<xs:enumeration value="ca"/>
+			<xs:enumeration value="cc"/>
+			<xs:enumeration value="ch"/>
+			<xs:enumeration value="cl"/>
+			<xs:enumeration value="cn"/>
+			<xs:enumeration value="ci"/>
+			<xs:enumeration value="cm"/>
+			<xs:enumeration value="cd"/>
+			<xs:enumeration value="cg"/>
+			<xs:enumeration value="ck"/>
+			<xs:enumeration value="co"/>
+			<xs:enumeration value="km"/>
+			<xs:enumeration value="cv"/>
+			<xs:enumeration value="cr"/>
+			<xs:enumeration value="cu"/>
+			<xs:enumeration value="cx"/>
+			<xs:enumeration value="ky"/>
+			<xs:enumeration value="cy"/>
+			<xs:enumeration value="cz"/>
+			<xs:enumeration value="de"/>
+			<xs:enumeration value="dj"/>
+			<xs:enumeration value="dm"/>
+			<xs:enumeration value="dk"/>
+			<xs:enumeration value="do"/>
+			<xs:enumeration value="dz"/>
+			<xs:enumeration value="ec"/>
+			<xs:enumeration value="eg"/>
+			<xs:enumeration value="er"/>
+			<xs:enumeration value="eh"/>
+			<xs:enumeration value="es"/>
+			<xs:enumeration value="ee"/>
+			<xs:enumeration value="et"/>
+			<xs:enumeration value="fi"/>
+			<xs:enumeration value="fj"/>
+			<xs:enumeration value="fk"/>
+			<xs:enumeration value="fr"/>
+			<xs:enumeration value="fo"/>
+			<xs:enumeration value="fm"/>
+			<xs:enumeration value="fx"/>
+			<xs:enumeration value="ga"/>
+			<xs:enumeration value="gb"/>
+			<xs:enumeration value="ge"/>
+			<xs:enumeration value="gh"/>
+			<xs:enumeration value="gi"/>
+			<xs:enumeration value="gn"/>
+			<xs:enumeration value="gp"/>
+			<xs:enumeration value="gm"/>
+			<xs:enumeration value="gw"/>
+			<xs:enumeration value="gq"/>
+			<xs:enumeration value="gr"/>
+			<xs:enumeration value="gd"/>
+			<xs:enumeration value="gl"/>
+			<xs:enumeration value="gt"/>
+			<xs:enumeration value="gf"/>
+			<xs:enumeration value="gu"/>
+			<xs:enumeration value="gy"/>
+			<xs:enumeration value="hm"/>
+			<xs:enumeration value="hn"/>
+			<xs:enumeration value="hr"/>
+			<xs:enumeration value="ht"/>
+			<xs:enumeration value="hu"/>
+			<xs:enumeration value="id"/>
+			<xs:enumeration value="in"/>
+			<xs:enumeration value="io"/>
+			<xs:enumeration value="ie"/>
+			<xs:enumeration value="ir"/>
+			<xs:enumeration value="iq"/>
+			<xs:enumeration value="is"/>
+			<xs:enumeration value="il"/>
+			<xs:enumeration value="it"/>
+			<xs:enumeration value="jm"/>
+			<xs:enumeration value="jr"/>
+			<xs:enumeration value="jo"/>
+			<xs:enumeration value="jp"/>
+			<xs:enumeration value="kz"/>
+			<xs:enumeration value="ke"/>
+			<xs:enumeration value="kg"/>
+			<xs:enumeration value="kh"/>
+			<xs:enumeration value="ki"/>
+			<xs:enumeration value="kn"/>
+			<xs:enumeration value="kr"/>
+			<xs:enumeration value="kw"/>
+			<xs:enumeration value="la"/>
+			<xs:enumeration value="lb"/>
+			<xs:enumeration value="lr"/>
+			<xs:enumeration value="ly"/>
+			<xs:enumeration value="lc"/>
+			<xs:enumeration value="li"/>
+			<xs:enumeration value="lk"/>
+			<xs:enumeration value="ls"/>
+			<xs:enumeration value="lt"/>
+			<xs:enumeration value="lu"/>
+			<xs:enumeration value="lv"/>
+			<xs:enumeration value="mo"/>
+			<xs:enumeration value="ma"/>
+			<xs:enumeration value="mc"/>
+			<xs:enumeration value="md"/>
+			<xs:enumeration value="mg"/>
+			<xs:enumeration value="mv"/>
+			<xs:enumeration value="mx"/>
+			<xs:enumeration value="mh"/>
+			<xs:enumeration value="mk"/>
+			<xs:enumeration value="ml"/>
+			<xs:enumeration value="mt"/>
+			<xs:enumeration value="mm"/>
+			<xs:enumeration value="mn"/>
+			<xs:enumeration value="mp"/>
+			<xs:enumeration value="mz"/>
+			<xs:enumeration value="mr"/>
+			<xs:enumeration value="ms"/>
+			<xs:enumeration value="mq"/>
+			<xs:enumeration value="mu"/>
+			<xs:enumeration value="mw"/>
+			<xs:enumeration value="my"/>
+			<xs:enumeration value="yt"/>
+			<xs:enumeration value="na"/>
+			<xs:enumeration value="nc"/>
+			<xs:enumeration value="ne"/>
+			<xs:enumeration value="nf"/>
+			<xs:enumeration value="ng"/>
+			<xs:enumeration value="ni"/>
+			<xs:enumeration value="nu"/>
+			<xs:enumeration value="nl"/>
+			<xs:enumeration value="no"/>
+			<xs:enumeration value="np"/>
+			<xs:enumeration value="nr"/>
+			<xs:enumeration value="nz"/>
+			<xs:enumeration value="om"/>
+			<xs:enumeration value="pk"/>
+			<xs:enumeration value="pa"/>
+			<xs:enumeration value="pn"/>
+			<xs:enumeration value="pe"/>
+			<xs:enumeration value="ph"/>
+			<xs:enumeration value="pw"/>
+			<xs:enumeration value="pg"/>
+			<xs:enumeration value="pl"/>
+			<xs:enumeration value="pr"/>
+			<xs:enumeration value="kp"/>
+			<xs:enumeration value="pt"/>
+			<xs:enumeration value="py"/>
+			<xs:enumeration value="pf"/>
+			<xs:enumeration value="qa"/>
+			<xs:enumeration value="ro"/>
+			<xs:enumeration value="ru"/>
+			<xs:enumeration value="rw"/>
+			<xs:enumeration value="sa"/>
+			<xs:enumeration value="sd"/>
+			<xs:enumeration value="sn"/>
+			<xs:enumeration value="sg"/>
+			<xs:enumeration value="gs"/>
+			<xs:enumeration value="sh"/>
+			<xs:enumeration value="sj"/>
+			<xs:enumeration value="sb"/>
+			<xs:enumeration value="sl"/>
+			<xs:enumeration value="sv"/>
+			<xs:enumeration value="sm"/>
+			<xs:enumeration value="so"/>
+			<xs:enumeration value="pm"/>
+			<xs:enumeration value="st"/>
+			<xs:enumeration value="sr"/>
+			<xs:enumeration value="sk"/>
+			<xs:enumeration value="si"/>
+			<xs:enumeration value="se"/>
+			<xs:enumeration value="sz"/>
+			<xs:enumeration value="sc"/>
+			<xs:enumeration value="sy"/>
+			<xs:enumeration value="tc"/>
+			<xs:enumeration value="td"/>
+			<xs:enumeration value="tg"/>
+			<xs:enumeration value="th"/>
+			<xs:enumeration value="tj"/>
+			<xs:enumeration value="tk"/>
+			<xs:enumeration value="tm"/>
+			<xs:enumeration value="tp"/>
+			<xs:enumeration value="to"/>
+			<xs:enumeration value="tt"/>
+			<xs:enumeration value="tn"/>
+			<xs:enumeration value="tr"/>
+			<xs:enumeration value="tv"/>
+			<xs:enumeration value="tw"/>
+			<xs:enumeration value="tz"/>
+			<xs:enumeration value="ug"/>
+			<xs:enumeration value="ua"/>
+			<xs:enumeration value="um"/>
+			<xs:enumeration value="uy"/>
+			<xs:enumeration value="us"/>
+			<xs:enumeration value="uz"/>
+			<xs:enumeration value="va"/>
+			<xs:enumeration value="vc"/>
+			<xs:enumeration value="ve"/>
+			<xs:enumeration value="vg"/>
+			<xs:enumeration value="vi"/>
+			<xs:enumeration value="vn"/>
+			<xs:enumeration value="vu"/>
+			<xs:enumeration value="wg"/>
+			<xs:enumeration value="wf"/>
+			<xs:enumeration value="ws"/>
+			<xs:enumeration value="ye"/>
+			<xs:enumeration value="yu"/>
+			<xs:enumeration value="za"/>
+			<xs:enumeration value="zm"/>
+			<xs:enumeration value="zw"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Iso3CountryCodeType">
+		<xs:annotation>
+			<xs:documentation>Enumeration of ISO 3-letter country codes (PH)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="abw"/>
+			<xs:enumeration value="afg"/>
+			<xs:enumeration value="ago"/>
+			<xs:enumeration value="aia"/>
+			<xs:enumeration value="alb"/>
+			<xs:enumeration value="and"/>
+			<xs:enumeration value="ant"/>
+			<xs:enumeration value="are"/>
+			<xs:enumeration value="arg"/>
+			<xs:enumeration value="arm"/>
+			<xs:enumeration value="asm"/>
+			<xs:enumeration value="ata"/>
+			<xs:enumeration value="atf"/>
+			<xs:enumeration value="atg"/>
+			<xs:enumeration value="aus"/>
+			<xs:enumeration value="aut"/>
+			<xs:enumeration value="aze"/>
+			<xs:enumeration value="bdi"/>
+			<xs:enumeration value="bel"/>
+			<xs:enumeration value="ben"/>
+			<xs:enumeration value="bfa"/>
+			<xs:enumeration value="bgd"/>
+			<xs:enumeration value="bgr"/>
+			<xs:enumeration value="bhr"/>
+			<xs:enumeration value="bhs"/>
+			<xs:enumeration value="bih"/>
+			<xs:enumeration value="blr"/>
+			<xs:enumeration value="blz"/>
+			<xs:enumeration value="bmu"/>
+			<xs:enumeration value="bol"/>
+			<xs:enumeration value="bra"/>
+			<xs:enumeration value="brb"/>
+			<xs:enumeration value="brn"/>
+			<xs:enumeration value="btn"/>
+			<xs:enumeration value="bvt"/>
+			<xs:enumeration value="bwa"/>
+			<xs:enumeration value="caf"/>
+			<xs:enumeration value="can"/>
+			<xs:enumeration value="cck"/>
+			<xs:enumeration value="che"/>
+			<xs:enumeration value="chl"/>
+			<xs:enumeration value="chn"/>
+			<xs:enumeration value="civ"/>
+			<xs:enumeration value="cmr"/>
+			<xs:enumeration value="cod"/>
+			<xs:enumeration value="cog"/>
+			<xs:enumeration value="cok"/>
+			<xs:enumeration value="col"/>
+			<xs:enumeration value="com"/>
+			<xs:enumeration value="cpv"/>
+			<xs:enumeration value="cri"/>
+			<xs:enumeration value="cub"/>
+			<xs:enumeration value="cxr"/>
+			<xs:enumeration value="cym"/>
+			<xs:enumeration value="cyp"/>
+			<xs:enumeration value="cze"/>
+			<xs:enumeration value="deu"/>
+			<xs:enumeration value="dji"/>
+			<xs:enumeration value="dma"/>
+			<xs:enumeration value="dnk"/>
+			<xs:enumeration value="dom"/>
+			<xs:enumeration value="dza"/>
+			<xs:enumeration value="ecu"/>
+			<xs:enumeration value="egy"/>
+			<xs:enumeration value="eri"/>
+			<xs:enumeration value="esh"/>
+			<xs:enumeration value="esp"/>
+			<xs:enumeration value="est"/>
+			<xs:enumeration value="eth"/>
+			<xs:enumeration value="fin"/>
+			<xs:enumeration value="fji"/>
+			<xs:enumeration value="flk"/>
+			<xs:enumeration value="fra"/>
+			<xs:enumeration value="fro"/>
+			<xs:enumeration value="fsm"/>
+			<xs:enumeration value="fxx"/>
+			<xs:enumeration value="gab"/>
+			<xs:enumeration value="gbr"/>
+			<xs:enumeration value="geo"/>
+			<xs:enumeration value="gha"/>
+			<xs:enumeration value="gib"/>
+			<xs:enumeration value="gin"/>
+			<xs:enumeration value="glp"/>
+			<xs:enumeration value="gmb"/>
+			<xs:enumeration value="gnb"/>
+			<xs:enumeration value="gnq"/>
+			<xs:enumeration value="grc"/>
+			<xs:enumeration value="grd"/>
+			<xs:enumeration value="grl"/>
+			<xs:enumeration value="gtm"/>
+			<xs:enumeration value="guf"/>
+			<xs:enumeration value="gum"/>
+			<xs:enumeration value="guy"/>
+			<xs:enumeration value="hmd"/>
+			<xs:enumeration value="hnd"/>
+			<xs:enumeration value="hrv"/>
+			<xs:enumeration value="hti"/>
+			<xs:enumeration value="hun"/>
+			<xs:enumeration value="idn"/>
+			<xs:enumeration value="ind"/>
+			<xs:enumeration value="iot"/>
+			<xs:enumeration value="irl"/>
+			<xs:enumeration value="irn"/>
+			<xs:enumeration value="irq"/>
+			<xs:enumeration value="isl"/>
+			<xs:enumeration value="isr"/>
+			<xs:enumeration value="ita"/>
+			<xs:enumeration value="jam"/>
+			<xs:enumeration value="jer"/>
+			<xs:enumeration value="jor"/>
+			<xs:enumeration value="jpn"/>
+			<xs:enumeration value="kaz"/>
+			<xs:enumeration value="ken"/>
+			<xs:enumeration value="kgz"/>
+			<xs:enumeration value="khm"/>
+			<xs:enumeration value="kir"/>
+			<xs:enumeration value="kna"/>
+			<xs:enumeration value="kor"/>
+			<xs:enumeration value="kwt"/>
+			<xs:enumeration value="lao"/>
+			<xs:enumeration value="lbn"/>
+			<xs:enumeration value="lbr"/>
+			<xs:enumeration value="lby"/>
+			<xs:enumeration value="lca"/>
+			<xs:enumeration value="lie"/>
+			<xs:enumeration value="lka"/>
+			<xs:enumeration value="lso"/>
+			<xs:enumeration value="ltu"/>
+			<xs:enumeration value="lux"/>
+			<xs:enumeration value="lva"/>
+			<xs:enumeration value="mac"/>
+			<xs:enumeration value="mar"/>
+			<xs:enumeration value="mco"/>
+			<xs:enumeration value="mda"/>
+			<xs:enumeration value="mdg"/>
+			<xs:enumeration value="mdv"/>
+			<xs:enumeration value="mex"/>
+			<xs:enumeration value="mhl"/>
+			<xs:enumeration value="mkd"/>
+			<xs:enumeration value="mli"/>
+			<xs:enumeration value="mlt"/>
+			<xs:enumeration value="mmr"/>
+			<xs:enumeration value="mng"/>
+			<xs:enumeration value="mnp"/>
+			<xs:enumeration value="moz"/>
+			<xs:enumeration value="mrt"/>
+			<xs:enumeration value="msr"/>
+			<xs:enumeration value="mtq"/>
+			<xs:enumeration value="mus"/>
+			<xs:enumeration value="mwi"/>
+			<xs:enumeration value="mys"/>
+			<xs:enumeration value="myt"/>
+			<xs:enumeration value="nam"/>
+			<xs:enumeration value="ncl"/>
+			<xs:enumeration value="ner"/>
+			<xs:enumeration value="nfk"/>
+			<xs:enumeration value="nga"/>
+			<xs:enumeration value="nic"/>
+			<xs:enumeration value="niu"/>
+			<xs:enumeration value="nld"/>
+			<xs:enumeration value="nor"/>
+			<xs:enumeration value="npl"/>
+			<xs:enumeration value="nru"/>
+			<xs:enumeration value="nzl"/>
+			<xs:enumeration value="omn"/>
+			<xs:enumeration value="pak"/>
+			<xs:enumeration value="pan"/>
+			<xs:enumeration value="pcn"/>
+			<xs:enumeration value="per"/>
+			<xs:enumeration value="phl"/>
+			<xs:enumeration value="plw"/>
+			<xs:enumeration value="png"/>
+			<xs:enumeration value="pol"/>
+			<xs:enumeration value="pri"/>
+			<xs:enumeration value="prk"/>
+			<xs:enumeration value="prt"/>
+			<xs:enumeration value="pry"/>
+			<xs:enumeration value="pyf"/>
+			<xs:enumeration value="qat"/>
+			<xs:enumeration value="rom"/>
+			<xs:enumeration value="rus"/>
+			<xs:enumeration value="rwa"/>
+			<xs:enumeration value="sau"/>
+			<xs:enumeration value="sdn"/>
+			<xs:enumeration value="sen"/>
+			<xs:enumeration value="sgp"/>
+			<xs:enumeration value="sgs"/>
+			<xs:enumeration value="shn"/>
+			<xs:enumeration value="sjm"/>
+			<xs:enumeration value="slb"/>
+			<xs:enumeration value="sle"/>
+			<xs:enumeration value="slv"/>
+			<xs:enumeration value="smr"/>
+			<xs:enumeration value="som"/>
+			<xs:enumeration value="spm"/>
+			<xs:enumeration value="stp"/>
+			<xs:enumeration value="sur"/>
+			<xs:enumeration value="svk"/>
+			<xs:enumeration value="svn"/>
+			<xs:enumeration value="swe"/>
+			<xs:enumeration value="swz"/>
+			<xs:enumeration value="syc"/>
+			<xs:enumeration value="syr"/>
+			<xs:enumeration value="tca"/>
+			<xs:enumeration value="tcd"/>
+			<xs:enumeration value="tgo"/>
+			<xs:enumeration value="tha"/>
+			<xs:enumeration value="tjk"/>
+			<xs:enumeration value="tkl"/>
+			<xs:enumeration value="tkm"/>
+			<xs:enumeration value="tmp"/>
+			<xs:enumeration value="ton"/>
+			<xs:enumeration value="tto"/>
+			<xs:enumeration value="tun"/>
+			<xs:enumeration value="tur"/>
+			<xs:enumeration value="tuv"/>
+			<xs:enumeration value="twn"/>
+			<xs:enumeration value="tza"/>
+			<xs:enumeration value="uga"/>
+			<xs:enumeration value="ukr"/>
+			<xs:enumeration value="umi"/>
+			<xs:enumeration value="ury"/>
+			<xs:enumeration value="usa"/>
+			<xs:enumeration value="uzb"/>
+			<xs:enumeration value="vat"/>
+			<xs:enumeration value="vct"/>
+			<xs:enumeration value="ven"/>
+			<xs:enumeration value="vgb"/>
+			<xs:enumeration value="vir"/>
+			<xs:enumeration value="vnm"/>
+			<xs:enumeration value="vut"/>
+			<xs:enumeration value="wbg"/>
+			<xs:enumeration value="wlf"/>
+			<xs:enumeration value="wsm"/>
+			<xs:enumeration value="yem"/>
+			<xs:enumeration value="yug"/>
+			<xs:enumeration value="zaf"/>
+			<xs:enumeration value="zmb"/>
+			<xs:enumeration value="zwe"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IsoNCountryCodeType">
+		<xs:annotation>
+			<xs:documentation>Enumeration of ISO numeric country codes (PH)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:short">
+			<xs:enumeration value="533"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="660"/>
+			<xs:enumeration value="8"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="530"/>
+			<xs:enumeration value="784"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="51"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="260"/>
+			<xs:enumeration value="28"/>
+			<xs:enumeration value="36"/>
+			<xs:enumeration value="40"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="108"/>
+			<xs:enumeration value="56"/>
+			<xs:enumeration value="204"/>
+			<xs:enumeration value="854"/>
+			<xs:enumeration value="50"/>
+			<xs:enumeration value="100"/>
+			<xs:enumeration value="48"/>
+			<xs:enumeration value="44"/>
+			<xs:enumeration value="70"/>
+			<xs:enumeration value="112"/>
+			<xs:enumeration value="84"/>
+			<xs:enumeration value="60"/>
+			<xs:enumeration value="68"/>
+			<xs:enumeration value="76"/>
+			<xs:enumeration value="52"/>
+			<xs:enumeration value="96"/>
+			<xs:enumeration value="64"/>
+			<xs:enumeration value="74"/>
+			<xs:enumeration value="72"/>
+			<xs:enumeration value="140"/>
+			<xs:enumeration value="124"/>
+			<xs:enumeration value="166"/>
+			<xs:enumeration value="756"/>
+			<xs:enumeration value="152"/>
+			<xs:enumeration value="156"/>
+			<xs:enumeration value="384"/>
+			<xs:enumeration value="120"/>
+			<xs:enumeration value="180"/>
+			<xs:enumeration value="178"/>
+			<xs:enumeration value="184"/>
+			<xs:enumeration value="170"/>
+			<xs:enumeration value="174"/>
+			<xs:enumeration value="132"/>
+			<xs:enumeration value="188"/>
+			<xs:enumeration value="192"/>
+			<xs:enumeration value="162"/>
+			<xs:enumeration value="136"/>
+			<xs:enumeration value="196"/>
+			<xs:enumeration value="203"/>
+			<xs:enumeration value="276"/>
+			<xs:enumeration value="262"/>
+			<xs:enumeration value="212"/>
+			<xs:enumeration value="208"/>
+			<xs:enumeration value="214"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="218"/>
+			<xs:enumeration value="818"/>
+			<xs:enumeration value="232"/>
+			<xs:enumeration value="732"/>
+			<xs:enumeration value="724"/>
+			<xs:enumeration value="233"/>
+			<xs:enumeration value="231"/>
+			<xs:enumeration value="246"/>
+			<xs:enumeration value="242"/>
+			<xs:enumeration value="238"/>
+			<xs:enumeration value="250"/>
+			<xs:enumeration value="234"/>
+			<xs:enumeration value="583"/>
+			<xs:enumeration value="249"/>
+			<xs:enumeration value="266"/>
+			<xs:enumeration value="826"/>
+			<xs:enumeration value="268"/>
+			<xs:enumeration value="288"/>
+			<xs:enumeration value="292"/>
+			<xs:enumeration value="324"/>
+			<xs:enumeration value="312"/>
+			<xs:enumeration value="270"/>
+			<xs:enumeration value="624"/>
+			<xs:enumeration value="226"/>
+			<xs:enumeration value="300"/>
+			<xs:enumeration value="308"/>
+			<xs:enumeration value="304"/>
+			<xs:enumeration value="320"/>
+			<xs:enumeration value="254"/>
+			<xs:enumeration value="316"/>
+			<xs:enumeration value="328"/>
+			<xs:enumeration value="334"/>
+			<xs:enumeration value="340"/>
+			<xs:enumeration value="191"/>
+			<xs:enumeration value="332"/>
+			<xs:enumeration value="348"/>
+			<xs:enumeration value="360"/>
+			<xs:enumeration value="356"/>
+			<xs:enumeration value="86"/>
+			<xs:enumeration value="372"/>
+			<xs:enumeration value="364"/>
+			<xs:enumeration value="368"/>
+			<xs:enumeration value="352"/>
+			<xs:enumeration value="376"/>
+			<xs:enumeration value="380"/>
+			<xs:enumeration value="388"/>
+			<xs:enumeration value="999"/>
+			<xs:enumeration value="400"/>
+			<xs:enumeration value="392"/>
+			<xs:enumeration value="398"/>
+			<xs:enumeration value="404"/>
+			<xs:enumeration value="417"/>
+			<xs:enumeration value="116"/>
+			<xs:enumeration value="296"/>
+			<xs:enumeration value="659"/>
+			<xs:enumeration value="410"/>
+			<xs:enumeration value="414"/>
+			<xs:enumeration value="418"/>
+			<xs:enumeration value="422"/>
+			<xs:enumeration value="430"/>
+			<xs:enumeration value="434"/>
+			<xs:enumeration value="662"/>
+			<xs:enumeration value="438"/>
+			<xs:enumeration value="144"/>
+			<xs:enumeration value="426"/>
+			<xs:enumeration value="440"/>
+			<xs:enumeration value="442"/>
+			<xs:enumeration value="428"/>
+			<xs:enumeration value="446"/>
+			<xs:enumeration value="504"/>
+			<xs:enumeration value="492"/>
+			<xs:enumeration value="498"/>
+			<xs:enumeration value="450"/>
+			<xs:enumeration value="462"/>
+			<xs:enumeration value="484"/>
+			<xs:enumeration value="584"/>
+			<xs:enumeration value="807"/>
+			<xs:enumeration value="466"/>
+			<xs:enumeration value="470"/>
+			<xs:enumeration value="104"/>
+			<xs:enumeration value="496"/>
+			<xs:enumeration value="580"/>
+			<xs:enumeration value="508"/>
+			<xs:enumeration value="478"/>
+			<xs:enumeration value="500"/>
+			<xs:enumeration value="474"/>
+			<xs:enumeration value="480"/>
+			<xs:enumeration value="454"/>
+			<xs:enumeration value="458"/>
+			<xs:enumeration value="175"/>
+			<xs:enumeration value="516"/>
+			<xs:enumeration value="540"/>
+			<xs:enumeration value="562"/>
+			<xs:enumeration value="574"/>
+			<xs:enumeration value="566"/>
+			<xs:enumeration value="558"/>
+			<xs:enumeration value="570"/>
+			<xs:enumeration value="528"/>
+			<xs:enumeration value="578"/>
+			<xs:enumeration value="524"/>
+			<xs:enumeration value="520"/>
+			<xs:enumeration value="554"/>
+			<xs:enumeration value="512"/>
+			<xs:enumeration value="586"/>
+			<xs:enumeration value="591"/>
+			<xs:enumeration value="612"/>
+			<xs:enumeration value="604"/>
+			<xs:enumeration value="608"/>
+			<xs:enumeration value="585"/>
+			<xs:enumeration value="598"/>
+			<xs:enumeration value="616"/>
+			<xs:enumeration value="630"/>
+			<xs:enumeration value="408"/>
+			<xs:enumeration value="620"/>
+			<xs:enumeration value="600"/>
+			<xs:enumeration value="258"/>
+			<xs:enumeration value="634"/>
+			<xs:enumeration value="642"/>
+			<xs:enumeration value="643"/>
+			<xs:enumeration value="646"/>
+			<xs:enumeration value="682"/>
+			<xs:enumeration value="736"/>
+			<xs:enumeration value="686"/>
+			<xs:enumeration value="702"/>
+			<xs:enumeration value="239"/>
+			<xs:enumeration value="654"/>
+			<xs:enumeration value="744"/>
+			<xs:enumeration value="90"/>
+			<xs:enumeration value="694"/>
+			<xs:enumeration value="222"/>
+			<xs:enumeration value="674"/>
+			<xs:enumeration value="706"/>
+			<xs:enumeration value="666"/>
+			<xs:enumeration value="678"/>
+			<xs:enumeration value="740"/>
+			<xs:enumeration value="703"/>
+			<xs:enumeration value="705"/>
+			<xs:enumeration value="752"/>
+			<xs:enumeration value="748"/>
+			<xs:enumeration value="690"/>
+			<xs:enumeration value="760"/>
+			<xs:enumeration value="796"/>
+			<xs:enumeration value="148"/>
+			<xs:enumeration value="768"/>
+			<xs:enumeration value="764"/>
+			<xs:enumeration value="762"/>
+			<xs:enumeration value="772"/>
+			<xs:enumeration value="795"/>
+			<xs:enumeration value="626"/>
+			<xs:enumeration value="776"/>
+			<xs:enumeration value="780"/>
+			<xs:enumeration value="788"/>
+			<xs:enumeration value="792"/>
+			<xs:enumeration value="798"/>
+			<xs:enumeration value="158"/>
+			<xs:enumeration value="834"/>
+			<xs:enumeration value="800"/>
+			<xs:enumeration value="804"/>
+			<xs:enumeration value="581"/>
+			<xs:enumeration value="858"/>
+			<xs:enumeration value="840"/>
+			<xs:enumeration value="860"/>
+			<xs:enumeration value="336"/>
+			<xs:enumeration value="670"/>
+			<xs:enumeration value="862"/>
+			<xs:enumeration value="92"/>
+			<xs:enumeration value="850"/>
+			<xs:enumeration value="704"/>
+			<xs:enumeration value="548"/>
+			<xs:enumeration value="998"/>
+			<xs:enumeration value="876"/>
+			<xs:enumeration value="882"/>
+			<xs:enumeration value="887"/>
+			<xs:enumeration value="891"/>
+			<xs:enumeration value="710"/>
+			<xs:enumeration value="894"/>
+			<xs:enumeration value="716"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CountryCodeClassCodeType">
+		<xs:annotation>
+			<xs:documentation>Type of country code classification</xs:documentation>
+		</xs:annotation>
+		<xs:union memberTypes="xs:NMTOKEN RecommendedCountryCodeClassCodeType"/>
+	</xs:simpleType>
+	<xs:simpleType name="RecommendedCountryCodeClassCodeType">
+		<xs:annotation>
+			<xs:documentation>Recommended types of country code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ISO-3166"/>
+			<xs:enumeration value="ISO-3166, 2-letter"/>
+			<xs:enumeration value="ISO-3166, 3-letter)"/>
+			<xs:enumeration value="ISO-3166, numeric"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="ddi:physicaldataproduct/ncube/normal:0_1" xmlns="ddi:physicaldataproduct/ncube/normal:0_1" xmlns:r="ddi:reusable:0_1" xmlns:p="ddi:physicaldataproduct:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd" />
+	<xs:import namespace="ddi:physicaldataproduct:0_1" schemaLocation="physicaldataproduct.xsd" />
+
+
+<!-- COMMON RECORD LAYOUT - CUBED - MODULE 1 -->
+	<xs:element name="RecordLayout" type="RecordLayoutType" substitutionGroup="p:BaseRecordLayout"/>
+
+	<xs:complexType name="RecordLayoutType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="p:BaseRecordLayoutType">
+				<xs:sequence>
+					<xs:element name="NCubeInstance" type="NCubeInstanceType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>A container to define an instance of an NCube, which exists to allow one to specify values of attributes attached to a NCube.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DataItem" type="DataItemType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Identifies a physical storage location for an individual data entry, serving as a link between the physical location and the logical content description of each data item.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="NCubeInstanceType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification"/>
+			<xs:element name="NCubeReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation>Reference to the logical NCube description.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DataItemType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NCubeInstanceRef" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CoordinateGroup" type="CoordinateGroupType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Coordinate" type="CoordinateType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Specifies this coordinate in the standard matrix descriptive pattern (1,2,3,.n)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="MeasureValue" type="MeasureValueType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute ref="xml:lang"/>
+		<xs:attribute name="decimalSeperator" type="r:OneCharStringType"/>
+		<xs:attribute name="groupingSeperator" type="r:OneCharStringType"/>
+		<xs:attribute name="type" type="r:DataTypeCodeType"/>
+	</xs:complexType>
+
+	<xs:complexType name="CoordinateGroupType">
+		<xs:annotation>
+			<xs:documentation>Strucutre for identifiying set of common coordinate values in a group.  A group here can then be referenced in a data item to avoid repeating all coordinate values again for the data item.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CoordinateGroupRef" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation>References coordinate group defined in the logical product.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Coordinate" type="CoordinateType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Specifies this coordinate in the standard matrix descriptive pattern (1,2,3,.n)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CoordinateType">
+		<xs:annotation>
+			<xs:documentation>Coordinate for this particular item, repeated to provide the full matrix of coodinates for the cells within this Cube.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CoordinateNumber" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Specifies this coordinate in the standard matrix descriptive pattern (1,2,3,.n)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CoordinateValue" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Value of the specific coordinate (not used if VariableRef is used).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VariableRef" type="r:ReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The variable ID where the coordinate value is found (for files where one of the dimensions of the matrix has a different record for each category and the value of the category is found in a specific variable, e.g., SIC codes in US County Business Patterns).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MeasureValueType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RecordReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation>Reference to RecordGroup description.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValueLocation" type="p:ValueLocationType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Attribute" type="AttributeType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Component to provide cell level attribute values.</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AttributeType">
+		<xs:annotation>
+			<xs:documentation>Provides for a choice between an explicit value, or a location in a file where the value can be found.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AttributeReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation>Reference to attribute description.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="ValueLocation" type="p:ValueLocationType">
+					<xs:annotation>
+						<xs:documentation>The used scheme for format definitions. Common data formats are described by the XML Schema primitives. It should be strongly encouraged to use these formats. Other formats (specially binary formats) are defined by the format definitions of SAS and SPSS. SAS seems to have the most comprehensive list of formats and would therefore necessary. SPSS is convenient for the user. A format scheme including formats of programming languages seems to be reasonable. A corresponding list of formats could be borrowed from the function scanf (C++) and the Java scanner class (work to do). Allowed values: XMLSchema (default) | SAS | SPSS | other. other schemes should be definable by user definitions.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Value" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Value of the attribute.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

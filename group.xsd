@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="ddi:group:0_1" xmlns="ddi:group:0_1" xmlns:r="ddi:reusable:0_1" xmlns:c="ddi:concept:0_1" xmlns:cm="ddi:comparative:0_1" xmlns:d="ddi:datacollection:0_1" xmlns:l="ddi:logicalproduct:0_1" xmlns:pd="ddi:physicaldataproduct:0_1" xmlns:pi="ddi:physicalinstance:0_1" xmlns:m1="ddi:physicaldataproduct/ncube/normal:0_1"  xmlns:m2="ddi:physicaldataproduct/ncube/tabular:0_1" xmlns:m3="ddi:physicaldataproduct/ncube/inline:0_1" xmlns:s="ddi:studyunit:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd" />
+	<xs:import namespace="ddi:comparative:0_1" schemaLocation="comparative.xsd" />
+	<xs:import namespace="ddi:concept:0_1" schemaLocation="conceptualcomponents.xsd" />
+	<xs:import namespace="ddi:datacollection:0_1" schemaLocation="datacollection.xsd" />
+	<xs:import namespace="ddi:logicalproduct:0_1" schemaLocation="logicalproduct.xsd" />
+	<xs:import namespace="ddi:physicaldataproduct:0_1" schemaLocation="physicaldataproduct.xsd"/>
+	<xs:import namespace="ddi:physicalinstance:0_1" schemaLocation="physicalinstance.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct/ncube/normal:0_1" schemaLocation="ncube_recordlayout.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct/ncube/tabular:0_1" schemaLocation="tabular_ncube_recordlayout.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct/ncube/inline:0_1" schemaLocation="inline_ncube_recordlayout.xsd"/>
+	<xs:import namespace="ddi:studyunit:0_1" schemaLocation="studyunit.xsd"/>
+	
+	<xs:element name="Group" type="GroupType"/>
+	
+	<xs:complexType name="GroupType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Citation" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Abstract" type="r:IdentifiedStructuredStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Purpose" type="r:IdentifiedStructuredStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Universe" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ConceptualComponents" type="ConceptType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DataCollection" type="DataCollectionType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LogicalProduct" type="LogicalProductType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StudyUnit" type="StudyUnitType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubGroup" type="SubGroupType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="cm:ComparisonStandards" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="time" type="TimeGroupCodeType" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="instrument" type="InstrumentGroupCodeType" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="panel" type="PanelGroupCodeType" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="geography" type="GeographyGroupCodeType" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dataSet" type="DataSetGroupCodeType" use="required">
+			<xs:annotation>
+				<xs:documentation></xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	
+	<xs:complexType name="ConceptType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="c:ConceptualComponents">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Reference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="DataCollectionType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="d:DataCollection">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Reference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="LogicalProductType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="l:BaseLogicalProduct">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Reference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="StudyUnitType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="s:StudyUnit">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>		
+			<xs:element name="Reference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>	
+
+	<xs:complexType name="SubGroupType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="Group">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>		
+			<xs:element name="Reference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:simpleType name="TimeGroupCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+   			<xs:enumeration value="T1">
+				<xs:annotation>
+					<xs:documentation>Single Occurrence</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="T2">
+				<xs:annotation>
+					<xs:documentation>Multiple Occurrence: Regular Occurrence: Continuing</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="T3">
+				<xs:annotation>
+					<xs:documentation>Multiple Occurrence: Regular Occurrence: Limited time</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="T4">
+				<xs:annotation>
+					<xs:documentation>Multiple Occurrence: Irregular Occurrence: Continuing</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="T5">
+				<xs:annotation>
+					<xs:documentation>Multiple Occurrence: Irregular Occurrence: Limited time</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="InstrumentGroupCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+   			<xs:enumeration value="I1">
+				<xs:annotation>
+					<xs:documentation>Single</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="I2">
+				<xs:annotation>
+					<xs:documentation>Multiple: Integrated set of 2 or more instruments used for different subgroups</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="I3">
+				<xs:annotation>
+					<xs:documentation>Multiple: Base with Topical changes</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PanelGroupCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+   			<xs:enumeration value="P1">
+				<xs:annotation>
+					<xs:documentation>Single panel surveyed multiple times</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="P2">
+				<xs:annotation>
+					<xs:documentation>Single panel surveyed once</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="P3">
+				<xs:annotation>
+					<xs:documentation>Rolling panel (multiple interviews limited duration)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="P4">
+				<xs:annotation>
+					<xs:documentation>Different panel each survey</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="GeographyGroupCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+   			<xs:enumeration value="G1">
+				<xs:annotation>
+					<xs:documentation>Single geography surveyed multiple times</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="G2">
+				<xs:annotation>
+					<xs:documentation>Single geography surveyed once</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="G3">
+				<xs:annotation>
+					<xs:documentation>Rolling geography (multiple interviews limited duration)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="G4">
+				<xs:annotation>
+					<xs:documentation>Different geography each survey</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="DataSetGroupCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+   			<xs:enumeration value="D1">
+				<xs:annotation>
+					<xs:documentation>Single data file from a data collection</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="D2">
+				<xs:annotation>
+					<xs:documentation>Multiple data products from a single data collection</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="D3">
+				<xs:annotation>
+					<xs:documentation>Integration of multiple data sets into a single integrated structure</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+   			<xs:enumeration value="D4">
+				<xs:annotation>
+					<xs:documentation>Multiple data files each from a different data collection</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

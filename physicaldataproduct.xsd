@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="ddi:physicaldataproduct:0_1" xmlns="ddi:physicaldataproduct:0_1" xmlns:r="ddi:reusable:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd" />
+
+<!-- PHYSICAL DATA PRODUCT -->	
+	<xs:element name="PhysicalDataProduct" type="PhysicalDataProductType"/>
+	
+	<xs:complexType name="PhysicalDataProductType">
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LogicalDataProductReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GrossRecordStructure" type="GrossRecordStructureType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="BaseRecordLayout" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Software" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GrossRecordStructureType">
+		<xs:annotation>
+			<xs:documentation>Describes the number and type of records in a file. For example: Household record, Person record or LogicalRecordPart 1 Part2....for a Logical record broken into multiple physical parts.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RecordsPerCase" type="xs:integer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used for card-image data or other files in which there are multiple records per case.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VariableQuantity" type="xs:integer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Number of varaibles available for a case.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CharacterSet" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Character set used in file e.g., us-ascii, ebcdic, unicode UTF-8 etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Format" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Physical format of data file.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MissingData" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>General information about missing data e.g., that missing data have been standardized acorss the collection, missing data are present because of merging, etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>			
+			<xs:element name="RecordGroup" type="RecordGroupType" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RecordGroupType">
+		<xs:annotation>
+			<xs:documentation>Describes a group of records of a particular type. Just the Household Record or just the Person Record.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RelatedRecord" type="RelatedRecordType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="variableCount" type="xs:integer" use="optional">
+			<xs:annotation>
+				<xs:documentation>Number of variables in this record.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="recordLength" type="xs:integer" use="optional">
+			<xs:annotation>
+				<xs:documentation>Length of this record in characters.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:complexType name="RelatedRecordType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RecordReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LinkKeyVariable" type="LinkKeyVariableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="type" type="RelationTypeCodeType" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="LinkKeyVariableType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LocationReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VariableReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="type" type="VariableTypeCodeType" use="required"/>
+	</xs:complexType>
+
+<!-- RECORD LAYOUT -->
+	<xs:element name="BaseRecordLayout" type="BaseRecordLayoutType" abstract="true"/>
+	
+	<xs:complexType name="BaseRecordLayoutType" abstract="true">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+
+<!-- COMMON RECORD LAYOUT - NON-NCUBE -->
+	<xs:element name="RecordLayout" type="RecordLayoutType" substitutionGroup="BaseRecordLayout"/>
+
+	<xs:complexType name="RecordLayoutType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="BaseRecordLayoutType">
+				<xs:sequence>
+					<xs:element name="DataItem" type="DataItemType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation></xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="DataItemType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PhysicalLocation" type="PhysicalLocationType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute ref="xml:lang"/>
+		<xs:attribute name="decimalSeperator" type="r:OneCharStringType"/>
+		<xs:attribute name="groupingSeperator" type="r:OneCharStringType"/>
+		<xs:attribute name="type" type="r:DataTypeCodeType"/>
+	</xs:complexType>
+
+	<xs:complexType name="PhysicalLocationType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RecordReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation>Reference to record group.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValueLocation" type="ValueLocationType">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ValueLocationType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="FormatScheme" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The used scheme for format definitions. Common data formats are described by the XML Schema primitives. It should be strongly encouraged to use these formats. Other formats (specially binary formats) are defined by the format definitions of SAS and SPSS. SAS seems to have the most comprehensive list of formats and would therefore necessary. SPSS is convenient for the user. A format scheme including formats of programming languages seems to be reasonable. A corresponding list of formats could be borrowed from the function scanf (C++) and the Java scanner class (work to do). Allowed values: XMLSchema (default) | SAS | SPSS | other. other schemes should be definable by user definitions.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Format" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>"A controlled list of formats in dependency from the choosen formatScheme. XML Schema: primitives. Data formats in SAS (informats): 
+					http://support.sas.com/onlinedoc/913/docMainpage.jsp 
+					Base SAS / SAS Language Reference: Dictionary / Dictionary of Language Elements / Informats or in http://support.sas.com/documentation/onlinedoc/91pdf/sasdoc_913/base_lrdictionary_9200.pdf. The list of SPSS data formats must be extracted from the SPSS documentation (universals / variables / variable formats ) (work to do).".</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DataType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An explicit definition of the data type is convenient. It is necessary in the case of some numeric data formats, if the format definition could read real values, but the values are indeed integer values. So data processing tools on the basis of the data definition in DDI documents could use the appropriate data type, i.e. integer for integer values. Theoretically this should be only possible for some real data formats (some SAS / SPSS formats), in all other cases an application could derive the data type from the format definition. Allowed values: integer (default) | real | string.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Delimiter" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Delimiter definition for delimited (free field) data. Allowed values: EMPTY (default) | TAB | Blank | ANYSTRING. If a delimiter is used, free field (delimited data) is assumed; then i.e. binary formats should theoretically not be possible.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VariableNames" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Variable names are in the first row of the data file. Default: false. This makes only sense in case of delimited data.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StartPosition" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>position of first character of the data item in fixed format OR array number of data item for delimited files.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Width" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>data item width for fixed format file, maximum width for delimited file.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DecimalPositions" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Number of decimal places for data with an implied decimal separator. Another expression is decimal scaling factor (SAS). Default: 0.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DecimalSeperator" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data). Allowed values: none (default) | dot | comma | other. "other" should be definable by user definitions. Data processing tools on the basis of the data definition in DDI documents could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition makes only sense with some XML Schema primitives.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GroupingSeperator" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data). Allowed values: none (default) | dot | comma | other. "other" should be definable by user definitions. The decimal separator definition makes only sense with some XML Schema primitives.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+<!-- CODE LISTS -->
+	<xs:simpleType name="RelationTypeCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Parent">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Child">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Sibling">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Continuation">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="VariableTypeCodeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Character">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Numeric">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Mixed">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

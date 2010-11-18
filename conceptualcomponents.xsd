@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="ddi:concept:0_1" xmlns="ddi:concept:0_1" xmlns:r="ddi:reusable:0_1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+	<xs:import namespace="ddi:reusable:0_1" schemaLocation="reusable.xsd" />
+	
+	<xs:element name="ConceptualComponents" type="ConceptualComponentsType"/>
+	
+	<xs:complexType name="ConceptualComponentsType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Universe" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="ConceptScheme" type="ConceptSchemeType">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ConceptSchemeReference" type="r:ReferenceType">
+					<xs:annotation>
+						<xs:documentation></xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ConceptSchemeType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Vocabulary" type="VocabularyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="Concept" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Reference into the external XML document to the categories root (for example a XPointer expression). By this means an application could use additional information on the category level documented in the external document. For a specific category the category.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ConceptGroup" type="ConceptGroupType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A hierarchical collection of concepts.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ConceptGroupType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ConceptReference" type="ConceptReferenceType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A reference to a concept included in this concept group. It can be from this, or another external scheme. This structure is recursive to allow for definition of hierarchical relationships within the concept group.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="ordered" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Indicates whether the concept scheme is ordered or unordered.  Value of true indicates ordered.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="structured" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Indicates the structure of the relationships in the concept scheme.  A value of true indicates a hieracrchical structure, where a value of false indicates an unstructured scheme.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="ConceptReferenceType">
+		<xs:complexContent>
+			<xs:extension base="r:ReferenceType">
+				<xs:sequence>
+					<xs:element name="ConceptReference" type="ConceptReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>A reference to a child concept.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="VocabularyType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Title" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Full title of vocabulary.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Abbreviation" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Abbreviation of vocabulary title.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Keyword" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Keywords to describe the vocabulary.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- Type say Rich Text - need to define this. -->
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Description of the vocabulary.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="URI" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>URI to external resource on the vocabulary (general description, main web page).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="XML-URI" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>URI to the vocabulary represented in a XML document.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Scheme" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>XML scheme in which the classification is written.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SchemeURI" type="xs:anyURI" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>URI to the used XML vocabulary scheme (DTD or XML Schema for the XML document above); schemes like DDI, Claset, Neuchatel, and DocBook.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<!-- Type say Rich Text - need to define this. -->
+			<xs:element name="Comments" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Comments on the usage of the vocabulary.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- Need to declare globally so it can be substituted in compartive package. -->
+	<xs:element name="Concept" type="ConceptType"/>
+	
+	<xs:complexType name="ConceptType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Identification">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="r:InternationalStringType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SimilarConcept" type="SimilarConceptType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Reference to similar term or item.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SimilarConceptType">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ConceptReference" type="r:ReferenceType">
+				<xs:annotation>
+					<xs:documentation>Reference to similar term or item.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Difference" type="r:StructuredStringType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes the extent of difference between this term and referenced term.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>
