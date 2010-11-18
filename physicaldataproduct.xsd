@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct:3_0_CR2" xmlns:r="ddi:reusable:3_0_CR2" xmlns:ds="ddi:dataset:3_0_CR2" targetNamespace="ddi:physicaldataproduct:3_0_CR2" elementFormDefault="qualified">
-   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
-   <xs:import namespace="ddi:reusable:3_0_CR2" schemaLocation="reusable.xsd"/>
+<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
+<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:ds="ddi:dataset:3_0_CR3" targetNamespace="ddi:physicaldataproduct:3_0_CR3" elementFormDefault="qualified">
+   <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <!-- PHYSICAL DATA PRODUCT -->
    <xs:element name="PhysicalDataProduct" type="PhysicalDataProductType">
       <xs:annotation>
@@ -13,82 +12,155 @@
       <xs:annotation>
          <xs:documentation>Describes the physical layout of the data documented in the logical product module.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:MaintainableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the physical data product.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="PhysicalDataProductTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>References other resources related to the described physical data product.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Note regarding the physical data product.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="LogicalProductReference" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>References the logical data product that describes the intellectual content of this physical data product.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="CharacterSet" type="xs:string">
-            <xs:annotation>
-               <xs:documentation>Character set used in the data file (e.g., US ASCII, EBCDIC, UTF-8).</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="Format" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Description of the physical format of data file (e.g., SAS save file, Delimited file, Fixed format file).</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="DefaultDataType" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>An explicit definition of the data type. This field is necessary in the case of some numeric data formats where the format definition would allow real values, but the values are integer values. Allowed values are: integer (default), real, string.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="DefaultDelimiter" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Delimiter definition for delimited (free field) data. Allowed values are: Empty (default), Tab, Blank, AnyString. If a delimiter is used, free field (delimited data) is assumed; binary formats are not allowed.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="DefaultDecimalPositions" type="xs:integer" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Number of decimal places for data with an implied decimal separator. Another expression is the decimal scaling factor (SAS). Default: 0.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="DefaultDecimalSeparator" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. Data processing tools on the basis of the data definition in DDI documents could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition only makes sense with some XML Schema primitives.  This is a default which may be overridden in specific cases.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="DefaultGroupingSeparator" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="DefaultMissingData" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>General information about missing data (e.g., that missing data have been standardized across the collection, missing data are present because of merging).</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="GrossRecordStructure" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Characteristics of the physical storage of a logical record type as described in the DataRelationship section of the logical product.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="BaseRecordLayout" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Describes the number and type of records in a data structure.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="r:MaintainableType">
+            <xs:sequence>
+               <xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>References other resources related to the described physical data product.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Note regarding the physical data product.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="PhysicalStructureScheme" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A maintainable scheme containing the physical structures of the physical data product.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="RecordLayoutScheme" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A maintainable scheme containing the record layouts of the physical data product.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>                   
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="PhysicalStructureSchemeType">
+      <xs:annotation>
+         <xs:documentation>a maintainable scheme describing physical structures.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="r:MaintainableType"> 
+         	<xs:sequence>
+			<xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>A short description of the physical structure scheme.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>A description of the use of the physical structure scheme.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="PhysicalStructureSchemeReference" minOccurs="0" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>Provides for inclusion by reference of external physical structure schemes.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="PhysicalStructure" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>An item (that is, a physical structure) belonging to the physical structure scheme.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>         	
+         	</xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="PhysicalStructureType">
+      <xs:annotation>
+         <xs:documentation>A physical structure description - the item of the physical structure scheme. These are used by record layouts to describe the full structure of a physical instance.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="r:VersionableType"> 
+         	<xs:sequence>
+			 <xs:element ref="LogicalProductReference" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>References the logical data product that describes the intellectual content of this physical data product.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element name="CharacterSet" type="xs:string">
+			  <xs:annotation>
+			     <xs:documentation>Character set used in the data file (e.g., US ASCII, EBCDIC, UTF-8).</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element name="Format" type="xs:string" minOccurs="0">
+			  <xs:annotation>
+			     <xs:documentation>Description of the physical format of data file (e.g., SAS save file, Delimited file, Fixed format file).</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element name="DefaultDataType" type="xs:string" minOccurs="0">
+			  <xs:annotation>
+			     <xs:documentation>An explicit definition of the data type. This field is necessary in the case of some numeric data formats where the format definition would allow real values, but the values are integer values. Allowed values are: integer (default), real, string.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element name="DefaultDelimiter" type="xs:string" minOccurs="0">
+			  <xs:annotation>
+			     <xs:documentation>Delimiter definition for delimited (free field) data. Allowed values are: Empty (default), Tab, Blank, AnyString. If a delimiter is used, free field (delimited data) is assumed; binary formats are not allowed.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element name="DefaultDecimalPositions" type="xs:integer" minOccurs="0">
+			  <xs:annotation>
+			     <xs:documentation>Number of decimal places for data with an implied decimal separator. Another expression is the decimal scaling factor (SAS). Default: 0.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="DefaultDecimalSeparator" minOccurs="0">
+			  <xs:annotation>
+			     <xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. Data processing tools on the basis of the data definition in DDI documents could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition only makes sense with some XML Schema primitives.  This is a default which may be overridden in specific cases.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="DefaultDigitGroupSeparator" minOccurs="0">
+			  <xs:annotation>
+			     <xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element name="DefaultMissingData" type="xs:string" minOccurs="0">
+			  <xs:annotation>
+			     <xs:documentation>General information about missing data (e.g., that missing data have been standardized across the collection, missing data are present because of merging).</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="GrossRecordStructure" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>Characteristics of the physical storage of a logical record type as described in the DataRelationship section of the logical product.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>        	
+         	</xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="RecordLayoutSchemeType">
+      <xs:annotation>
+         <xs:documentation>a maintainable scheme describing physical structures.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="r:MaintainableType"> 
+         	<xs:sequence>
+			<xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>A short description of the record layout scheme.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>A description of the use of the record layout scheme.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="RecordLayoutSchemeReference" minOccurs="0" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>Provides for inclusion by reference of external record layout schemes.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="BaseRecordLayout" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>Describes the number and type of records in a data structure. Note that this element is abstract, and only serves as the head of a substitution group containing all the various types of record layouts.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>         	
+         	</xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:element name="GrossRecordStructure" type="GrossRecordStructureType">
       <xs:annotation>
@@ -99,34 +171,28 @@
       <xs:annotation>
          <xs:documentation>Characteristics of the physical storage of a logical record type as described in the DataRelationship section of the logical product.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:VersionableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the record layout.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="GrossRecordStructureTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="LogicalRecordReference">
-            <xs:annotation>
-               <xs:documentation>Reference to the LogicalProduct:DataRelationship:LogicalRecord:RecordType:Idenfication.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="PhysicalRecordSegment" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A logical record may be stored in one or more segments housed hierarchically in a single file or in separate data files. All logical records have at least one segment.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-      <xs:attribute name="numberOfPhysicalSegments" type="xs:integer" default="1">
-         <xs:annotation>
-            <xs:documentation>Number of records segments each logical record (case) is divided into express as an integer.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
-   </xs:complexType>
-   <!-- RECORD LAYOUT -->
+      <xs:complexContent>
+         <xs:extension base="r:IdentifiableType">
+            <xs:sequence>
+               <xs:element ref="LogicalRecordReference">
+                  <xs:annotation>
+                     <xs:documentation>Reference to the LogicalProduct:DataRelationship:LogicalRecord:RecordType:Idenfication.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="PhysicalRecordSegment" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A logical record may be stored in one or more segments housed hierarchically in a single file or in separate data files. All logical records have at least one segment.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+            <xs:attribute name="numberOfPhysicalSegments" type="xs:integer" default="1">
+               <xs:annotation>
+                  <xs:documentation>Number of records segments each logical record (case) is divided into express as an integer.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType><!-- RECORD LAYOUT -->
    <xs:element name="BaseRecordLayout" type="BaseRecordLayoutType" abstract="true">
       <xs:annotation>
          <xs:documentation>This element is an abstract element used as the head of a substitution group for other elements which describe specific record layouts.</xs:documentation>
@@ -136,7 +202,31 @@
       <xs:annotation>
          <xs:documentation>This type structures an abstract element which is used only as the head of a substitution group. It has no content.</xs:documentation>
       </xs:annotation>
+   	<xs:complexContent>
+   		<xs:extension base="r:IdentifiableType">
+   			<xs:sequence>
+   				<xs:element ref="PhysicalStructureReference"/>
+   			</xs:sequence>
+   		</xs:extension>
+   	</xs:complexContent>
    </xs:complexType>
+   <xs:element name="PhysicalStructureReference">
+     <xs:annotation>
+   	 <xs:documentation>References a physical structure and the IDs of the physical record segments from that structure which are used by the physical instance.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:complexType name="PhysicalStructureReferenceType">
+      <xs:annotation>
+	 <xs:documentation>References a physical data product and the IDs of the physical record segments from that product which are used by the physical instance.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+	 <xs:extension base="r:ReferenceType">
+	    <xs:sequence>
+	       <xs:element name="PhysicalRecordSegmentUsed" type="xs:NCName"/>
+	    </xs:sequence>
+	 </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>   
    <!-- COMMON RECORD LAYOUT - NON-NCUBE -->
    <xs:element name="RecordLayout" type="RecordLayoutType" substitutionGroup="BaseRecordLayout">
       <xs:annotation>
@@ -153,11 +243,6 @@
                <xs:element ref="DefaultVariableSchemeReference" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Provides a pointer to a variable scheme for the RecordLayout.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="PhysicalRecordSegmentReference">
-                  <xs:annotation>
-                     <xs:documentation>Provides a pointer to a physical record segment for the RecordLayout.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="DataItem" maxOccurs="unbounded">
@@ -178,41 +263,36 @@
       <xs:annotation>
          <xs:documentation>A logical record may be stored in one or more segments housed hierarchically in a single file or in separate data files. All logical records have at least one segment.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Describes each physical record segment that makes up the logical record.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="PhysicalRecordSegmentTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:sequence>
-           <xs:element ref="KeyVariableReference" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Reference to the Unique key variable for segment identification.</xs:documentation>
-            </xs:annotation>
-           </xs:element>
-         <xs:element name="FileNameIdentification" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>If the file containing this sement has a standard section of its file name, include it here.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         </xs:sequence>
-      </xs:sequence>
-      <xs:attribute name="segmentOrder" type="xs:integer" default="1">
-         <xs:annotation>
-            <xs:documentation>Indicates the position of this physical record segment within the logical record expressed as an integer.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
-      <xs:attribute name="hasSegmentKey" type="xs:boolean" default="false">
-         <xs:annotation>
-            <xs:documentation>A value of false implies default identification is by segment order in file if segmentOrder is greater than 1. If value is true, a segment key must be declared in a KeyVariableReference.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
+      <xs:complexContent>
+         <xs:extension base="r:IdentifiableType">
+            <xs:sequence>
+               <xs:sequence>
+                  <xs:element ref="KeyVariableReference" minOccurs="0">
+                     <xs:annotation>
+                        <xs:documentation>Reference to the Unique key variable for segment identification.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+                  <xs:element name="FileNameIdentification" type="xs:string" minOccurs="0">
+                     <xs:annotation>
+                        <xs:documentation>If the file containing this sement has a standard section of its file name, include it here.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>
+               </xs:sequence>
+            </xs:sequence>
+            <xs:attribute name="segmentOrder" type="xs:integer" default="1">
+               <xs:annotation>
+                  <xs:documentation>Indicates the position of this physical record segment within the logical record expressed as an integer.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="hasSegmentKey" type="xs:boolean" default="false">
+               <xs:annotation>
+                  <xs:documentation>A value of false implies default identification is by segment order in file if segmentOrder is greater than 1. If value is true, a segment key must be declared in a KeyVariableReference.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
-  <xs:complexType name="KeyVariableReferenceType">
+   <xs:complexType name="KeyVariableReferenceType">
       <xs:annotation>
          <xs:documentation>Reference to the Unique key variable for segment identification.</xs:documentation>
       </xs:annotation>
@@ -250,11 +330,11 @@
          <xs:documentation>Includes information about the relevant record group, as well as the data item location and its data type/format.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element name="DataType" type="xs:string" minOccurs="0">
+         <xs:element name="StorageFormat" type="r:CodeValueType" minOccurs="0">
             <xs:annotation>
                <xs:documentation>An explicit definition of the data type. This field is necessary in the case of some numeric data formats where the format definition would allow real values, but the values are integer values. Allowed values are: integer (default), real, string.</xs:documentation>
             </xs:annotation>
-         </xs:element>
+         </xs:element>      
          <xs:element name="Delimiter" type="xs:string" minOccurs="0">
             <xs:annotation>
                <xs:documentation>Delimiter definition for delimited (free field) data. Allowed values are: Empty (default), Tab, Blank, AnyString. If a delimiter is used, free field (delimited data) is assumed; binary formats are not allowed.</xs:documentation>
@@ -266,14 +346,14 @@
                   <xs:documentation>Position of the first character of the data item in fixed format, or array number of the data item for delimited files.</xs:documentation>
                </xs:annotation>
             </xs:element>
-            <xs:element name="Width" type="xs:integer" minOccurs="0">
-               <xs:annotation>
-                  <xs:documentation>Data item width for fixed format file, maximum width for delimited file.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
             <xs:element name="EndPosition" type="xs:integer" minOccurs="0">
                <xs:annotation>
-                  <xs:documentation>Data item end position for fixed format file.</xs:documentation>
+                  <xs:documentation>Position of the last character of the data item in fixed format. Must be specified if a value for Width is not provided.</xs:documentation>
+               </xs:annotation>
+            </xs:element>            
+            <xs:element name="Width" type="xs:integer" minOccurs="0">
+               <xs:annotation>
+                  <xs:documentation>Data item width for fixed format file, maximum width for delimited file. Must be specified if a value for EndPosition is not provided.</xs:documentation>
                </xs:annotation>
             </xs:element>
          </xs:sequence>
@@ -287,13 +367,48 @@
                <xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. Data processing tools on the basis of the data definition in DDI documents could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition only makes sense with some XML Schema primitives.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="GroupingSeparator" minOccurs="0">
+         <xs:element ref="DigitGroupSeparator" minOccurs="0">
             <xs:annotation>
                <xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives.</xs:documentation>
             </xs:annotation>
          </xs:element>
+         <xs:element name="LanguageOfData" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>A two-character ISO language code.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="LocaleOfData" type="xs:string" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>A two-character ISO country code, to supplement the LanguageOfData value.</xs:documentation>
+            </xs:annotation>
+         </xs:element>         
       </xs:sequence>
    </xs:complexType>
+   <xs:element name="PhysicalStructureScheme" type="PhysicalStructureSchemeType">
+      <xs:annotation>
+         <xs:documentation>A maintainable scheme containing the physical structures of the physical data product.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="PhysicalStructureSchemeReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to a physical structure scheme for inclusion by reference in another physical structure scheme.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="PhysicalStructure" type="PhysicalStructureType">
+      <xs:annotation>
+         <xs:documentation>The physical structure which is the item of the physical structure scheme.</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
+   <xs:element name="RecordLayoutScheme" type="RecordLayoutSchemeType">
+      <xs:annotation>
+         <xs:documentation>A maintainable scheme containing the record layouts of the physical data product.</xs:documentation>
+      </xs:annotation>
+   </xs:element>  
+   <xs:element name="RecordLayoutSchemeReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to a record layout scheme for inclusion by reference in another record layout scheme.</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
    <xs:element name="LogicalProductReference" type="r:ReferenceType">
       <xs:annotation>
          <xs:documentation>References the logical data product that describes the intellectual content of this physical data product.</xs:documentation>
@@ -334,12 +449,12 @@
          <xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. Data processing tools on the basis of the data definition in DDI documents could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition only makes sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="GroupingSeparator" type="r:OneCharStringType">
+   <xs:element name="DigitGroupSeparator" type="r:OneCharStringType">
       <xs:annotation>
          <xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="DefaultGroupingSeparator" type="r:OneCharStringType">
+   <xs:element name="DefaultDigitGroupSeparator" type="r:OneCharStringType">
       <xs:annotation>
          <xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data). Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
       </xs:annotation>
@@ -349,7 +464,6 @@
          <xs:documentation>A logical record may be stored in one or more segments housed hierarchically in a single file or in separate data files. All logical records have at least one segment.</xs:documentation>
       </xs:annotation>
    </xs:element>
-
    <xs:element name="KeyVariableReference" type="KeyVariableReferenceType">
       <xs:annotation>
          <xs:documentation>Reference to the Unique key variable for segment identification.</xs:documentation>

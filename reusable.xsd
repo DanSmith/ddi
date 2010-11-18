@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:reusable:3_0_CR2" xmlns:dce="ddi:dcelements:3_0_CR2" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="ddi:reusable:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
+<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:reusable:3_0_CR3" xmlns:dc="ddi:dcelements:3_0_CR3" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="ddi:reusable:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="ddi-xhtml11.xsd"/>
-   <xs:import namespace="ddi:dcelements:3_0_CR2" schemaLocation="dcelements.xsd"/>
+      <xs:import namespace="ddi:dcelements:3_0_CR3" schemaLocation="dcelements.xsd"/>
    <!-- BASIC TYPES -->
    <xs:attributeGroup name="GLOBALS">
       <xs:annotation>
@@ -154,22 +154,17 @@
       <xs:annotation>
          <xs:documentation>Combines the features of IdentifedStringType and StructuredStringType, providing both identification and XHTML structured content.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Identification for the structured string. If used internally, only an ID need be supplied.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="IdentifiedStructuredStringTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="Content">
-            <xs:annotation>
-               <xs:documentation>Contains a structured string that may be marked up in XHTML.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="IdentifiableType">
+            <xs:sequence>
+               <xs:element ref="Content">
+                  <xs:annotation>
+                     <xs:documentation>Contains a structured string that may be marked up in XHTML.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="EmptyType">
       <xs:annotation>
@@ -187,12 +182,12 @@
                   <xs:documentation>Other Value.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="codeListID" type="xs:string" use="required">
+            <xs:attribute name="codeListID" type="xs:string" use="optional">
                <xs:annotation>
                   <xs:documentation>Identification of the code list that this value is taken from.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="codeListAgency" type="xs:string" use="required">
+            <xs:attribute name="codeListAgency" type="xs:string" use="optional">
                <xs:annotation>
                   <xs:documentation>Agency maintaining the code list.</xs:documentation>
                </xs:annotation>
@@ -205,76 +200,33 @@
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
-   <!-- IDENTIFICATION TYPE -->
-   <xs:complexType name="IdentifiableIDType">
+   <!-- Identifiable -->
+   <xs:complexType name="AbstractIdentifiableType" abstract="true">
       <xs:annotation>
          <xs:documentation>Used to identify described identifiable objects for purposes of internal and/or external referencing. Elements of this type cannot be versioned or maintained except as part of a complex parent element. Provides containers for Uniform Resource Name (URN) as well as ID information. An entity can either be identified by a URN, or an ID. The Agency and Version information in the URN is inherited from the containing elements. If both URN and combination of elements is used, the URN takes precedence. The element can be designated as an addition, replacement, or deletion to facilitate tracking changes.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:choice maxOccurs="2">
-            <xs:element ref="URN">
-               <xs:annotation>
-                  <xs:documentation>URN providing identification.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="ID">
-               <xs:annotation>
-                  <xs:documentation>ID assigned by an agency. This must be unique within its object type as contained in a scheme.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-         </xs:choice>
          <xs:element ref="Name" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Human-readable name given the entity being identified. May be repeated to provide language and/or geographic alternatives.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:choice minOccurs="0">
-            <xs:element ref="Add">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A new ID plus "Add" means add this to the inherited structure.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="Replace">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Replace" indicates to use the new version rather than the inherited element with this ID for local processing.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="Delete">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Delete" indicates that the inherited element with this ID has been removed from the inherited group for local processing.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-         </xs:choice>
       </xs:sequence>
-      <xs:attribute name="type" type="xs:string" fixed="Identifiable"/>
+      <xs:attribute name="id" type="BaseIDType" use="required"/>
+      <xs:attribute name="urn" type="xs:anyURI" use="optional"/>
+      <xs:attribute name="action" type="ActionCodeType" use="optional"/>
    </xs:complexType>
-   <xs:complexType name="VersionableIDType">
-      <xs:annotation>
-         <xs:documentation>Used to identify described identifiable objects for purposes of internal and/or external referencing. Elements of this type must be versioned (default is 1.0). Provides containers for Uniform Resource Name (URN) as well as ID information, and Version information (version number, date, responsibility, and rationale). An entity can either be identified by a URN, or an ID/Version. The Agency information in the URN is inherited from the containing maintainable element. If both URN and combination of elements is used, the URN takes precedence. The element can be designated as an addition, replacement, or deletion to facilitate tracking changes.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:choice maxOccurs="2">
-            <xs:element ref="URN">
-               <xs:annotation>
-                  <xs:documentation>URN providing identification.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
+   <xs:complexType name="IdentifiableType" abstract="true">
+      <xs:complexContent>
+         <xs:extension base="AbstractIdentifiableType">
+            <xs:attribute name="isIdentifiable" type="xs:boolean" fixed="true"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType><!-- Versionable -->
+   <xs:complexType name="AbstractVersionableType" abstract="true">
+      <xs:complexContent>
+         <xs:extension base="AbstractIdentifiableType">
             <xs:sequence>
-               <xs:element ref="ID">
-                  <xs:annotation>
-                     <xs:documentation>ID assigned by an agency. This must be unique within its object type as contained in a scheme.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element name="Version" type="xs:string" minOccurs="0">
-                  <xs:annotation>
-                     <xs:documentation>Version number, expressed as a two part numeric string composed of two positive integers separated by a period. The first number indicates a major version, the second a minor one: 1.0. Optionally, a third integer may indicate sub-version: 1.0.2.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="VersionDate" minOccurs="0">
-                  <xs:annotation>
-                     <xs:documentation>Date the version took effect.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
                <xs:element name="VersionResponsibility" type="xs:string" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Reference to the person and/or ogranization responsible for the version change.  This is primarily intended for internal use.</xs:documentation>
@@ -286,101 +238,81 @@
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
-         </xs:choice>
-         <xs:element ref="Name" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Human-readable name given the entity being identified. May be repeated to provide language and/or geographic alternatives.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:choice minOccurs="0">
-            <xs:element ref="Add">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A new ID plus "Add" means add this to the inherited structure.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="Replace">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Replace" indicates to use the new version rather than the inherited element with this ID for local processing.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="Delete">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Delete" indicates that the inherited element with this ID has been removed from the inherited group for local processing.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-         </xs:choice>
-      </xs:sequence>
-      <xs:attribute name="type" type="xs:string" fixed="Versionable"/>
+            <xs:attribute name="version" type="NewVersionType" use="optional"/>
+            <xs:attribute name="versionDate" type="xs:dateTime" use="optional"/>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
-   <xs:complexType name="MaintainableIDType">
+   <xs:complexType name="VersionableType" abstract="true">
+      <xs:complexContent>
+         <xs:extension base="AbstractVersionableType">
+            <xs:attribute name="isVersionable" type="xs:boolean" fixed="true"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType><!-- Maintainable -->
+   <xs:complexType name="AbstractMaintainableType" abstract="true">
+      <xs:complexContent>
+         <xs:extension base="AbstractVersionableType">
+            <xs:attribute name="agency" type="xs:NCName" use="optional"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:complexType name="MaintainableType" abstract="true">
+      <xs:complexContent>
+         <xs:extension base="AbstractMaintainableType">
+            <xs:attribute name="isMaintainable" type="xs:boolean" fixed="true"/>
+         </xs:extension>
+      </xs:complexContent>
+   </xs:complexType><!-- ID Type -->
+   <xs:simpleType name="BaseIDType">
       <xs:annotation>
-         <xs:documentation>Used to identify described identifiable objects for purposes of internal and/or external referencing. Provides containers for Uniform Resource Name (URN) as well as ID information, Versioning information, and the Identifying Agency. An entity can either be identified by a URN, or a combination of ID/Agency/Version, with Agency and Version being inherited from the containing elements. If both URN and combination of elements is used, the URN takes precedence. Note that the URN is a string that combines the individually listed ID, agency, and version. The element can be designated as an addition, replacement, or deletion to facilitate tracking changes. Elements of this type may be maintained as separate resouce items.</xs:documentation>
+         <xs:documentation>IDType provides a type which is used for restricting the characters in codes and IDs throughout all SDMX-ML messages. Valid characters include A-Z, a-z, @, 0-9, _, -, $.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:choice maxOccurs="2">
-            <xs:element ref="URN">
-               <xs:annotation>
-                  <xs:documentation>URN providing identification.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:sequence>
-               <xs:element ref="ID">
-                  <xs:annotation>
-                     <xs:documentation>ID assigned by an agency. This must be unique within its object type as contained in a scheme.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element name="IdentifyingAgency" type="xs:NCName" minOccurs="0">
-                  <xs:annotation>
-                     <xs:documentation>The agency maintaining the identification. This is optional if inherited from a parent object.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element name="Version" type="xs:string" minOccurs="0">
-                  <xs:annotation>
-                     <xs:documentation>Version number, expressed as a two part numeric string composed of two positive integers separated by a period. The first number indicates a major version, the second a minor one: 1.0. Optionally, a third integer may indicate sub-version: 1.0.2.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="VersionDate" minOccurs="0">
-                  <xs:annotation>
-                     <xs:documentation>Date the version took effect.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element name="VersionResponsibility" type="xs:string" minOccurs="0">
-                  <xs:annotation>
-                     <xs:documentation>Reference to the person and/or ogranization responsible for the version change.  This is primarily intended for internal use.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="VersionRationale" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Textual description of the rationale/purpose for a version change.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-            </xs:sequence>
-         </xs:choice>
-         <xs:element ref="Name" minOccurs="0" maxOccurs="unbounded">
+      <xs:restriction base="xs:string">
+         <xs:pattern value="([A-Z]|[a-z]|\*|@|[0-9]|_|$|\-)*"/>
+      </xs:restriction>
+   </xs:simpleType><!-- Version Type -->
+   <xs:simpleType name="NewVersionType">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:pattern value="([0-9])+(\.([0-9])+)*"/>
+      </xs:restriction>
+   </xs:simpleType><!-- Action Code Type -->
+   <xs:simpleType name="ActionCodeType">
+      <xs:annotation>
+         <xs:documentation/>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Add">
             <xs:annotation>
-               <xs:documentation>Human-readable name given the entity being identified. May be repeated to provide language and/or geographic alternatives.</xs:documentation>
+               <xs:documentation>Add</xs:documentation>
             </xs:annotation>
-         </xs:element>
-         <xs:choice minOccurs="0">
-            <xs:element ref="Add">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A new ID plus "Add" means add this to the inherited structure.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="Replace">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Replace" indicates to use the new version rather than the inherited element with this ID for local processing.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="Delete">
-               <xs:annotation>
-                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Delete" indicates that the inherited element with this ID has been removed from the inherited group for local processing.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-         </xs:choice>
-      </xs:sequence>
-      <xs:attribute name="type" type="xs:string" fixed="Maintainable"/>
-   </xs:complexType>
+         </xs:enumeration>
+         <xs:enumeration value="Update">
+            <xs:annotation>
+               <xs:documentation>Update</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+         <xs:enumeration value="Delete">
+            <xs:annotation>
+               <xs:documentation>Delete</xs:documentation>
+            </xs:annotation>
+         </xs:enumeration>
+      </xs:restriction>
+   </xs:simpleType>
+  <xs:complexType name="SeriesStatementType">
+	<xs:annotation>
+		<xs:documentation>Series statement contains information about the series to which a study unit or group of study units belongs.</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="SeriesRepositoryLocation" type="xs:anyURI" minOccurs="0"/>
+		<xs:element ref="Name"/>
+		<xs:element name="Abbreviation" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:element ref="SeriesDescription" minOccurs="0" maxOccurs="unbounded"/>
+	</xs:sequence>
+   </xs:complexType>   
    <xs:complexType name="ReferenceType">
       <xs:annotation>
          <xs:documentation>Used for referencing an identified entity expressed in DDI XML, either by a URN and/or an ID. If both are supplied, the URN takes precedence. At a minimum, one or the other is required.</xs:documentation>
@@ -449,7 +381,7 @@
    </xs:complexType>
    <xs:complexType name="URNType">
       <xs:annotation>
-         <xs:documentation>Container for a URN which complies with DDI conventions. The format of this URN includes the standard (DDI), the version of the standard, the object's class, the maintenance agency, the object's ID, and the major and minor version number, all separated by colons: urn:ddi:3_0:[Object Class]:[Agency ID]:[ID of Maintained Object]:[Major Version]_[Minor Version].[ID of Contained Object].</xs:documentation>
+         <xs:documentation>Container for a URN which complies with DDI conventions. The format of this URN includes the protocol ('urn'), the standard (DDI), the version of the standard, and the object's class (which may be compound, with maintainable, and child versionable/identifiable separated by '.'), followed by an equals sign ('='). After the equals sign comes the maintenance agency and the object's ID, separated by colons. If the ID of the object is compound, the maintainable and the child versionable/maintainable each have an ID with version in parenthesis following, using the dot ('.') to separate parent and child objects. Example: urn:ddi:3_0:VariableScheme.Variable=pop.umn.edu:Vscheme6(1.1).V1(1.1)</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="xs:anyURI">
@@ -578,7 +510,7 @@
                <xs:documentation>The copyright statement.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="dce:DCElements" minOccurs="0">
+         <xs:element ref="dc:DCElements" minOccurs="0">
             <xs:annotation>
                <xs:documentation>Element including a sequence of Dublin Core fields that may be used to supplement - but not replace - the DDI citation.</xs:documentation>
             </xs:annotation>
@@ -640,37 +572,32 @@
       <xs:annotation>
          <xs:documentation>Provides information aboput data that are not currently available because of policies established by the principal investigators and/or data producers.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the embargo pertaining to the relevant item.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="EmbargoTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="Date">
-            <xs:annotation>
-               <xs:documentation>Provides the date of the embargo, which may take the form of a relevant date range.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Rationale" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Indicates the reason for the embargo.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="AgencyOrganizationReference">
-            <xs:annotation>
-               <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the embargo.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="EnforcementAgencyOrganizationReference" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for enforcing the embargo.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="IdentifiableType">
+            <xs:sequence>
+               <xs:element ref="Date">
+                  <xs:annotation>
+                     <xs:documentation>Provides the date of the embargo, which may take the form of a relevant date range.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Rationale" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Indicates the reason for the embargo.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="AgencyOrganizationReference">
+                  <xs:annotation>
+                     <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the embargo.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="EnforcementAgencyOrganizationReference" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for enforcing the embargo.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:element name="LifecycleInformation" type="LifecycleInformationType">
       <xs:annotation>
@@ -693,94 +620,32 @@
       <xs:annotation>
          <xs:documentation>A life cycle event can be any event which is judged to be significant enough to document by the agency maintaining the documentation for a particular set of data. The type attribute may be used to create indicate which type of event in a typology meaningful to the documentor.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies a life cycle event.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="LifeCycleEventTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="EventType" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Type of the life cycle event.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Date">
-            <xs:annotation>
-               <xs:documentation>The date or date range of the lifecycle event.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="AgencyOrganizationReference">
-            <xs:annotation>
-               <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the lifecycle event.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Description" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A human-readable description of the event. This may be provided in several languages by repeating the field.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name="UniverseStructureType">
-      <xs:annotation>
-         <xs:documentation>Contains universe statements used in the studyunit and/or group organized in hierarchical structures to provide parent child relationships.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="MaintainableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies universe structure.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="UniverseStructureTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="OverallUniverse">
-            <xs:annotation>
-               <xs:documentation>The overall inclusive universe of the object of the research to which any analytic results refer. The top level must be inclusive of all lower universe statement. For example for a study of high schools, high school students, and their parents in Edmunton, Alberta Canada this universe level would include the full description.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name="UniverseType">
-      <xs:annotation>
-         <xs:documentation>Universe statement assoicated with data collection, Question, Variable, NCube</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="MaintainableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies universe.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="UniverseTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="HumanReadable" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A human-readable statement of the Universe of the question item.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="MachineReadable" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A machine-readable statement of the universe of the question item, expressed as a Coding.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="SubUniverse" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A subset of the parent universe for example the universe Females is a subset of the universe Population.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-      <xs:attribute name="isInclusive" type="xs:boolean" default="true">
-         <xs:annotation>
-            <xs:documentation>When true the universe statement describes what is in the universe. When false, it is a statement of what is excluded from the universe.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
+      <xs:complexContent>
+         <xs:extension base="IdentifiableType">
+            <xs:sequence>
+               <xs:element ref="EventType" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Type of the life cycle event.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Date">
+                  <xs:annotation>
+                     <xs:documentation>The date or date range of the lifecycle event.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="AgencyOrganizationReference">
+                  <xs:annotation>
+                     <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the lifecycle event.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Description" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A human-readable description of the event. This may be provided in several languages by repeating the field.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="CodeType">
       <xs:annotation>
@@ -890,41 +755,34 @@
             </xs:attribute>
          </xs:extension>
       </xs:simpleContent>
-   </xs:complexType>
-   <!-- TOPICAL COVERAGE -->
+   </xs:complexType><!-- TOPICAL COVERAGE -->
    <xs:complexType name="TopicalCoverageType">
       <xs:annotation>
          <xs:documentation>Describes the topical coverage of the data documented in a particular DDI module.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the topical coverage.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="TopicalCoverageTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="Subject" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A subject or list of subjects that indicate the topical coverage of the data described in a particular module/section.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Keyword" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A keyword (which can be supplied in multiple language-equivalent forms) to support searches on topical coverage. </xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="IdentifiableType">
+            <xs:sequence>
+               <xs:element ref="Subject" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A subject or list of subjects that indicate the topical coverage of the data described in a particular module/section.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Keyword" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A keyword (which can be supplied in multiple language-equivalent forms) to support searches on topical coverage. </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="TypedStringType">
       <xs:annotation>
          <xs:documentation>Provides for string content with a type indentifier.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
-         <xs:extension base="InternationalStringType">
-         	<!-- Need CV -->
+         <xs:extension base="InternationalStringType"><!-- Need CV -->
             <xs:attribute name="type" type="xs:string" use="required">
                <xs:annotation>
                   <xs:documentation>Identifies the type of this string.  This attribute can be restricted to use a controlled vocabulary.</xs:documentation>
@@ -942,16 +800,28 @@
       <xs:annotation>
          <xs:documentation>A complete structure to describe formal transformation procedures of variables should stay below this element. This could be a XML structure like MathML or a simple string.</xs:documentation>
       </xs:annotation>
-      <xs:simpleContent>
-         <xs:extension base="xs:string">
-            <xs:attribute name="formalLanguage" type="xs:string" use="optional">
-               <xs:annotation>
-                  <xs:documentation>Name of used formal language (for example MathML, SPSS).</xs:documentation>
-               </xs:annotation>
-            </xs:attribute>
-         </xs:extension>
-      </xs:simpleContent>
+      <xs:sequence>
+      	<xs:element name="CommandText" type="xs:string" minOccurs="0"/>
+      	<xs:element ref="StructuredCommand" minOccurs="0"/>
+      </xs:sequence>
+	    <xs:attribute name="formalLanguage" type="xs:string" use="optional">
+	       <xs:annotation>
+		  <xs:documentation>Name of used formal language (for example MathML, SPSS).</xs:documentation>
+	       </xs:annotation>
+	    </xs:attribute>
    </xs:complexType>
+   <xs:complexType name="StructuredCommandType" abstract="true">
+      <xs:annotation>
+         <xs:documentation>This type structures an empty stub which is used as the basis for extensions added using external namespaces such as MathML. The DDI 3.0 extension methodology is used here - a new module is declared, and the StructuredCommand element is used as the head of a substitution group to insert whatever XML is needed to express the command.</xs:documentation>
+      </xs:annotation>   
+   </xs:complexType>
+
+   <xs:element name="StructuredCommand" type="StructuredCommandType">
+      <xs:annotation>
+         <xs:documentation>Contains a command expressed in XML, which is attached as an extension to this abstract stub (see the DDI 3.0 extension methodology documentation).</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   
    <xs:element name="Software" type="SoftwareType">
       <xs:annotation>
          <xs:documentation>Describes a specific software package.</xs:documentation>
@@ -984,68 +854,62 @@
          </xs:element>
       </xs:sequence>
       <xs:attributeGroup ref="GLOBALS"/>
-   </xs:complexType>
-   <!-- GEOGRAPHIC COVERAGE -->
+   </xs:complexType><!-- GEOGRAPHIC COVERAGE -->
    <xs:complexType name="GeographicCoverageType">
       <xs:annotation>
          <xs:documentation>Describes the geographic coverage of the data documented in a particular DDI module.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the geographic coverage.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="GeographicCoverageTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="BoundingBox" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>The Bounding Box is a 'rectangle, oriented to the x and y axes, which bounds a geographic feature or a geographic dataset. It is specified by two coordiantes: xmin, ymin and xmax,ymax.' [FGDC]. In the DDI, it describes the full extent of the geographic coverage, and is designed to be used by systems that search for geography by coordinates. It is compatible with the description and structure found in FGDC and other geographic metadata structures.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Description" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Providea a human-readable summary of the information included in Geography and Geography Reference. It may include information on all levels of spatial coverage, in addition to the overall coverage. This field can map to Dublin Core Coverage, which does not support structured strings. Therefore, if there is intent to map to Dublin Core, the text should not be marked up with XHTML.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="GeographyStructureVariable" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>References a variable describing the geographic levels available in the data such as the variable "Summary Level" in U.S. Census data.  This reference is needed for assistance in programming.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="SpatialObject" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Contains information on the most discrete type of spatial representation to which data in this file can be attached (point, line, polygon, linear ring). For example, a raw data file with an address attached to each case is 'point'. When the microdata file is anonymized and the geographic information is for a state or other defined area, it is 'polygon'. Some data, such as traffic or criminal incidence data may have a street range identification or 'line', and some such as communications data have a point with a radius or 'linear ring'. </xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="GeographicStructure" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Contains information on the hierarchy of the geographic structure. The structure can be defined within the DDI or an external structure can be referenced.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="GeographicLocations" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Contains information on the specific geographic areas defined in the data set such as cities, countries, or states. The areas can be defined within the DDI or an external structure can be referenced.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="SummaryDataReference" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>May be repeated to reference each geography (geographic level) for which there is summary data.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="TopLevelReference">
-            <xs:annotation>
-               <xs:documentation>Reference to the top-level geography.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="LowestLevelReference">
-            <xs:annotation>
-               <xs:documentation>Reference to the lowest-level geography.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="IdentifiableType">
+            <xs:sequence>
+               <xs:element ref="BoundingBox" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>The Bounding Box is a 'rectangle, oriented to the x and y axes, which bounds a geographic feature or a geographic dataset. It is specified by two coordiantes: xmin, ymin and xmax,ymax.' [FGDC]. In the DDI, it describes the full extent of the geographic coverage, and is designed to be used by systems that search for geography by coordinates. It is compatible with the description and structure found in FGDC and other geographic metadata structures.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Description" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Providea a human-readable summary of the information included in Geography and Geography Reference. It may include information on all levels of spatial coverage, in addition to the overall coverage. This field can map to Dublin Core Coverage, which does not support structured strings. Therefore, if there is intent to map to Dublin Core, the text should not be marked up with XHTML.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="GeographyStructureVariable" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>References a variable describing the geographic levels available in the data such as the variable "Summary Level" in U.S. Census data.  This reference is needed for assistance in programming.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="SpatialObject" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Contains information on the most discrete type of spatial representation to which data in this file can be attached (point, line, polygon, linear ring). For example, a raw data file with an address attached to each case is 'point'. When the microdata file is anonymized and the geographic information is for a state or other defined area, it is 'polygon'. Some data, such as traffic or criminal incidence data may have a street range identification or 'line', and some such as communications data have a point with a radius or 'linear ring'. </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="GeographicStructureReference" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Contains information on the hierarchy of the geographic structure. The structure can be defined within the DDI or an external structure can be referenced.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>              
+               <xs:element ref="GeographicLocationReference" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Contains information on the specific geographic areas defined in the data set such as cities, countries, or states. The areas can be defined within the DDI or an external structure can be referenced.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="SummaryDataReference" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>May be repeated to reference each geography (geographic level) for which there is summary data.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="TopLevelReference">
+                  <xs:annotation>
+                     <xs:documentation>Reference to the top-level geography.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="LowestLevelReference">
+                  <xs:annotation>
+                     <xs:documentation>Reference to the lowest-level geography.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="LevelReferenceType">
       <xs:annotation>
@@ -1095,6 +959,8 @@
       <xs:annotation>
          <xs:documentation>Contains information on the hierarchy of the geographic structure. The structure can be defined within the DDI, or an external structure can be referenced.</xs:documentation>
       </xs:annotation>
+      <xs:complexContent>
+      <xs:extension base="VersionableType">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
          <xs:element ref="Geography">
             <xs:annotation>
@@ -1107,32 +973,36 @@
             </xs:annotation>
          </xs:element>
       </xs:choice>
+      </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="GeographyType">
       <xs:annotation>
          <xs:documentation>Describes the levels of a geographic hierarchy.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the geography.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="GeographyTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="Level">
-            <xs:annotation>
-               <xs:documentation>Describes a single level in a geographical breakdown (eg, country, province, etc.)</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="ParentGeography" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Reference to a containing (parent) geography.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="IdentifiableType">
+            <xs:sequence>
+               <xs:element ref="Level">
+                  <xs:annotation>
+                     <xs:documentation>Describes a single level in a geographical breakdown (eg, country, province, etc.)</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:choice minOccurs="0">
+		       <xs:element ref="ParentGeography">
+			  <xs:annotation>
+			     <xs:documentation>Reference to a single containing (parent) geography.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>
+		       <xs:element ref="GeographicLayerBase" minOccurs="2" maxOccurs="unbounded">
+			  <xs:annotation>
+			     <xs:documentation>Use for gegraphic polygons that are the result of layering 2 or more geographic hierarchies where the polygone being described is the interect of the layers. For example: State - County - County Subdivision - Place/Remainder - Tract [The portion of a tract that is within a single place (or non-place area) and a single county subdivision] This polygon is made by overlaying the following three geographic hierarchies: 1) State - Place, 2) State - County - Tract, and 3) State - County - Subdivision. The three GeographicLayerBase elements would point to Tract, Place, and County Subdivision.</xs:documentation>
+			  </xs:annotation>
+		       </xs:element>               
+               </xs:choice>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="ParentGeographyType">
       <xs:annotation>
@@ -1147,23 +1017,46 @@
             </xs:attribute>
          </xs:extension>
       </xs:complexContent>
-   </xs:complexType>
+   </xs:complexType>   
    <xs:complexType name="GeographicLocationType">
       <xs:annotation>
          <xs:documentation>References or describes specific geographic codes/values.</xs:documentation>
       </xs:annotation>
-      <xs:choice minOccurs="0" maxOccurs="unbounded">
-         <xs:element ref="Values">
-            <xs:annotation>
-               <xs:documentation>Allows inclusion of specific values (eg. for the geographic level of "country" allows specification of Germany, Norway, Sweden etc.).</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="GeographicLocationReference">
-            <xs:annotation>
-               <xs:documentation>Reference to a previously defined set of geographic values.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:choice>
+            <xs:complexContent>
+               <xs:extension base="VersionableType">
+            <xs:sequence>
+	      <xs:choice minOccurs="0" maxOccurs="unbounded">
+		 <xs:element ref="Values">
+		    <xs:annotation>
+		       <xs:documentation>Allows inclusion of specific values (eg. for the geographic level of "country" allows specification of Germany, Norway, Sweden etc.).</xs:documentation>
+		    </xs:annotation>
+		 </xs:element>
+		 <xs:element ref="GeographicLocationReference">
+		    <xs:annotation>
+		       <xs:documentation>Reference to a previously defined set of geographic values.</xs:documentation>
+		    </xs:annotation>
+		 </xs:element>
+	      </xs:choice>
+	      <xs:element ref="AuthorityOrganizationReference">
+		    <xs:annotation>
+		       <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the code.</xs:documentation>
+		    </xs:annotation>
+       	      </xs:element>   
+	     <xs:choice>
+		 <xs:element ref="GeographicLevelReference">
+		    <xs:annotation>
+		       <xs:documentation>Reference to a Geographic Level.</xs:documentation>
+		    </xs:annotation>
+		 </xs:element> 
+		 <xs:element ref="GeographicLevelDescription" maxOccurs="unbounded">
+		    <xs:annotation>
+		       <xs:documentation>Human-readable description of a geographic level, when there is no formal DDI description of it.</xs:documentation>
+		    </xs:annotation>
+		 </xs:element> 			 
+	     </xs:choice> 
+	</xs:sequence>
+	</xs:extension>
+	</xs:complexContent>
    </xs:complexType>
    <xs:complexType name="BoundingBoxType">
       <xs:annotation>
@@ -1217,14 +1110,14 @@
       <xs:sequence>
          <xs:choice maxOccurs="2">
             <xs:sequence>
-               <xs:element name="Code" type="xs:string">
+               <xs:element name="Code" type="CodeValueType">
                   <xs:annotation>
                      <xs:documentation>A numeric code identifying the geographic level (a code for a group of nations, a nation, region, city, etc.).</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="AuthorityOrganizationReference">
                   <xs:annotation>
-                     <xs:documentation>Reference to an organization, defined in the organziation scheme, responsible for defining the code.</xs:documentation>
+                     <xs:documentation>Reference to an organization, defined in the organziation scheme, responsible for defining the code. This is used as a mandatory field and replaces/overrides any value provided as part of the Code element which precedes it.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -1234,6 +1127,16 @@
                </xs:annotation>
             </xs:element>
          </xs:choice>
+          <xs:element ref="CoverageLimitation" minOccurs="0" maxOccurs="unbounded">
+	     <xs:annotation>
+		<xs:documentation>Describes limitations of coverage within the parent geography (for example only places with a population of over 10,000).</xs:documentation>
+	     </xs:annotation>
+         </xs:element>
+          <xs:element ref="Description" minOccurs="0" maxOccurs="unbounded">
+	     <xs:annotation>
+		<xs:documentation>A human-readable description of the geographic level.</xs:documentation>
+	     </xs:annotation>
+         </xs:element>         
       </xs:sequence>
    </xs:complexType>
    <xs:complexType name="GeographyValuesType">
@@ -1241,14 +1144,10 @@
          <xs:documentation>Provides the values of a geographic area.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="CoverageLimitation" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Describes limitations of coverage within the parent geography (for example only places with a population of over 10,000).</xs:documentation>
-            </xs:annotation>
-         </xs:element>
          <xs:element ref="VariableReference" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>References a variable in the study that contains values for the described geography (for example TRACT, COUNTY CODES, or STATE CODES).</xs:documentation>
+               <xs:documentation>References the single code (as in the case of a single level hierarchy like a Metroplitan Area within a single country where there is one unique code, or a Variable describing the contcatenation order being used in the codes provided in the GeographicValues. This may require creating a concatenated Varible to meet this specificiation.
+		</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element name="ExternalAuthorityReference" type="xs:anyURI" minOccurs="0">
@@ -1297,17 +1196,12 @@
    </xs:complexType>
    <xs:complexType name="GeographyCodeType">
       <xs:annotation>
-         <xs:documentation>Used to specify a gepgraphic code, along with the authority responsible for introducing and maintaining it.</xs:documentation>
+         <xs:documentation>Used to specify a geographic code, along with the authority responsible for introducing and maintaining it.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element name="Value" type="xs:string">
+         <xs:element name="Value" type="CodeValueType">
             <xs:annotation>
                <xs:documentation>Code value</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="AuthorityOrganizationReference">
-            <xs:annotation>
-               <xs:documentation>Reference to an organization or individual, defined in the organziation scheme, responsible for the code.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
@@ -1317,17 +1211,38 @@
          <xs:documentation>A closed plane figure bounded by three or more line segments, representign a geographic area.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="Point" minOccurs="4" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A geographic point defined by a latitude and longitude.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="GeographicTime">
-            <xs:annotation>
-               <xs:documentation>A time which corresponds to the identification of a geographic region described by a polygon. This may be a range if historical.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+	      <xs:choice>
+		      <xs:sequence>
+			<xs:element name="ExternalURI" type="xs:anyURI">
+			    <xs:annotation>
+			       <xs:documentation>Note that ExternalURI points to the boundary file location. </xs:documentation>
+			    </xs:annotation>
+			 </xs:element>
+			<xs:element name="PolygonLinkCode" type="xs:string" minOccurs="0">
+			    <xs:annotation>
+			       <xs:documentation>The PolygonLinkCode is the identifier of the specific polygon within the file. For example in an NHGIS file the LinkCodeForPolygon for Tract 101.01 in Hennepin County in Minnesota is 2700530010101.</xs:documentation>
+			    </xs:annotation> 
+			    </xs:element>
+			<xs:element name="ShapeFileFormat" type="xs:string" minOccurs="0">
+			    <xs:annotation>
+			       <xs:documentation>The format of the shape file existing at the location indicated by the sibling ExternalURI element.</xs:documentation>
+			    </xs:annotation>
+			   </xs:element>
+		      </xs:sequence>
+		      <xs:sequence>
+			 <xs:element ref="Point" minOccurs="4" maxOccurs="unbounded">
+			    <xs:annotation>
+			       <xs:documentation>A geographic point defined by a latitude and longitude.</xs:documentation>
+			    </xs:annotation>
+			 </xs:element>
+		      </xs:sequence>
+		</xs:choice>
+		 <xs:element ref="GeographicTime">
+		    <xs:annotation>
+		       <xs:documentation>A time which corresponds to the identification of a geographic region described by a polygon. This may be a range if historical.</xs:documentation>
+		    </xs:annotation>
+		 </xs:element>      
+      </xs:sequence>	
    </xs:complexType>
    <xs:complexType name="PointType">
       <xs:annotation>
@@ -1394,32 +1309,36 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType>
-   <!-- REPRESENTATION -->
+   </xs:simpleType><!-- REPRESENTATION -->
    <xs:complexType name="RepresentationType" abstract="true">
       <xs:annotation>
-         <xs:documentation>Abstract type for the head of a substitution group for of a representation, to be used for either a variable or a question.</xs:documentation>
+         <xs:documentation>Abstract type for the head of a substitution group for of a representation, to be used for either a variable or a question. If specific values are used to denote missing values, these can be indicated as a space-delimited list in the missingValue attribute. If the missing value is indicated by a blank, this should be indicatedby setting the value of blankIsMissingValue to true.</xs:documentation>
       </xs:annotation>
+      <xs:sequence>
+      	<xs:element name="RecommendedDataType" type="CodeValueType" minOccurs="0">
+	      <xs:annotation>
+		 <xs:documentation>This field provides the recommended treatment of the data within an application. The value should come from a controlled vocabulary - recommended values include the set found in W3C XML Schema Part 2, but excluding string sub-types, QNAME, and NOTATION.</xs:documentation>
+	      </xs:annotation>      	
+      	</xs:element>
+      	<xs:element name="GenericOutputFormat" type="CodeValueType" minOccurs="0">
+	      <xs:annotation>
+		 <xs:documentation>This field provides the recommended treatment of the data for display by an application. The value should come from a controlled vocabulary. </xs:documentation>
+	      </xs:annotation>      	
+      	</xs:element>      	
+      </xs:sequence>
+      <xs:attribute name="missingValue" type="xs:NMTOKENS" use="optional"/>
+      <xs:attribute name="blankIsMissingValue" type="xs:boolean" use="optional"/>      
    </xs:complexType>
    <xs:complexType name="TextRepresentationType">
       <xs:annotation>
-         <xs:documentation>Structures a textual representation.</xs:documentation>
+         <xs:documentation>Structures a textual representation. MinLength and maxlength attributes are inclusive integers describing the number of permitted characters. The regExp attribute holds a regular expression describing the valid contents of the string.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="RepresentationType">
-            <xs:sequence>
-               <xs:element ref="ValidDataRange" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Describes a valid range for text characters.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="InvalidDataRange" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Describes an invalid range for text characters.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-            </xs:sequence>
             <xs:attribute name="maxLength" type="xs:integer" use="optional"/>
+            <xs:attribute name="minLength" type="xs:integer" use="optional"/>
+            <xs:attribute name="regExp" type="xs:string" use="optional"/>
+            
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
@@ -1543,17 +1462,17 @@
    </xs:element>
    <xs:complexType name="NumberRangeType">
       <xs:annotation>
-         <xs:documentation>Structures a numeric range.</xs:documentation>
+         <xs:documentation>Structures a numeric range. the regExp attribute holds a regular expression (same as for W3C XML Schema simple types) which can provide a filter for the contents.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="Low">
+         <xs:element ref="Low" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>The lower bound of the range.</xs:documentation>
+               <xs:documentation>The lower bound of the range. If not present, then there is no lower bound.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="High">
+         <xs:element ref="High" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>The upper bound of the range.</xs:documentation>
+               <xs:documentation>The upper bound of the range. If not present, then there is no upper bound.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element name="TopCode" type="xs:integer" minOccurs="0">
@@ -1567,6 +1486,7 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
+      <xs:attribute name="regExp" type="xs:string" use="optional"/>
    </xs:complexType>
    <xs:element name="Low" type="NumberRangeValueType">
       <xs:annotation>
@@ -1722,8 +1642,7 @@
             </xs:attribute>
          </xs:extension>
       </xs:complexContent>
-   </xs:complexType>
-   <!-- OTHER MATERIALS -->
+   </xs:complexType><!-- OTHER MATERIALS -->
    <xs:element name="OtherMaterial" type="OtherMaterialType">
       <xs:annotation>
          <xs:documentation>Used to reference external resources that are related to the content of the relevant module. It includes a citation, an external reference using a URL (or other URI), and a reference to the item within the module to which the external resource is related.</xs:documentation>
@@ -1760,17 +1679,14 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-      <xs:attributeGroup ref="GLOBALS"/>
-      <!-- Need vocabulary for this. -->
+      <xs:attributeGroup ref="GLOBALS"/><!-- Need vocabulary for this. -->
       <xs:attribute name="type" type="xs:string" use="required">
          <xs:annotation>
             <xs:documentation>Specifies the type of material.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
    </xs:complexType>
-   <!-- UNIVERSE -->
-   <xs:element name="Universe" type="UniverseType"/>
-   <!-- NOTES -->
+	<!-- NOTES -->
    <xs:element name="Note" type="NoteType">
       <xs:annotation>
          <xs:documentation>Includes a footnote or annotation to a section of the documentation, and is designed to be an inherent part of the DDI. (Unlike XML comments or other types of system-level annotations, which may be removed during processing.)</xs:documentation>
@@ -1872,33 +1788,27 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType>
-   <!-- TEMPORAL COVERAGE -->
+   </xs:simpleType><!-- TEMPORAL COVERAGE -->
    <xs:complexType name="TemporalCoverageType">
       <xs:annotation>
          <xs:documentation>Describes the temporal coverage of the data described in a particular DDI module.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the temporal coverage.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="TemporalCoverageTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="AdministrativeDate" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Listing of pertinent coverage dates by type.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="ReferenceDate" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>The time period to which the data refer. This item reflects the time period covered by the data, not dates in the life cycle of a study or collection.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="IdentifiableType">
+            <xs:sequence>
+               <xs:element ref="AdministrativeDate" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Listing of pertinent coverage dates by type.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="ReferenceDate" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>The time period to which the data refer. This item reflects the time period covered by the data, not dates in the life cycle of a study or collection.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="AccessRestrictionDateType">
       <xs:annotation>
@@ -2021,8 +1931,7 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType>
-   <!--EMAIL-->
+   </xs:simpleType><!--EMAIL-->
    <xs:element name="Email" type="EmailType">
       <xs:annotation>
          <xs:documentation>An email address.</xs:documentation>
@@ -2323,8 +2232,7 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType>
-   <!-- COUNTRY -->
+   </xs:simpleType><!-- COUNTRY -->
    <xs:complexType name="CountryType">
       <xs:annotation>
          <xs:documentation>Specifies a country.</xs:documentation>
@@ -6149,16 +6057,6 @@
          <xs:documentation>A human-readable description of the event. This may be provided in several languages by repeating the field.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="HumanReadable" type="StructuredStringType">
-      <xs:annotation>
-         <xs:documentation>A human-readable statement of the Universe of the question item.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="MachineReadable" type="CodeType">
-      <xs:annotation>
-         <xs:documentation>A machine-readable statement of the universe of the question item, expressed as a Coding.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:element name="SourceQuestionReference" type="ReferenceType">
       <xs:annotation>
          <xs:documentation>A reference to a source question used in the associated Code element.</xs:documentation>
@@ -6224,9 +6122,9 @@
          <xs:documentation>Contains information on the hierarchy of the geographic structure. The structure can be defined within the DDI or an external structure can be referenced.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="GeographicLocations" type="GeographicLocationType">
+   <xs:element name="GeographicLocation" type="GeographicLocationType">
       <xs:annotation>
-         <xs:documentation>Contains information on the specific geographic areas defined in the data set such as cities, countries, or states. The areas can be defined within the DDI or an external structure can be referenced.</xs:documentation>
+         <xs:documentation>Contains information on the specific geographic areas defined in the data set such as cities, countries, or states. The areas can be defined within the DDI instance or an external structure can be referenced.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="SummaryDataReference" type="ReferenceType">
@@ -6269,6 +6167,11 @@
          <xs:documentation>Reference to a containing (parent) geography.</xs:documentation>
       </xs:annotation>
    </xs:element>
+      <xs:element name="GeographicLayerBase" type="ReferenceType">
+         <xs:annotation>
+            <xs:documentation>Use for gegraphic polygons that are the result of layering 2 or more geographic hierarchies where the polygone being described is the interect of the layers. For example: State - County - County Subdivision - Place/Remainder - Tract [The portion of a tract that is within a single place (or non-place area) and a single county subdivision] This polygon is made by overlaying the following three geographic hierarchies: 1) State - Place, 2) State - County - Tract, and 3) State - County - Subdivision. The three GeographicLayerBase elements would point to Tract, Place, and County Subdivision.</xs:documentation>
+         </xs:annotation>
+   </xs:element>
    <xs:element name="Values" type="GeographyValuesType">
       <xs:annotation>
          <xs:documentation>Allows inclusion of specific values (eg. for the geographic level of "country" allows specification of Germany, Norway, Sweden etc.).</xs:documentation>
@@ -6306,7 +6209,8 @@
    </xs:element>
    <xs:element name="VariableReference" type="ReferenceType">
       <xs:annotation>
-         <xs:documentation>References a variable in the study that contains values for the described geography (for example TRACT, COUNTY CODES, or STATE CODES).</xs:documentation>
+         <xs:documentation>References the single code (as in the case of a single level hierarchy like a Metroplitan Area within a single country where there is one unique code, or a Variable describing the contcatenation order being used in the codes provided in the GeographicValues. This may require creating a concatenated Varible to meet this specificiation.
+</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="GeographyValue" type="GeographyValueType">
@@ -6389,21 +6293,6 @@
          <xs:documentation>User group to whom this restriction applies.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="UniverseStructure" type="UniverseStructureType">
-      <xs:annotation>
-         <xs:documentation>Contains universe statements used in the studyunit and/or group organized in hierarchical structures to provide parent child relationships.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="OverallUniverse" type="UniverseType">
-      <xs:annotation>
-         <xs:documentation>The overall inclusive universe of the object of the research to which any analytic results refer. The top level must be inclusive of all lower universe statement. For example for a study of high schools, high school students, and their parents in Edmunton, Alberta Canada this universe level would include the full description.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="SubUniverse" type="UniverseType">
-      <xs:annotation>
-         <xs:documentation>A subset of the parent universe for example the universe Females is a subset of the universe Population.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:element name="UniverseReference" type="ReferenceType">
       <xs:annotation>
          <xs:documentation>Reference to the description of the persons or other elements that are the object of the research and to which any analytic results refer.</xs:documentation>
@@ -6429,11 +6318,6 @@
          <xs:documentation>Reference to an Agency in the organization scheme.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="AuthorityOrganizationReference" type="ReferenceType">
-      <xs:annotation>
-         <xs:documentation>Reference to an authorizing agent in the organization scheme.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:element name="EnforcementAgencyOrganizationReference" type="ReferenceType">
       <xs:annotation>
          <xs:documentation>Reference to an Enforcement Agency in the organization scheme.</xs:documentation>
@@ -6449,4 +6333,35 @@
          <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which it is related.</xs:documentation>
       </xs:annotation>
    </xs:element>
+   <xs:element name="SeriesStatement" type="SeriesStatementType">
+	<xs:annotation>
+		<xs:documentation>Series statement contains information about the series to which a study unit or group of study units belongs.</xs:documentation>
+	</xs:annotation>
+   </xs:element>
+   <xs:element name="SeriesDescription" type="StructuredStringType"/> 
+   <xs:element name="AnalysisUnit" type="CodeType">
+         <xs:annotation>
+            <xs:documentation>The analysis unit, which is a term which may come from a controlled vocabulary.</xs:documentation>
+         </xs:annotation>
+     </xs:element>
+   <xs:element name="GeographicStructureReference" type="ReferenceType">
+      <xs:annotation>
+         <xs:documentation>A reference to an internal or external geographic structure in DDI 3.0 XML.</xs:documentation>
+      </xs:annotation>
+   </xs:element>      
+   <xs:element name="AuthorityOrganizationReference" type="ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to an authorizing agent in the organization scheme.</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
+ <xs:element name="GeographicLevelReference" type="ReferenceType">
+    <xs:annotation>
+       <xs:documentation>Reference to a Geographic Level.</xs:documentation>
+    </xs:annotation>
+ </xs:element> 
+ <xs:element name="GeographicLevelDescription" type="StructuredStringType">
+    <xs:annotation>
+       <xs:documentation>Human-readable description of a geographic level, when there is no formal DDI description of it.</xs:documentation>
+    </xs:annotation>
+ </xs:element>    
 </xs:schema>

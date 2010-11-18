@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_0_CR2" xmlns:c="ddi:conceptualcomponent:3_0_CR2" xmlns:l="ddi:logicalproduct:3_0_CR2" xmlns:d="ddi:datacollection:3_0_CR2" xmlns:r="ddi:reusable:3_0_CR2" targetNamespace="ddi:comparative:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:conceptualcomponent:3_0_CR2" schemaLocation="conceptualcomponent.xsd"/>
-   <xs:import namespace="ddi:datacollection:3_0_CR2" schemaLocation="datacollection.xsd"/>
-   <xs:import namespace="ddi:logicalproduct:3_0_CR2" schemaLocation="logicalproduct.xsd"/>
-   <xs:import namespace="ddi:reusable:3_0_CR2" schemaLocation="reusable.xsd"/>
+<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
+<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:comparative:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:datacollection:3_0_CR3" schemaLocation="datacollection.xsd"/>
+   <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <xs:element name="Comparison" type="ComparisonType">
       <xs:annotation>
          <xs:documentation>Structures information that is necessary to compare members of a group. This module contains the mapping(s) that inform comparisons and facilitate automation. Note that all maps are pairwise, identifying two schemes and the correlation between two items in those schemes. By using a set of pairwise comparisons, it is possible to describe more complex correspondences - pairwise comparisons are easier to process.</xs:documentation>
@@ -14,119 +12,104 @@
       <xs:annotation>
          <xs:documentation>Structures information that is necessary to compare members of a group. Contains the mapping(s) That inform comparisons and facilitate automation. Note that all maps are pairwise, identifying two schemes and the correlation between two items in those schemes. By using a set of pairwise comparisons, it is possible to describe more complex correspondences - pairwise comparisons are easier to process.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:MaintainableIDType">
-            <xs:annotation>
-               <xs:documentation>Provides identifying information for the comparison.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="ComparisonTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="ComparisonDescription" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Description of the comparison, intended to be human-readable.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="ConceptMap" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Maps comparable concepts from two different concept schemes.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="VariableMap" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Maps comparable variables from two different variable schemes.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="QuestionMap" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Maps comparable questions from two different question schemes.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="CategoryMap" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Maps comparable categories from two different category schemes.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="CodeMap" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Maps comparable codes from two different code schemes.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="UniverseMap" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Maps comparable universes from two different universe schemes.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Notes regarding any information in the module.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="r:MaintainableType">
+            <xs:sequence>
+               <xs:element ref="ComparisonDescription" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Description of the comparison, intended to be human-readable.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="ConceptMap" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Maps comparable concepts from two different concept schemes.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="VariableMap" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Maps comparable variables from two different variable schemes.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="QuestionMap" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Maps comparable questions from two different question schemes.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="CategoryMap" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Maps comparable categories from two different category schemes.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="CodeMap" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Maps comparable codes from two different code schemes.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="UniverseMap" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Maps comparable universes from two different universe schemes.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Notes regarding any information in the module.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="GenericMapType">
       <xs:annotation>
          <xs:documentation>Maps comparable items from two different schemes.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:MaintainableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the map.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="GenericMapTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="SourceSchemeReference">
-            <xs:annotation>
-               <xs:documentation>References the scheme that is the source for the mapping.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="TargetSchemeReference">
-            <xs:annotation>
-               <xs:documentation>References the scheme that is the target for the mapping.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="ItemMap" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Maps an individual item in the source scheme to an item in the target scheme. </xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="r:MaintainableType">
+            <xs:sequence>
+               <xs:element ref="SourceSchemeReference">
+                  <xs:annotation>
+                     <xs:documentation>References the scheme that is the source for the mapping.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="TargetSchemeReference">
+                  <xs:annotation>
+                     <xs:documentation>References the scheme that is the target for the mapping.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="ItemMap" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Maps an individual item in the source scheme to an item in the target scheme. </xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="CodeMapType">
       <xs:annotation>
          <xs:documentation>Maps comparable codes from two different code schemes.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:MaintainableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the code map.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="CodeMapTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="SourceSchemeReference">
-            <xs:annotation>
-               <xs:documentation>References the code scheme that is the source for the mapping.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="TargetSchemeReference">
-            <xs:annotation>
-               <xs:documentation>References the coce scheme that is the target for the mapping.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="d:ControlConstructReference" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Allows for use of instrument flow logic to construct a detailed comparison map between individual codes in the source an and target schemes.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="r:MaintainableType">
+            <xs:sequence>
+               <xs:element ref="SourceSchemeReference">
+                  <xs:annotation>
+                     <xs:documentation>References the code scheme that is the source for the mapping.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="TargetSchemeReference">
+                  <xs:annotation>
+                     <xs:documentation>References the coce scheme that is the target for the mapping.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="d:ControlConstructReference" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Allows for use of instrument flow logic to construct a detailed comparison map between individual codes in the source an and target schemes.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="ItemMapType">
       <xs:annotation>

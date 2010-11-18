@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:dataset:3_0_CR2" xmlns:r="ddi:reusable:3_0_CR2" xmlns:p="ddi:physicaldataproduct:3_0_CR2" targetNamespace="ddi:dataset:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0_CR2" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_0_CR2" schemaLocation="physicaldataproduct.xsd"/>
+<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:dataset:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" targetNamespace="ddi:dataset:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_0_CR3" schemaLocation="physicaldataproduct.xsd"/>
    <xs:element name="DataSet" type="DataSetType" substitutionGroup="p:BaseRecordLayout"/>
    <xs:complexType name="DataSetType">
       <xs:complexContent>
          <xs:extension base="p:BaseRecordLayoutType">
             <xs:sequence>
-               <xs:element name="Identifier" type="r:MaintainableIDType">
-                  <xs:annotation>
-                     <xs:documentation>Identifies the data set.</xs:documentation>
-                  </xs:annotation>
-                  <xs:unique name="DataSetTypeID">
-                     <xs:selector xpath="*"/>
-                     <xs:field xpath="@type"/>
-                  </xs:unique>
-               </xs:element>
                <xs:element ref="Name" maxOccurs="unbounded"/>
                <xs:element ref="IdentifyingVariableReference" minOccurs="0">
                   <xs:annotation>

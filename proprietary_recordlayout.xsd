@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct/proprietary:3_0_Beta" xmlns:r="ddi:reusable:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" targetNamespace="ddi:physicaldataproduct/proprietary:3_0_Beta" elementFormDefault="qualified">
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+	<xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct:3_0_CR3" schemaLocation="physicaldataproduct.xsd"/>
+	<xs:element name="ProprietaryRecordLayout" type="ProprietaryRecordLayoutType" substitutionGroup="p:BaseRecordLayout"/>
+	<xs:complexType name="ProprietaryRecordLayoutType">
+		<xs:annotation>
+			<xs:documentation>A record layout for data in proprietary system files.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="p:BaseRecordLayoutType">
+				<xs:sequence>
+					<xs:element ref="r:Software"/>
+					<xs:element ref="DataItemAddress" minOccurs="0"/>
+					<xs:element ref="DefaultNumericDataType" minOccurs="0"/>
+					<xs:element ref="DefaultTextDataType" minOccurs="0"/>
+					<xs:element ref="DefaultDateTimeDataType" minOccurs="0"/>
+					<xs:choice minOccurs="0">
+						<xs:element ref="CodedDataAsNumeric"/>
+						<xs:element ref="CodedDataAsText"/>
+					</xs:choice>
+					<xs:element ref="ProprietaryInfo" minOccurs="0"/>
+					<xs:element ref="DataItems"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DataItemAddressType">
+		<xs:annotation>
+			<xs:documentation>Provides minimum information on data item address system, such as uses variable ID or Name, etc.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="r:Description" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProprietaryInfoType">
+		<xs:annotation>
+			<xs:documentation>Contains information proprietary to the software package which produced the data file. This is expressed as a set of name-value pairs. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="ProprietaryProperty" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProprietaryPropertyType">
+		<xs:annotation>
+			<xs:documentation>A name-vlue pair providing information proprietary to the software package which produced the data. The name of a property is supplied, along with a value.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="DataItemsType">
+		<xs:annotation>
+			<xs:documentation>A container for the data items contained in the file.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="DataItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataItemType">
+		<xs:annotation>
+			<xs:documentation>A single point of data within the file, which may carry an over-ride of the specified default datatype.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="VariableReference"/>
+			<xs:element ref="ProprietaryDataType" minOccurs="0"/>
+			<xs:element ref="ProprietaryOutputFormatType" minOccurs="0"/>
+			<xs:element ref="ProprietaryInfo" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="PhysicalRecordSegmentReference" type="r:ReferenceType">
+		<xs:annotation>
+			<xs:documentation>Reference to a physical record segment in the associated physical data product.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DataItemAddress" type="DataItemAddressType">
+		<xs:annotation>
+			<xs:documentation>Provides minimum information on data item address system such as uses variable ID or Name etc.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DefaultNumericDataType" type="r:NumericRepresentationType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DefaultTextDataType" type="r:TextRepresentationType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DefaultDateTimeDataType" type="r:DateTimeRepresentationType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="CodedDataAsNumeric" type="r:NumericRepresentationType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="CodedDataAsText" type="r:TextRepresentationType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ProprietaryInfo" type="ProprietaryInfoType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ProprietaryProperty" type="ProprietaryPropertyType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="VariableReference" type="r:ReferenceType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ProprietaryDataType" type="r:CodeValueType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ProprietaryOutputFormatType" type="r:CodeValueType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>	
+	<xs:element name="DataItems" type="DataItemsType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="DataItem" type="DataItemType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_0_CR2" xmlns:r="ddi:reusable:3_0_CR2" targetNamespace="ddi:physicalinstance:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0_CR2" schemaLocation="reusable.xsd"/>
+<?xml version="1.0" encoding="UTF-8"?><!-- DDI 3.0 Candidate Release June 22, 2007 -->
+<!-- Copyright (c) 2008 DDI Alliance. Release 2/17/2008. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:physicalinstance:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
    <xs:element name="PhysicalInstance" type="PhysicalInstanceType">
       <xs:annotation>
          <xs:documentation>Includes information about the physical instance of a data product (an actual data file). It completes the documentation contained in the Physical Data Product module, which describes the physical layout and other characteristics of the data that do not change when a file is merged with another related file, or split into subsets.</xs:documentation>
@@ -11,151 +11,152 @@
       <xs:annotation>
          <xs:documentation>Includes information about the physical instance of a data product (an actual data file). It completes the documentation contained in the Physical Data Product module, which describes the physical layout and other characteristics of the data that do not change when a file is merged with another related file, or split into subsets.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:MaintainableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the physical instance of a data set.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="PhysicalInstanceTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element ref="r:Citation" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Includes a citation for the physical instance of a data set.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="r:Coverage" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Includes information about the topical, spatial, and temporal coverage of the physical instance.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Provides information about other resources related to the physical instance.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Note regarding the physical instance.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="PhysicalDataProductReference">
-            <xs:annotation>
-               <xs:documentation>References the Physical Data Product module that describes the record layout of the data documented in the physical instance.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="DataFileIdentification" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Identifies the data file documented in the physical instance and provides information about its location.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="GrossFileStructure" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Includes information about the file structure, as well as other characteristics that are specific to the physical instance.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Statistics" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Includes variable and category statistics data documented in the physical instance, or a reference to a physical instance where the statistics are described or located in line.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name="PhysicalDataProductReferenceType">
-      <xs:annotation>
-         <xs:documentation>References a physical data product and the IDs of the physical record segments from that product which are used by the physical instance.</xs:documentation>
-      </xs:annotation>
       <xs:complexContent>
-         <xs:extension base="r:ReferenceType">
+         <xs:extension base="r:MaintainableType">
             <xs:sequence>
-               <xs:element name="PhysicalRecordSegmentUsed" type="xs:NCName" maxOccurs="unbounded"/>
+               <xs:element ref="r:Citation" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Includes a citation for the physical instance of a data set.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Fingerprint" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Allows for assigning a digital fingerprint to the data file.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
+               <xs:element ref="r:Coverage" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Includes information about the topical, spatial, and temporal coverage of the physical instance.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Provides information about other resources related to the physical instance.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Note regarding the physical instance.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="RecordLayoutReference" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>References the record layout of the data documented in the physical instance.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="DataFileIdentification" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Identifies the data file documented in the physical instance and provides information about its location.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="GrossFileStructure" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Includes information about the file structure, as well as other characteristics that are specific to the physical instance.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Statistics" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Includes variable and category statistics data documented in the physical instance, or a reference to a physical instance where the statistics are described or located in line.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
+   </xs:complexType>
+   <xs:element name="Fingerprint" type="FingerprintType"/>
+   <xs:complexType name="FingerprintType">
+      <xs:annotation>
+         <xs:documentation>Allows for assigning a digital fingerprint to the data file.</xs:documentation>
+      </xs:annotation>   
+      <xs:sequence>
+      	<xs:element name="Value" type="xs:string">
+      		<xs:annotation>
+		         <xs:documentation>Contains the value of the digital fingerprint.</xs:documentation>
+      		</xs:annotation>
+      	</xs:element>
+      	<xs:element name="AlgorithmSpecification" type="xs:string">
+      		<xs:annotation>
+		         <xs:documentation>Specifies the type of the fingerprint (what algorithm or scheme).</xs:documentation>
+      		</xs:annotation>
+      	</xs:element>
+      	<xs:element name="AlgorithmVersion" type="xs:string" minOccurs="0">
+      		<xs:annotation>
+		         <xs:documentation>Contains the version of the algorithm.</xs:documentation>
+      		</xs:annotation>
+      	</xs:element>      	
+      </xs:sequence>
    </xs:complexType>
    <xs:complexType name="GrossFileStructureType">
       <xs:annotation>
          <xs:documentation>Includes information about the file structure, as well as other characteristics that are specific to the physical instance.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:VersionableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the file structure.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="GrossFileStructureTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element name="PlaceOfProduction" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Indicates the place where the physical instance was produced.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="ProcessingCheck" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Documents processing checks and other operations performed on the data file.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="ProcessingStatus" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Processing status of the data file.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="CreationSoftware" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Indicates the software that was used to create the data file.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="CaseQuantity" type="xs:integer" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Number of cases or observations in the data file.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element name="OverallRecordCount" type="xs:integer" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Overall record count in the data file.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
+      <xs:complexContent>
+         <xs:extension base="r:IdentifiableType">
+            <xs:sequence>
+               <xs:element name="PlaceOfProduction" type="xs:string" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Indicates the place where the physical instance was produced.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="ProcessingCheck" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Documents processing checks and other operations performed on the data file.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="ProcessingStatus" type="xs:string" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Processing status of the data file.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="CreationSoftware" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Indicates the software that was used to create the data file.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="CaseQuantity" type="xs:integer" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Number of cases or observations in the data file.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="OverallRecordCount" type="xs:integer" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Overall record count in the data file.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:complexType name="DataFileIdentificationType">
       <xs:annotation>
          <xs:documentation>Identifies the data file documented in the physical instance and provides information about its location.</xs:documentation>
       </xs:annotation>
-      <xs:sequence>
-         <xs:element name="Identifier" type="r:IdentifiableIDType">
-            <xs:annotation>
-               <xs:documentation>Identifies the data file documented in the physical instance.</xs:documentation>
-            </xs:annotation>
-            <xs:unique name="DataFileIdentificationTypeID">
-               <xs:selector xpath="*"/>
-               <xs:field xpath="@type"/>
-            </xs:unique>
-         </xs:element>
-         <xs:element name="Location" type="xs:string" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Documents the location of the data file as human-readable text.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="Path" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Provides a machine-readable path expression for the data file's location (eg Java).</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="URI" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>URI for the data file.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-      <xs:attribute name="isMaster" type="xs:boolean" use="optional">
-         <xs:annotation>
-            <xs:documentation>A value of true indicates that the mentioned file is the master file, in the case that there are multiple copies of the file identified.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
+      <xs:complexContent>
+         <xs:extension base="r:IdentifiableType">
+            <xs:sequence>
+               <xs:element name="Location" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Documents the location of the data file as human-readable text.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Path" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Provides a machine-readable path expression for the data file's location (eg Java).</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="URI" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>URI for the data file.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+            <xs:attribute name="isMaster" type="xs:boolean" use="optional">
+               <xs:annotation>
+                  <xs:documentation>A value of true indicates that the mentioned file is the master file, in the case that there are multiple copies of the file identified.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+         </xs:extension>
+      </xs:complexContent>
    </xs:complexType>
    <xs:element name="Path" type="PathType">
       <xs:annotation>
@@ -423,7 +424,7 @@
          <xs:documentation>Provides filtered category statistics.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element name="FilterCategoryValue" type="xs:decimal">
+         <xs:element name="FilterCategoryValue" type="xs:string">
             <xs:annotation>
                <xs:documentation>Value of the FilterVariable category</xs:documentation>
             </xs:annotation>
@@ -649,9 +650,9 @@
       </xs:annotation>
       <xs:restriction base="xs:NMTOKEN"/>
    </xs:simpleType>
-   <xs:element name="PhysicalDataProductReference" type="PhysicalDataProductReferenceType">
+   <xs:element name="RecordLayoutReference" type="r:ReferenceType">
       <xs:annotation>
-         <xs:documentation>References the Physical Data Product module that describes the record layout of the data documented in the physical instance</xs:documentation>
+         <xs:documentation>References the record layout of the data documented in the physical instance.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="DataFileIdentification" type="DataFileIdentificationType">
