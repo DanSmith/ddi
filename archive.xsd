@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:archive:3_0_CR" xmlns:r="ddi:reusable:3_0_CR" xmlns:o="ddi:organizations:3_0_CR" targetNamespace="ddi:archive:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0_CR" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:organizations:3_0_CR" schemaLocation="organization.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:archive:3_0_CR2" xmlns:r="ddi:reusable:3_0_CR2" xmlns:o="ddi:organization:3_0_CR2" targetNamespace="ddi:archive:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0_CR2" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:organization:3_0_CR2" schemaLocation="organization.xsd"/>
    <xs:element name="Archive" type="ArchiveType">
       <xs:annotation>
          <xs:documentation>Archive is the element which contains relevant archival information pertinent to the contents of a DDI instance.</xs:documentation>
@@ -13,16 +13,20 @@
          <xs:documentation>ArchiveType structures the contents of the archive element. This includes metadata which identifies the archive and the organizations which maintain it, the item being described as a unitary whole, access, funding for the archive process, and lifecycle events for the instance.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="r:MaintainableID">
+         <xs:element name="Identifier" type="r:MaintainableIDType">
             <xs:annotation>
                <xs:documentation>Provides identifying information for the archive.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="ArchiveTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="ArchiveSpecific">
             <xs:annotation>
                <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
             </xs:annotation>
-         </xs:element>         
+         </xs:element>
          <xs:element ref="o:Organizations">
             <xs:annotation>
                <xs:documentation>A list of the organizations related to the DDI instance. This includes information on the archives responsible for creating and maintaing the intance.</xs:documentation>
@@ -32,7 +36,7 @@
             <xs:annotation>
                <xs:documentation>LifecycleInformation contains the description of a set of lifecycle events, described in terms of the DDI lifecycle model. It may be extended by specific users.</xs:documentation>
             </xs:annotation>
-         </xs:element>        
+         </xs:element>
          <xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Material related to this item from the archive's perspective.</xs:documentation>
@@ -48,41 +52,40 @@
    <xs:complexType name="ArchiveSpecificType">
       <xs:annotation>
          <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
-      </xs:annotation>  
+      </xs:annotation>
       <xs:sequence>
-	<xs:element ref="ArchiveOrganizationReference">
+         <xs:element ref="ArchiveOrganizationReference">
             <xs:annotation>
                <xs:documentation>A reference to the organization acting as the archive.</xs:documentation>
             </xs:annotation>
          </xs:element>
-	<xs:element ref="Item" maxOccurs="unbounded">
+         <xs:element ref="Item" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Describes the subject of the DDI metadata as viewed by the archive (eg, as a single item which has been archived). This may be a Group, Element, or StudyUnit.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="Access" minOccurs="0" maxOccurs="unbounded">
+         <xs:element ref="DefaultAccess" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Describes access to the metadata in the DDI instance and related data files in the archive.</xs:documentation>
             </xs:annotation>
-         </xs:element>   
+         </xs:element>
          <xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Describes the archive's sources of funding (grants, etc.)</xs:documentation>
             </xs:annotation>
-         </xs:element>         
+         </xs:element>
       </xs:sequence>
    </xs:complexType>
    <xs:element name="ArchiveOrganizationReference" type="r:ReferenceType">
-    <xs:annotation>
-       <xs:documentation>A reference to the organization acting as the archive.</xs:documentation>
-    </xs:annotation>
-   </xs:element>   
+      <xs:annotation>
+         <xs:documentation>A reference to the organization acting as the archive.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:element name="ArchiveSpecific" type="ArchiveSpecificType">
-    <xs:annotation>
-       <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
-    </xs:annotation>
-   </xs:element>   
-   
+      <xs:annotation>
+         <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:complexType name="ItemType">
       <xs:annotation>
          <xs:documentation>ItemType structures the Item element, which describes the archived item as managed by the archive. This is typically specific to a particular holding.</xs:documentation>
@@ -118,6 +121,11 @@
                <xs:documentation>The type of study which is documented by the DDI instance.</xs:documentation>
             </xs:annotation>
          </xs:element>
+         <xs:element ref="Access" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>The access restrictions specific to the item.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
          <xs:element ref="OriginalArchiveOrganizationReference" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>The original archive for the documented material, expressed as a reference to the organization listed in the organization scheme.</xs:documentation>
@@ -138,6 +146,11 @@
                <xs:documentation>The completeness of the collection, described in human-readable terms.</xs:documentation>
             </xs:annotation>
          </xs:element>
+         <xs:element ref="Item" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>A sub-item within the archive-specific item.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
       </xs:sequence>
    </xs:complexType>
    <xs:complexType name="StudyClassType">
@@ -145,33 +158,39 @@
          <xs:documentation>The type of study documented by the DDI metadata, expressed in human-readable form and as a value from a controlled vocabulary.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-      	<xs:element ref="ClassDescription" minOccurs="0" maxOccurs="unbounded">
+         <xs:element ref="ClassDescription" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Human-readable description of the type of the study.</xs:documentation>
             </xs:annotation>
-        </xs:element>
-      	<xs:element ref="ClassType" minOccurs="0" maxOccurs="unbounded">
+         </xs:element>
+         <xs:element ref="ClassType" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Description of the type of the study taken from a controlled vocabulary.</xs:documentation>
             </xs:annotation>
-        </xs:element>        
+         </xs:element>
       </xs:sequence>
    </xs:complexType>
    <xs:element name="ClassDescription" type="r:InternationalStringType">
-    <xs:annotation>
-       <xs:documentation>Human-readable description of the type of the study.</xs:documentation>
-    </xs:annotation>
-   </xs:element>   
+      <xs:annotation>
+         <xs:documentation>Human-readable description of the type of the study.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:element name="ClassType" type="r:CodeValueType">
-    <xs:annotation>
-       <xs:documentation>Description of the type of the study taken from a controlled vocabulary.</xs:documentation>
-    </xs:annotation>
-   </xs:element>  
+      <xs:annotation>
+         <xs:documentation>Description of the type of the study taken from a controlled vocabulary.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:complexType name="AccessType">
       <xs:annotation>
          <xs:documentation>Describes the aspects of access to the archive's holding.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
+         <xs:element name="Identifier" type="r:IdentifiableIDType">
+            <xs:unique name="AccessTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
+         </xs:element>
          <xs:element ref="ConfidentialityStatement" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>Provides confidentiality statement and/or reference to it's network location.</xs:documentation>
@@ -249,6 +268,11 @@
    <xs:element name="Item" type="ItemType">
       <xs:annotation>
          <xs:documentation>Describes the subject of the DDI metadata as viewed by the archive (eg, as a single item which has been archived). This may be a Group, Element, or StudyUnit.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="DefaultAccess" type="AccessType">
+      <xs:annotation>
+         <xs:documentation>Describes the aspects of access to the archive's holding.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Access" type="AccessType">

@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:studyunit:3_0_CR" xmlns:r="ddi:reusable:3_0_CR" xmlns:a="ddi:archive:3_0_CR" xmlns:c="ddi:conceptualcomponent:3_0_CR" xmlns:d="ddi:datacollection:3_0_CR" xmlns:l="ddi:logicalproduct:3_0_CR" xmlns:pd="ddi:physicaldataproduct:3_0_CR" xmlns:pi="ddi:physicalinstance:3_0_CR" xmlns:m1="ddi:physicaldataproduct/ncube/normal:3_0_CR" xmlns:m2="ddi:physicaldataproduct/ncube/tabular:3_0_CR" xmlns:m3="ddi:physicaldataproduct/ncube/inline:3_0_CR" xmlns:pr="ddi:profile:3_0_CR" targetNamespace="ddi:studyunit:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0_CR" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:archive:3_0_CR" schemaLocation="archive.xsd"/>
-   <xs:import namespace="ddi:conceptualcomponent:3_0_CR" schemaLocation="conceptualcomponent.xsd"/>
-   <xs:import namespace="ddi:datacollection:3_0_CR" schemaLocation="datacollection.xsd"/>
-   <xs:import namespace="ddi:logicalproduct:3_0_CR" schemaLocation="logicalproduct.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_0_CR" schemaLocation="physicaldataproduct.xsd"/>
-   <xs:import namespace="ddi:physicalinstance:3_0_CR" schemaLocation="physicalinstance.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct/ncube/normal:3_0_CR" schemaLocation="ncube_recordlayout.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct/ncube/tabular:3_0_CR" schemaLocation="tabular_ncube_recordlayout.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct/ncube/inline:3_0_CR" schemaLocation="inline_ncube_recordlayout.xsd"/>
-   <xs:import namespace="ddi:profile:3_0_CR" schemaLocation="DDIprofile.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:studyunit:3_0_CR2" xmlns:r="ddi:reusable:3_0_CR2" xmlns:a="ddi:archive:3_0_CR2" xmlns:c="ddi:conceptualcomponent:3_0_CR2" xmlns:d="ddi:datacollection:3_0_CR2" xmlns:l="ddi:logicalproduct:3_0_CR2" xmlns:pd="ddi:physicaldataproduct:3_0_CR2" xmlns:pi="ddi:physicalinstance:3_0_CR2" xmlns:m1="ddi:physicaldataproduct/ncube/normal:3_0_CR2" xmlns:m2="ddi:physicaldataproduct/ncube/tabular:3_0_CR2" xmlns:m3="ddi:physicaldataproduct/ncube/inline:3_0_CR2" xmlns:pr="ddi:profile:3_0_CR2" targetNamespace="ddi:studyunit:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0_CR2" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:archive:3_0_CR2" schemaLocation="archive.xsd"/>
+   <xs:import namespace="ddi:conceptualcomponent:3_0_CR2" schemaLocation="conceptualcomponent.xsd"/>
+   <xs:import namespace="ddi:datacollection:3_0_CR2" schemaLocation="datacollection.xsd"/>
+   <xs:import namespace="ddi:logicalproduct:3_0_CR2" schemaLocation="logicalproduct.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_0_CR2" schemaLocation="physicaldataproduct.xsd"/>
+   <xs:import namespace="ddi:physicalinstance:3_0_CR2" schemaLocation="physicalinstance.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct/ncube/normal:3_0_CR2" schemaLocation="ncube_recordlayout.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct/ncube/tabular:3_0_CR2" schemaLocation="tabular_ncube_recordlayout.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct/ncube/inline:3_0_CR2" schemaLocation="inline_ncube_recordlayout.xsd"/>
+   <xs:import namespace="ddi:profile:3_0_CR2" schemaLocation="ddiprofile.xsd"/>
    <xs:element name="StudyUnit" type="StudyUnitType"/>
    <xs:complexType name="StudyUnitType">
       <xs:annotation>
          <xs:documentation>Describes the study unit which encompasses specified data collection processes as well as their resultant data products. This includes all of it's associated documentation and metadata. A Study Unit corresponds to the "study" as described in a traditional codebook, although a codebook may relate to only a single data product from the study. Typically, a 2.* or earlier version can have its content marked up in DDI version 3.0 with a single study unit containing the bulk of the documentation and metadata. Multiple data products from the same "study" (typically separate DDI instances in 2.* and earlier) can be combined in a single 3.0 instance. (See "DDI 3.0 Documentation, Part 1: Basic Structures" for more detail regarding the mappings between 2.* and 3.0.)</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="r:MaintainableID">
+         <xs:element name="Identifier" type="r:MaintainableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the study unit.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="StudyUnitTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="r:Citation">
             <xs:annotation>

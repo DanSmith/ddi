@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:reusable:3_0_CR" xmlns:dce="ddi:dcelements:3_0_CR" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="ddi:reusable:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:reusable:3_0_CR2" xmlns:dce="ddi:dcelements:3_0_CR2" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="ddi:reusable:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="ddi-xhtml11.xsd"/>
-   <xs:import namespace="ddi:dcelements:3_0_CR" schemaLocation="dcelements.xsd"/><!-- BASIC TYPES -->
+   <xs:import namespace="ddi:dcelements:3_0_CR2" schemaLocation="dcelements.xsd"/>
+   <!-- BASIC TYPES -->
    <xs:attributeGroup name="GLOBALS">
       <xs:annotation>
          <xs:documentation>GLOBALS is an attribute group containing the set of repeated XML attributes available throughout DDI 3.0. The id attribute provides a unique identifier within the domain of its maintaining agency - that is, no two IDs for the maintaining agency may be the same. xml:lang is the attribute as provided for in the XML specification.</xs:documentation>
@@ -154,10 +155,14 @@
          <xs:documentation>Combines the features of IdentifedStringType and StructuredStringType, providing both identification and XHTML structured content.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="IdentifiableID">
+         <xs:element name="Identifier" type="IdentifiableIDType">
             <xs:annotation>
                <xs:documentation>Identification for the structured string. If used internally, only an ID need be supplied.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="IdentifiedStructuredStringTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="Content">
             <xs:annotation>
@@ -168,7 +173,7 @@
    </xs:complexType>
    <xs:complexType name="EmptyType">
       <xs:annotation>
-         <xs:documentation>Element with no content. It is an abstract type, used to extend into subclasses (e.g., ControlConstructType in the data collection module).</xs:documentation>
+         <xs:documentation>Element with no content. It is an abstract type, used to extend into subclasses.</xs:documentation>
       </xs:annotation>
    </xs:complexType>
    <xs:complexType name="CodeValueType">
@@ -199,34 +204,8 @@
             </xs:attribute>
          </xs:extension>
       </xs:simpleContent>
-   </xs:complexType><!-- IDENTIFICATION TYPE -->
-   <xs:element name="IdentifiableID" type="IdentifiableIDType">
-      <xs:annotation>
-         <xs:documentation>Used to identify described identifiable objects for purposes of internal and/or external referencing. Elements of this type cannot be versioned or maintained except as part of a complex parent element. Provides containers for Uniform Resource Name (URN) as well as ID information. An entity can either be identified by a URN, or an ID. The Agency and Version information in the URN is inherited from the containing elements. If both URN and combination of elements is used, the URN takes precedence. The element can be designated as an addition, replacement, or deletion to facilitate tracking changes.</xs:documentation>
-      </xs:annotation>
-      <xs:unique name="OneChoiceID">
-         <xs:selector xpath="*"/>
-         <xs:field xpath="@type"/>
-      </xs:unique>
-   </xs:element>
-   <xs:element name="VersionableID" type="VersionableIDType">
-      <xs:annotation>
-         <xs:documentation>Used to identify described identifiable objects for purposes of internal and/or external referencing. Elements of this type must be versioned (default is 1.0). Provides containers for Uniform Resource Name (URN) as well as ID information, and Version information (version number, date, responsibility, and rationale). An entity can either be identified by a URN, or an ID/Version. The Agency information in the URN is inherited from the containing maintainable element. If both URN and combination of elements is used, the URN takes precedence. The element can be designated as an addition, replacement, or deletion to facilitate tracking changes.</xs:documentation>
-      </xs:annotation>
-      <xs:unique name="OneChoiceVersionID">
-         <xs:selector xpath="*"/>
-         <xs:field xpath="@type"/>
-      </xs:unique>
-   </xs:element>
-   <xs:element name="MaintainableID" type="MaintainableIDType">
-      <xs:annotation>
-         <xs:documentation>Used to identify described identifiable objects for purposes of internal and/or external referencing. Provides containers for Uniform Resource Name (URN) as well as ID information, Versioning information, and the Identifying Agency. An entity can either be identified by a URN, or a combination of ID/Agency/Version, with Agency and Version being inherited from the containing elements. If both URN and combination of elements is used, the URN takes precedence. Note that the URN is a string that combines the individually listed ID, agency, and version. The element can be designated as an addition, replacement, or deletion to facilitate tracking changes. Elements of this type may be maintained as separate resouce items.</xs:documentation>
-      </xs:annotation>
-      <xs:unique name="OneChoiceMaintainID">
-         <xs:selector xpath="*"/>
-         <xs:field xpath="@type"/>
-      </xs:unique>
-   </xs:element>
+   </xs:complexType>
+   <!-- IDENTIFICATION TYPE -->
    <xs:complexType name="IdentifiableIDType">
       <xs:annotation>
          <xs:documentation>Used to identify described identifiable objects for purposes of internal and/or external referencing. Elements of this type cannot be versioned or maintained except as part of a complex parent element. Provides containers for Uniform Resource Name (URN) as well as ID information. An entity can either be identified by a URN, or an ID. The Agency and Version information in the URN is inherited from the containing elements. If both URN and combination of elements is used, the URN takes precedence. The element can be designated as an addition, replacement, or deletion to facilitate tracking changes.</xs:documentation>
@@ -252,21 +231,22 @@
          <xs:choice minOccurs="0">
             <xs:element ref="Add">
                <xs:annotation>
-                  <xs:documentation>Notes that the entity being identified is being added.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A new ID plus "Add" means add this to the inherited structure.</xs:documentation>
                </xs:annotation>
             </xs:element>
             <xs:element ref="Replace">
                <xs:annotation>
-                  <xs:documentation>References an entity that the entity being identified is replacing.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Replace" indicates to use the new version rather than the inherited element with this ID for local processing.</xs:documentation>
                </xs:annotation>
             </xs:element>
             <xs:element ref="Delete">
                <xs:annotation>
-                  <xs:documentation>Denotes that the entity being identified is being deleted.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Delete" indicates that the inherited element with this ID has been removed from the inherited group for local processing.</xs:documentation>
                </xs:annotation>
             </xs:element>
          </xs:choice>
       </xs:sequence>
+      <xs:attribute name="type" type="xs:string" fixed="Identifiable"/>
    </xs:complexType>
    <xs:complexType name="VersionableIDType">
       <xs:annotation>
@@ -315,21 +295,22 @@
          <xs:choice minOccurs="0">
             <xs:element ref="Add">
                <xs:annotation>
-                  <xs:documentation>Notes that the entity being identified is being added.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A new ID plus "Add" means add this to the inherited structure.</xs:documentation>
                </xs:annotation>
             </xs:element>
             <xs:element ref="Replace">
                <xs:annotation>
-                  <xs:documentation>References an entity that the entity being identified is replacing.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Replace" indicates to use the new version rather than the inherited element with this ID for local processing.</xs:documentation>
                </xs:annotation>
             </xs:element>
             <xs:element ref="Delete">
                <xs:annotation>
-                  <xs:documentation>Denotes that the entity being identified is being deleted.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Delete" indicates that the inherited element with this ID has been removed from the inherited group for local processing.</xs:documentation>
                </xs:annotation>
             </xs:element>
          </xs:choice>
       </xs:sequence>
+      <xs:attribute name="type" type="xs:string" fixed="Versionable"/>
    </xs:complexType>
    <xs:complexType name="MaintainableIDType">
       <xs:annotation>
@@ -383,37 +364,26 @@
          <xs:choice minOccurs="0">
             <xs:element ref="Add">
                <xs:annotation>
-                  <xs:documentation>Notes that the entity being identified is being added.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A new ID plus "Add" means add this to the inherited structure.</xs:documentation>
                </xs:annotation>
             </xs:element>
             <xs:element ref="Replace">
                <xs:annotation>
-                  <xs:documentation>References an entity that the entity being identified is replacing.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Replace" indicates to use the new version rather than the inherited element with this ID for local processing.</xs:documentation>
                </xs:annotation>
             </xs:element>
             <xs:element ref="Delete">
                <xs:annotation>
-                  <xs:documentation>Denotes that the entity being identified is being deleted.</xs:documentation>
+                  <xs:documentation>Used only in cases of inheritance through the grouping structure. A duplicate ID plus "Delete" indicates that the inherited element with this ID has been removed from the inherited group for local processing.</xs:documentation>
                </xs:annotation>
             </xs:element>
          </xs:choice>
       </xs:sequence>
+      <xs:attribute name="type" type="xs:string" fixed="Maintainable"/>
    </xs:complexType>
    <xs:complexType name="ReferenceType">
       <xs:annotation>
-         <xs:documentation>Used for referencing an identified entity, either by a URN and/or an ID. If both are supplied, the URN takes precedence. At a minimum, one or the other is required.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element ref="Reference">
-            <xs:annotation>
-               <xs:documentation>Contains the reference.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name="ReferenceRefType">
-      <xs:annotation>
-         <xs:documentation>Used for referencing an identified entity, either by a URN and/or an ID. If both are supplied, the URN takes precedence. At a minimum, one or the other is required.</xs:documentation>
+         <xs:documentation>Used for referencing an identified entity expressed in DDI XML, either by a URN and/or an ID. If both are supplied, the URN takes precedence. At a minimum, one or the other is required.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element ref="Module" minOccurs="0">
@@ -440,12 +410,12 @@
                </xs:element>
                <xs:element name="IdentifyingAgency" type="xs:NCName" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Reference to the agency maintaining the entity that is being referenced. The agency will be referenced with a code from a DDI agency list.</xs:documentation>
+                     <xs:documentation>If referencing a maintained element you must include an IdentifyingAgency. This is the URN of the identifying agency.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="Version" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Version of the entity that is being referenced. The version can be identified as lateBound, meaning that the latest version should be used.</xs:documentation>
+                     <xs:documentation>If referencing a versioned or maintained element you must include Version. The version can be identified as lateBound, meaning that the latest version should be used.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -453,12 +423,17 @@
       </xs:sequence>
       <xs:attribute name="isExternal" type="xs:boolean" default="false">
          <xs:annotation>
-            <xs:documentation>Idicates that the reference is made to an external source. If the value is true, then a URI must be provided.</xs:documentation>
+            <xs:documentation>Indicates that the reference is made to an external source. If the value is true, then a URI must be provided.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
       <xs:attribute name="URI" type="xs:anyURI" use="optional">
          <xs:annotation>
             <xs:documentation>URI identifying the location of an external reference.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="isReference" type="xs:boolean" fixed="true">
+         <xs:annotation>
+            <xs:documentation>A fixed attribute value identifying which elements are references.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
    </xs:complexType>
@@ -491,7 +466,7 @@
          <xs:documentation>ID type. A fixed attribute is added to the string to ensure that only one ID can be provided.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
-         <xs:extension base="xs:string">
+         <xs:extension base="xs:NCName">
             <xs:attribute name="type" type="xs:string" fixed="ID">
                <xs:annotation>
                   <xs:documentation>Fixed attribute for use in uniqueness constraint.</xs:documentation>
@@ -526,8 +501,22 @@
                   <xs:documentation>Version of the scheme that is being referenced. The version can be identified as lateBound, meaning that the latest version should be used.</xs:documentation>
                </xs:annotation>
             </xs:element>
+            <xs:element ref="Exclude" minOccurs="0" maxOccurs="unbounded">
+               <xs:annotation>
+                  <xs:documentation>An item from the referenced scheme which should be excluded from use for the purposes of the reference.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
          </xs:sequence>
       </xs:choice>
+   </xs:complexType>
+   <xs:complexType name="ExcludeType">
+      <xs:annotation>
+         <xs:documentation>An item from the referenced scheme which should be excluded from use for the purposes of the reference. If the version field is not used, then the referenced scheme must include only one item with that ID.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="ID" type="xs:NCName"/>
+         <xs:element name="Version" type="VersionType"/>
+      </xs:sequence>
    </xs:complexType>
    <xs:element name="Citation" type="CitationType">
       <xs:annotation>
@@ -652,10 +641,14 @@
          <xs:documentation>Provides information aboput data that are not currently available because of policies established by the principal investigators and/or data producers.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="IdentifiableID">
+         <xs:element name="Identifier" type="IdentifiableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the embargo pertaining to the relevant item.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="EmbargoTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="Date">
             <xs:annotation>
@@ -701,10 +694,14 @@
          <xs:documentation>A life cycle event can be any event which is judged to be significant enough to document by the agency maintaining the documentation for a particular set of data. The type attribute may be used to create indicate which type of event in a typology meaningful to the documentor.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="IdentifiableID">
+         <xs:element name="Identifier" type="IdentifiableIDType">
             <xs:annotation>
                <xs:documentation>Identifies a life cycle event.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="LifeCycleEventTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="EventType" minOccurs="0">
             <xs:annotation>
@@ -733,10 +730,14 @@
          <xs:documentation>Contains universe statements used in the studyunit and/or group organized in hierarchical structures to provide parent child relationships.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="MaintainableID">
+         <xs:element name="Identifier" type="MaintainableIDType">
             <xs:annotation>
                <xs:documentation>Identifies universe structure.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="UniverseStructureTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="OverallUniverse">
             <xs:annotation>
@@ -750,10 +751,14 @@
          <xs:documentation>Universe statement assoicated with data collection, Question, Variable, NCube</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="MaintainableID">
+         <xs:element name="Identifier" type="MaintainableIDType">
             <xs:annotation>
                <xs:documentation>Identifies universe.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="UniverseTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="HumanReadable" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
@@ -787,7 +792,7 @@
                <xs:documentation>The processible code of the expression.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="SourceQuestion" minOccurs="0" maxOccurs="unbounded">
+         <xs:element ref="SourceQuestionReference" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
                <xs:documentation>A reference to a source question used in the associated Code element.</xs:documentation>
             </xs:annotation>
@@ -798,6 +803,11 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
+      <xs:attribute name="programmingLanguage" type="xs:string" use="optional">
+         <xs:annotation>
+            <xs:documentation>The programming language the Code is expressed in.</xs:documentation>
+         </xs:annotation>
+      </xs:attribute>
    </xs:complexType>
    <xs:element name="Coverage" type="CoverageType">
       <xs:annotation>
@@ -854,7 +864,7 @@
    </xs:element>
    <xs:complexType name="LabelType">
       <xs:annotation>
-         <xs:documentation>An unstructured Label for the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength.</xs:documentation>
+         <xs:documentation>An unstructured label for the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character,  SPSS 120 characters, and STATA 80 characters). Mnemonics associated with a variable should include both of the following attributes:  type="Nickname" and maxLength. Software packages will use this information to select the appropriate mnemonic for use.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="InternationalStringType">
@@ -880,16 +890,21 @@
             </xs:attribute>
          </xs:extension>
       </xs:simpleContent>
-   </xs:complexType><!-- TOPICAL COVERAGE -->
+   </xs:complexType>
+   <!-- TOPICAL COVERAGE -->
    <xs:complexType name="TopicalCoverageType">
       <xs:annotation>
          <xs:documentation>Describes the topical coverage of the data documented in a particular DDI module.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="IdentifiableID">
+         <xs:element name="Identifier" type="IdentifiableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the topical coverage.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="TopicalCoverageTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="Subject" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
@@ -908,7 +923,8 @@
          <xs:documentation>Provides for string content with a type indentifier.</xs:documentation>
       </xs:annotation>
       <xs:simpleContent>
-         <xs:extension base="InternationalStringType"><!-- Need CV -->
+         <xs:extension base="InternationalStringType">
+         	<!-- Need CV -->
             <xs:attribute name="type" type="xs:string" use="required">
                <xs:annotation>
                   <xs:documentation>Identifies the type of this string.  This attribute can be restricted to use a controlled vocabulary.</xs:documentation>
@@ -968,16 +984,21 @@
          </xs:element>
       </xs:sequence>
       <xs:attributeGroup ref="GLOBALS"/>
-   </xs:complexType><!-- GEOGRAPHIC COVERAGE -->
+   </xs:complexType>
+   <!-- GEOGRAPHIC COVERAGE -->
    <xs:complexType name="GeographicCoverageType">
       <xs:annotation>
          <xs:documentation>Describes the geographic coverage of the data documented in a particular DDI module.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="IdentifiableID">
+         <xs:element name="Identifier" type="IdentifiableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the geographic coverage.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="GeographicCoverageTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="BoundingBox" minOccurs="0">
             <xs:annotation>
@@ -1092,10 +1113,14 @@
          <xs:documentation>Describes the levels of a geographic hierarchy.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="IdentifiableID">
+         <xs:element name="Identifier" type="IdentifiableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the geography.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="GeographyTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="Level">
             <xs:annotation>
@@ -1369,7 +1394,8 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType><!-- REPRESENTATION -->
+   </xs:simpleType>
+   <!-- REPRESENTATION -->
    <xs:complexType name="RepresentationType" abstract="true">
       <xs:annotation>
          <xs:documentation>Abstract type for the head of a substitution group for of a representation, to be used for either a variable or a question.</xs:documentation>
@@ -1424,7 +1450,7 @@
                      <xs:documentation>A numeric range.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-            </xs:sequence><!-- Need CV -->
+            </xs:sequence>
             <xs:attribute name="type" type="NumericTypeCodeType" use="required">
                <xs:annotation>
                   <xs:documentation>The type attribute is used by the documentor to describe the numeric response domain.</xs:documentation>
@@ -1530,17 +1556,17 @@
                <xs:documentation>The upper bound of the range.</xs:documentation>
             </xs:annotation>
          </xs:element>
+         <xs:element name="TopCode" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>Indicates that any response equal to or greater than this value has been coded as the topcode value.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element name="BottomCode" type="xs:integer" minOccurs="0">
+            <xs:annotation>
+               <xs:documentation>Indicates that any response equal to or less than this value has been coded as the bottomcode value.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
       </xs:sequence>
-      <xs:attribute name="lowerIsInclusive" type="xs:boolean" default="true">
-         <xs:annotation>
-            <xs:documentation>The lower bound of the range is inclusive if value is true, otherwise is exclusive.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
-      <xs:attribute name="upperIsInclusive" type="xs:boolean" default="true">
-         <xs:annotation>
-            <xs:documentation>The upper bound of the range is inclusive if value is true, otherwise is exclusive.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
    </xs:complexType>
    <xs:element name="Low" type="NumberRangeValueType">
       <xs:annotation>
@@ -1558,7 +1584,7 @@
       </xs:annotation>
       <xs:simpleContent>
          <xs:extension base="xs:decimal">
-            <xs:attribute name="included" type="xs:boolean" use="required"/>
+            <xs:attribute name="included" type="xs:boolean" default="true"/>
          </xs:extension>
       </xs:simpleContent>
    </xs:complexType>
@@ -1696,7 +1722,8 @@
             </xs:attribute>
          </xs:extension>
       </xs:complexContent>
-   </xs:complexType><!-- OTHER MATERIALS -->
+   </xs:complexType>
+   <!-- OTHER MATERIALS -->
    <xs:element name="OtherMaterial" type="OtherMaterialType">
       <xs:annotation>
          <xs:documentation>Used to reference external resources that are related to the content of the relevant module. It includes a citation, an external reference using a URL (or other URI), and a reference to the item within the module to which the external resource is related.</xs:documentation>
@@ -1704,7 +1731,7 @@
    </xs:element>
    <xs:complexType name="OtherMaterialType">
       <xs:annotation>
-         <xs:documentation>OtherMaterialsType describes the structure of the OtherMaterials element, used to reference external resources. It includes citations to materials related to the content of the DDI Instance. This includes citations to such material, an external reference to a URL (or other URI), and a statement about the relationship between the cited OtherMaterial the contents of the DDI instance.</xs:documentation>
+         <xs:documentation>OtherMaterialType describes the structure of the OtherMaterial element, used to reference external resources. It includes citations to materials related to the content of the DDI Instance. This includes citations to such material, an external reference to a URL (or other URI), and a statement about the relationship between the cited OtherMaterial the contents of the DDI instance.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
          <xs:element ref="Citation">
@@ -1733,14 +1760,17 @@
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-      <xs:attributeGroup ref="GLOBALS"/><!-- Need vocabulary for this. -->
+      <xs:attributeGroup ref="GLOBALS"/>
+      <!-- Need vocabulary for this. -->
       <xs:attribute name="type" type="xs:string" use="required">
          <xs:annotation>
             <xs:documentation>Specifies the type of material.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
-   </xs:complexType><!-- UNIVERSE -->
-   <xs:element name="Universe" type="UniverseType"/><!-- NOTES -->
+   </xs:complexType>
+   <!-- UNIVERSE -->
+   <xs:element name="Universe" type="UniverseType"/>
+   <!-- NOTES -->
    <xs:element name="Note" type="NoteType">
       <xs:annotation>
          <xs:documentation>Includes a footnote or annotation to a section of the documentation, and is designed to be an inherent part of the DDI. (Unlike XML comments or other types of system-level annotations, which may be removed during processing.)</xs:documentation>
@@ -1784,6 +1814,23 @@
          </xs:annotation>
       </xs:attribute>
    </xs:complexType>
+   <xs:complexType name="RelationshipType">
+      <xs:annotation>
+         <xs:documentation>Relationship between the item within the DDI Instance to which the external resource is relatedand that item. </xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element ref="RelatedToReference">
+            <xs:annotation>
+               <xs:documentation>Reference to the item within the DDI Instance to which the external resource is related. </xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="RelationshipDescription" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which it is related.  </xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
    <xs:simpleType name="NoteTypeCodeType">
       <xs:annotation>
          <xs:documentation>A standard typology of notes.</xs:documentation>
@@ -1825,16 +1872,21 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType><!-- TEMPORAL COVERAGE -->
+   </xs:simpleType>
+   <!-- TEMPORAL COVERAGE -->
    <xs:complexType name="TemporalCoverageType">
       <xs:annotation>
          <xs:documentation>Describes the temporal coverage of the data described in a particular DDI module.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="IdentifiableID">
+         <xs:element name="Identifier" type="IdentifiableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the temporal coverage.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="TemporalCoverageTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="AdministrativeDate" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
@@ -1969,7 +2021,8 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType><!--EMAIL-->
+   </xs:simpleType>
+   <!--EMAIL-->
    <xs:element name="Email" type="EmailType">
       <xs:annotation>
          <xs:documentation>An email address.</xs:documentation>
@@ -2270,7 +2323,8 @@
             </xs:annotation>
          </xs:enumeration>
       </xs:restriction>
-   </xs:simpleType><!-- COUNTRY -->
+   </xs:simpleType>
+   <!-- COUNTRY -->
    <xs:complexType name="CountryType">
       <xs:annotation>
          <xs:documentation>Specifies a country.</xs:documentation>
@@ -5990,15 +6044,6 @@
          <xs:documentation>An identification.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="Reference" type="ReferenceRefType">
-      <xs:annotation>
-         <xs:documentation>References element.</xs:documentation>
-      </xs:annotation>
-      <xs:unique name="OneChoiceRef">
-         <xs:selector xpath="*"/>
-         <xs:field xpath="@type"/>
-      </xs:unique>
-   </xs:element>
    <xs:element name="Module" type="ReferenceType">
       <xs:annotation>
          <xs:documentation>References the module containing an entity which is being referenced, in case there have been local modifications made to inherited properties.</xs:documentation>
@@ -6114,7 +6159,7 @@
          <xs:documentation>A machine-readable statement of the universe of the question item, expressed as a Coding.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="SourceQuestion" type="ReferenceType">
+   <xs:element name="SourceQuestionReference" type="ReferenceType">
       <xs:annotation>
          <xs:documentation>A reference to a source question used in the associated Code element.</xs:documentation>
       </xs:annotation>
@@ -6309,9 +6354,19 @@
          <xs:documentation>A Y coordinate (longitudinal equivilent) value.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="Relationship" type="ReferenceType">
+   <xs:element name="Relationship" type="RelationshipType">
+      <xs:annotation>
+         <xs:documentation>Relationship between the item within the DDI Instance to which the external resource is relatedand that item. </xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="RelatedToReference" type="ReferenceType">
       <xs:annotation>
          <xs:documentation>Reference to the item within the DDI Instance to which the external resource is related. </xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="RelationshipDescripton" type="InternationalStringType">
+      <xs:annotation>
+         <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which i is related.  </xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="AdministrativeDate" type="AdministrativeDateType">
@@ -6382,6 +6437,16 @@
    <xs:element name="EnforcementAgencyOrganizationReference" type="ReferenceType">
       <xs:annotation>
          <xs:documentation>Reference to an Enforcement Agency in the organization scheme.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="Exclude" type="ExcludeType">
+      <xs:annotation>
+         <xs:documentation>An item to be excluded from the containing scheme reference.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="RelationshipDescription" type="InternationalStringType">
+      <xs:annotation>
+         <xs:documentation>A description of the nature of the relationship between the external material in an OtherMaterial element reference and the DDI object to which it is related.</xs:documentation>
       </xs:annotation>
    </xs:element>
 </xs:schema>

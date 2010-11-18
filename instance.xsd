@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:instance:3_0_CR" xmlns:r="ddi:reusable:3_0_CR" xmlns:a="ddi:archive:3_0_CR" xmlns:d="ddi:dcelements:3_0_CR" xmlns:g="ddi:group:3_0_CR" xmlns:s="ddi:studyunit:3_0_CR" targetNamespace="ddi:instance:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:instance:3_0_CR2" xmlns:r="ddi:reusable:3_0_CR2" xmlns:a="ddi:archive:3_0_CR2" xmlns:d="ddi:dcelements:3_0_CR2" xmlns:g="ddi:group:3_0_CR2" xmlns:s="ddi:studyunit:3_0_CR2" targetNamespace="ddi:instance:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
-   <xs:import namespace="ddi:reusable:3_0_CR" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:archive:3_0_CR" schemaLocation="archive.xsd"/>
-   <xs:import namespace="ddi:dcelements:3_0_CR" schemaLocation="dcelements.xsd"/>
-   <xs:import namespace="ddi:group:3_0_CR" schemaLocation="group.xsd"/>
-   <xs:import namespace="ddi:studyunit:3_0_CR" schemaLocation="studyunit.xsd"/>
+   <xs:import namespace="ddi:reusable:3_0_CR2" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:archive:3_0_CR2" schemaLocation="archive.xsd"/>
+   <xs:import namespace="ddi:dcelements:3_0_CR2" schemaLocation="dcelements.xsd"/>
+   <xs:import namespace="ddi:group:3_0_CR2" schemaLocation="group.xsd"/>
+   <xs:import namespace="ddi:studyunit:3_0_CR2" schemaLocation="studyunit.xsd"/>
    <xs:element name="DDIInstance" type="DDIInstanceType"/>
    <xs:complexType name="DDIInstanceType">
       <xs:annotation>
          <xs:documentation>DDIInstanceType is the XML type of the top-level wrapper for any DDI document. It is divided into a set of top-level elements, which generally correspond to the modular breakdown within DDI. (Note that some modules are sub-components of other, higher-level modules). Every DDI Instance will use this wrapper, regardless of its contents.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="r:MaintainableID">
+         <xs:element name="Identifier" type="r:MaintainableIDType">
             <xs:annotation>
                <xs:documentation>This module identifies the DDI Instance. Note that the agency supplied here is the default agency for the contents of the instance.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="InstanceTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="r:Citation" minOccurs="0">
             <xs:annotation>

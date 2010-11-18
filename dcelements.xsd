@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:dcelements:3_0_CR" xmlns:dc="http://purl.org/dc/elements/1.1/" targetNamespace="ddi:dcelements:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:dcelements:3_0_CR2" xmlns:dc="http://purl.org/dc/elements/1.1/" targetNamespace="ddi:dcelements:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="simpledc20021212.xsd"/>
    <xs:element name="DCElements" type="DCElementsType"/>
    <xs:complexType name="DCElementsType">

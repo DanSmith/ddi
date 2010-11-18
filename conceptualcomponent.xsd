@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- DDI 3.0 Candidate Release June 22, 2007 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:conceptualcomponent:3_0_CR" xmlns:r="ddi:reusable:3_0_CR" targetNamespace="ddi:conceptualcomponent:3_0_CR" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0_CR" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:conceptualcomponent:3_0_CR2" xmlns:r="ddi:reusable:3_0_CR2" targetNamespace="ddi:conceptualcomponent:3_0_CR2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0_CR2" schemaLocation="reusable.xsd"/>
    <xs:element name="ConceptualComponent" type="ConceptualComponentType">
       <xs:annotation>
          <xs:documentation>Concept and Universe schemes used by the data being documented, or references to those schemes.</xs:documentation>
@@ -12,10 +12,14 @@
          <xs:documentation>Concept and Universe schemes used by the data being documented, or references to those schemes.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="r:MaintainableID">
+         <xs:element name="Identifier" type="r:MaintainableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the conceptual components module.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="ConceptualComponentTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="r:Coverage" minOccurs="0">
             <xs:annotation>
@@ -44,7 +48,7 @@
                </xs:annotation>
             </xs:element>
          </xs:choice>
-	<xs:choice maxOccurs="unbounded">
+         <xs:choice maxOccurs="unbounded">
             <xs:element ref="UniverseScheme">
                <xs:annotation>
                   <xs:documentation>Includes a comprehensive list of the Universes and sub-universes for the data that are being documented.</xs:documentation>
@@ -55,7 +59,7 @@
                   <xs:documentation>References a universe scheme external to this module, for inclusion in the module.</xs:documentation>
                </xs:annotation>
             </xs:element>
-         </xs:choice>         
+         </xs:choice>
       </xs:sequence>
    </xs:complexType>
    <xs:complexType name="ConceptSchemeType">
@@ -63,10 +67,14 @@
          <xs:documentation>Includes a comprehensive list of the concepts describing the data that are being documented.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="r:MaintainableID">
+         <xs:element name="Identifier" type="r:MaintainableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the concept scheme.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="ConceptSchemeTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
@@ -89,16 +97,16 @@
             </xs:annotation>
          </xs:element>
          <xs:choice minOccurs="0" maxOccurs="unbounded">
-         <xs:element ref="Concept">
-            <xs:annotation>
-               <xs:documentation>Container for an individual concept included in the concept scheme.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="DataElementConcept">
-            <xs:annotation>
-               <xs:documentation>Container for an individual data element concept (per ISO/IEC 11179) included in the concept scheme.</xs:documentation>
-            </xs:annotation>
-         </xs:element>  
+            <xs:element ref="Concept">
+               <xs:annotation>
+                  <xs:documentation>Container for an individual concept included in the concept scheme.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
+            <xs:element ref="DataElementConcept">
+               <xs:annotation>
+                  <xs:documentation>Container for an individual data element concept (per ISO/IEC 11179) included in the concept scheme.</xs:documentation>
+               </xs:annotation>
+            </xs:element>
          </xs:choice>
          <xs:element ref="ConceptGroup" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
@@ -107,47 +115,55 @@
          </xs:element>
       </xs:sequence>
    </xs:complexType>
-      <xs:complexType name="UniverseSchemeType">
-         <xs:annotation>
-            <xs:documentation>Includes a comprehensive list of the universes and sub-universes for the data that are being documented.</xs:documentation>
-         </xs:annotation>
-         <xs:sequence>
-            <xs:element ref="r:MaintainableID">
-               <xs:annotation>
-                  <xs:documentation>Identifies the universe scheme.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
-               <xs:annotation>
-                  <xs:documentation>A short description of the universe scheme.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
-               <xs:annotation>
-                  <xs:documentation>A description of the use of the universe scheme.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
-            <xs:element ref="UniverseSchemeReference" minOccurs="0" maxOccurs="unbounded">
-               <xs:annotation>
-                  <xs:documentation>Provides for inclusion by reference of other universe schemes.</xs:documentation>
-               </xs:annotation>
+   <xs:complexType name="UniverseSchemeType">
+      <xs:annotation>
+         <xs:documentation>Includes a comprehensive list of the universes and sub-universes for the data that are being documented.</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="Identifier" type="r:MaintainableIDType">
+            <xs:annotation>
+               <xs:documentation>Identifies the universe scheme.</xs:documentation>
+            </xs:annotation>
+            <xs:unique name="UniverseSchemeTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
-            <xs:element ref="Universe" minOccurs="0" maxOccurs="unbounded">
-               <xs:annotation>
-                  <xs:documentation>Provides for inclusion of a top-level universe, containing any sub-universes.</xs:documentation>
-               </xs:annotation>
-         </xs:element>         
-         </xs:sequence>
-     	</xs:complexType>
+         <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>A short description of the universe scheme.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>A description of the use of the universe scheme.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="UniverseSchemeReference" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Provides for inclusion by reference of other universe schemes.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="Universe" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Provides for inclusion of a top-level universe, containing any sub-universes.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
    <xs:complexType name="ConceptGroupType">
       <xs:annotation>
          <xs:documentation>Allows for grouping of concepts; groups may have a hierarchical structure.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="r:MaintainableID">
+         <xs:element name="Identifier" type="r:MaintainableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the concept group.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="ConceptGroupTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
@@ -254,10 +270,14 @@
          <xs:documentation>Container for an individual concept included in the concept scheme.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="r:VersionableID">
+         <xs:element name="Identifier" type="r:VersionableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the concept.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="ConceptTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
@@ -276,9 +296,9 @@
          </xs:element>
       </xs:sequence>
       <xs:attribute name="isCharacteristic" type="xs:boolean" default="false">
-            <xs:annotation>
-               <xs:documentation>A true value indicates that the concept is a characteristic, as defined in ISO/IEC 11179.</xs:documentation>
-            </xs:annotation>      
+         <xs:annotation>
+            <xs:documentation>A true value indicates that the concept is a characteristic, as defined in ISO/IEC 11179.</xs:documentation>
+         </xs:annotation>
       </xs:attribute>
    </xs:complexType>
    <xs:complexType name="DataElementConceptType">
@@ -286,10 +306,14 @@
          <xs:documentation>Container for a data element concept (per ISO/IEC 11179) included in the concept scheme.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="r:VersionableID">
+         <xs:element name="Identifier" type="r:VersionableIDType">
             <xs:annotation>
                <xs:documentation>Identifies the concept.</xs:documentation>
             </xs:annotation>
+            <xs:unique name="DataElementConceptTypeID">
+               <xs:selector xpath="*"/>
+               <xs:field xpath="@type"/>
+            </xs:unique>
          </xs:element>
          <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
@@ -310,29 +334,29 @@
             <xs:annotation>
                <xs:documentation>Reference to a Concept, with its isCharacertistic attribute set to true, that is used by this data element concept.</xs:documentation>
             </xs:annotation>
-         </xs:element>    
+         </xs:element>
          <xs:element ref="UniverseReference" minOccurs="0">
             <xs:annotation>
                <xs:documentation>Reference to a universe.</xs:documentation>
             </xs:annotation>
-         </xs:element>          
+         </xs:element>
       </xs:sequence>
    </xs:complexType>
    <xs:element name="CharacteristicReference" type="ConceptReferenceType">
       <xs:annotation>
          <xs:documentation>References a concept which has its isCharacteristic attribute set to true.</xs:documentation>
       </xs:annotation>
-   </xs:element>  
+   </xs:element>
    <xs:element name="DataElementConcept" type="DataElementConceptType">
       <xs:annotation>
          <xs:documentation>Container for a data element concept (per ISO/IEC 11179) included in the concept scheme.</xs:documentation>
       </xs:annotation>
-   </xs:element>   
+   </xs:element>
    <xs:element name="UniverseReference" type="r:ReferenceType">
       <xs:annotation>
          <xs:documentation>Reference to the universe which is associated with the data element concept.</xs:documentation>
       </xs:annotation>
-   </xs:element>   
+   </xs:element>
    <xs:complexType name="SimilarConceptType">
       <xs:annotation>
          <xs:documentation>Reference to another concept that is similar to the one included in the Description element above.</xs:documentation>
@@ -384,12 +408,12 @@
       <xs:annotation>
          <xs:documentation>References a universe scheme external to this module, for inclusion in the module.</xs:documentation>
       </xs:annotation>
-   </xs:element>   
+   </xs:element>
    <xs:element name="Universe" type="r:UniverseType">
       <xs:annotation>
          <xs:documentation>Describes a universe for inclusion in the module.</xs:documentation>
       </xs:annotation>
-   </xs:element>   
+   </xs:element>
    <xs:element name="Vocabulary" type="VocabularyType">
       <xs:annotation>
          <xs:documentation>Provides information about the vocabulary used to create the concept scheme.</xs:documentation>
