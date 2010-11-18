@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:studyunit:3_0" xmlns:r="ddi:reusable:3_0" xmlns:a="ddi:archive:3_0" xmlns:c="ddi:conceptualcomponent:3_0" xmlns:d="ddi:datacollection:3_0" xmlns:l="ddi:logicalproduct:3_0" xmlns:p="ddi:physicaldataproduct:3_0" xmlns:pi="ddi:physicalinstance:3_0"  xmlns:pr="ddi:ddiprofile:3_0" targetNamespace="ddi:studyunit:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:archive:3_0" schemaLocation="archive.xsd"/>
-   <xs:import namespace="ddi:conceptualcomponent:3_0" schemaLocation="conceptualcomponent.xsd"/>
-   <xs:import namespace="ddi:datacollection:3_0" schemaLocation="datacollection.xsd"/>
-   <xs:import namespace="ddi:logicalproduct:3_0" schemaLocation="logicalproduct.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_0" schemaLocation="physicaldataproduct.xsd"/>
-   <xs:import namespace="ddi:physicalinstance:3_0" schemaLocation="physicalinstance.xsd"/>
-   <xs:import namespace="ddi:ddiprofile:3_0" schemaLocation="ddiprofile.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:studyunit:3_1" xmlns:r="ddi:reusable:3_1" xmlns:a="ddi:archive:3_1" xmlns:c="ddi:conceptualcomponent:3_1" xmlns:d="ddi:datacollection:3_1" xmlns:l="ddi:logicalproduct:3_1" xmlns:p="ddi:physicaldataproduct:3_1" xmlns:pi="ddi:physicalinstance:3_1"  xmlns:pr="ddi:ddiprofile:3_1" targetNamespace="ddi:studyunit:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:archive:3_1" schemaLocation="archive.xsd"/>
+   <xs:import namespace="ddi:conceptualcomponent:3_1" schemaLocation="conceptualcomponent.xsd"/>
+   <xs:import namespace="ddi:datacollection:3_1" schemaLocation="datacollection.xsd"/>
+   <xs:import namespace="ddi:logicalproduct:3_1" schemaLocation="logicalproduct.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_1" schemaLocation="physicaldataproduct.xsd"/>
+   <xs:import namespace="ddi:physicalinstance:3_1" schemaLocation="physicalinstance.xsd"/>
+   <xs:import namespace="ddi:ddiprofile:3_1" schemaLocation="ddiprofile.xsd"/>
    <xs:element name="StudyUnit" type="StudyUnitType"/>
    <xs:complexType name="StudyUnitType">
       <xs:annotation>

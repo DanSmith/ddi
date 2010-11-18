@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_0" xmlns:r="ddi:reusable:3_0" targetNamespace="ddi:physicalinstance:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_1" xmlns:r="ddi:reusable:3_1" targetNamespace="ddi:physicalinstance:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
    <xs:element name="PhysicalInstance" type="PhysicalInstanceType">
       <xs:annotation>
          <xs:documentation>Includes information about the physical instance of a data product (an actual data file). It completes the documentation contained in the Physical Data Product module, which describes the physical layout and other characteristics of the data that do not change when a file is merged with another related file, or split into subsets.</xs:documentation>
@@ -84,10 +84,17 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Includes variable and category statistics data documented in the physical instance, or a reference to a physical instance where the statistics are described or located in line.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="ByteOrder" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Contains a term from a controlled vocabulary indicating the byte ordering.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>               
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="ByteOrder" type="r:CodeValueType"/>
+   
    <xs:element name="Fingerprint" type="FingerprintType">
       <xs:annotation>
          <xs:documentation>Allows for assigning a digital fingerprint to the data file.</xs:documentation>
@@ -274,15 +281,15 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:documentation>The total number of responses to this variable. This element is especially useful if the number of responses does not match added case counts. It may also be used to sum the frequencies for variable categories.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:choice>
-            <xs:element ref="WeightUsedReference" minOccurs="0">
+         <xs:choice minOccurs="0">
+            <xs:element ref="WeightUsedReference">
                <xs:annotation>
-                  <xs:documentation>Reference to a weight described in the sample procedure in the methodology description that was used to create the statisitic.</xs:documentation>
+                  <xs:documentation>Reference is made to the Coding element in Data Processing that contains the StandardWeight used. (If neither choice is used, no weighting factor has been applied in the calculation of this statistic.)</xs:documentation>
                </xs:annotation>
             </xs:element>
-            <xs:element ref="WeightVariableReference" minOccurs="0">
+            <xs:element ref="WeightVariableReference">
                <xs:annotation>
-                  <xs:documentation>Reference to a variable to use for weight.</xs:documentation>
+                  <xs:documentation>Reference to a variable to use for weight. (If neither choice is used, no weighting factor has been applied in the calculation of this statistic.)</xs:documentation>
                </xs:annotation>
             </xs:element>
          </xs:choice>
@@ -408,12 +415,12 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   <xs:documentation>Identification of the code list that this value is taken from.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="codeListAgency" type="xs:string" fixed="DDI" use="required">
+            <xs:attribute name="codeListAgencyName" type="xs:string" fixed="DDI" use="required">
                <xs:annotation>
                   <xs:documentation>Agency maintaining the code list.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="codeListVersion" type="xs:string" fixed="1.0">
+            <xs:attribute name="codeListVersionID" type="xs:string" fixed="1.0">
                <xs:annotation>
                   <xs:documentation>Version of the code list.</xs:documentation>
                </xs:annotation>
@@ -565,11 +572,6 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   <xs:documentation>Third quartile</xs:documentation>
                </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value="FourthQuartile">
-               <xs:annotation>
-                  <xs:documentation>Fourth quartile</xs:documentation>
-               </xs:annotation>
-            </xs:enumeration>
             <xs:enumeration value="FirstQuintile">
                <xs:annotation>
                   <xs:documentation>First quintile</xs:documentation>
@@ -588,11 +590,6 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:enumeration value="FourthQuintile">
                <xs:annotation>
                   <xs:documentation>FourthQuintile</xs:documentation>
-               </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="FifthQuintile">
-               <xs:annotation>
-                  <xs:documentation>FifthQuintile</xs:documentation>
                </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="FirstDecile">
@@ -640,11 +637,6 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   <xs:documentation>NinthDecile</xs:documentation>
                </xs:annotation>
             </xs:enumeration>
-            <xs:enumeration value="TenthDecile">
-               <xs:annotation>
-                  <xs:documentation>TenthDecile</xs:documentation>
-               </xs:annotation>
-            </xs:enumeration>
             <xs:enumeration value="UseOther">
                <xs:annotation>
                   <xs:documentation>See otherValue attribute Other</xs:documentation>
@@ -655,12 +647,12 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   <xs:documentation>Identification of the code list that this value is taken from.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="codeListAgency" type="xs:string" fixed="DDI" use="required">
+            <xs:attribute name="codeListAgencyName" type="xs:string" fixed="DDI" use="required">
                <xs:annotation>
                   <xs:documentation>Agency maintaining the code list.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="codeListVersion" type="xs:string" fixed="1.0">
+            <xs:attribute name="codeListVersionID" type="xs:string" fixed="1.0">
                <xs:annotation>
                   <xs:documentation>Version of the code list.</xs:documentation>
                </xs:annotation>
@@ -765,7 +757,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:element>
    <xs:element name="WeightUsedReference" type="r:ReferenceType">
       <xs:annotation>
-         <xs:documentation>Reference to a weight described in the sample procedure in the mehtodology description.</xs:documentation>
+         <xs:documentation>Reference is made to the Coding element in Data Processing that contains the StandardWeight used.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="WeightVariableReference" type="r:ReferenceType">

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:archive:3_0" xmlns:r="ddi:reusable:3_0" targetNamespace="ddi:archive:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:archive:3_1" xmlns:r="ddi:reusable:3_1" targetNamespace="ddi:archive:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
    <xs:element name="Archive" type="ArchiveType">
       <xs:annotation>
          <xs:documentation>Archive is the element which contains relevant archival information pertinent to the contents of a DDI instance.</xs:documentation>
@@ -34,6 +34,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="ArchiveModuleName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="ArchiveSpecific">
                   <xs:annotation>
                      <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
@@ -62,7 +65,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
+     
    </xs:complexType>
+   <xs:element name="ArchiveModuleName" type="r:NameType"/>
    <xs:complexType name="ArchiveSpecificType">
       <xs:annotation>
          <xs:documentation>Contains metadata specific to a particular archive's holding.</xs:documentation>
@@ -274,6 +279,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:IdentifiableType">
             <xs:sequence>
+               <xs:element ref="AccessTypeName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="ConfidentialityStatement" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Provides confidentiality statement and/or reference to its network location.</xs:documentation>
@@ -323,6 +331,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="AccessTypeName" type="r:NameType"/>
    <xs:complexType name="FormType">
       <xs:annotation>
          <xs:documentation>FormType describes the forms needed for such functions as access permission to the archive and statements of confidentiality.</xs:documentation>
@@ -486,6 +495,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:complexContent>
             <xs:extension base="r:MaintainableType">
                <xs:sequence>
+               <xs:element ref="OrganizationSchemeName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>               
                   <xs:element ref="Organization" minOccurs="0" maxOccurs="unbounded">
                      <xs:annotation>
                         <xs:documentation>Describes an organization.</xs:documentation>
@@ -515,6 +527,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             </xs:extension>
          </xs:complexContent>
       </xs:complexType>
+      <xs:element name="OrganizationSchemeName" type="r:NameType"/> 
       <xs:element name="OrganizationSchemeReference" type="r:SchemeReferenceType"/>
       <!--ORGANIZATION-->
       <xs:complexType name="OrganizationType">
@@ -539,6 +552,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                         <xs:element ref="Nickname" minOccurs="0" maxOccurs="unbounded">
                            <xs:annotation>
                               <xs:documentation>An abbreviation or a brief name for an organization.</xs:documentation>
+                           </xs:annotation>
+                        </xs:element>
+                        <xs:element ref="DDIMaintenanceAgencyID" minOccurs="0" maxOccurs="unbounded">
+                           <xs:annotation>
+                              <xs:documentation>An official DDI maintenance agency ID provided by the cited registry for the organization.</xs:documentation>
                            </xs:annotation>
                         </xs:element>
                         <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -601,13 +619,42 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                               <xs:documentation>Provides an external link to images associated with the organization (logos, etc.).</xs:documentation>
                            </xs:annotation>
                         </xs:element>
+                        <xs:element ref="VersionDistinction" minOccurs="0" maxOccurs="unbounded">
+                           <xs:annotation>
+                              <xs:documentation>Provides an external link to images associated with the organization (logos, etc.).</xs:documentation>
+                           </xs:annotation>
+                        </xs:element>                        
                      </xs:sequence>
                   </xs:choice>
                </xs:sequence>
                  <xs:attributeGroup ref="PRIVACY"/>
             </xs:extension>
          </xs:complexContent>
-      </xs:complexType><!--INDIVIDUAL-->
+      </xs:complexType>
+      <xs:element name="DDIMaintenanceAgencyID" type="DDIMaintenanceAgencyIDType"/>
+      <xs:complexType name="DDIMaintenanceAgencyIDType">
+	   <xs:annotation>
+	      <xs:documentation>Provides the official DDI ID of a maintenance agency as a value taken from the registry cited in @registryID.</xs:documentation>
+	   </xs:annotation> 
+	   <xs:simpleContent>
+	   	<xs:extension base="xs:string">
+	   		<xs:attribute name="registryID" type="xs:string" use="required"/>
+	        </xs:extension>
+           </xs:simpleContent>
+      </xs:complexType>
+      <xs:element name="VersionDistinction" type="VersionDistinctionType"/>
+      <xs:complexType name="VersionDistinctionType">
+	   <xs:annotation>
+	      <xs:documentation>Describes the data versioning scheme(s) used by an organization. If more than one, Name should differentiate between a standard versioning structure used by the oranization and special structures used by specific projects or studies. Information on what drives and major and minor change and how they are structured.</xs:documentation>
+	   </xs:annotation>      
+	   <xs:sequence>
+	   <xs:element ref="VersionDistinctionName" maxOccurs="unbounded"/>
+	   <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+	   <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
+	   </xs:sequence>
+      </xs:complexType>
+      <xs:element name="VersionDistinctionName" type="r:NameType"/>
+      <!--INDIVIDUAL-->
       <xs:complexType name="IndividualType">
          <xs:annotation>
             <xs:documentation>Describes an individual</xs:documentation>
@@ -630,6 +677,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                         <xs:documentation>Brief name of the individual.</xs:documentation>
                      </xs:annotation>
                   </xs:element>
+                        <xs:element ref="DDIMaintenanceAgencyID" minOccurs="0" maxOccurs="unbounded">
+                           <xs:annotation>
+                              <xs:documentation>An official DDI maintenance agency ID provided by the cited registry for the individual.</xs:documentation>
+                           </xs:annotation>
+                        </xs:element>                  
                   <xs:element ref="Organization" minOccurs="0" maxOccurs="unbounded">
                      <xs:annotation>
                         <xs:documentation>Organization with which an individual is associated if the individual is not nested within an organization or if the individual is associated with an additional organziation.</xs:documentation>
@@ -762,7 +814,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:annotation>
          <xs:simpleContent>
             <xs:extension base="xs:string">
-               <xs:attribute name="ISO" type="LanguageLevelCodeType" use="optional">
+               <xs:attribute name="ISO" type="xs:language" use="optional">
                 <xs:annotation>
                    <xs:documentation>ISO code for the language described</xs:documentation>
                 </xs:annotation>
@@ -803,12 +855,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:annotation>
          <xs:complexContent>
             <xs:extension base="r:IdentifiableType">
-               <xs:sequence>
-                  <xs:element ref="EntityReference" maxOccurs="unbounded">
-                     <xs:annotation>
-                        <xs:documentation>Reference to the entity described as playing this role</xs:documentation>
-                     </xs:annotation>
-                  </xs:element>
+            	<xs:sequence>
                   <xs:choice maxOccurs="unbounded">
                      <xs:element ref="OrganizationReference">
                        <xs:annotation>
@@ -823,7 +870,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   </xs:choice>
                   <xs:element ref="r:Description" maxOccurs="unbounded">
                      <xs:annotation>
-                        <xs:documentation>Description of the role played by the actor referenced above</xs:documentation>
+                        <xs:documentation>Description of the role played by the actor(s) referenced above</xs:documentation>
                      </xs:annotation>
                   </xs:element>
                   <xs:element ref="Keyword" minOccurs="0" maxOccurs="unbounded">
@@ -841,7 +888,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                         <xs:documentation>Note regarding the role being described.</xs:documentation>
                      </xs:annotation>
                   </xs:element>
-               </xs:sequence>
+                 </xs:sequence>
                <xs:attributeGroup ref="PRIVACY"/>
             </xs:extension>
          </xs:complexContent>
@@ -898,7 +945,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                         <xs:documentation>Allows for inclusion by reference of a location</xs:documentation>
                      </xs:annotation>
                   </xs:element>
-                  <xs:element ref="Name" minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="LocationName" minOccurs="0" maxOccurs="unbounded">
                      <xs:annotation>
                         <xs:documentation>Location name</xs:documentation>
                      </xs:annotation>
@@ -1218,6 +1265,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:annotation>
       </xs:element>
       <xs:element name="Name" type="r:InternationalStringType"/>
+      <xs:element name="LocationName" type="r:NameType"/>
       <xs:element name="Address" type="AddressType"/>
       <xs:element name="Country" type="r:CountryType"/>
       <xs:element name="GeographicLocation" type="r:PointType"/>

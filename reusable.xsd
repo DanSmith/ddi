@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:reusable:3_0" xmlns:dc="ddi:dcelements:3_0" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="ddi:reusable:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:reusable:3_1" xmlns:dc="ddi:dcelements:3_1" xmlns:xhtml="http://www.w3.org/1999/xhtml" targetNamespace="ddi:reusable:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
   <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="ddi-xhtml11.xsd"/>
-  <xs:import namespace="ddi:dcelements:3_0" schemaLocation="dcelements.xsd"/>
+  <xs:import namespace="ddi:dcelements:3_1" schemaLocation="dcelements.xsd"/>
   <!-- BASIC TYPES -->
-  <xs:attributeGroup name="GLOBALS">
-    <xs:annotation>
-      <xs:documentation>GLOBALS is an attribute group containing the set of repeated XML attributes available throughout DDI 3.0. The id attribute provides a unique identifier within the domain of its maintaining agency - that is, no two IDs for the maintaining agency may be the same. xml:lang is the attribute as provided for in the XML specification.</xs:documentation>
-    </xs:annotation>
-    <xs:attribute name="id" type="xs:NCName"/>
-    <xs:attribute ref="xml:lang"/>
-  </xs:attributeGroup>
+
   <xs:simpleType name="BaseDateType">
     <xs:annotation>
       <xs:documentation>Union type which allows date-times, dates, year-months, and years as valid values. These are formatted according to ISO 8601.</xs:documentation>
@@ -181,21 +175,36 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:documentation>Identifies the code list that the value is taken from.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="codeListAgency" type="xs:string" use="optional">
+        <xs:attribute name="codeListName" type="xs:string" use="optional">
+          <xs:annotation>
+            <xs:documentation>Identifies the code list that the value is taken from with a human-readable name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>        
+        <xs:attribute name="codeListAgencyName" type="xs:string" use="optional">
           <xs:annotation>
             <xs:documentation>Agency maintaining the code list.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="codeListVersion" type="xs:string" default="1.0">
+        <xs:attribute name="codeListVersionID" type="xs:string" default="1.0">
           <xs:annotation>
             <xs:documentation>Version of the code list. (Default value is 1.0)</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="otherValue" type="xs:string" use="optional">
           <xs:annotation>
-            <xs:documentation>Other Value.</xs:documentation>
+            <xs:documentation>If the codelist contains an 'Other' value - that is, a value which indicates a value not from that codelist is being used, then this attribute carries the foreign value.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="codeListURN" type="xs:string" use="optional">
+          <xs:annotation>
+            <xs:documentation>Identifies the code list that the value is taken from with a URN.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="codeListSchemeURN" type="xs:string" use="optional">
+          <xs:annotation>
+            <xs:documentation>Identifies the code list scheme using a URN.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>        
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
@@ -280,9 +289,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:documentation>Used to identify described identifiable objects for purposes of internal and/or external referencing. Elements of this type cannot be versioned or maintained except as part of a complex parent element. Provides containers for Uniform Resource Name (URN) as well as ID information. An entity can either be identified by a URN, or an ID. The Agency and Version information in the URN is inherited from the containing elements. If both URN and combination of elements is used, the URN takes precedence. The element can be designated as an addition, replacement, or deletion to facilitate tracking changes.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element ref="Name" minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="UserID" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
-          <xs:documentation>Human-readable name given the entity being identified. May be repeated to provide language and/or geographic alternatives.</xs:documentation>
+          <xs:documentation>An identifer that is locally unique within its specifc type. The required type attribute points to the local user identification system that defines the values. If multiple UserIDs are used they must be differentiated by the type attribute.</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -301,6 +310,17 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         <xs:documentation>Used for inheritance to indicate that the element being described is being added, updated, or deleted at the local level. Add: This element is added to the inherited structure. Update: This element is to be used in place of the inherited element with this ID for local processing. Delete: This element has been removed from the inherited group for local processing. There will be a new ID only in the case of Add.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="UserIDType">
+	<xs:annotation>
+        <xs:documentation>An identifer that is locally unique within its specifc type. The required type attribute points to the local user identification system that defines the values. If multiple UserIDs are used they must be differentiated by the type attribute.</xs:documentation>
+      </xs:annotation>  
+  	<xs:simpleContent>
+  	  <xs:extension base="xs:string">
+  	    <xs:attribute name="type" type="xs:string" use="required"/>
+  	  </xs:extension>
+    	</xs:simpleContent>
+    	
   </xs:complexType>
   <xs:complexType name="IdentifiableType" abstract="true">
     <xs:complexContent>
@@ -354,6 +374,16 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:documentation>Maintaining agency as described in Part 1 of the Technical Specification.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
+	 <xs:attribute name="externalReferenceDefaultURI" type="xs:anyURI" use="optional">
+          <xs:annotation>
+           <xs:documentation>Use to provide a default value for the URI of external references. Use of a URI in a reference within this maintainable overrides the value entered here. Nested maintainables should redeclare the contents of this attribute for clarity. </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>   
+	 <xs:attribute name="isPublished" type="xs:boolean" default="false">
+          <xs:annotation>
+           <xs:documentation>Indicates that the maintainable will not be changed without version, and is a stable target for referencing.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>       
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -405,6 +435,18 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       </xs:enumeration>
     </xs:restriction>
   </xs:simpleType>
+  <xs:complexType name="NameType">
+        <xs:annotation>
+          <xs:documentation>A reusable type assigned to an element with the naming convention XxxName e.g. OrganizationName at selected locations where the element may be assumed to be administered by a registry or is otherwise shared. This is a human understandable name (word, phrase, or mnemonic) that reflects the ISO/IEC 11170-5 naming principles. A name for an element is specified within a particular context such as an element administered within a registry. When multiple names are used the preferred name should be identified by setting the Boolean attribute @isPreferred to 'true'. When elements are administered through a registry a Name is required. Names within an administered registry should follow the naming conventions of the registry. See ISO/IEC 11179-5 Information Technology - Metadata Registries (MDR) Part 5: naming and identification principles. ISO/IEC1179-5:2005(E). Mnemonics associated with an element should included here.</xs:documentation>
+        </xs:annotation>    
+  	<xs:simpleContent>
+  		<xs:extension base="InternationalStringType">
+  		  <xs:attribute name="isPreferred" type="xs:boolean" default="false"/>	  
+  		</xs:extension>
+  	</xs:simpleContent>
+  	
+  	
+  </xs:complexType>
   <xs:complexType name="SeriesStatementType">
     <xs:annotation>
       <xs:documentation>Series statement contains information about the series to which a study unit or group of study units belongs. You may point to the URL of a series repository and then use the Name field to indicate the series itself as identified in that repository. Fields also exist for describing the series and providing abbreviations.</xs:documentation>
@@ -488,6 +530,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="lateBound" type="xs:boolean" default="false"/>
+    <xs:attribute name="objectLanguage" type="xs:language" use="optional">
+      <xs:annotation>
+        <xs:documentation>Specifies the language (or language-locale pair) to use for display in references to objects which have multiple languages available.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>    
   </xs:complexType>
   <xs:complexType name="SchemeReferenceType">
     <xs:annotation>
@@ -511,7 +558,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:documentation>An item from the referenced scheme which should be excluded from use for the purposes of the reference. If the version field is not used, then the referenced scheme must include only one item with that ID.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="ID" type="xs:NCName">
+      <xs:element name="ID" type="IDType">
         <xs:annotation>
           <xs:documentation>ID of excluded item</xs:documentation>
         </xs:annotation>
@@ -534,7 +581,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
   </xs:complexType>
   <xs:complexType name="URNType">
     <xs:annotation>
-      <xs:documentation>Container for a URN which complies with DDI conventions. The format of this URN includes the protocol ('urn'), the standard (DDI), the version of the standard, and the object's class (which may be compound, with maintainable, and child versionable/identifiable separated by '.'), followed by an equals sign ('='). After the equals sign comes the maintenance agency and the object's ID, separated by colons. If the ID of the object is compound, the maintainable and the child versionable/maintainable each have an ID with version in square brackets following, using the dot ('.') to separate parent and child objects. Example: urn:ddi:3_0:VariableScheme.Variable=MPC:Vscheme6[1.1].V1[1.1]</xs:documentation>
+      <xs:documentation>Container for a URN which complies with DDI conventions. The format of this URN includes the protocol ('urn'), the standard (ddi), the version of the standard, and the object's class (which may be compound, with maintainable, and child versionable/identifiable separated by '.'), followed by an equals sign ('='). After the equals sign comes the maintenance agency and the object's ID, separated by colons. If the ID of the object is compound, the maintainable and the child versionable/maintainable each have an ID with version in parentheses (replacing any dot '.' with and underline '_') following, using the dot ('.') to separate parent and child objects. Example: urn:ddi:3_0:VariableScheme.Variable=MPC:Vscheme6(1_1).V1(1_1)</xs:documentation>
     </xs:annotation>
     <xs:simpleContent>
       <xs:extension base="xs:anyURI">
@@ -551,7 +598,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:documentation>ID type. A fixed attribute is added to the string to ensure that only one ID can be provided.</xs:documentation>
     </xs:annotation>
     <xs:simpleContent>
-      <xs:extension base="xs:NCName">
+      <xs:extension base="BaseIDType">
         <xs:attribute name="type" type="xs:string" fixed="ID">
           <xs:annotation>
             <xs:documentation>Fixed attribute for use in uniqueness constraint.</xs:documentation>
@@ -676,6 +723,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           <xs:documentation>The identification code of the grant which provided funding for the described object.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element ref="Description" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>Additional information regarding the role and actions of the this funding source.</xs:documentation>
+        </xs:annotation>
+      </xs:element>      
     </xs:sequence>
     <xs:attribute name="role" type="xs:string" use="optional">
       <xs:annotation>
@@ -695,6 +747,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:complexContent>
       <xs:extension base="IdentifiableType">
         <xs:sequence>
+          <xs:element ref="EmbargoName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Description" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Label" minOccurs="0" maxOccurs="unbounded"/>          
           <xs:element ref="Date">
             <xs:annotation>
               <xs:documentation>Provides the date of the embargo, which may take the form of a relevant date range.</xs:documentation>
@@ -718,7 +773,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
+    
   </xs:complexType>
+  <xs:element name="EmbargoName" type="NameType"/>
   <xs:element name="LifecycleInformation" type="LifecycleInformationType">
     <xs:annotation>
       <xs:documentation>Allows a listing of events in the life cycle of a data set or collection. Identification, date, agency, and descriptive information are provided for each event. Note that the agency that documents a lifecycle event is not necessarily the same agency as the one that performed the operation being documented as a lifecycle event.</xs:documentation>
@@ -743,6 +800,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:complexContent>
       <xs:extension base="IdentifiableType">
         <xs:sequence>
+          <xs:element ref="Label" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="EventType" minOccurs="0">
             <xs:annotation>
               <xs:documentation>Indicates the type of event, using a typology meaningful to the documentor.</xs:documentation>
@@ -763,6 +821,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
               <xs:documentation>A human-readable description of the event. This may be provided in several languages by repeating the field.</xs:documentation>
             </xs:annotation>
           </xs:element>
+          <xs:element ref="Relationship" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:documentation>Allows linking a lifecycle event to one or more sections of metadata. If no relationship is noted the lifecycle event relates to its full parent StudyUnit, Group, or Resource Package.</xs:documentation>
+            </xs:annotation>
+          </xs:element>          
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -772,7 +835,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:documentation>Structures the expression of a coding in the data collection process.</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="Code" type="xs:string">
+      <xs:element ref="Code" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>The processible code of the expression.</xs:documentation>
         </xs:annotation>
@@ -788,11 +851,22 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         </xs:annotation>
       </xs:element>
     </xs:sequence>
-    <xs:attribute name="programmingLanguage" type="xs:string" use="optional">
-      <xs:annotation>
-        <xs:documentation>The programming language in which the Code is expressed.</xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+
+  </xs:complexType>
+  <xs:element name="Code" type="ProgrammingLanguageCodeType"/>
+  <xs:complexType name="ProgrammingLanguageCodeType">
+    <xs:annotation>
+      <xs:documentation>Contains code for a specific programming language or software package.</xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+    	<xs:extension base="xs:string">
+  	  <xs:attribute name="programmingLanguage" type="xs:string" use="optional">
+ 	     <xs:annotation>
+  	      <xs:documentation>The programming language in which the Code is expressed.</xs:documentation>
+	      </xs:annotation>
+ 	   </xs:attribute>
+    	</xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
   <xs:element name="Coverage" type="CoverageType">
     <xs:annotation>
@@ -849,10 +923,10 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
   </xs:element>
   <xs:complexType name="LabelType">
     <xs:annotation>
-      <xs:documentation>An unstructured label for the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character, SPSS 120 characters, and Stata 80 characters). Mnemonics associated with a variable should include both of the following attributes: type="Nickname" and maxLength. Software packages will use this information to select the appropriate mnemonic for use.</xs:documentation>
+      <xs:documentation>This is an unstructured label for the element. Label provides display content of a fully human readable display for the identification of the element. DDI does not impose any length limitations on Label. If length of Label is constrained due to use of the element in a specific application, the maximum length supported should be noted in the attribute maxLength. Label may be repeated to provide content for systems that have length constraints (e.g., some versions of the following statistical packages have character length limits: SAS 40-character, SPSS 120 characters, and Stata 80 characters).</xs:documentation>
     </xs:annotation>
-    <xs:simpleContent>
-      <xs:extension base="InternationalStringType">
+    <xs:complexContent>
+      <xs:extension base="StructuredStringType">
         <xs:attribute name="locationVariant" type="xs:string" use="optional">
           <xs:annotation>
             <xs:documentation>Describes a specific geographic location that is also included in the spatial coverage section. The value is the geographic code found in the GeographyCode element.</xs:documentation>
@@ -874,7 +948,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           </xs:annotation>
         </xs:attribute>
       </xs:extension>
-    </xs:simpleContent>
+    </xs:complexContent>
   </xs:complexType>
   <!-- TOPICAL COVERAGE -->
   <xs:complexType name="TopicalCoverageType">
@@ -946,12 +1020,19 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:annotation>
       <xs:documentation>Describes a specific software package, which may be commercially available or bespoke. </xs:documentation>
     </xs:annotation>
+    <xs:complexContent>
+    <xs:extension base="IdentifiableType">
     <xs:sequence>
       <xs:element ref="Name" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>The name of the software package, including its producer.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element ref="SoftwarePackage" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>A coded value from a controlled vocabulary, describing the software package.</xs:documentation>
+        </xs:annotation>
+      </xs:element>      
       <xs:element name="Version" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation>The version of the software package. Defaults to '1.0'.</xs:documentation>
@@ -968,8 +1049,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
         </xs:annotation>
       </xs:element>
     </xs:sequence>
-    <xs:attributeGroup ref="GLOBALS"/>
+    <xs:attribute ref="xml:lang" use="optional"/>
+    </xs:extension>
+  </xs:complexContent>
   </xs:complexType>
+  <xs:element name="SoftwarePackage" type="CodeValueType"/>
   <!-- GEOGRAPHIC COVERAGE -->
   <xs:complexType name="GeographicCoverageType">
     <xs:annotation>
@@ -1747,7 +1831,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           </xs:element>
           <xs:element name="CoordinateSystem" type="xs:string">
             <xs:annotation>
-              <xs:documentation>The precision of the numeric response to be applied by default to the responses, expressed as an integer indicating the number of decimal places to the right of the decimal separator.</xs:documentation>
+              <xs:documentation>Description of the coordinate system used for obtaining coordinate points.</xs:documentation>
             </xs:annotation>
           </xs:element>
           <xs:element name="CoordinateZone" type="xs:string" minOccurs="0">
@@ -1917,6 +2001,8 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:annotation>
       <xs:documentation>OtherMaterialType describes the structure of the OtherMaterial element, used to reference external resources. It includes citations to materials related to the content of the DDI Instance. This includes citations to such material, an external reference to a URL (or other URI), and a statement about the relationship between the cited OtherMaterial the contents of the DDI instance.</xs:documentation>
     </xs:annotation>
+    <xs:complexContent>
+    <xs:extension base="IdentifiableType">
     <xs:sequence>
       <xs:element ref="Citation">
         <xs:annotation>
@@ -1943,15 +2029,276 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           <xs:documentation>Provides a standard Internet MIME type for use by processing applications.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element ref="Segment" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attributeGroup ref="GLOBALS"/>
+    <xs:attribute ref="xml:lang" use="optional"/>
     <xs:attribute name="type" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation>Specifies the type of material.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <!-- Need vocabulary for this. -->
+  </xs:extension>
+  </xs:complexContent>
+  
   </xs:complexType>
+  <xs:complexType name="SegmentType">
+  	<xs:sequence>
+  		<xs:element ref="Textual" minOccurs="0" maxOccurs="unbounded"/>
+  		<xs:element ref="Audio" minOccurs="0" maxOccurs="unbounded"/>
+  		<xs:element ref="Video" minOccurs="0" maxOccurs="unbounded"/>
+  		<xs:element name="XML" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+  			<xs:annotation>
+  				<xs:documentation>Holds an X-Pointer expression identifying a node in the XML document.</xs:documentation>
+  			</xs:annotation>		
+  		</xs:element>
+  		<xs:element ref="ImageArea" minOccurs="0" maxOccurs="unbounded"/>
+  	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="Segment" type="SegmentType"/>
+  
+  <xs:complexType name="TextualType">
+  	<xs:choice maxOccurs="unbounded">
+  		<xs:element ref="LineParameter"/>
+  		<xs:element ref="CharacterParameter"/>
+  	</xs:choice>
+  </xs:complexType>
+  
+  <xs:element name="Textual" type="TextualType"/>
+  
+  <xs:complexType name="LineParameterType">
+  	<xs:sequence>
+  		<xs:element name="StartLine" type="xs:integer">
+  			<xs:annotation>
+  				<xs:documentation>Number of lines from beginning of the document.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="StartOffset" type="xs:integer">
+  			<xs:annotation>
+  				<xs:documentation>Number of characters from start of the line specified in StartLine.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="EndLine" type="xs:integer">
+  			<xs:annotation>
+  				<xs:documentation>Number of lines from beginning of the document.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="EndOffset" type="xs:integer">
+  			<xs:annotation>
+  				<xs:documentation>Number of characters from the start of the line specified in EndLine.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  	</xs:sequence>
+  </xs:complexType>
+  <xs:element name="LineParameter" type="LineParameterType"/>
+  
+  <xs:complexType name="CharacterParameterType">
+  	<xs:sequence>
+  		<xs:element name="StartCharOffset" type="xs:integer">
+  			<xs:annotation>
+  				<xs:documentation>Number of characters from beginning of the document, indicating the inclusive start of the text range.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="EndCharOffset" type="xs:integer">
+  			<xs:annotation>
+  				<xs:documentation>Number of characters from the beginning of the document, indicating the inclusive end of the text segment.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  	</xs:sequence>
+  </xs:complexType>
+  <xs:element name="CharacterParameter" type="CharacterParameterType"/>
+  
+  
+  <xs:complexType name="AudioType">
+  	<xs:sequence>
+  		<xs:element ref="AudioClipType">
+  			<xs:annotation>
+  				<xs:documentation>the type of audio clip.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="OtherAudioClipType" type="xs:string">
+  			<xs:annotation>
+  				<xs:documentation>The type of the clip if the AudioClipType has a value of Other.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="AudioClipBegin" type="xs:string">
+  			<xs:annotation>
+  				<xs:documentation>Start value for the clip.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="AudioClipEnd" type="xs:string">
+  			<xs:annotation>
+  				<xs:documentation>End value for the clip</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  	</xs:sequence>
+  </xs:complexType>
+  <xs:element name="AudioClipType" type="AudioClipTypeCodedType"/>
+  <xs:element name="Audio" type="AudioType"/>
+  
+  <xs:simpleType name="AudioClipTypeCodedType">
+  	<xs:restriction base="xs:string">
+  		 <xs:enumeration value="byte">
+  		        <xs:annotation>
+  		          <xs:documentation>Byte format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="smil">
+  		        <xs:annotation>
+  		          <xs:documentation>SMIl format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="midi">
+  		        <xs:annotation>
+  		          <xs:documentation>MIDI format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="time">
+  		        <xs:annotation>
+  		          <xs:documentation>Time-based format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="tcf">
+  		        <xs:annotation>
+  		          <xs:documentation>TCF format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="other">
+  		        <xs:annotation>
+  		          <xs:documentation>A format not listed above.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  	</xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="VideoType">
+  	<xs:sequence>
+  		<xs:element ref="VideoClipType">
+  			<xs:annotation>
+  				<xs:documentation>The type of video clip.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="OtherVideoClipType" type="xs:string">
+  			<xs:annotation>
+  				<xs:documentation>The type of the clip if the VideoClipType has a value of Other.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="VideoClipBegin" type="xs:string">
+  			<xs:annotation>
+  				<xs:documentation>Start value for the clip.</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  		<xs:element name="VideoClipEnd" type="xs:string">
+  			<xs:annotation>
+  				<xs:documentation>End value for the clip</xs:documentation>
+  			</xs:annotation>
+  		</xs:element>
+  	</xs:sequence>
+  </xs:complexType>
+  <xs:element name="VideoClipType" type="VideoClipTypeCodedType"/>
+  <xs:element name="Video" type="VideoType"/>
+  
+  <xs:simpleType name="VideoClipTypeCodedType">
+  	<xs:restriction base="xs:string">
+  		 <xs:enumeration value="byte">
+  		        <xs:annotation>
+  		          <xs:documentation>Byte format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="smil">
+  		        <xs:annotation>
+  		          <xs:documentation>SMIl format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="midi">
+  		        <xs:annotation>
+  		          <xs:documentation>MIDI format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="smpte-25">
+  		        <xs:annotation>
+  		          <xs:documentation>SMPTE 25 video format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>      		
+  		 <xs:enumeration value="smpte-24">
+  		        <xs:annotation>
+  		          <xs:documentation>SMPTE 24 video format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>      		
+  		 <xs:enumeration value="smpte-df30">
+  		        <xs:annotation>
+  		          <xs:documentation>SMPTE-DF 30 video format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>      		
+  		 <xs:enumeration value="smpte-ndf30">
+  		        <xs:annotation>
+  		          <xs:documentation>SMPTE-NDF 30 video format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>      		
+  		 <xs:enumeration value="smpte-df29.97">
+  		        <xs:annotation>
+  		          <xs:documentation>SMPTE-DF 29.97 video format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>      		
+  		 <xs:enumeration value="smpte-ndf29.97">
+  		        <xs:annotation>
+  		          <xs:documentation>SMPTE-NDF 29.97 video format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>      		
+  		 <xs:enumeration value="time">
+  		        <xs:annotation>
+  		          <xs:documentation>Time-based format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="tcf">
+  		        <xs:annotation>
+  		          <xs:documentation>TCF format.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="other">
+  		        <xs:annotation>
+  		          <xs:documentation>A format not listed above.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  	</xs:restriction>
+  </xs:simpleType>
+  
+  
+  <xs:complexType name="ImageAreaType">
+  	<xs:sequence>
+  		<xs:element ref="Shape"/>
+  		<xs:element name="Coordinates" type="xs:string">
+  		        <xs:annotation>
+  		          <xs:documentation>A comma-delimited list of x,y coordinates, listed as a set of adjacent points for rectangles and polygons, and as a center-point and a radius for circles (x,y,r).</xs:documentation>
+  		        </xs:annotation>		
+  		</xs:element>
+  	</xs:sequence>
+  </xs:complexType>
+  <xs:element name="ImageArea" type="ImageAreaType"/>
+  <xs:element name="Shape" type="ShapeCodedType"/>
+  
+  <xs:simpleType name="ShapeCodedType">
+  	<xs:restriction base="xs:string">
+  		 <xs:enumeration value="Rectangle">
+  		        <xs:annotation>
+  		          <xs:documentation>Rectangular shape.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="Circle">
+  		        <xs:annotation>
+  		          <xs:documentation>Circular shape.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  		 <xs:enumeration value="Polygon">
+  		        <xs:annotation>
+  		          <xs:documentation>A non-rectangual polygon shape.</xs:documentation>
+  		        </xs:annotation>
+        		</xs:enumeration>
+  	</xs:restriction>
+  </xs:simpleType>
+
+  
   <!-- NOTES -->
   <xs:element name="Note" type="NoteType">
     <xs:annotation>
@@ -1962,8 +2309,10 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
     <xs:annotation>
       <xs:documentation>Includes a footnote or annotation to a section of the documentation, and is designed to be an inherent part of the DDI. (Unlike XML comments or other types of system-level annotations, which may be removed during processing.)</xs:documentation>
     </xs:annotation>
+    <xs:complexContent>
+    <xs:extension base="IdentifiableType">
     <xs:sequence>
-      <xs:element name="Subject" type="xs:string" minOccurs="0">
+      <xs:element name="Subject" type="CodeValueType" minOccurs="0">
         <xs:annotation>
           <xs:documentation>The subject of the note.</xs:documentation>
         </xs:annotation>
@@ -1978,23 +2327,25 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           <xs:documentation>The person or agency responsible for adding the note.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="Header" type="xs:string" minOccurs="0">
+      <xs:element name="Header" type="InternationalStringType" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>A brief label or heading for the note contents.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element ref="Content">
+      <xs:element ref="Content" minOccurs="1" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>The content of the note.</xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
-    <xs:attributeGroup ref="GLOBALS"/>
+    <xs:attribute ref="xml:lang" use="optional"/>
     <xs:attribute name="type" type="NoteTypeCodeType" use="required">
       <xs:annotation>
         <xs:documentation>Specifies the type of note.</xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    </xs:extension>
+  </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="RelationshipType">
     <xs:annotation>
@@ -6209,7 +6560,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
   </xs:element>
   <xs:element name="Description" type="StructuredStringType">
     <xs:annotation>
-      <xs:documentation>A human-readable description of the event. This may be provided in several languages by repeating the field.</xs:documentation>
+      <xs:documentation>Description provides additional detailed information regarding the element. Note that in comparing two like types of elements, description should be used as the basis for comparison as Name or Label may be different definitions within different contexts or registries.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="SourceQuestionReference" type="ReferenceType">
@@ -6508,4 +6859,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:documentation>A reference to an image, with fields describing its properties and type.</xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="UserID" type="UserIDType">
+    <xs:annotation>
+      <xs:documentation>An identifer that is locally unique within its specifc type. The required type attribute points to the local user identification system that defines the values. If multiple UserIDs are used they must be differentiated by the type attribute.</xs:documentation>
+    </xs:annotation>
+  </xs:element>  
 </xs:schema>

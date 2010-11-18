@@ -21,7 +21,7 @@ Public License for more details.
 
 You should have received a copy of the GNU General Public License along
  
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
@@ -44,7 +44,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       xs:appinfo also removed.
     </xs:documentation>
    </xs:annotation>
-   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/03/xml.xsd"/>
+   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
    <xs:element name="title" type="elementType"/>
    <xs:element name="creator" type="elementType"/>
    <xs:element name="subject" type="elementType"/>

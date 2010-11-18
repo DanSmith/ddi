@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:datacollection:3_0" xmlns:r="ddi:reusable:3_0" xmlns:l="ddi:logicalproduct:3_0" targetNamespace="ddi:datacollection:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:datacollection:3_1" xmlns:r="ddi:reusable:3_1" xmlns:l="ddi:logicalproduct:3_1" targetNamespace="ddi:datacollection:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
-   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:logicalproduct:3_0" schemaLocation="logicalproduct.xsd"/>
+   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:logicalproduct:3_1" schemaLocation="logicalproduct.xsd"/>
    <!-- DATA COLLECTION -->
    <xs:element name="DataCollection" type="DataCollectionType">
       <xs:annotation>
@@ -37,6 +37,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="DataCollectionModuleName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>            
                <xs:element ref="r:Coverage" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Describes the coverage of the data collection activity.</xs:documentation>
@@ -91,6 +94,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="DataCollectionModuleName" type="r:NameType"/>
    <!-- METHODOLOGY -->
    <xs:complexType name="MethodologyType">
       <xs:annotation>
@@ -344,6 +348,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                         <xs:documentation>Instructions for recodes, derivations from multiple question or variable sources, and derivations based on external sources. Instructions should be listed separately so they can be referenced by variables in the logical product.</xs:documentation>
                      </xs:annotation>
                   </xs:element>
+                  <xs:element name="StandardWeight" type="xs:float">
+                     <xs:annotation>
+                        <xs:documentation>A standard weighting factor used by all or a group of variables within the data set.</xs:documentation>
+                     </xs:annotation>
+                  </xs:element>                  
                </xs:choice>
             </xs:sequence>
          </xs:extension>
@@ -366,7 +375,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:element>
          <xs:element ref="IsOverride" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>Used when attribute of the containing GeneralInstruction isOverride equals true. This element provides the reference to the GeneralInstruction that is being overriden.Used when attribute of the containing GeneralInstruction isOverride equals true. This element provides the reference to the GeneralInstruction that is being overridden.</xs:documentation>
+               <xs:documentation>Used when attribute of the containing GeneralInstruction isOverride equals true. This element provides the reference to the Coding Element containing the GeneralInstruction that is being overriden.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
@@ -495,6 +504,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="InterviewerInstructionSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the interviewer instruction scheme.</xs:documentation>
@@ -519,7 +529,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-
+   <xs:element name="InterviewerInstructionSchemeName" type="r:NameType"/>
    <xs:element name="Instruction" type="InstructionType"/>
 
    <xs:complexType name="InstructionType">
@@ -529,6 +539,8 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="InstructionName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>               
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the interviewer instruction.</xs:documentation>
@@ -547,10 +559,8 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
-
-
    </xs:complexType>
-
+   <xs:element name="InstructionName" type="r:NameType"/>
    <xs:element name="InterviewerInstructionSchemeReference" type="r:SchemeReferenceType"/>
 
 
@@ -562,6 +572,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+		<xs:element ref="InstrumentName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>               
                <xs:element ref="Type" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Describes the type of the instrument, according to the documentor's type classification.</xs:documentation>
@@ -586,6 +599,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="InstrumentName" type="r:NameType"/>
    <xs:element name="ControlConstructScheme" type="ControlConstructSchemeType">
       <xs:annotation>
          <xs:documentation>A set of control constructs maintained by an agency, and used in the instrument. </xs:documentation>
@@ -598,6 +612,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="ControlConstructSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the Control Construct Scheme.</xs:documentation>
@@ -622,6 +637,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="ControlConstructSchemeName" type="r:NameType" />
    <xs:element name="ControlConstruct" type="ControlConstructType" abstract="true">
       <xs:annotation>
          <xs:documentation>The global element ControlConstruct serves as the head of a substitution group for describing the order and flow of questions and supporting information within a data collection instrument.</xs:documentation>
@@ -817,9 +833,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="ControlConstructType">
             <xs:sequence>
-               <xs:element ref="DisplayText">
+               <xs:element ref="DisplayText" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>The string to be displayed in the instrument.</xs:documentation>
+                     <xs:documentation>The string to be displayed in the instrument. Repetition is for the purpose of supporting multiple languages.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
@@ -845,6 +861,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:attribute ref="xml:lang"/>
       <xs:attribute name="translated" type="xs:boolean" default="false"/>
       <xs:attribute name="translatable" type="xs:boolean" default="true"/>
+      <xs:attribute name="isStructureRequired" type="xs:boolean" default="false">
+                  <xs:annotation>
+                     <xs:documentation>If textual structure (e.g. size, color, font, etc) is required to understand the question change value to "true".</xs:documentation>
+            </xs:annotation>
+      </xs:attribute>
    </xs:complexType>
    <xs:element name="Text" type="TextType" abstract="true">
       <xs:annotation>
@@ -871,9 +892,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="TextType">
             <xs:sequence>
-               <xs:element name="Text" type="xs:string">
+               <xs:element name="Text" type="r:StructuredStringType">
                   <xs:annotation>
-                     <xs:documentation>The value of the static text string.</xs:documentation>
+                     <xs:documentation>The value of the static text string. If a section of the question text is in another language than that stated by the parent element, create a separate LiteralText with the appropriate xs:lang value for the segment in an alternate language.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
@@ -904,6 +925,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="QuestionSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the question scheme.</xs:documentation>
@@ -935,6 +957,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="QuestionSchemeName" type="r:NameType"/>
    <xs:element name="QuestionItem" type="QuestionItemType">
       <xs:annotation>
          <xs:documentation>Acts as the head of a substitution group for a set of derived question items.</xs:documentation>
@@ -947,6 +970,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
         <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="QuestionItemName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="QuestionText" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>The text of the question presented in the instrument. this can occur multiple times for multi lingual questions.</xs:documentation>
@@ -983,6 +1007,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
           </xs:extension>
         </xs:complexContent>
    </xs:complexType>
+   <xs:element name="QuestionItemName" type="r:NameType"/>
    <xs:element name="StructuredMixedResponseDomain" type="StructuredMixedResponseDomainType">
       <xs:annotation>
          <xs:documentation>ResponseDomains should be chosen that do NOT duplicate responses such as CodeSchemes with overlapping codes. Be aware that certain instruments may collect responses in such a way that confusion between a code response and text response may be possible. The process of resolving such conflicts should be addressed in the data processing instructions. There is an assumption that if a text or numeric response duplicates a coded response to a question, that the value is that of the coded category.</xs:documentation>
@@ -1009,6 +1034,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
        <xs:complexContent>
         <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="MultipleQuestionItemName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="QuestionText" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>The text of the top-level question presented in the instrument. This can occur multiple times for multi lingual questions.</xs:documentation>
@@ -1043,6 +1069,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="MultipleQuestionItemName" type="r:NameType"/>
    <xs:element name="SubQuestionSequence" type="SpecificSequenceType">
       <xs:annotation>
          <xs:documentation>Prescribes the order in which the sub-questions should appear.</xs:documentation>
@@ -1587,7 +1614,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:element>
    <xs:element name="IsOverride" type="r:ReferenceType">
       <xs:annotation>
-         <xs:documentation>Provides a reference to the GeneralInstruction which the containing GeneralInstruction overrides.</xs:documentation>
+         <xs:documentation>Used when attribute of the containing GeneralInstruction isOverride equals true. This element provides the reference to the Coding Element containing the GeneralInstruction that is being overriden.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="DataCollectionDate" type="r:DateType">

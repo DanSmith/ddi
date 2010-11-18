@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_0" xmlns:d="ddi:datacollection:3_0" xmlns:r="ddi:reusable:3_0" targetNamespace="ddi:comparative:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:datacollection:3_0" schemaLocation="datacollection.xsd"/>
-   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_1" xmlns:d="ddi:datacollection:3_1" xmlns:r="ddi:reusable:3_1" targetNamespace="ddi:comparative:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:datacollection:3_1" schemaLocation="datacollection.xsd"/>
+   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
    <xs:element name="Comparison" type="ComparisonType">
       <xs:annotation>
          <xs:documentation>Structures information that is necessary to compare members of a group. This module contains the mapping(s) that inform comparisons and facilitate automation. Note that all maps are pairwise, identifying two schemes and the correlation between two items in those schemes. By using a set of pairwise comparisons, it is possible to describe more complex correspondences - pairwise comparisons are easier to process.</xs:documentation>
@@ -35,11 +35,13 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
-               <xs:element ref="ComparisonDescription" minOccurs="0" maxOccurs="unbounded">
+               <xs:element ref="ComparisonName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Description of the comparison, intended to be human-readable.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="ConceptMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Maps comparable concepts from two different concept schemes.</xs:documentation>
@@ -79,6 +81,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="ComparisonName" type="r:NameType"/>
    <xs:complexType name="GenericMapType">
       <xs:annotation>
          <xs:documentation>Maps comparable items from two different schemes.</xs:documentation>
@@ -86,6 +89,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="MapName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>            
                <xs:element ref="SourceSchemeReference">
                   <xs:annotation>
                      <xs:documentation>References the scheme that is the source for the mapping.</xs:documentation>
@@ -110,6 +116,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="MapName" type="r:NameType"/>
   <xs:complexType name="CorrespondenceType">
       <xs:annotation>
          <xs:documentation>Describes the correspondence between source and target schemes/items.</xs:documentation>
@@ -172,6 +179,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="CodeMapName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>            
                <xs:element ref="SourceSchemeReference">
                   <xs:annotation>
                      <xs:documentation>References the code scheme that is the source for the mapping.</xs:documentation>
@@ -196,6 +206,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="CodeMapName" type="r:NameType"/>
    <xs:complexType name="ItemMapType">
       <xs:annotation>
          <xs:documentation>Maps two items (codes, concepts, categories, questions, variables, etc.) from different schemes.</xs:documentation>

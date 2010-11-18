@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:group:3_0" xmlns:r="ddi:reusable:3_0" xmlns:a="ddi:archive:3_0" xmlns:c="ddi:conceptualcomponent:3_0" xmlns:cm="ddi:comparative:3_0" xmlns:d="ddi:datacollection:3_0" xmlns:l="ddi:logicalproduct:3_0" xmlns:p="ddi:physicaldataproduct:3_0" xmlns:pi="ddi:physicalinstance:3_0" xmlns:m1="ddi:physicaldataproduct_ncube_normal:3_0" xmlns:m2="ddi:physicaldataproduct_ncube_tabular:3_0" xmlns:m3="ddi:physicaldataproduct_ncube_inline:3_0" xmlns:s="ddi:studyunit:3_0" xmlns:pr="ddi:ddiprofile:3_0" targetNamespace="ddi:group:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:archive:3_0" schemaLocation="archive.xsd"/>
-   <xs:import namespace="ddi:comparative:3_0" schemaLocation="comparative.xsd"/>
-   <xs:import namespace="ddi:conceptualcomponent:3_0" schemaLocation="conceptualcomponent.xsd"/>
-   <xs:import namespace="ddi:datacollection:3_0" schemaLocation="datacollection.xsd"/>
-   <xs:import namespace="ddi:logicalproduct:3_0" schemaLocation="logicalproduct.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_0" schemaLocation="physicaldataproduct.xsd"/>
-   <xs:import namespace="ddi:studyunit:3_0" schemaLocation="studyunit.xsd"/>
-   <xs:import namespace="ddi:ddiprofile:3_0" schemaLocation="ddiprofile.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:group:3_1" xmlns:r="ddi:reusable:3_1" xmlns:a="ddi:archive:3_1" xmlns:c="ddi:conceptualcomponent:3_1" xmlns:cm="ddi:comparative:3_1" xmlns:d="ddi:datacollection:3_1" xmlns:l="ddi:logicalproduct:3_1" xmlns:p="ddi:physicaldataproduct:3_1" xmlns:pi="ddi:physicalinstance:3_1" xmlns:m1="ddi:physicaldataproduct_ncube_normal:3_1" xmlns:m2="ddi:physicaldataproduct_ncube_tabular:3_1" xmlns:m3="ddi:physicaldataproduct_ncube_inline:3_1" xmlns:s="ddi:studyunit:3_1" xmlns:pr="ddi:ddiprofile:3_1" targetNamespace="ddi:group:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:archive:3_1" schemaLocation="archive.xsd"/>
+   <xs:import namespace="ddi:comparative:3_1" schemaLocation="comparative.xsd"/>
+   <xs:import namespace="ddi:conceptualcomponent:3_1" schemaLocation="conceptualcomponent.xsd"/>
+   <xs:import namespace="ddi:datacollection:3_1" schemaLocation="datacollection.xsd"/>
+   <xs:import namespace="ddi:logicalproduct:3_1" schemaLocation="logicalproduct.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_1" schemaLocation="physicaldataproduct.xsd"/>
+   <xs:import namespace="ddi:physicalinstance:3_1" schemaLocation="physicalinstance.xsd"/>
+   <xs:import namespace="ddi:studyunit:3_1" schemaLocation="studyunit.xsd"/>
+   <xs:import namespace="ddi:ddiprofile:3_1" schemaLocation="ddiprofile.xsd"/>
    <xs:element name="Group" type="GroupType">
       <xs:annotation>
          <xs:documentation>Groups are used to document related data. They may contain subgroups or individual study items, and may also contain metadata which is applicable to all members of the group, and is subject to over-rides at the lower levels. Thus, metadata is inherited down the grouping structure. The purpose of groups is described using the attributes which summarize relationships along the dimensions of time, panel, geography, instrument and language. These attributes allow the purpose to be machine-actionable, while the group also includes an element for describing the purpose in human-readable format.</xs:documentation>
@@ -40,6 +41,11 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:documentation>The Resource is a specialized type of Group which is intended to hold re-usable metadata such as Category Schemes, Variables, etc. It is placed in the Resource construct for the purposes of being included by reference in other Groups and StudyUnits which describe studies, but does not directly describe existing studies itself.</xs:documentation>
       </xs:annotation>
    </xs:element>
+   <xs:element name="LocalHoldingPackage" type="LocalHoldingPackageType">
+      <xs:annotation>
+         <xs:documentation>LocalHoldingPackages are used to contain metadata added at a local level, without causing a versioning of the original metadata. This facilitates the addition of lifecycle events and similar non-intrusive additions on the part of an archive.</xs:documentation>
+      </xs:annotation>
+   </xs:element>   
    <xs:complexType name="ResourcePackageType">
       <xs:annotation>
          <xs:documentation>The Resource Package is a specialized structure which is intended to hold reusable metadata such as Category Schemes, Variable Schemes, etc. These are placed in the Resource Package for the purpose of being included by reference in Groups and StudyUnits. The Resource Package has a similar structure to the Group.</xs:documentation>
@@ -112,6 +118,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Reusable documentation regarding a physical data product.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="pi:PhysicalInstance" minOccurs="0" maxOccurs="unbounded"/> 
                <xs:element ref="cm:Comparison" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Provides documentation regarding the comparability of various DDI resources.</xs:documentation>
@@ -224,11 +231,6 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Shared documentation regarding physical data products of all members of the group, subject to overrides at a lower level.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="StudyUnit" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Description of an individual study being documented as a member of the group. The study unit description inherits all metadata found at higher levels - that is, all metadata and documentation describing the groups and subgroups of which the study unit is a member. This metadata and documentation may be over-ridden within the study unit.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
                <xs:element ref="SubGroup" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>Subordinate group which inherits all the metadata provided in the higher-level groups and subgroups of which this subgroup is a member, subject to overrides within the subgroup itself.</xs:documentation>
@@ -250,32 +252,32 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
-            <xs:attribute name="time" type="TimeGroupCodeType" use="required">
+            <xs:attribute name="time" type="TimeGroupCodeType" default="T0">
                <xs:annotation>
                   <xs:documentation>Indicates how all members of the group are related along the dimension of time (for example single occurrence, multiple occurrence, etc.).</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="instrument" type="InstrumentGroupCodeType" use="required">
+            <xs:attribute name="instrument" type="InstrumentGroupCodeType"  default="I0">
                <xs:annotation>
                   <xs:documentation>Indicates how all members of the group are related in terms of the instruments used to collect data (single, multiple, etc.).</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="panel" type="PanelGroupCodeType" use="required">
+            <xs:attribute name="panel" type="PanelGroupCodeType"  default="P0">
                <xs:annotation>
                   <xs:documentation>Indicates how all members of the group are related in terms of type of panel (single, rolling, etc.).</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="geography" type="GeographyGroupCodeType" use="required">
+            <xs:attribute name="geography" type="GeographyGroupCodeType"  default="G0">
                <xs:annotation>
                   <xs:documentation>Indicates how all members of the group are related along the dimension of geography.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="dataSet" type="DataSetGroupCodeType" use="required">
+            <xs:attribute name="dataSet" type="DataSetGroupCodeType"  default="D0">
                <xs:annotation>
                   <xs:documentation>Indicates how all members of the group are related in terms of physical data products in relation to data collection efforts.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
-            <xs:attribute name="language" type="LanguageGroupCodeType" use="required">
+            <xs:attribute name="language" type="LanguageGroupCodeType"  default="L0">
                <xs:annotation>
                   <xs:documentation>Indicates how all members of the group are related in terms of physical data products in relation to data collection efforts.</xs:documentation>
                </xs:annotation>
@@ -375,11 +377,6 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Shared documentation regarding physical data products of all members of the group, subject to over-rides at a lower level.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="StudyUnit" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Description of an individual study being documented as a member of the group. The study unit description inherits all metadata found at higher levels - that is, all metadata and documentation describing the groups and subgroups of which the study unit is a member. This metadata and documentation may be over-ridden within the study unit.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
                <xs:element ref="cm:Comparison" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Provides documentation regarding the comparability of study units or subgroups within the containing group.</xs:documentation>
@@ -454,6 +451,23 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:complexType name="LocalHoldingPackageType">
+      <xs:annotation>
+         <xs:documentation>Allows a depository to hold the contents of a DDI StudyUnit, Group, or ResourcePackage as received while providing locally created value added material and processing information without having to alter the maintenance agency or version of the original material.</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+         <xs:extension base="r:MaintainableType">
+            <xs:sequence>   
+   		<xs:element ref="DepositoryStudyUnitReference"/>
+   		<xs:element ref="LocalAddedContent"/>
+            </xs:sequence>
+   	 </xs:extension>
+      </xs:complexContent>
+   </xs:complexType>
+   <xs:element name="DepositoryStudyUnitReference" type="r:ReferenceType"/>
+   <xs:element name="LocalAddedContent" type="s:StudyUnitType"/>
+   
+   
    <xs:complexType name="ConceptType">
       <xs:annotation>
          <xs:documentation>Allows for inclusion of a fully marked up Conceptual Components module or referencing such a module that is external to the instance.</xs:documentation>

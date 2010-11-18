@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:conceptualcomponent:3_0" xmlns:r="ddi:reusable:3_0" targetNamespace="ddi:conceptualcomponent:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:conceptualcomponent:3_1" xmlns:r="ddi:reusable:3_1" targetNamespace="ddi:conceptualcomponent:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
    <xs:element name="ConceptualComponent" type="ConceptualComponentType">
       <xs:annotation>
          <xs:documentation>Concept, Universe, and Geography schemes used by the data being documented, or references to those schemes.</xs:documentation>
@@ -34,6 +34,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="ConceptualComponentModuleName" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>            
                <xs:element ref="r:Coverage" minOccurs="0">
                   <xs:annotation>
                      <xs:documentation>Provides information about the topical, spatial, and temporal coverage of the conceptual components included in this module.</xs:documentation>
@@ -101,6 +104,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="ConceptualComponentModuleName" type="r:NameType"/>
    <xs:complexType name="ConceptSchemeType">
       <xs:annotation>
          <xs:documentation>Includes a comprehensive list of the concepts measured by the data that are being documented.</xs:documentation>
@@ -108,6 +112,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="ConceptSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the concept scheme.</xs:documentation>
@@ -149,6 +154,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="ConceptSchemeName" type="r:NameType"/>
    <xs:complexType name="UniverseSchemeType">
       <xs:annotation>
          <xs:documentation>Includes a comprehensive list of the universes and sub-universes of the data that are being documented.</xs:documentation>
@@ -156,6 +162,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="UniverseSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the universe scheme.</xs:documentation>
@@ -180,6 +187,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="UniverseSchemeName" type="r:NameType"/>
    <xs:complexType name="ConceptGroupType">
       <xs:annotation>
          <xs:documentation>Allows for grouping of concepts; groups may have a hierarchical structure.</xs:documentation>
@@ -187,6 +195,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="ConceptGroupName" minOccurs="0" maxOccurs="unbounded"/> 
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the concept group.</xs:documentation>
@@ -202,6 +211,15 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Reference to a concept included in the concept group. A concept can be referenced internally, from the concept scheme included in the same conceptual components module, or externally, from another scheme. This element is recursive to allow for the description of hierarchical relationships within the concept group.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+               <xs:element ref="ConceptGroupReference" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>Reference to a subordinate concept group included in the concept group. A concept group can be referenced internally, from the concept scheme included in the same conceptual components module, or externally, from another scheme. This element is recursive to allow for the description of hierarchical relationships within the concept group.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>  
+               <xs:choice minOccurs="0" maxOccurs="1">
+               		<xs:element ref="AdministrativePurpose"/> 
+               		<xs:element ref="DefiningConceptReference"/>                		
+               </xs:choice>
             </xs:sequence>
             <xs:attribute name="ordered" type="xs:boolean" use="optional" default="false">
                <xs:annotation>
@@ -213,9 +231,45 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                   <xs:documentation>Indicates the structure of the relationships in the concept scheme. A value of "true" indicates a hierarchical structure, while a value of "false" indicates an unstructured scheme.</xs:documentation>
                </xs:annotation>
             </xs:attribute>
+            <xs:attribute name="purpose" type="PurposeType" use="required">
+               <xs:annotation>
+                  <xs:documentation>Indicates the purpose of a concept group.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="isConcept" type="xs:boolean" use="optional" default="false">
+               <xs:annotation>
+                  <xs:documentation>A value of true indicates that there is a concept which defines the group, and which is comprised of the concepts contained in the group. A group can be conceptual in purpose (that is, have a value of "concept" for the purpose attribute), but not itself have a defining concept.</xs:documentation>
+               </xs:annotation>
+            </xs:attribute>            
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="ConceptGroupName" type="r:NameType"/>
+   <xs:element name="ConceptGroupReference" type="r:ReferenceType"/>  
+   <xs:element name="AdministrativePurpose" type="r:CodeValueType">
+       <xs:annotation>
+	  <xs:documentation>The administrative reason a group was formed, expressed as a value from a controlled vocabulary or similar list.</xs:documentation>
+       </xs:annotation>   
+   </xs:element>
+   <xs:element name="DefiningConceptReference" type="r:ReferenceType">
+       <xs:annotation>
+	  <xs:documentation>Reference to the concept that defines the group.</xs:documentation>
+       </xs:annotation>      
+   </xs:element>
+   <xs:simpleType name="PurposeType">
+    <xs:restriction base="xs:NMTOKEN">
+         <xs:enumeration value="Administrative">
+           <xs:annotation>
+             <xs:documentation>A concept group created for administrative purposes.</xs:documentation>
+           </xs:annotation>
+      </xs:enumeration>
+         <xs:enumeration value="Conceptual">
+           <xs:annotation>
+             <xs:documentation>A concept group created for conceptual purposes.</xs:documentation>
+           </xs:annotation>
+      </xs:enumeration>      
+    </xs:restriction>
+   </xs:simpleType>
    <xs:complexType name="ConceptReferenceType">
       <xs:annotation>
          <xs:documentation>References concepts to be included in concept groups.</xs:documentation>
@@ -296,6 +350,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="ConceptName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the concept.</xs:documentation>
@@ -320,6 +375,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="ConceptName" type="r:NameType"/>
    <xs:complexType name="DataElementConceptType">
       <xs:annotation>
          <xs:documentation>Container for a data element concept (per ISO/IEC 11179) included in the concept scheme.</xs:documentation>
@@ -327,6 +383,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="DataElementConceptName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the concept.</xs:documentation>
@@ -356,6 +413,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="DataElementConceptName" type="r:NameType"/>
    <xs:element name="CharacteristicReference" type="ConceptReferenceType">
       <xs:annotation>
          <xs:documentation>References a concept which has its isCharacteristic attribute set to true.</xs:documentation>
@@ -395,6 +453,8 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
+               <xs:element ref="UniverseName" minOccurs="0" maxOccurs="unbounded"/>   
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>               
                <xs:element ref="HumanReadable" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A human-readable description of the Universe.</xs:documentation>
@@ -419,6 +479,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="UniverseName" type="r:NameType"/>
     <!-- GEOGRAPHY -->
    <xs:complexType name="GeographicStructureSchemeType">
       <xs:annotation>
@@ -427,6 +488,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="GeographicStructureSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the geographic structure scheme.</xs:documentation>
@@ -458,6 +520,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
+   <xs:element name="GeographicStructureSchemeName" type="r:NameType"/>
  <xs:complexType name="GeographicLocationSchemeType">
     <xs:annotation>
         <xs:documentation>This scheme contains a set of geographic locations, each for a single Geography type, e.g., States OR Counties, OR Countries, etc. The geographic location element has to be repeated for each geography structure type described.</xs:documentation>
@@ -465,6 +528,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
+               <xs:element ref="GeographicLocationSchemeName" minOccurs="0" maxOccurs="unbounded"/>
                <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
                      <xs:documentation>A short description of the geography location scheme.</xs:documentation>
@@ -496,7 +560,7 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-
+   <xs:element name="GeographicLocationSchemeName" type="r:NameType"/>
    <xs:element name="Title" type="r:InternationalStringType">
       <xs:annotation>
          <xs:documentation>Full title of vocabulary.</xs:documentation>

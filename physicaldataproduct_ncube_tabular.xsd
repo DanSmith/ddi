@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
+Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-05-xx
 
-This file is part of DDI 3.0 XML Schema.
+This file is part of DDI 3.1 XML Schema.
 
-DDI 3.0 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.0 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 for more details.
 
 You should have received a copy of the GNU General Public License along
-with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct_ncube_tabular:3_0" xmlns:r="ddi:reusable:3_0" xmlns:p="ddi:physicaldataproduct:3_0" targetNamespace="ddi:physicaldataproduct_ncube_tabular:3_0" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct_ncube_tabular:3_1" xmlns:r="ddi:reusable:3_1" xmlns:p="ddi:physicaldataproduct:3_1" targetNamespace="ddi:physicaldataproduct_ncube_tabular:3_1" elementFormDefault="qualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
-   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_0" schemaLocation="physicaldataproduct.xsd"/>
+   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_1" schemaLocation="physicaldataproduct.xsd"/>
    <!-- COMMON RECORD LAYOUT - CUBED - MODULE 2 -->
    <xs:element name="RecordLayout" type="RecordLayoutType" substitutionGroup="p:BaseRecordLayout"/>
    <xs:complexType name="RecordLayoutType">
@@ -43,6 +43,16 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Notes the column and row position of the the top left corner of the data table in the spreadsheet.</xs:documentation>
                   </xs:annotation>
                </xs:element>
+                   <xs:element name="CharacterSet" type="r:CodeValueType">
+                  <xs:annotation>
+                     <xs:documentation>Character set used in the data file (e.g., US ASCII, EBCDIC, UTF-8). This is a required field. If the character set is not known, for example for some proprietary data files, enter "unspecified".</xs:documentation>
+                  </xs:annotation>
+                   </xs:element>
+                   <xs:element name="ArrayBase" type="xs:integer">
+                  <xs:annotation>
+                     <xs:documentation>Sets the array base for any arrays used in the definition (that is, whether the first value is in position 0 or 1, etc.). This may be the data array in a delimited data file or the measure array for measures that are bundled and stored in a single location. Array base is generally set to either 0 or 1. There is no override provided as systems processing a record would use a consistent array base.</xs:documentation>
+                  </xs:annotation>
+                   </xs:element>                   
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
@@ -104,6 +114,14 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
              <xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data) that is applied to the majority of the dataitems reducing the amount of repetitive markup required. It can be overridden at the dataitem level. Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
           </xs:annotation>
            </xs:element>
+            <xs:element name="NumberOfCases"  type="xs:integer" minOccurs="0">
+			<xs:annotation>
+				<xs:documentation>Total number of cases represented by the contents of the
+					NCube. This is normally the sum of the cell contents when when the NCube
+					contains counts and sub-totals are not included.</xs:documentation>
+			</xs:annotation>
+	    </xs:element>           
+           
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
