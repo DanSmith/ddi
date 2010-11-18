@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
 
 This file is part of DDI 3.0 XML Schema.
 
@@ -20,16 +20,16 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:group:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" xmlns:a="ddi:archive:3_0_CR3" xmlns:c="ddi:conceptualcomponent:3_0_CR3" xmlns:cm="ddi:comparative:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:l="ddi:logicalproduct:3_0_CR3" xmlns:p="ddi:physicaldataproduct:3_0_CR3" xmlns:pi="ddi:physicalinstance:3_0_CR3" xmlns:m1="ddi:physicaldataproduct/ncube/normal:3_0_CR3" xmlns:m2="ddi:physicaldataproduct/ncube/tabular:3_0_CR3" xmlns:m3="ddi:physicaldataproduct/ncube/inline:3_0_CR3" xmlns:s="ddi:studyunit:3_0_CR3" xmlns:pr="ddi:profile:3_0_CR3" targetNamespace="ddi:group:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:archive:3_0_CR3" schemaLocation="archive.xsd"/>
-   <xs:import namespace="ddi:comparative:3_0_CR3" schemaLocation="comparative.xsd"/>
-   <xs:import namespace="ddi:conceptualcomponent:3_0_CR3" schemaLocation="conceptualcomponent.xsd"/>
-   <xs:import namespace="ddi:datacollection:3_0_CR3" schemaLocation="datacollection.xsd"/>
-   <xs:import namespace="ddi:logicalproduct:3_0_CR3" schemaLocation="logicalproduct.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_0_CR3" schemaLocation="physicaldataproduct.xsd"/>
-   <xs:import namespace="ddi:studyunit:3_0_CR3" schemaLocation="studyunit.xsd"/>
-   <xs:import namespace="ddi:profile:3_0_CR3" schemaLocation="ddiprofile.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:group:3_0" xmlns:r="ddi:reusable:3_0" xmlns:a="ddi:archive:3_0" xmlns:c="ddi:conceptualcomponent:3_0" xmlns:cm="ddi:comparative:3_0" xmlns:d="ddi:datacollection:3_0" xmlns:l="ddi:logicalproduct:3_0" xmlns:p="ddi:physicaldataproduct:3_0" xmlns:pi="ddi:physicalinstance:3_0" xmlns:m1="ddi:physicaldataproduct_ncube_normal:3_0" xmlns:m2="ddi:physicaldataproduct_ncube_tabular:3_0" xmlns:m3="ddi:physicaldataproduct_ncube_inline:3_0" xmlns:s="ddi:studyunit:3_0" xmlns:pr="ddi:ddiprofile:3_0" targetNamespace="ddi:group:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:archive:3_0" schemaLocation="archive.xsd"/>
+   <xs:import namespace="ddi:comparative:3_0" schemaLocation="comparative.xsd"/>
+   <xs:import namespace="ddi:conceptualcomponent:3_0" schemaLocation="conceptualcomponent.xsd"/>
+   <xs:import namespace="ddi:datacollection:3_0" schemaLocation="datacollection.xsd"/>
+   <xs:import namespace="ddi:logicalproduct:3_0" schemaLocation="logicalproduct.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_0" schemaLocation="physicaldataproduct.xsd"/>
+   <xs:import namespace="ddi:studyunit:3_0" schemaLocation="studyunit.xsd"/>
+   <xs:import namespace="ddi:ddiprofile:3_0" schemaLocation="ddiprofile.xsd"/>
    <xs:element name="Group" type="GroupType">
       <xs:annotation>
          <xs:documentation>Groups are used to document related data. They may contain subgroups or individual study items, and may also contain metadata which is applicable to all members of the group, and is subject to over-rides at the lower levels. Thus, metadata is inherited down the grouping structure. The purpose of groups is described using the attributes which summarize relationships along the dimensions of time, panel, geography, instrument and language. These attributes allow the purpose to be machine-actionable, while the group also includes an element for describing the purpose in human-readable format.</xs:documentation>

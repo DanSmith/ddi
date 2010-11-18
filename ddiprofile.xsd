@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
 
 This file is part of DDI 3.0 XML Schema.
 
@@ -20,8 +20,8 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:profile:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:profile:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:ddiprofile:3_0" xmlns:r="ddi:reusable:3_0" targetNamespace="ddi:ddiprofile:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
    <xs:element name="DDIProfile" type="DDIProfileType">
       <xs:annotation>
          <xs:documentation>Provides a description of which elements and attributes of the DDI are used in a particular profile of use. A profile of use is that set of fields used in a given instance, by a particular organization or agency, or supported by a DDI-conformant application. It uses XPath expressions which identify the used or unused fields in terms of the DDI instance.</xs:documentation>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
 
 This file is part of DDI 3.0 XML Schema.
 
@@ -20,8 +20,8 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:physicalinstance:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_0" xmlns:r="ddi:reusable:3_0" targetNamespace="ddi:physicalinstance:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
    <xs:element name="PhysicalInstance" type="PhysicalInstanceType">
       <xs:annotation>
          <xs:documentation>Includes information about the physical instance of a data product (an actual data file). It completes the documentation contained in the Physical Data Product module, which describes the physical layout and other characteristics of the data that do not change when a file is merged with another related file, or split into subsets.</xs:documentation>

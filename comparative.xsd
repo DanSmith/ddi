@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2008 DDI Alliance, DDI 3.0 Candidate Release 3, 2008-04-01
+Copyright (c) 2008 DDI Alliance, DDI 3.0, 2008-04-28
 
 This file is part of DDI 3.0 XML Schema.
 
@@ -20,9 +20,9 @@ with DDI 3.0 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_0_CR3" xmlns:d="ddi:datacollection:3_0_CR3" xmlns:r="ddi:reusable:3_0_CR3" targetNamespace="ddi:comparative:3_0_CR3" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:datacollection:3_0_CR3" schemaLocation="datacollection.xsd"/>
-   <xs:import namespace="ddi:reusable:3_0_CR3" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_0" xmlns:d="ddi:datacollection:3_0" xmlns:r="ddi:reusable:3_0" targetNamespace="ddi:comparative:3_0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:datacollection:3_0" schemaLocation="datacollection.xsd"/>
+   <xs:import namespace="ddi:reusable:3_0" schemaLocation="reusable.xsd"/>
    <xs:element name="Comparison" type="ComparisonType">
       <xs:annotation>
          <xs:documentation>Structures information that is necessary to compare members of a group. This module contains the mapping(s) that inform comparisons and facilitate automation. Note that all maps are pairwise, identifying two schemes and the correlation between two items in those schemes. By using a set of pairwise comparisons, it is possible to describe more complex correspondences - pairwise comparisons are easier to process.</xs:documentation>
