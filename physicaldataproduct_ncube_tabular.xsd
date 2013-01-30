@@ -1,127 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
+Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
 
-This file is part of DDI 3.1 XML Schema.
+This file is part of DDI 3.2 dev XML Schema.
 
-DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct_ncube_tabular:3_1" xmlns:r="ddi:reusable:3_1" xmlns:p="ddi:physicaldataproduct:3_1" targetNamespace="ddi:physicaldataproduct_ncube_tabular:3_1" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct_ncube_tabular:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" xmlns:p="ddi:physicaldataproduct:3_2_dev" targetNamespace="ddi:physicaldataproduct_ncube_tabular:3_2_dev" elementFormDefault="qualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
-   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_1" schemaLocation="physicaldataproduct.xsd"/>
+   <xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_2_dev" schemaLocation="physicaldataproduct.xsd"/>
    <!-- COMMON RECORD LAYOUT - CUBED - MODULE 2 -->
-   <xs:element name="RecordLayout" type="RecordLayoutType" substitutionGroup="p:BaseRecordLayout"/>
+   <xs:element name="RecordLayout" type="RecordLayoutType" substitutionGroup="p:BaseRecordLayout">
+      <xs:annotation>
+         <xs:documentation>A RecordLayout intended for use with tabular formats of NCube Instances held in an external file with location for data items arranged as two-dimensional rows (identified by row and column). </xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:complexType name="RecordLayoutType">
       <xs:annotation>
-         <xs:documentation>Describes the layout of an NCube data structure.</xs:documentation>
+         <xs:documentation>A member of the BaseRecordLayout substitution group intended for use with tabular formats of NCube Instances held in an external file with location for data items arranged as two-dimensional rows (identified by row and column). In addition to the link to the PhysicalStructure provided by BaseRecordLayout, the record layout is this namespace (m3) identifies the character set and array base for the stored data, a full description of each data item contained within an NCube Instance including a link to its description (matrix address) and its physical location in the file.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="p:BaseRecordLayoutType">
             <xs:sequence>
-                   <xs:element name="CharacterSet" type="r:CodeValueType">
+                   <xs:element ref="r:CharacterSet" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Character set used in the data file (e.g., US ASCII, EBCDIC, UTF-8). This is a required field. If the character set is not known, for example for some proprietary data files, enter "unspecified".</xs:documentation>
+                     <xs:documentation>Character set used in the data file (e.g., US ASCII, EBCDIC, UTF-8). This is a required field. </xs:documentation>
                   </xs:annotation>
                    </xs:element>
-                   <xs:element name="ArrayBase" type="xs:integer">
+                   <xs:element ref="r:ArrayBase">
                   <xs:annotation>
                      <xs:documentation>Sets the array base for any arrays used in the definition (that is, whether the first value is in position 0 or 1, etc.). This may be the data array in a delimited data file or the measure array for measures that are bundled and stored in a single location. Array base is generally set to either 0 or 1. There is no override provided as systems processing a record would use a consistent array base.</xs:documentation>
                   </xs:annotation>
                    </xs:element>  
-               <xs:element ref="NCubeInstance" maxOccurs="unbounded">
+               <xs:element ref="NCubeInstance" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>A container for defining an instance of an NCube, which allows specifying the values of the attributes attached to a NCube.</xs:documentation>
+                     <xs:documentation>A container for defining an instance of an NCube, indicating the matrix address of each cell and where the data for each measure within a cell of the NCube is stored. Allows specifying the values of the attributes attached to a NCube.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="TopLeftTableAnchor">
+               <xs:element ref="TopLeftTableAnchor" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Notes the column and row position of the the top left corner of the data table in the spreadsheet.</xs:documentation>
+                     <xs:documentation>Notes the column and row position of the top left corner of the data table in the spreadsheet.</xs:documentation>
                   </xs:annotation>
                </xs:element>                 
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   <xs:element name="TopLeftTableAnchor" type="TopLeftTableAnchorType"/>
+   <xs:element name="TopLeftTableAnchor" type="TopLeftTableAnchorType">
+      <xs:annotation>
+         <xs:documentation>Notes the column and row position of the top left corner of the data table in the spreadsheet.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:complexType name="TopLeftTableAnchorType">
       <xs:annotation>
-         <xs:documentation>Notes the column and row position of the the top left corner of the data table in the spreadsheet.</xs:documentation>
+         <xs:documentation>Notes the column and row position of the top left corner of the data table in the spreadsheet.</xs:documentation>
       </xs:annotation>
-
-         <xs:attribute name="column" type="xs:integer" use="required"/>
-         <xs:attribute name="row" type="xs:integer" use="required"/>
-
+         <xs:attribute name="column" type="xs:string" use="required">
+      		<xs:annotation>
+         		<xs:documentation>The column identifier expressed as a string. </xs:documentation>
+      		</xs:annotation>
+		 </xs:attribute>
+         <xs:attribute name="row" type="xs:integer" use="required">
+      		<xs:annotation>
+         		<xs:documentation>The row number expressed as an integer.</xs:documentation>
+      		</xs:annotation>
+		 </xs:attribute>
    </xs:complexType>
    <xs:complexType name="NCubeInstanceType">
       <xs:annotation>
-         <xs:documentation>A container for defining an instance of an NCube, which allows specifying the values of the attributes attached to a NCube.</xs:documentation>
+         <xs:documentation>A container for defining an instance of an NCube, indicating the matrix address of each cell and where the data for each measure within a cell of the NCube is stored. Allows specifying the values of the attributes attached to a NCube.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
-               <xs:element ref="NCubeReference">
+               <xs:element ref="r:NCubeReference">
                   <xs:annotation>
                      <xs:documentation>Reference to the logical NCube description.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Attribute" minOccurs="0" maxOccurs="unbounded">
+               <xs:element ref="AttachedAttribute" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>This is an attribute which is attached either to the NCube as a whole or to a region of the NCube as defined in the logical description. The content of the attribute can be provided as a single value or reference a location in the data store where the attribute value will be found.</xs:documentation>
+                     <xs:documentation>This is an attribute attached to the NCube as a whole or a region of the NCube as defined in the logical description as a CoordinateGroup. The content of the attribute can be provided as a single value or reference a location in the data store where the attribute value will be found. This may be in addition to attribute information described in the logical structure.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="DataItem" maxOccurs="unbounded">
+               <xs:element ref="DataItem" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Identifies a physical storage location for an individual data entry, serving as a link between the physical location and the logical content description of each data item. Note that only one data item is described here, since the structure describes all data and metadata for the NCube. That is to say that in this description, each row of data in the referenced file corresponds to the same NCube of data.</xs:documentation>
+                     <xs:documentation>Describes a single data item or cell within an NCube Instance. It defines its location within the NCube by its coordinate (matrix) address which is its intersect point on each dimension. Allows for the specification of data item specific attributes, and identifies the physical location of each measure for the data item. May optionally indicate the language of the data contents.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-           <xs:element name="DefaultDataType" type="xs:string" minOccurs="0">
-          <xs:annotation>
-             <xs:documentation>An explicit definition of the data type that is applied to the majority of the dataitems reducing the amount of repetitive markup required. It can be overridden at the dataitem level. This field is necessary in the case of some numeric data formats where the format definition would allow real values, but the values are integer values. Allowed values are: integer (default), real, string.</xs:documentation>
-          </xs:annotation>
+           <xs:element ref="r:DefaultDataType" minOccurs="0">
+         		<xs:annotation>
+             		<xs:documentation>An explicit definition of the data type that is applied to the majority of the data items reducing the amount of repetitive markup required. It can be overridden at the data item level. This field is necessary in the case of some numeric data formats where the format definition would allow real values, but the values are integer values. Allowed values are: integer (default), real, string.</xs:documentation>
+          		</xs:annotation>
            </xs:element>
-           <xs:element name="DefaultDelimiter" type="xs:string" minOccurs="0">
-          <xs:annotation>
-             <xs:documentation>Delimiter definition for delimited (free field) data that is applied to the majority of the dataitems reducing the amount of repetitive markup required. It can be overridden at the dataitem level.  Allowed values are: Empty (default), Tab, Blank, AnyString. If a delimiter is used, free field (delimited data) is assumed; binary formats are not allowed.</xs:documentation>
-          </xs:annotation>
+           <xs:element ref="r:DefaultDelimiter" minOccurs="0">
+          		<xs:annotation>
+             		<xs:documentation>Delimiter definition for delimited (free field) data that is applied to the majority of the data items reducing the amount of repetitive markup required. It can be overridden at the data item level. Allowed values are: Empty (default), Tab, Blank, AnyString. If a delimiter is used, free field (delimited data) is assumed; binary formats are not allowed.</xs:documentation>
+          		</xs:annotation>
            </xs:element>
-           <xs:element name="DefaultDecimalPositions" type="xs:integer" minOccurs="0">
-          <xs:annotation>
-             <xs:documentation>Number of decimal places for data with an implied decimal separator that is applied to the majority of the dataitems reducing the amount of repetitive markup required. It can be overridden at the dataitem level.  Another expression is the decimal scaling factor (SAS). Default: 0.</xs:documentation>
-          </xs:annotation>
+           <xs:element ref="r:DefaultDecimalPositions" minOccurs="0">
+          		<xs:annotation>
+             		<xs:documentation>Number of decimal places for data with an implied decimal separator that is applied to the majority of the data items reducing the amount of repetitive markup required. It can be overridden at the data item level. Another expression is the decimal scaling factor (SAS). Default: 0.</xs:documentation>
+          		</xs:annotation>
            </xs:element>
            <xs:element ref="r:DefaultDecimalSeparator" minOccurs="0">
-          <xs:annotation>
-             <xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data) that is applied to the majority of the dataitems reducing the amount of repetitive markup required. It can be overridden at the dataitem level. Allowed values are: None (default), Dot, Comma, Other. On the basis of the data definition in DDI documents, data processing tools could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition only makes sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
-          </xs:annotation>
+          		<xs:annotation>
+             		<xs:documentation>The character used to separate the integer and the fraction part of a number (if an explicit separator is used in the data) that is applied to the majority of the data items reducing the amount of repetitive markup required. It can be overridden at the data item level. Allowed values are: None (default), Dot, Comma, Other. On the basis of the data definition in DDI documents, data processing tools could compute the necessary precision width on the basis of the format width and the existence of separators. Appropriate data types could be used, i.e. float or double, short or long. The decimal separator definition only makes sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
+         	 	</xs:annotation>
            </xs:element>
            <xs:element ref="r:DefaultDigitGroupSeparator" minOccurs="0">
-          <xs:annotation>
-             <xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data) that is applied to the majority of the dataitems reducing the amount of repetitive markup required. It can be overridden at the dataitem level. Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
-          </xs:annotation>
+          		<xs:annotation>
+             		<xs:documentation>The character used to separate groups of digits (if an explicit separator is used in the data) that is applied to the majority of the data items reducing the amount of repetitive markup required. It can be overridden at the data item level. Allowed values are: None (default), Dot, Comma, Other. The decimal separator definition makes only sense with some XML Schema primitives. This is a default which may be overridden in specific cases.</xs:documentation>
+          		</xs:annotation>
            </xs:element>
-            <xs:element name="NumberOfCases"  type="xs:integer" minOccurs="0">
-			<xs:annotation>
-				<xs:documentation>Total number of cases represented by the contents of the
-					NCube. This is normally the sum of the cell contents when when the NCube
-					contains counts and sub-totals are not included.</xs:documentation>
-			</xs:annotation>
-	    </xs:element>           
-           
+            <xs:element ref="r:NumberOfCases" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Total number of cases represented by the contents of the NCube. This is normally the sum of the cell contents when the NCube contains counts and sub-totals are not included.</xs:documentation>
+				</xs:annotation>
+	        </xs:element>           
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
@@ -129,100 +140,65 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
    <xs:complexType name="DataItemType">
       <xs:annotation>
-         <xs:documentation>Identifies a physical storage location for an individual data entry, serving as a link between the physical location and the logical content description of each data item.</xs:documentation>
+         <xs:documentation>Describes a single data item or cell within an NCube Instance. It defines its location within the NCube by its coordinate (matrix) address which is its intersect point on each dimension. Allows for the specification of data item specific attributes, and identifies the physical location of each measure for the data item. May optionally indicate the language of the data contents.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="Dimension" minOccurs="0" maxOccurs="unbounded">
+         <xs:element ref="r:DimensionRankValue" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Specifies this coordinate in the standard matrix descriptive pattern (1,2,3,.n)</xs:documentation>
+               <xs:documentation>A dimension describes the rank or order of the dimension within the NCube structure and provides the specific coordinate value of the dimension for the data item.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="Attribute" minOccurs="0" maxOccurs="unbounded">
+         <xs:element ref="AttachedAttribute" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>This is an attribute which is attached to the specified DataItem. The content of the attribute can be provided as a single value or reference a location in the data store where the attribute value will be found.</xs:documentation>
+               <xs:documentation>This is an attribute attached to the specified Data Item. The content of the attribute can be provided as a single value or reference a location in the data store where the attribute value will be found. This may be in addition to attribute information described in the logical structure.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="Measure" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Value of the measure. When individual measures are stored in separately identifiable locations, "Measure" needs to be repeated to define each measure and storage location. When multiple measures are stored as an ordered array in a single location, each measure in the array needs to be listed as a MeasureReference with its specified arrayOrder within a single Measure definition.</xs:documentation>
+               <xs:documentation>Identifies the specific measure of the cell by reference and provides information on the storage location of the value for the measure.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
-      <xs:attribute ref="xml:lang" use="optional"/>
-   </xs:complexType>
-<xs:element name="Dimension" type="DimensionType"/>
-   <xs:complexType name="DimensionType">
-      <xs:annotation>
-         <xs:documentation>A dimension describes the rank or order of the dimension within the NCube structure and provides the specific coordinate value of the dimension for the data item. </xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element ref="VariableReference" minOccurs="0">
+      <xs:attribute ref="xml:lang" use="optional">
             <xs:annotation>
-               <xs:documentation>References the Variable holding the dimension value. Use this instead of the value attribute when the value must be obtained from the data file at the location of the variable indicated in the reference.</xs:documentation>
+               <xs:documentation>Use to indicate the language of the data item in the file.</xs:documentation>
             </xs:annotation>
-         </xs:element>
-      </xs:sequence>
-      <xs:attribute name="rank" type="xs:integer" use="required">
-         <xs:annotation>
-            <xs:documentation>Enter the rank (placement) order in which the value from this dimension appears in the coordinate address of any cell in the NCube matrix.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
-      <xs:attribute name="value" type="xs:string" use="optional">
-         <xs:annotation>
-            <xs:documentation>The value of this dimension for this particular data item.</xs:documentation>
-         </xs:annotation>
-      </xs:attribute>
+	  </xs:attribute>
    </xs:complexType>
-
    <xs:complexType name="MeasureType">
       <xs:annotation>
-         <xs:documentation>Value of the measure type</xs:documentation>
+         <xs:documentation>Identifies the specific measure of the cell by reference and provides information on the storage location of the value for the measure. When individual measures are stored in separately identifiable locations repeat Measure to define each measure and storage location. When multiple measures are stored as an ordered array in a single location list each measure in the array as a MeasureReference with its specified arrayOrder within a single Measure definition.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="MeasureReference" maxOccurs="unbounded">
+         <xs:element ref="r:MeasureDefinitionReference" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Reference to measure description.</xs:documentation>
+               <xs:documentation>Reference to the MeasureDefinition in NCube.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="PhysicalTableLocation">
+         <xs:element ref="PhysicalTableLocation" minOccurs="0">
            <xs:annotation>
-              <xs:documentation>Describes physical characteristics of the data item related to location and its data type/format.</xs:documentation>
+              <xs:documentation>Description of the physical location of the measure value in the data file.</xs:documentation>
          </xs:annotation>
        </xs:element>
       </xs:sequence>
    </xs:complexType>
-   <xs:complexType name="MeasureReferenceType">
+   <xs:complexType name="AttachedAttributeType">
       <xs:annotation>
-         <xs:documentation>Reference to measure description.</xs:documentation>
-      </xs:annotation>
-      <xs:complexContent>
-        <xs:extension base="r:ReferenceType">
-            <xs:attribute name="arrayOrder" type="xs:integer" default="0">
-                <xs:annotation>
-                    <xs:documentation>Oder within the array. Note that this attribute assumes an array base of 0. The array order assumes that the measures will always be displayed in the same order and that sparse content (a missing value in the array) will be clear between two delimiters in this array. For example 1,1,1 or 1,,1</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
-        </xs:extension>
-      </xs:complexContent>
-   </xs:complexType>
-   <xs:element name="MeasureReference" type="MeasureReferenceType"/>
-   <xs:complexType name="AttributeType">
-      <xs:annotation>
-         <xs:documentation>Provides for a choice between describing an explicit value, or a location in a file where the value can be found.</xs:documentation>
+         <xs:documentation>References the attribute description in the NCube and provides for a choice between describing an explicit value, or a location in a file where the value can be found.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="AttributeReference">
+         <xs:element ref="r:AttributeReference">
             <xs:annotation>
-               <xs:documentation>Reference to an attribute description.</xs:documentation>
+               <xs:documentation>Reference to the attribute described in an NCube.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:choice>
+         <xs:choice minOccurs="0">
             <xs:element ref="PhysicalTableLocation">
                <xs:annotation>
-                  <xs:documentation>Describes physical characteristics of the data item related to location and its data type/format.</xs:documentation>
+                  <xs:documentation>Description of the physical location of the attribute value in the data file.</xs:documentation>
                </xs:annotation>
             </xs:element>
-            <xs:element name="Value" type="xs:string">
+            <xs:element ref="r:Value">
                <xs:annotation>
                   <xs:documentation>Contains the value for the attribute.</xs:documentation>
                </xs:annotation>
@@ -230,61 +206,50 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:choice>
       </xs:sequence>
    </xs:complexType>
-   <xs:element name="PhysicalTableLocation" type="PhysicalTableLocationType"/>
+   <xs:element name="PhysicalTableLocation" type="PhysicalTableLocationType">
+      <xs:annotation>
+         <xs:documentation>The location of the data item within a two-dimensional (spreadsheet) storage format.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:complexType name="PhysicalTableLocationType">
       <xs:annotation>
-         <xs:documentation>This element documents the location of data values within a spreadsheet-type table.</xs:documentation>
+         <xs:documentation>The location of the data item within a two-dimensional (spreadsheet) storage format.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
             <xs:extension base="p:PhysicalLocationType">
                 <xs:sequence>
-                <xs:element name="Column" type="xs:integer">
-                           <xs:annotation>
-                              <xs:documentation>Column in which data item is found. Begin numbering columns in the at the upper left corner of the table.</xs:documentation>
-                           </xs:annotation>
-                        </xs:element>
+                <xs:element name="ColumnNumber" type="xs:integer">
+                     <xs:annotation>
+                        <xs:documentation>Column in which data item is found. This is an integer defined in relationship to a specified "first" column NOT the column identifier found in the spreadsheet. Begin numbering columns from the upper left corner of the table as defined in TopLeftTableAnchor attribute "column".</xs:documentation>
+                     </xs:annotation>
+                </xs:element>
                 <xs:element name="RowSequence" type="xs:integer" minOccurs="0">
-                           <xs:annotation>
-                              <xs:documentation>A single case may be represented on a single row or a series of rows, particularly when multiple measures are used. This element designates the row, with the assumption that there is a single row per case unless otherwise stated.</xs:documentation>
-                           </xs:annotation>
-                        </xs:element>
+                     <xs:annotation>
+                        <xs:documentation>A single case may be represented on a single row or a series of rows, particularly when multiple measures are used. This element designates the row, with the assumption that there is a single row per case unless otherwise stated.</xs:documentation>
+                     </xs:annotation>
+                </xs:element>
                 </xs:sequence>
             </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   <xs:element name="NCubeInstance" type="NCubeInstanceType">
+     <xs:element name="AttachedAttribute" type="AttachedAttributeType">
+      	<xs:annotation>
+         	<xs:documentation>References the attribute description in the NCube and provides for a choice between describing an explicit value, or a location in a file where the value can be found.</xs:documentation>
+      	</xs:annotation>
+	  </xs:element>
+     <xs:element name="NCubeInstance" type="NCubeInstanceType">
       <xs:annotation>
-         <xs:documentation>Container to group data from common NCubes - this allows for NCube level attributes to be defined</xs:documentation>
+         <xs:documentation>A container for defining an instance of an NCube, indicating the matrix address of each cell and where the data for each measure within a cell of the NCube is stored.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="DataItem" type="DataItemType">
       <xs:annotation>
-         <xs:documentation>Identifies a physical storage location for an individual data entry, serving as a link between the physical location and the logical content description of each data item.  Note that only one data item is described here, since the structure describes all data and meta data for the NCube.  That is to day that in this desciption, each row of data in the refernced file corresponds to the same NCube of data.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="NCubeReference" type="r:ReferenceType">
-      <xs:annotation>
-         <xs:documentation>Reference to the logical NCube description.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="Attribute" type="AttributeType">
-      <xs:annotation>
-         <xs:documentation>Component to provide cell level attribute values.</xs:documentation>
+         <xs:documentation>Describes a single data item or cell within an NCube Instance.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Measure" type="MeasureType">
       <xs:annotation>
-         <xs:documentation>Value of the measure type</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="VariableReference" type="r:ReferenceType">
-      <xs:annotation>
-         <xs:documentation>The variable ID where the coordinate value is found (for files where one of the dimensions of the matrix has a different record for each category and the value of the category is found in a specific variable, e.g., SIC codes in US County Business Patterns).</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="AttributeReference" type="r:ReferenceType">
-      <xs:annotation>
-         <xs:documentation>Reference to attribute description.</xs:documentation>
+         <xs:documentation>Identifies the specific measure of the cell by reference and provides information on the storage location of the value for the measure.</xs:documentation>
       </xs:annotation>
    </xs:element>
 </xs:schema>

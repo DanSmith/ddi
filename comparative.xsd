@@ -1,139 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2009 DDI Alliance, DDI 3.1, 2009-10-18
+Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
 
-This file is part of DDI 3.1 XML Schema.
+This file is part of DDI 3.2 dev XML Schema.
 
-DDI 3.1 XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.1 XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_1" xmlns:d="ddi:datacollection:3_1" xmlns:r="ddi:reusable:3_1" targetNamespace="ddi:comparative:3_1" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:datacollection:3_1" schemaLocation="datacollection.xsd"/>
-   <xs:import namespace="ddi:reusable:3_1" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:comparative:3_2_dev" xmlns:d="ddi:datacollection:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" targetNamespace="ddi:comparative:3_2_dev" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:datacollection:3_2_dev" schemaLocation="datacollection.xsd"/>
+   <xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
    <xs:element name="Comparison" type="ComparisonType">
       <xs:annotation>
-         <xs:documentation>Structures information that is necessary to compare members of a group. This module contains the mapping(s) that inform comparisons and facilitate automation. Note that all maps are pairwise, identifying two schemes and the correlation between two items in those schemes. By using a set of pairwise comparisons, it is possible to describe more complex correspondences - pairwise comparisons are easier to process.</xs:documentation>
+         <xs:documentation>Structures information that is necessary to compare two objects of a specific type. Contains the mapping(s) that inform comparisons and facilitate automation.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="ComparisonType">
       <xs:annotation>
-         <xs:documentation>Structures information that is necessary to compare members of a group. Contains the mapping(s) That inform comparisons and facilitate automation. Note that all maps are pairwise, identifying two schemes and the correlation between two items in those schemes. By using a set of pairwise comparisons, it is possible to describe more complex correspondences - pairwise comparisons are easier to process.</xs:documentation>
+         <xs:documentation>Structures information that is necessary to compare two objects of a specific type. Contains the mapping(s) that inform comparisons and facilitate automation. Note that all maps are pairwise, identifying two schemes and the correlation between two items in those schemes. By using a set of pairwise comparisons, it is possible to describe more complex correspondences - pairwise comparisons are easier to process. In addition to providing a standard name, label, and description of the set of comparison maps, currently covers the comparison of concepts, variables, questions, categories, codes, and universes.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
             <xs:sequence>
-               <xs:element ref="ComparisonName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded">
+               <xs:element ref="ComparisonName" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Description of the comparison, intended to be human-readable.</xs:documentation>
+                     <xs:documentation>A name for the comparison. May be expressed in multiple languages. Repeat the element to express names with different content, for example different names for different systems.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A display label for the comparison. May be expressed in multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:Description" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>A description of the content and purpose of the comparison. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="ConceptMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Maps comparable concepts from two different concept schemes.</xs:documentation>
+                     <xs:documentation>Maps the content of two different concept schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="VariableMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Maps comparable variables from two different variable schemes.</xs:documentation>
+                     <xs:documentation>Maps the content of two different variable schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="QuestionMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Maps comparable questions from two different question schemes.</xs:documentation>
+                     <xs:documentation>Maps the content of two different question schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="CategoryMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Maps comparable categories from two different category schemes.</xs:documentation>
+                     <xs:documentation>Maps the content of two different category schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="CodeMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Maps comparable codes from two different code schemes.</xs:documentation>
+                     <xs:documentation>Maps the codes from two different CodeLists or from a delineation to a CodeList providing detail for the comparable items within those two schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="UniverseMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Maps comparable universes from two different universe schemes.</xs:documentation>
-                  </xs:annotation>
-               </xs:element>
-               <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>Notes regarding any information in the module.</xs:documentation>
+                     <xs:documentation>Maps the content of two different universe schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   <xs:element name="ComparisonName" type="r:NameType"/>
+   <xs:element name="ComparisonName" type="r:NameType">
+      <xs:annotation>
+         <xs:documentation>Name of the Comparison using the DDI Name structure.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:complexType name="GenericMapType">
       <xs:annotation>
-         <xs:documentation>Maps comparable items from two different schemes.</xs:documentation>
+         <xs:documentation>Maps the content of two different schemes of objects of the same type providing detail for the comparable items within those two schemes. Note that comparisons can be made between multiple items in the same scheme or two versions of the same scheme. In addition to the standard name, label, and description of the map, identifies the source scheme and target scheme containing those objects, describes the correspondence between the source and target schemes, and provides detailed comparison of the items within those two schemes.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
-               <xs:element ref="MapName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/> 
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>           
+               <xs:element ref="MapName" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                     <xs:documentation>A name for the Map. May be expressed in multiple languages. Repeat the element to express names with different content, for example different names for different systems.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"> 
+                  <xs:annotation>
+                     <xs:documentation>A display label for the Map. May be expressed in multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:Description" minOccurs="0">           
+                  <xs:annotation>
+                     <xs:documentation>A description of the content and purpose of the Map. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
                <xs:element ref="SourceSchemeReference">
                   <xs:annotation>
-                     <xs:documentation>References the scheme that is the source for the mapping.</xs:documentation>
+                     <xs:documentation>Mappings are unidirectional. The scheme referenced as the source is the scheme contents that would be transformed into the scheme contents identified as the target scheme contents.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="TargetSchemeReference">
                   <xs:annotation>
-                     <xs:documentation>References the scheme that is the target for the mapping.</xs:documentation>
+                     <xs:documentation>Reference to the scheme containing the target structure.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="Correspondence">
+               <xs:element ref="Correspondence" minOccurs="0">
                   <xs:annotation>
-                     <xs:documentation>Describes the correspondence between the target and source schemes.</xs:documentation>
+                     <xs:documentation>Describe the level of similarity and difference between the Source and the Target schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="ItemMap" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Maps an individual item in the source scheme to an item in the target scheme. </xs:documentation>
+                     <xs:documentation>Contains the mappings for individual items within the Source and Target schemes.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   <xs:element name="MapName" type="r:NameType"/>
-  <xs:complexType name="CorrespondenceType">
+   <xs:element name="MapName" type="r:NameType">
       <xs:annotation>
-         <xs:documentation>Describes the correspondence between source and target schemes/items.</xs:documentation>
+         <xs:documentation>Name of the Map using the DDI Name structure.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:complexType name="CorrespondenceType">
+      <xs:annotation>
+         <xs:documentation>Describes the commonalities and differences between two items using a textual description of both commonalities and differences plus an optional coding of the type of commonality, a commonality expresses as a 0 to 1 weighting factor (expressing degree of comparability) and a user defined correspondence property which is specific to an organization or community of use.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element ref="Commonality" maxOccurs="unbounded">
+         <xs:element ref="Commonality" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>Textual description of the common aspects of the two schemes/items.</xs:documentation>
+               <xs:documentation>A description of the common features of the two items using a StructuredString to support multiple language versions of the same content as well as optional formatting of the content.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="Difference" maxOccurs="unbounded">
+         <xs:element ref="r:Difference" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>Textual description of the differing aspects of the two schemes/items.</xs:documentation>
+               <xs:documentation>A description of the differences between the two items using a StructuredString to support multiple language versions of the same content as well as optional formatting of the content.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="CommonalityTypeCoded" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>Provides a type code for commonality of the two schemes/items. Suggested values are "Identical", "High", "Medium", "Low", "None".</xs:documentation>
+               <xs:documentation>A brief description describing the commonality of the two schemes/items, i.e., "Identical", "High", "Medium", "Low", "None". Supports the use of an external controlled vocabulary.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element name="CommonalityWeight" type="CommonalityWeightType" minOccurs="0">
@@ -141,89 +164,118 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:documentation>A value between 0 and 1 expressing the degree of commonality (0 indicates none, 1 indicates that they are identical).</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="UserDefinedCorrespondenceProperty" minOccurs="0" maxOccurs="unbounded">
+         <xs:element ref="r:UserDefinedCorrespondenceProperty" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>A user-defined property defining the corrrespondence.</xs:documentation>
+               <xs:documentation>An alternate means of expressing commonality within a specific system. A system specific user defined correspondence expressed as a key/value pair. As this is specific to an individual system the use of controlled vocabularies for the key is strongly recommended.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
    </xs:complexType>
    <xs:simpleType name="CommonalityWeightType">
+    <xs:annotation>
+        <xs:documentation>A value between 0 and 1 expressing the degree of commonality (0 indicates none, 1 indicates that they are identical).</xs:documentation>
+    </xs:annotation>
     <xs:restriction base="xs:float">
-        <xs:minInclusive value="0"/>
-        <xs:maxInclusive value="1"/>
+        <xs:minInclusive value="0">
+		   <xs:annotation>
+               <xs:documentation>No commonality</xs:documentation>
+           </xs:annotation>
+		</xs:minInclusive>
+        <xs:maxInclusive value="1">
+           <xs:annotation>
+              <xs:documentation>Identical</xs:documentation>
+           </xs:annotation>
+        </xs:maxInclusive>
     </xs:restriction>
    </xs:simpleType>
-   <xs:complexType name="UserDefinedCorrespondencePropertyType">
-            <xs:annotation>
-               <xs:documentation>User-defined correspondence of two schemes or items, consisting of a name and a value.</xs:documentation>
-            </xs:annotation>
-            <xs:sequence>
-                <xs:element name="Name" type="xs:string">
-                   <xs:annotation>
-                      <xs:documentation>Name for the correspondence of two schemes or items</xs:documentation>
-                   </xs:annotation>
-                </xs:element>
-                <xs:element name="Value" type="xs:string">
-                   <xs:annotation>
-                      <xs:documentation>Value for the correspondence of two schemes or items</xs:documentation>
-                   </xs:annotation>
-                </xs:element>
-            </xs:sequence>
-   </xs:complexType>
    <xs:complexType name="CodeMapType">
       <xs:annotation>
-         <xs:documentation>Maps comparable codes from two different code schemes.</xs:documentation>
+         <xs:documentation>Maps the codes from two different CodeLists or from a delineation to a CodeList (i.e., from a NumericDelineation capture of age to age cohorts expressed in a CodeList). In addition to the standard name, label, and description of the CodeMap, identifies the source scheme and target scheme (which should be a CodeListScheme), describes the correspondence between the source and target, allows for the use of a GenerationInstruction to describe the recoding process, and indicates if this a general mapping or a mapping for a specific purpose.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:VersionableType">
             <xs:sequence>
-               <xs:element ref="CodeMapName" minOccurs="0" maxOccurs="unbounded"/>
-               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded"/>  
-               <xs:element ref="r:Description" minOccurs="0" maxOccurs="unbounded"/>          
-               <xs:element ref="SourceSchemeReference">
+               <xs:element ref="CodeMapName" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>References the code scheme that is the source for the mapping.</xs:documentation>
+                     <xs:documentation>A name for the CodeMap. May be expressed in multiple languages. Repeat the element to express names with different content, for example different names for different systems.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-               <xs:element ref="TargetSchemeReference">
+               <xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">  
                   <xs:annotation>
-                     <xs:documentation>References the coce scheme that is the target for the mapping.</xs:documentation>
+                     <xs:documentation>A display label for the CodeMap. May be expressed in multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.</xs:documentation>
                   </xs:annotation>
                </xs:element>
-         <xs:element ref="Correspondence">
-            <xs:annotation>
-               <xs:documentation>Describes the difference between source and target schemes.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
+               <xs:element ref="r:Description" minOccurs="0">          
+                  <xs:annotation>
+                     <xs:documentation>A description of the content and purpose of the CodeMap. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+		<xs:choice>
+			<xs:element ref="SourceCodeListReference">
+			   <xs:annotation>
+			      <xs:documentation>Mappings are unidirectional. The CodeList referenced as the source is the CodeList that would be transformed into the CodeList identified as the target. When harmonizing CodeLists, first create the harmonized CodeList and use it as the TargetCodeListReference. The two or more CodeLists used to determine the harmonized structure will all be treated as SourceCodeList in pairwise mappings to the harmonized TargetCodeList.</xs:documentation>
+			   </xs:annotation>
+			</xs:element>
+			<xs:element ref="SourceDelineationReference">
+			   <xs:annotation>
+			      <xs:documentation>A reference to a non-CodeList based delineation that will be mapped into a CodeList. Mappings are unidirectional. The delineation referenced as the source is the delineation that would be transformed into the CodeList identified as the target.</xs:documentation>
+			   </xs:annotation>
+			</xs:element>
+		  </xs:choice>
+               <xs:element ref="TargetCodeListReference">
+                  <xs:annotation>
+                     <xs:documentation>Reference to the CodeList describing the target structure.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="Correspondence" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>Describe the level of similarity and difference between the Source and the Target contents.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
                <xs:element ref="d:GenerationInstruction" minOccurs="0" maxOccurs="unbounded">
                   <xs:annotation>
-                     <xs:documentation>Allows for use of programmatic logic to construct a detailed comparison map between individual codes in the source and target schemes.</xs:documentation>
+                     <xs:documentation>Allows for use of programmatic logic to construct a detailed comparison map between individual codes in the source and target structures.</xs:documentation>
                   </xs:annotation>
                </xs:element>
             </xs:sequence>
+			<xs:attribute name="contextSpecificComparison" type="xs:boolean" use="optional">
+			  <xs:annotation>
+			    <xs:documentation>Set the value to "true" if the context is for a specified use of the CodeList. For example, a Numeric Delineation may map to a CodeList of age cohorts but is limited to the use of the numeric delineation as a representation/response domain for the concept AGE.</xs:documentation>
+			  </xs:annotation>
+			</xs:attribute>  	 
          </xs:extension>
       </xs:complexContent>
    </xs:complexType>
-   <xs:element name="CodeMapName" type="r:NameType"/>
+   <xs:element name="CodeMapName" type="r:NameType">
+      <xs:annotation>
+         <xs:documentation>Name of the Code Map using the DDI Name structure.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
    <xs:complexType name="ItemMapType">
       <xs:annotation>
-         <xs:documentation>Maps two items (codes, concepts, categories, questions, variables, etc.) from different schemes.</xs:documentation>
+         <xs:documentation>Maps two items of the same type within the Source and Target Schemes identified.</xs:documentation>
       </xs:annotation>
+	  <xs:complexContent>
+	  <xs:extension base="r:IdentifiableType">
       <xs:sequence>
-         <xs:element name="SourceItem" type="xs:NCName">
+         <xs:element name="SourceItem" type="r:IDType">
             <xs:annotation>
-               <xs:documentation>References an item in the source scheme.</xs:documentation>
+               <xs:documentation>The ID of the source object in the source scheme already identified. Note that the version of the object is whichever version of it that exists in the version of the parent scheme as identified.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element name="TargetItem" type="xs:NCName">
+         <xs:element name="TargetItem" type="r:IDType">
             <xs:annotation>
-               <xs:documentation>References a comparable item in the target scheme.</xs:documentation>
+               <xs:documentation>The ID of the target object in the target scheme already identified. Note that the version of the object is whichever version of it that exists in the version of the parent scheme as identified.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="Correspondence">
+         <xs:element ref="Correspondence" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>Describes the correspondence between source and target items</xs:documentation>
+               <xs:documentation>Describe the level of similarity and difference between the Source and the Target objects.</xs:documentation>
+            </xs:annotation>
+         </xs:element>
+         <xs:element ref="RelatedMapReference" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation>
+               <xs:documentation>Identifies related maps for example an ItemMap of two questions may point to the CodeMap defining the comparison of the two response domains. </xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
@@ -232,80 +284,87 @@ with DDI 3.1 XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:documentation>Allows for an alias to be assigned to the correspondence between two items, so that it can be referred to with a single name, that would include both related items.</xs:documentation>
          </xs:annotation>
       </xs:attribute>
+      </xs:extension>
+     </xs:complexContent>
    </xs:complexType>
-   <xs:element name="ComparisonDescription" type="r:StructuredStringType">
-      <xs:annotation>
-         <xs:documentation>Description of the comparison, intended to be human-readable.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
    <xs:element name="ConceptMap" type="GenericMapType">
       <xs:annotation>
-         <xs:documentation>Maps comparable concepts from two different concept schemes.</xs:documentation>
+         <xs:documentation>Maps the content of two different concept schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="VariableMap" type="GenericMapType">
       <xs:annotation>
-         <xs:documentation>Maps comparable variables from two different variable schemes.</xs:documentation>
+         <xs:documentation>Maps the content of two different variable schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="QuestionMap" type="GenericMapType">
       <xs:annotation>
-         <xs:documentation>Maps comparable questions from two different question schemes.</xs:documentation>
+         <xs:documentation>Maps the content of two different question schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="CategoryMap" type="GenericMapType">
       <xs:annotation>
-         <xs:documentation>Maps comparable categories from two different category schemes.</xs:documentation>
+         <xs:documentation>Maps the content of two different category schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="CodeMap" type="CodeMapType">
       <xs:annotation>
-         <xs:documentation>Maps comparable codes from two different code schemes.</xs:documentation>
+         <xs:documentation>Maps the codes from two different CodeLists or from a delineation to a CodeList (i.e., from a NumericDelineation capture of age to age cohorts expressed in a CodeList).</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="UniverseMap" type="GenericMapType">
       <xs:annotation>
-         <xs:documentation>Maps comparable universes from two different universe schemes.</xs:documentation>
+         <xs:documentation>Maps the content of two different universe schemes of objects of the same type providing detail for the comparable items within those two schemes.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="SourceSchemeReference" type="r:ReferenceType">
+   <xs:element name="SourceSchemeReference" type="r:SchemeReferenceType">
       <xs:annotation>
-         <xs:documentation>References the scheme that is the source for the mapping.</xs:documentation>
+         <xs:documentation>Reference to any Scheme using SchemeReference which allows for the specification of objects to exclude.</xs:documentation>
       </xs:annotation>
    </xs:element>
-   <xs:element name="TargetSchemeReference" type="r:ReferenceType">
+   <xs:element name="TargetSchemeReference" type="r:SchemeReferenceType">
       <xs:annotation>
-         <xs:documentation>References the scheme that is the target for the mapping.</xs:documentation>
+         <xs:documentation>Reference to any Scheme using SchemeReference which allows for the specification of objects to exclude.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="RelatedMapReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to an existing Concept, Variable, Question, Category, Code, or Universe Map using the Reference structure.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="SourceDelineationReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to an XxxxDelineation using the Reference structure.</xs:documentation>
+      </xs:annotation>
+   </xs:element>
+   <xs:element name="SourceCodeListReference" type="r:ReferenceType">
+       <xs:annotation>
+          <xs:documentation>Reference to an CodeList using the Reference structure.</xs:documentation>
+       </xs:annotation>
+    </xs:element>   
+   <xs:element name="TargetCodeListReference" type="r:ReferenceType">
+      <xs:annotation>
+         <xs:documentation>Reference to a CodeList using the Reference structure.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Correspondence" type="CorrespondenceType">
       <xs:annotation>
-         <xs:documentation>Describes the correspondence between the target and source schemes.</xs:documentation>
+         <xs:documentation>Describes the commonalities and differences between two items.</xs:documentation>
       </xs:annotation>
     </xs:element>
    <xs:element name="ItemMap" type="ItemMapType">
       <xs:annotation>
-         <xs:documentation>Maps an individual item in the source scheme to an item in the target scheme. </xs:documentation>
+         <xs:documentation>Maps two items of the same type within the Source and Target Schemes identified.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="Commonality" type="r:StructuredStringType">
       <xs:annotation>
-         <xs:documentation>Describes the commonality between source and target schemes/items. </xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="Difference" type="r:StructuredStringType">
-      <xs:annotation>
-         <xs:documentation>Describes the differences between source and target schemes/items. </xs:documentation>
+         <xs:documentation>Commonality of the compared objects provided using a StructuredString to support multiple language versions of the same content as well as optional formatting of the content.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="CommonalityTypeCoded" type="r:CodeValueType">
       <xs:annotation>
-         <xs:documentation>Provides a type code defining the commonality between source and target schemes/items.</xs:documentation>
-      </xs:annotation>
-   </xs:element>
-   <xs:element name="UserDefinedCorrespondenceProperty" type="UserDefinedCorrespondencePropertyType">
-      <xs:annotation>
-         <xs:documentation>Provides a user-defined name-value pair describing the correspondence between source and target schemes/items. </xs:documentation>
+         <xs:documentation>A brief description describing the commonality of the two schemes/items, i.e., "Identical", "High", "Medium", "Low", "None". Supports the use of an external controlled vocabulary.</xs:documentation>
       </xs:annotation>
    </xs:element>
 </xs:schema>
