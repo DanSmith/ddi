@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
+Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
 
-This file is part of DDI 3.2 dev XML Schema.
+This file is part of DDI 3.2 XML Schema.
 
-DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct_proprietary:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" xmlns:p="ddi:physicaldataproduct:3_2_dev" targetNamespace="ddi:physicaldataproduct_proprietary:3_2_dev" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct_proprietary:3_2" xmlns:r="ddi:reusable:3_2" xmlns:p="ddi:physicaldataproduct:3_2" targetNamespace="ddi:physicaldataproduct_proprietary:3_2" elementFormDefault="qualified">
     <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
-    <xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
-    <xs:import namespace="ddi:physicaldataproduct:3_2_dev" schemaLocation="physicaldataproduct.xsd"/>
+    <xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
+    <xs:import namespace="ddi:physicaldataproduct:3_2" schemaLocation="physicaldataproduct.xsd"/>
     <xs:element name="RecordLayout" type="RecordLayoutType" substitutionGroup="p:BaseRecordLayout">
         <xs:annotation>
-            <xs:documentation>A RecordLayout intended for use when the data items are stored in an external proprietary format. </xs:documentation>
+            <xs:documentation>A member of the BaseRecordLayout substitution group intended for use when the data items are stored in an external proprietary format.</xs:documentation>
         </xs:annotation>
 	</xs:element>
     <xs:complexType name="RecordLayoutType">
@@ -46,11 +46,11 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Sets the array base for any arrays used in the definition (that is, whether the first value is in position 0 or 1, etc.). This may be the data array in a delimited data file or the measure array for measures that are bundled and stored in a single location. Array base is generally set to either 0 or 1. There is no override provided as systems processing a record would use a consistent array base.</xs:documentation>
                   </xs:annotation>
                    </xs:element> 
-                    <xs:element ref="r:Software">
-                                        <xs:annotation>
-                                            <xs:documentation>Software used by the proprietary system.</xs:documentation>
-                                        </xs:annotation>
-                    </xs:element>
+	         <xs:element ref="SystemSoftware">
+	            <xs:annotation>
+	               <xs:documentation>Specification of a software package used to instantiate a data collection method.</xs:documentation>
+	            </xs:annotation>
+	         </xs:element>
                     <xs:element ref="DataItemAddress" minOccurs="0">
                                         <xs:annotation>
                                             <xs:documentation>Provides minimum information on data item address system, such as variable ID or Name, etc.</xs:documentation>
@@ -148,18 +148,18 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
     </xs:element>
     <xs:element name="DefaultNumericDataTypeReference" type="r:ReferenceType">
         <xs:annotation>
-            <xs:documentation>Reference to an existing NumericDelineation using the Reference structure.</xs:documentation>
+            <xs:documentation>Reference to an existing ManagedNumericRepresentation using the Reference structure. TypeOfObject should be set to  ManagedNumericRepresentation.</xs:documentation>
         </xs:annotation>
     </xs:element>
     <xs:element name="DefaultTextDataTypeReference" type="r:ReferenceType">
         <xs:annotation>
-            <xs:documentation>Reference to an existing TextDelineation using the Reference structure.</xs:documentation>
+            <xs:documentation>Reference to an existing ManagedTextRepresentation using the Reference structure. TypeOfObject should be set to ManagedTextRepresentation.</xs:documentation>
         </xs:annotation>
     </xs:element>
     <xs:element name="DefaultDateTimeDataTypeReference" type="r:ReferenceType">
         <xs:annotation>
-            <xs:documentation>Reference to an existing DateTimeDelineation using the Reference structure.</xs:documentation>
-		</xs:annotation>
+            <xs:documentation>Reference to an existing ManagedDateTimeRepresentation using the Reference structure. TypeOfObject should be set to ManagedDateTimeRepresentation.</xs:documentation>
+	</xs:annotation>
     </xs:element>
     <xs:element name="CodedDataAsNumeric" type="CodedDataAsNumericType">
         <xs:annotation>
@@ -168,7 +168,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
     </xs:element>
 	<xs:complexType name="CodedDataAsNumericType">
         <xs:annotation>
-            <xs:documentation>Indicates that coded data should be treated as numeric, and references the definition of the numeric type as described in NumericDelineation.</xs:documentation>
+            <xs:documentation>Indicates that coded data should be treated as numeric, and references the definition of the numeric type as described in ManagedNumericRepresentation. TypeOfObject should be set to ManagedNumericRepresentation.</xs:documentation>
         </xs:annotation>
 	  <xs:complexContent>
 	    <xs:extension base="r:ReferenceType">
@@ -187,7 +187,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
     </xs:element>
 	<xs:complexType name="CodedDataAsTextType">
         <xs:annotation>
-            <xs:documentation>Indicates that coded data should be treated as text, and references the definition of the text type as described in TextDelineation.</xs:documentation>
+            <xs:documentation>Indicates that coded data should be treated as text, and references the definition of the text type as described in ManagedTextRepresentation. TypeOfObject should be set to ManagedTextRepresentation.</xs:documentation>
         </xs:annotation>
 	  <xs:complexContent>
 	    <xs:extension base="r:ReferenceType">
@@ -214,4 +214,9 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
             <xs:documentation>Describes a single data item within the record.</xs:documentation>
         </xs:annotation>
     </xs:element>
+	         <xs:element name="SystemSoftware" type="r:SoftwareType">
+	             <xs:annotation>
+	                 <xs:documentation>Specification of the software used by the proprietary system.</xs:documentation>
+	             </xs:annotation>
+	         </xs:element>
 </xs:schema>

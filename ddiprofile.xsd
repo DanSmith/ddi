@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
+Copyright (c) 2013 DDI Alliance, DDI 3.2elopment release, 2013-09-01
 
-This file is part of DDI 3.2 dev XML Schema.
+This file is part of DDI 3.2 XML Schema.
 
-DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:ddiprofile:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" targetNamespace="ddi:ddiprofile:3_2_dev" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:ddiprofile:3_2" xmlns:r="ddi:reusable:3_2" targetNamespace="ddi:ddiprofile:3_2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
    <xs:element name="DDIProfile" type="DDIProfileType">
       <xs:annotation>
          <xs:documentation>Describes the subset of valid DDI objects used by an agency for a specified purpose. </xs:documentation>

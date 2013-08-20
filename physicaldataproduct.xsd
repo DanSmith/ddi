@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
+Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
 
-This file is part of DDI 3.2 dev XML Schema.
+This file is part of DDI 3.2 XML Schema.
 
-DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" xmlns:ds="ddi:dataset:3_2_dev" targetNamespace="ddi:physicaldataproduct:3_2_dev" elementFormDefault="qualified">
-   <xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct:3_2" xmlns:r="ddi:reusable:3_2" xmlns:ds="ddi:dataset:3_2" targetNamespace="ddi:physicaldataproduct:3_2" elementFormDefault="qualified">
+   <xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
    <!-- PHYSICAL DATA PRODUCT -->
    <xs:element name="PhysicalDataProduct" type="PhysicalDataProductType">
       <xs:annotation>
-         <xs:documentation>A module describing the physical storage structures of data files and the relationship of their internal objects to the logical (intellectual) description of the objects found in LogicalProduct.</xs:documentation>
+         <xs:documentation>A module describing the physical storage structures of data files and the relationship of their internal objects to the logical (intellectual) description of the objects found in LogicalProduct. This describes the physical aspects of data files which may be common between one or more data files as described by physical structure of the file and the structure of data items within a record. The PhysicalDataProduct contains the critical links between the physical data store identified by a PhysicalInstance and the logical (intellectual) description of the data as found in the LogicalProduct.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="PhysicalDataProductType">
       <xs:annotation>
-         <xs:documentation>A module describing the physical storage structures of data files and the relationship of their internal objects to the logical (intellectual) description of the objects found in LogicalProduct. In addition to the standard name, label, and description, the module allows for OtherMaterial, and descriptions of PhysicalStructureSchemes and RecordLayoutSchemes in-line or by reference.</xs:documentation>
+         <xs:documentation>A module describing the physical storage structures of data files and the relationship of their internal objects to the logical (intellectual) description of the objects found in LogicalProduct. This describes the physical aspects of data files which may be common between one or more data files as described by physical structure of the file and the structure of data items within a record. The PhysicalDataProduct contains the critical links between the physical data store identified by a PhysicalInstance and the logical (intellectual) description of the data as found in the LogicalProduct. In addition to the standard name, label, and description, the module allows for OtherMaterial, and descriptions of PhysicalStructureSchemes and RecordLayoutSchemes in-line or by reference.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:MaintainableType">
@@ -141,7 +141,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:complexType>
    <xs:element name="PhysicalStructureGroupReference" type="r:ReferenceType">
       <xs:annotation>
-         <xs:documentation>Reference to an existing PhysicalStructureGroup using the Reference structure.</xs:documentation>
+         <xs:documentation>Reference to an existing PhysicalStructureGroup using the Reference structure. TypeOfObject should be set to PhysicalStructureGroup.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="PhysicalStructureSchemeName" type="r:NameType">
@@ -222,16 +222,26 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
                         <xs:documentation>A description of the PhysicalStructureGroup. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
                      </xs:annotation>
                   </xs:element>
-                  <xs:element ref="r:UniverseReference" minOccurs="0" maxOccurs="unbounded">
-                     <xs:annotation>
-                        <xs:documentation>Reference to the universe statement describing the persons or other elements that the data refer to, and to which any analytic results refer.</xs:documentation>
-                     </xs:annotation>
-                  </xs:element>
-                  <xs:element ref="r:ConceptReference" minOccurs="0">
-                     <xs:annotation>
-                        <xs:documentation>Reference to the concept represented by the physical structure in this group.</xs:documentation>
-                     </xs:annotation>
-                  </xs:element>
+		<xs:element ref="r:UniverseReference" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation>Reference to the universe statement describing the persons or other objects to which the contents of this group pertain.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element ref="r:ConceptReference" minOccurs="0">
+			<xs:annotation>
+				<xs:documentation>Reference to the concept expressed by the objects in this group.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element ref="r:Subject" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				 <xs:documentation>If subjects are listed for this group, it is strongly recommended that the subjects listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of subject at the group level allows for associating objects as a type of subject based group or to identify subject characteristics of a reusable group of objects.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:element ref="r:Keyword" minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				  <xs:documentation>If keywords are listed for this group, it is strongly recommended that the keywords listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of keyword at the group level allows for associating objects as a type of keyword based group or to identify keyword characteristics of a reusable group of objects.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
    			   <xs:choice minOccurs="0" maxOccurs="unbounded">
                   <xs:element ref="PhysicalStructureReference">
                      <xs:annotation>
@@ -332,7 +342,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:element>
    <xs:element name="RecordLayoutGroupReference" type="r:ReferenceType">
         <xs:annotation>
-            <xs:documentation>Reference to an existing RecordLayoutGroup using the Reference structure.</xs:documentation>
+            <xs:documentation>Reference to an existing RecordLayoutGroup using the Reference structure. TypeOfObject should be set to RecordLayoutGroup.</xs:documentation>
         </xs:annotation>
    </xs:element>
    <xs:element name="RecordLayoutGroupName" type="r:NameType">
@@ -377,6 +387,16 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
                            <xs:documentation>Reference to the concept represented by the record layout in this group.</xs:documentation>
                         </xs:annotation>
                      </xs:element>
+			<xs:element ref="r:Subject" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+				     	<xs:documentation>If subjects are listed for this group, it is strongly recommended that the subjects listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of subject at the group level allows for associating objects as a type of subject based group or to identify subject characteristics of a reusable group of objects.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Keyword" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+				     	<xs:documentation>If keywords are listed for this group, it is strongly recommended that the keywords listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of keyword at the group level allows for associating objects as a type of keyword based group or to identify keyword characteristics of a reusable group of objects.</xs:documentation>
+				 </xs:annotation>
+			</xs:element>
       			   <xs:choice minOccurs="0" maxOccurs="unbounded">
                      <xs:element ref="r:RecordLayoutReference">
                         <xs:annotation>
@@ -456,18 +476,28 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
          			<xs:documentation>Reference to the PhysicalStructure and the PhysicalSegment used by this Record Layout. </xs:documentation>
       			</xs:annotation>
 		</xs:element>
+		<xs:element ref="EndOfLineMarker" minOccurs="0">
+			<xs:annotation>
+				<xs:documentation>Specifies the end-of-line (EOL) marker used in the file as produced. If no value is provided assume the use of a CRLF (carriage return and line feed). This is the common EOL for PC's. The common EOL in a Unix environment is LF. Some systems will automatically translate EOLs when a file is moved across systems. Common EOLs include: CR (carriage return), LF (line feed), CRLF, NEL (next line), VT (vertical tab), FF (form feed), LS (line separator) and PS (paragraph separator). See Part I documentation for more detailed information. This object supports the use of a controlled vocabulary. Use of a common controlled vocabulary is strongly recommended.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
             </xs:sequence>
+		<xs:attribute name="textQualifier" type="TextQualifierType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Use for delimited files to designate the which text qualifier, if any, was used. Valid values include: singleQuote, doubleQuote, and none. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
         </xs:extension>
     </xs:complexContent>
    </xs:complexType>
    <xs:element name="PhysicalStructureLinkReference" type="PhysicalStructureLinkReferenceType">
      <xs:annotation>
-     <xs:documentation>References a PhysicalStructure description and the ID of the physical record segment from that is described by this record layout.</xs:documentation>
+     <xs:documentation>References a PhysicalStructure description and the ID of the physical record segment from that is described by this record layout. TypeOfObject should be set to PhysicalStructure.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="PhysicalStructureLinkReferenceType">
       <xs:annotation>
-     <xs:documentation>References a PhysicalStructure description and the ID of the physical record segment from that is described by this record layout.</xs:documentation>
+     <xs:documentation>References a PhysicalStructure description and the ID of the physical record segment from that is described by this record layout. TypeOfObject should be set to PhysicalStructure.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
      <xs:extension base="r:ReferenceType">
@@ -484,7 +514,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
    
 <xs:element name="PhysicalStructureReference" type="r:ReferenceType">
      <xs:annotation>
-         <xs:documentation>Reference to an existing PhysicalStructure using the Reference structure.</xs:documentation>
+         <xs:documentation>Reference to an existing PhysicalStructure using the Reference structure. TypeOfObject should be set to PhysicalStructure.</xs:documentation>
      </xs:annotation>
  </xs:element>   
    <!-- COMMON RECORD LAYOUT - NON-NCUBE -->
@@ -564,7 +594,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:complexType>
    <xs:complexType name="KeyVariableReferenceType">
       <xs:annotation>
-         <xs:documentation>Reference to the Unique key variable for segment identification and the value it contains for the specific segment.</xs:documentation>
+         <xs:documentation>Reference to the Unique key variable for segment identification and the value it contains for the specific segment. TypeOfObject should be set to Variable.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="r:ReferenceType">
@@ -605,11 +635,11 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:documentation>An explicit definition of the data storage format. This field is necessary in the case of some numeric data formats where the format definition would allow real values, but the values are integer values. Supports the use of an external controlled vocabulary. Use of a controlled vocabulary is strongly recommended.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element name="Delimiter" type="xs:string" minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>Delimiter definition for delimited (free field) data that is applied to the majority of the data items reducing the amount of repetitive markup required. Overrides any default value provided for the record or file. Allowed values are: Empty (default), Tab, Blank, AnyString. If a delimiter is used, free field (delimited data) is assumed; binary formats are not allowed.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
+         <xs:element ref="Delimiter" minOccurs="0">
+		<xs:annotation>
+			<xs:documentation>Defines the delimiter used to separate variables in a delimited record. The attribute treatConsecutiveDelimiterAsOne indicates how consecutive delimiters should be handed by the software.</xs:documentation>
+		</xs:annotation>
+	</xs:element>	
          <xs:sequence>
             <xs:element name="StartPosition" type="xs:integer" minOccurs="0">
                <xs:annotation>
@@ -702,12 +732,12 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:element>
    <xs:element name="KeyVariableReference" type="KeyVariableReferenceType">
       <xs:annotation>
-         <xs:documentation>Reference to the Unique key variable for segment identification and the value it contains for the specific segment.</xs:documentation>
+         <xs:documentation>Reference to the Unique key variable for segment identification and the value it contains for the specific segment. TypeOfObject should be set to Variable.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="LogicalRecordReference" type="r:ReferenceType">
       <xs:annotation>
-         <xs:documentation>Reference to an existing LogicalRecord using the Reference structure.</xs:documentation>
+         <xs:documentation>Reference to an existing LogicalRecord using the Reference structure. TypeOfObject should be set to LogicalRecord.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="FileFormat" type="r:CodeValueType">
@@ -715,4 +745,36 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
        <xs:documentation>A brief textual description or classification of the format of the file. Supports the use of an external controlled vocabulary. DDI recommends the use of a controlled vocabulary.</xs:documentation>
      </xs:annotation>
    </xs:element>
+	<xs:element name="Delimiter" type="r:DelimiterType">
+		<xs:annotation>
+			<xs:documentation>Defines the delimiter used to separate variables in a delimited record. The attribute treatConsecutiveDelimiterAsOne indicates how consecutive delimiters should be handed by the software.</xs:documentation>
+		</xs:annotation>
+	</xs:element>	
+	<xs:element name="EndOfLineMarker" type="r:CodeValueType">
+		<xs:annotation>
+			<xs:documentation>Specifies the end-of-line (EOL) marker used in the file as produced. If no value is provided assume the use of a CRLF (carriage return and line feed). This is the common EOL for PC's. The common EOL in a Unix environment is LF. Some systems will automatically translate EOLs when a file is moved across systems. Common EOLs include: CR (carriage return), LF (line feed), CRLF, NEL (next line), VT (vertical tab), FF (form feed), LS (line separator) and PS (paragraph separator). See Part I documentation for more detailed information. This object supports the use of a controlled vocabulary. Use of a common controlled vocabulary is strongly recommended.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="TextQualifierType">
+		<xs:annotation>
+			<xs:documentation>Use for delimited files to designate the which text qualifier, if any, was used. Valid values include: singleQuote, doubleQuote, and none. </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="singleQuote">
+			<xs:annotation>
+					<xs:documentation>Text strings are identified by the use of a single quote (') at each end of the string.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="doubleQuote">
+				<xs:annotation>
+					<xs:documentation>Text strings are identified by the use of a double quote (") at each end of the string.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+				<xs:enumeration value="none">
+				<xs:annotation>
+					<xs:documentation>Text strings are not identified as such.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

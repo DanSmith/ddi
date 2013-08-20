@@ -1,56 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
+Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
 
-This file is part of DDI 3.2 dev XML Schema.
+This file is part of DDI 3.2 XML Schema.
 
-DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:instance:3_2_dev" xmlns:a="ddi:archive:3_2_dev" xmlns:cm="ddi:comparative:3_2_dev" xmlns:c="ddi:conceptualcomponent:3_2_dev" xmlns:d="ddi:datacollection:3_2_dev" xmlns:ds="ddi:dataset:3_2_dev" xmlns:dc="http://purl.org/dc/terms/" xmlns:pr="ddi:ddiprofile:3_2_dev" xmlns:g="ddi:group:3_2_dev" xmlns:m3="ddi:physicaldataproduct_ncube_inline:3_2_dev" xmlns:l="ddi:logicalproduct:3_2_dev" xmlns:m1="ddi:physicaldataproduct_ncube_normal:3_2_dev" xmlns:p="ddi:physicaldataproduct:3_2_dev" xmlns:pi="ddi:physicalinstance:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" xmlns:s="ddi:studyunit:3_2_dev" xmlns:m2="ddi:physicaldataproduct_ncube_tabular:3_2_dev" xmlns:m4="ddi:physicaldataproduct_proprietary:3_2_dev" targetNamespace="ddi:instance:3_2_dev" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<!--
+Documentation of the DDI specification is provided in three ways:
+
+Field Level Documentation
+AUDIENCE: Developers, database developers, mappings, base level for content providers (what an object is in relation to parent and child elements)
+This documentation is found within the DDI Schemas and displayed in the HTML documentation. It provides a brief description of the purpose and content of the object. Documentation found in the complex Type description will provide more detail than the element documentation. Within a complex type, the additional documentation of sub-elements will focus on its purpose within the context of the complex type. 
+
+Part I - Technical Documentation and Overview
+AUDIENCE: Developers, integrated usage and applications for content providers
+Organized by related sets of objects, e.g. Question Item, Question Grid, and Question Block, this documentation provides details of the structure and its intended application. Each set contains examples of usage. It contains information on the relationship of DDI to other standards, common XML structures used by DDI, design and consistency rules, description of major structural types (modules and schemes), technical features for identification and reference, basic types for dates and strings, and all major complex elements. The complex element content is organized alphabetically by set and an index is provided for all elements. This documentation also contains lists of: 3.1 to 3.2 changes, all unique element and attribute names, and elements by extension base (Identifiable, Versionable, Maintainable, Reference, CodeValue, etc.).
+
+Part II - User Guide
+AUDIENCE: Content providers, those focusing on specific applied uses of DDI
+Provides instructions for navigating the HTML Field Level Documentation and reviews basic structural features focusing on their usage, such as exchange structures, organizing publication package content, managing data over time, common structure like strings, controlled vocabularies, dates, citation and coverage, notes and other material. This general section is followed by a set of user stories (applying DDI). The focus is on how the parts of DDI work together to describe the metadata and data for particular functions such as documenting a longitudinal study or developing a questionnaire. Wherever appropriate, Part I will reference the more detailed technical documentation in Part I.
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:instance:3_2" xmlns:a="ddi:archive:3_2" xmlns:cm="ddi:comparative:3_2" xmlns:c="ddi:conceptualcomponent:3_2" xmlns:d="ddi:datacollection:3_2" xmlns:ds="ddi:dataset:3_2" xmlns:dc="http://purl.org/dc/terms/" xmlns:pr="ddi:ddiprofile:3_2" xmlns:g="ddi:group:3_2" xmlns:m3="ddi:physicaldataproduct_ncube_inline:3_2" xmlns:l="ddi:logicalproduct:3_2" xmlns:m1="ddi:physicaldataproduct_ncube_normal:3_2" xmlns:p="ddi:physicaldataproduct:3_2" xmlns:pi="ddi:physicalinstance:3_2" xmlns:r="ddi:reusable:3_2" xmlns:s="ddi:studyunit:3_2" xmlns:m2="ddi:physicaldataproduct_ncube_tabular:3_2" xmlns:m4="ddi:physicaldataproduct_proprietary:3_2" targetNamespace="ddi:instance:3_2" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
-	<xs:import namespace="ddi:archive:3_2_dev" schemaLocation="archive.xsd"/>
-	<xs:import namespace="ddi:comparative:3_2_dev" schemaLocation="comparative.xsd"/>
-	<xs:import namespace="ddi:conceptualcomponent:3_2_dev" schemaLocation="conceptualcomponent.xsd"/>
-	<xs:import namespace="ddi:datacollection:3_2_dev" schemaLocation="datacollection.xsd"/>
-	<xs:import namespace="ddi:dataset:3_2_dev" schemaLocation="dataset.xsd"/>
+	<xs:import namespace="ddi:archive:3_2" schemaLocation="archive.xsd"/>
+	<xs:import namespace="ddi:comparative:3_2" schemaLocation="comparative.xsd"/>
+	<xs:import namespace="ddi:conceptualcomponent:3_2" schemaLocation="conceptualcomponent.xsd"/>
+	<xs:import namespace="ddi:datacollection:3_2" schemaLocation="datacollection.xsd"/>
+	<xs:import namespace="ddi:dataset:3_2" schemaLocation="dataset.xsd"/>
 	<xs:import namespace="http://purl.org/dc/terms/" schemaLocation="dcterms.xsd"/>
-	<xs:import namespace="ddi:ddiprofile:3_2_dev" schemaLocation="ddiprofile.xsd"/>
-	<xs:import namespace="ddi:group:3_2_dev" schemaLocation="group.xsd"/>
-	<xs:import namespace="ddi:logicalproduct:3_2_dev" schemaLocation="logicalproduct.xsd"/>
-	<xs:import namespace="ddi:physicaldataproduct:3_2_dev" schemaLocation="physicaldataproduct.xsd"/>
-	<xs:import namespace="ddi:physicaldataproduct_ncube_inline:3_2_dev" schemaLocation="physicaldataproduct_ncube_inline.xsd"/>
-	<xs:import namespace="ddi:physicaldataproduct_ncube_normal:3_2_dev" schemaLocation="physicaldataproduct_ncube_normal.xsd"/>
-	<xs:import namespace="ddi:physicaldataproduct_ncube_tabular:3_2_dev" schemaLocation="physicaldataproduct_ncube_tabular.xsd"/>
-	<xs:import namespace="ddi:physicaldataproduct_proprietary:3_2_dev" schemaLocation="physicaldataproduct_proprietary.xsd"/>
-	<xs:import namespace="ddi:physicalinstance:3_2_dev" schemaLocation="physicalinstance.xsd"/>
-	<xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
-	<xs:import namespace="ddi:studyunit:3_2_dev" schemaLocation="studyunit.xsd"/>
+	<xs:import namespace="ddi:ddiprofile:3_2" schemaLocation="ddiprofile.xsd"/>
+	<xs:import namespace="ddi:group:3_2" schemaLocation="group.xsd"/>
+	<xs:import namespace="ddi:logicalproduct:3_2" schemaLocation="logicalproduct.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct:3_2" schemaLocation="physicaldataproduct.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct_ncube_inline:3_2" schemaLocation="physicaldataproduct_ncube_inline.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct_ncube_normal:3_2" schemaLocation="physicaldataproduct_ncube_normal.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct_ncube_tabular:3_2" schemaLocation="physicaldataproduct_ncube_tabular.xsd"/>
+	<xs:import namespace="ddi:physicaldataproduct_proprietary:3_2" schemaLocation="physicaldataproduct_proprietary.xsd"/>
+	<xs:import namespace="ddi:physicalinstance:3_2" schemaLocation="physicalinstance.xsd"/>
+	<xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
+	<xs:import namespace="ddi:studyunit:3_2" schemaLocation="studyunit.xsd"/>
 	<xs:element name="DDIInstance" type="DDIInstanceType">
 		<xs:annotation>
-			<xs:documentation>DDIInstance is the top-level publication wrapper for any DDI document. All DDI content published as XML (with the exception of a Fragment intended for transmission) had DDIInstance as its top level structure. </xs:documentation>
+			<xs:documentation>DDIInstance is the top-level publication wrapper for any DDI document. All DDI content published as XML (with the exception of a Fragment intended for transmission) has DDIInstance as its top level structure. In addition to a citation and coverage statement for the instance, the DDIInstance can contain a Group, ResourcePackage, LocalHoldingPackeage or StudyUnit.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="FragmentInstance" type="FragmentInstanceType">
 		<xs:annotation>
-			<xs:documentation>A Fragment Instance can be used to transfer maintainable or versionable objects plus any associated notes and other material. </xs:documentation>
+			<xs:documentation>A Fragment Instance is used to transfer maintainable or versionable objects plus any associated notes and other material in response to a query. TopLevelReference provides a record of the reference(s) (from the query) to which the FragmentInstance is responding. The contents of the maintainable and versionable objects are transported as ddi:Fragment entries.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:complexType name="DDIInstanceType">
 		<xs:annotation>
-			<xs:documentation>DDIInstance is the top-level publication wrapper for any DDI document. All DDI content published as XML (with the exception of a Fragment intended for transmission) had DDIInstance as its top level structure. In addition to a citation and coverage statement for the instance, the DDIInstance can contain a Group, ResourcePackage, LocalHoldingPackeage or StudyUnit. Additional OtherMaterial content may be added but in general OtherMaterial should be listed in the maintainable object containing the objects the OtherMaterial is related to. The instance can provide an applicable DDIProfile either in-line or by reference and can contain overall translation information. </xs:documentation>
+			<xs:documentation>DDIInstance is the top-level publication wrapper for any DDI document. All DDI content published as XML (with the exception of a Fragment intended for transmission) has DDIInstance as its top level structure. In addition to a citation and coverage statement for the instance, the DDIInstance can contain a Group, ResourcePackage, LocalHoldingPackeage or StudyUnit. Additional OtherMaterial content may be added but in general OtherMaterial should be listed in the maintainable object containing the objects the OtherMaterial is related to. The instance can provide an applicable DDIProfile either in-line or by reference and can contain overall translation information. </xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="r:MaintainableType">
@@ -65,26 +81,54 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 							<xs:documentation>This element contains descriptions of temporal, geographic and topical coverage. At the instance level these descriptions should be inclusive of the coverage of all modules in the instance. The element is available within individual modules and can be used to refine the coverage to that of the individual module.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ref="g:Group" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>A publication of a Group of StudyUnits.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="g:ResourcePackage" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>A publication of a set of maintainables (modules or schemes) intended for reuse between studies.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="g:LocalHoldingPackage" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>A publication package containing a deposited publication as well as local value added or processing information.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="s:StudyUnit" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>A publication of a study unit representing the purpose, background, development, data capture, and data products related to a study.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
+					<xs:choice  minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="g:Group">
+							<xs:annotation>
+								<xs:documentation>A publication of a Group of StudyUnits in-line.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="r:GroupReference">
+							<xs:annotation>
+								<xs:documentation>A publication of a Group of StudyUnits by reference. TypeOfObject should be set to Group.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:choice  minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="g:ResourcePackage">
+							<xs:annotation>
+								<xs:documentation>A publication of a set of maintainables (modules or schemes) intended for reuse between studies in-line.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="r:ResourcePackageReference">
+							<xs:annotation>
+								<xs:documentation>A publication of a set of maintainables (modules or schemes) intended for reuse between studies by reference. TypeOfObject should be set to ResourcePackage.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:choice  minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="g:LocalHoldingPackage">
+							<xs:annotation>
+								<xs:documentation>A publication package containing a deposited publication as well as local value added or processing information in-line.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="r:LocalHoldingPackageReference">
+							<xs:annotation>
+								<xs:documentation>A publication package containing a deposited publication as well as local value added or processing information by reference. TypeOfObject should be set to LocalHoldingPackage.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:choice  minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="s:StudyUnit">
+							<xs:annotation>
+								<xs:documentation>A publication of a study unit representing the purpose, background, development, data capture, and data products related to a study in-line.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="r:StudyUnitReference">
+							<xs:annotation>
+								<xs:documentation>A publication of a study unit representing the purpose, background, development, data capture, and data products related to a study by reference. TypeOfObject should be set to StudyUnit.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
 					<xs:element ref="r:OtherMaterial" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>External materials related to the DDI Instance that have not been included in any maintainables contained within the instance.</xs:documentation>
@@ -113,28 +157,24 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:complexType>
 	<xs:complexType name="FragmentInstanceType">
 	  <xs:annotation>
-	    <xs:documentation>A Fragment Instance can be used to transfer maintainable or versionable objects plus any associated notes and other material. TopLevelReference provides a record of the reference(s) to which the FragmentInstance is responding. The contents of the maintainable and versionable objects are transported as ddi:Fragment entries. Child items, which are items included in the top level items by reference, may be provided as additional ddi:Fragment entries depending on the desired resolution depth. Be aware that within the DDI model all versionables must provide contextual information on the maintainable parent. When creating your web services you must be able to provide contextual information on the maintainable parent of a versionable object. The identification and reference structure provides the MaintainableObject structure to use in capturing this information if it is not provided by the URN structure of the versionable object.</xs:documentation>
+	    <xs:documentation>A Fragment Instance is used to transfer maintainable or versionable objects plus any associated notes and other material in response to a query. TopLevelReference provides a record of the reference(s) (from the query) to which the FragmentInstance is responding. The contents of the maintainable and versionable objects are transported as ddi:Fragment entries. Child items, which are items included in the top level items by reference, may be provided as additional ddi:Fragment entries depending on the desired resolution depth. Be aware that within the DDI model all versionables must provide contextual information on the maintainable parent. When creating your web services you must be able to provide contextual information on the maintainable parent of a versionable object. The identification and reference structure provides the MaintainableObject structure to use in capturing this information if it is not provided by the URN structure of the versionable object.</xs:documentation>
 	  </xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="r:MaintainableType">
-				<xs:sequence>
-	    				<xs:element ref="TopLevelReference" minOccurs="0" maxOccurs="unbounded">
-	  					<xs:annotation>
-	    						<xs:documentation>TopLevelReference is used to denote which items in the Fragment Instance are the specific results of a query or process expressed as references. (A record of the request)</xs:documentation>
-	  					</xs:annotation>
-	   				 </xs:element>	
-	   				 <xs:element ref="Fragment" minOccurs="0" maxOccurs="unbounded">	    
-	  					<xs:annotation>
-	    						<xs:documentation>A Fragment is a means of transporting a maintainable or versionable object plus any associated notes and other material. This item is repeated for each object included in the FragmentInstance. At minimum it should include the objects identified in TopLevelReference. Fragments for child objects of the items identified by a TopLevelReference may also be included. For a versionable object this requires information on the identification of its parent maintainable. This is considered to be administrative metadata and the addition of this metadata to an object does not cause it to version. The list of maintainables and versionables may occur in any order followed by associated notes and OtherMaterial.</xs:documentation>
-	  					</xs:annotation>
-	 				 </xs:element>	
-	 			</xs:sequence>
-	 		</xs:extension>
-	 	</xs:complexContent>	
+		<xs:sequence>
+	    		<xs:element ref="TopLevelReference" minOccurs="0" maxOccurs="unbounded">
+	  			<xs:annotation>
+					<xs:documentation>TopLevelReference is used to denote which items in the Fragment Instance are the specific results of a query or process. For example, if a user queries for a Variable, the response may include several items in the returned FragmentInstance: the Variable, several related Concepts, CodeLists, Questions, or other referenced items. In order to clarify which item is the main item in response to a query, a reference to that item can be specified as a TopLevelReference. Note that if a Identifiable object is being resolved, the query will be to the parent Versionable or Maintainable.</xs:documentation>
+	  			</xs:annotation>
+	   		 </xs:element>	
+	   		 <xs:element ref="Fragment" minOccurs="0" maxOccurs="unbounded">	    
+	  			<xs:annotation>
+	    				<xs:documentation>A Fragment is a means of transporting a maintainable or versionable object plus any associated notes and other material. This item is repeated for each object included in the FragmentInstance. At minimum it should include the objects identified in TopLevelReference. Fragments for child objects of the items identified by a TopLevelReference may also be included. For a versionable object this requires information on the identification of its parent maintainable. This is considered to be administrative metadata and the addition of this metadata to an object does not cause it to version. The list of maintainables and versionables may occur in any order followed by associated notes and OtherMaterial.</xs:documentation>
+	  			</xs:annotation>
+	 		 </xs:element>	
+	 	</xs:sequence>
 	</xs:complexType>  
 	<xs:element name="TopLevelReference" type="r:ReferenceType">
 		<xs:annotation>
-			<xs:documentation>Reference to any versionable or maintainable object using the Reference structure.</xs:documentation>
+			<xs:documentation>TopLevelReference is used to denote which items in the Fragment Instance are the specific results of a query or process. For example, if a user queries for a Variable, the response may include several items in the returned FragmentInstance: the Variable, several related Concepts, CodeLists, Questions, or other referenced items. In order to clarify which item is the main item in response to a query, a reference to that item can be specified as a TopLevelReference. Note that if a Identifiable object is being resolved, the query will be to the parent Versionable or Maintainable. TypeOfObject should be set to any Versionable or Maintainable object.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="Fragment" type="FragmentType">
@@ -150,39 +190,27 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	    <xs:choice>
               <!-- Maintainables -->
 	      <xs:element ref="a:Archive"/>
-	      <xs:element ref="r:CategoryDelineationScheme"/>
+	      <xs:element ref="l:BaseLogicalProduct"/>
 	      <xs:element ref="l:CategoryScheme"/>
-	      <xs:element ref="r:CodeDelineationScheme"/>
 	      <xs:element ref="l:CodeList"/>
 	      <xs:element ref="l:CodeListScheme"/>
 	      <xs:element ref="cm:Comparison"/>
 	      <xs:element ref="c:ConceptScheme"/>
-	      <xs:element ref="c:ConceptualComponent"/>
+	      <xs:element ref="c:ConceptualVariableScheme"/>
 	      <xs:element ref="d:ControlConstructScheme"/>
 	      <xs:element ref="d:DataCollection"/>
-	      <xs:element ref="c:DataElementScheme"/>
-	      <xs:element ref="r:DateTimeDelineationScheme"/>
 	      <xs:element ref="DDIInstance"/>
 	      <xs:element ref="pr:DDIProfile"/>
-	      <xs:element ref="r:DistributionDelineationScheme"/>
-	      <xs:element ref="r:GeographicDelineationScheme"/>
-	      <xs:element ref="r:GeographicLocationCodeDelineationScheme"/>
 	      <xs:element ref="c:GeographicLocationScheme"/>
-	      <xs:element ref="r:GeographicStructureCodeDelineationScheme"/>
 	      <xs:element ref="c:GeographicStructureScheme"/>
 	      <xs:element ref="g:Group"/>
 	      <xs:element ref="d:InstrumentScheme"/>
 	      <xs:element ref="d:InterviewerInstructionScheme"/>
-	      <xs:element ref="g:LocalHoldingPackage"/>
 	      <xs:element ref="g:LocalGroupContent"/>
+	      <xs:element ref="g:LocalHoldingPackage"/>
 	      <xs:element ref="g:LocalResourcePackageContent"/>
-	      <xs:element ref="g:LocalStudyUnitContent"/>
-	      <xs:element ref="r:LocationDelineationScheme"/>
-	      <xs:element ref="l:LogicalProduct"/>
-	      <xs:element ref="r:MissingValuesDelineationScheme"/>
+	      <xs:element ref="r:ManagedRepresentationScheme"/>
 	      <xs:element ref="l:NCubeScheme"/>
-	      <xs:element ref="r:NominalDelineationScheme"/>
-	      <xs:element ref="r:NumericDelineationScheme"/>
 	      <xs:element ref="a:OrganizationScheme"/>
 	      <xs:element ref="p:PhysicalDataProduct"/>
 	      <xs:element ref="pi:PhysicalInstance"/>
@@ -191,103 +219,88 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	      <xs:element ref="d:ProcessingInstructionScheme"/>
 	      <xs:element ref="r:QualityStatementScheme"/>
 	      <xs:element ref="d:QuestionScheme"/>
-	      <xs:element ref="r:RankingDelineationScheme"/>
 	      <xs:element ref="p:RecordLayoutScheme"/>
+	      <xs:element ref="l:RepresentedVariableScheme"/>
 	      <xs:element ref="g:ResourcePackage"/>
-	      <xs:element ref="r:ScaleDelineationScheme"/>
 	      <xs:element ref="s:StudyUnit"/>
-	      <xs:element ref="r:TextDelineationScheme"/>
 	      <xs:element ref="c:UniverseScheme"/>
 	      <xs:element ref="l:VariableScheme"/>
               <!-- Versionables -->
 	      <xs:element ref="l:Category"/>
-	      <xs:element ref="r:CategoryDelineation"/>
-	      <xs:element ref="r:CategoryDelineationGroup"/>
 	      <xs:element ref="l:CategoryGroup"/>
 	      <xs:element ref="cm:CategoryMap"/>
-	      <xs:element ref="r:CodeDelineation"/>
-	      <xs:element ref="r:CodeDelineationGroup"/>
 	      <xs:element ref="l:CodeListGroup"/>
-	      <xs:element ref="cm:CodeMap"/>
 	      <xs:element ref="d:ComputationItem"/>
 	      <xs:element ref="c:Concept"/>
 	      <xs:element ref="c:ConceptGroup"/>
 	      <xs:element ref="cm:ConceptMap"/>
-	      <xs:element ref="c:DataElement"/>
-	      <xs:element ref="c:DataElementConcept"/>
+	      <xs:element ref="c:ConceptualVariable"/>
+	      <xs:element ref="c:ConceptualVariableGroup"/>
+	      <xs:element ref="d:ControlConstructGroup"/>
 	      <xs:element ref="l:DataRelationship"/>
 	      <xs:element ref="ds:DataSet"/>
-	      <xs:element ref="r:DateTimeDelineation"/>
-	      <xs:element ref="r:DateTimeDelineationGroup"/>
-	      <xs:element ref="r:DistributionDelineation"/>
-	      <xs:element ref="r:DistributionDelineationGroup"/>
 	      <xs:element ref="d:GeneralInstruction"/>
 	      <xs:element ref="d:GenerationInstruction"/>
-	      <xs:element ref="r:GeographicDelineation"/>
-	      <xs:element ref="r:GeographicDelineationGroup"/>
 	      <xs:element ref="r:GeographicLocation"/>
-	      <xs:element ref="r:GeographicLocationCodeDelineation"/>
-	      <xs:element ref="r:GeographicLocationCodeDelineationGroup"/>
+	      <xs:element ref="c:GeographicLocationGroup"/>
 	      <xs:element ref="r:GeographicStructure"/>
-	      <xs:element ref="r:GeographicStructureCodeDelineation"/>
-	      <xs:element ref="r:GeographicStructureCodeDelineationGroup"/>
+	      <xs:element ref="c:GeographicStructureGroup"/>
 	      <xs:element ref="d:IfThenElse"/>
 	      <xs:element ref="a:Individual"/>
 	      <xs:element ref="d:Instruction"/>
+	      <xs:element ref="d:InstructionGroup"/>
 	      <xs:element ref="d:Instrument"/>
 	      <xs:element ref="d:InstrumentGroup"/>
-	      <xs:element ref="r:LocationDelineation"/>
-	      <xs:element ref="r:LocationDelineationGroup"/>
 	      <xs:element ref="d:Loop"/>
+	      <xs:element ref="r:ManagedDateTimeRepresentation"/>
+	      <xs:element ref="r:ManagedMissingValuesRepresentation"/>
+	      <xs:element ref="r:ManagedNumericRepresentation"/>
+	      <xs:element ref="r:ManagedRepresentationGroup"/>
+	      <xs:element ref="r:ManagedScaleRepresentation"/>
+	      <xs:element ref="r:ManagedTextRepresentation"/>
 	      <xs:element ref="d:Methodology"/>
-	      <xs:element ref="r:MissingValuesDelineation"/>
-	      <xs:element ref="r:MissingValuesDelineationGroup"/>
 	      <xs:element ref="l:NCube"/>
 	      <xs:element ref="l:NCubeGroup"/>
+	      <xs:element ref="m3:NCubeInstance"/>
 	      <xs:element ref="m1:NCubeInstance"/>
 	      <xs:element ref="m2:NCubeInstance"/>
-	      <xs:element ref="m3:NCubeInstance"/>
-	      <xs:element ref="r:NominalDelineation"/>
-	      <xs:element ref="r:NominalDelineationGroup"/>
-	      <xs:element ref="r:NumericDelineation"/>
-	      <xs:element ref="r:NumericDelineationGroup"/>
 	      <xs:element ref="a:Organization"/>
+	      <xs:element ref="a:OrganizationGroup"/>
 	      <xs:element ref="p:PhysicalStructure"/>
 	      <xs:element ref="p:PhysicalStructureGroup"/>
 	      <xs:element ref="d:ProcessingEvent"/>
 	      <xs:element ref="d:ProcessingEventGroup"/>
 	      <xs:element ref="d:ProcessingInstructionGroup"/>
 	      <xs:element ref="r:QualityStatement"/>
+	      <xs:element ref="r:QualityStatementGroup"/>
 	      <xs:element ref="d:QuestionBlock"/>
 	      <xs:element ref="d:QuestionConstruct"/>
 	      <xs:element ref="d:QuestionGrid"/>
 	      <xs:element ref="d:QuestionGroup"/>
 	      <xs:element ref="d:QuestionItem"/>
 	      <xs:element ref="cm:QuestionMap"/>
-	      <xs:element ref="r:RankingDelineation"/>
-	      <xs:element ref="r:RankingDelineationGroup"/>
+	      <xs:element ref="p:RecordLayout"/>
+	      <xs:element ref="m3:RecordLayout"/>
 	      <xs:element ref="m1:RecordLayout"/>
 	      <xs:element ref="m2:RecordLayout"/>
-	      <xs:element ref="m3:RecordLayout"/>
 	      <xs:element ref="m4:RecordLayout"/>
-	      <xs:element ref="p:RecordLayout"/>
 	      <xs:element ref="p:RecordLayoutGroup"/>
+	      <xs:element ref="a:Relation"/>
 	      <xs:element ref="d:RepeatUntil"/>
 	      <xs:element ref="d:RepeatWhile"/>
-	      <xs:element ref="r:ScaleDelineation"/>
-	      <xs:element ref="r:ScaleDelineationGroup"/>
+	      <xs:element ref="cm:RepresentationMap"/>
+	      <xs:element ref="l:RepresentedVariable"/>
+	      <xs:element ref="l:RepresentedVariableGroup"/>
 	      <xs:element ref="d:Sequence"/>
 	      <xs:element ref="d:StatementItem"/>
 	      <xs:element ref="g:SubGroup"/>
-	      <xs:element ref="c:SubUniverseGroup"/>
-	      <xs:element ref="r:TextDelineation"/>
-	      <xs:element ref="r:TextDelineationGroup"/>
+	      <xs:element ref="c:SubUniverseClass"/>
 	      <xs:element ref="c:Universe"/>
+	      <xs:element ref="c:UniverseGroup"/>
 	      <xs:element ref="cm:UniverseMap"/>
 	      <xs:element ref="l:Variable"/>
 	      <xs:element ref="l:VariableGroup"/>
 	      <xs:element ref="cm:VariableMap"/>
-	      <xs:element ref="pi:VariableStatistics"/>
 	      <xs:element ref="d:Weighting"/>
 	    </xs:choice>
 	    <xs:element ref="r:Note" minOccurs="0" maxOccurs="unbounded"> 

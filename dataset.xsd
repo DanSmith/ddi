@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
+Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
 
-This file is part of DDI 3.2 dev XML Schema.
+This file is part of DDI 3.2 XML Schema.
 
-DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:dataset:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" xmlns:p="ddi:physicaldataproduct:3_2_dev" targetNamespace="ddi:dataset:3_2_dev" elementFormDefault="qualified" attributeFormDefault="unqualified">
-   <xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_2_dev" schemaLocation="physicaldataproduct.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:dataset:3_2" xmlns:r="ddi:reusable:3_2" xmlns:p="ddi:physicaldataproduct:3_2" targetNamespace="ddi:dataset:3_2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+   <xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_2" schemaLocation="physicaldataproduct.xsd"/>
    <xs:element name="DataSet" type="DataSetType" substitutionGroup="p:BaseRecordLayout">
    		<xs:annotation>
-			<xs:documentation>DataSet is a substitution for a BaseRecordLayout and allows for inline inclusion of data in the metadata file.</xs:documentation>
+			<xs:documentation>DataSet is a substitution for a BaseRecordLayout and allows for in-line inclusion of micro or unit level data in the metadata file. Data may be organized as a Record Set, Item Set, or Variable Set.</xs:documentation>
 		</xs:annotation>
    </xs:element>
    <xs:complexType name="DataSetType">
    		<xs:annotation>
-			<xs:documentation>DataSet is a substitution for a BaseRecordLayout and allows for inline inclusion of data in the metadata file. This is valuable for small datasets. In addition to the PhysicalStructureReference the DataSet indicates the ArrayBase if applicable, a name for the DataSet, a reference to the default Variable Scheme used by the data set, a reference to an Identifiying Variable, and a choice of organization order for the data: RecordSet (describing records of data in the same variable order), ItemSet (describing individual items of a dataset in any order), or VariableSet (describing the values for a given variable in record order).</xs:documentation>
+			<xs:documentation>DataSet is a substitution for a BaseRecordLayout and allows for in-line inclusion of micro or unit level data in the metadata file. This is valuable for small datasets or cases where there is a need to combine the metadata and data within a single file. In addition to the PhysicalStructureReference the DataSet indicates the ArrayBase if applicable, a name for the DataSet, a reference to the default Variable Scheme used by the data set, a reference to an Identifying Variable (e.g. case number), and a choice of organization order for the data: Record Set, Item Set, or Variable Set. RecordSet describes records of data which contain the same variables in the same order, ItemSet describes individual items of a dataset in any order. VariableSet describes the values for a given variable in record order.</xs:documentation>
 		</xs:annotation>
       <xs:complexContent>
          <xs:extension base="p:BaseRecordLayoutType">
@@ -172,7 +172,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:element>
    <xs:element name="IdentifyingVariableReference" type="r:ReferenceType">
       <xs:annotation>
-         <xs:documentation>Reference to an existing Variable using the Reference structure.</xs:documentation>
+         <xs:documentation>Reference to an existing Variable using the Reference structure. TypeOfObject should be set to Variable.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="ItemSet" type="ItemSetType">

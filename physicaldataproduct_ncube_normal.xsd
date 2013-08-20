@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
+Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
 
-This file is part of DDI 3.2 dev XML Schema.
+This file is part of DDI 3.2 XML Schema.
 
-DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct_ncube_normal:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" xmlns:p="ddi:physicaldataproduct:3_2_dev" targetNamespace="ddi:physicaldataproduct_ncube_normal:3_2_dev" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicaldataproduct_ncube_normal:3_2" xmlns:r="ddi:reusable:3_2" xmlns:p="ddi:physicaldataproduct:3_2" targetNamespace="ddi:physicaldataproduct_ncube_normal:3_2" elementFormDefault="qualified">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
-   <xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
-   <xs:import namespace="ddi:physicaldataproduct:3_2_dev" schemaLocation="physicaldataproduct.xsd"/>
+   <xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
+   <xs:import namespace="ddi:physicaldataproduct:3_2" schemaLocation="physicaldataproduct.xsd"/>
 
    <!-- COMMON RECORD LAYOUT - CUBED - MODULE 1 -->
    <xs:element name="RecordLayout" type="RecordLayoutType" substitutionGroup="p:BaseRecordLayout">
       <xs:annotation>
-         <xs:documentation>A RecordLayout intended for use with archival formats of NCube Instances or mixed NCube and microdata held in an external file with fixed or delimited locations for data items arranged as one-dimensional rows.</xs:documentation>
+         <xs:documentation>A member of the BaseRecordLayout substitution group intended for use with archival formats of NCube Instances or mixed NCube and microdata (i.e., a set of NCubes where the case identification is not described as a dimension of the NCube) held in an external file with fixed or delimited locations for data items arranged as one-dimensional rows.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="RecordLayoutType">
       <xs:annotation>
-         <xs:documentation>A member of the BaseRecordLayout substitution group intended for use with archival formats of NCube Instances or mixed NCube and microdata held in an external file with fixed or delimited locations for data items arranged as one-dimensional rows. In addition to the link to the PhysicalStructure provided by BaseRecordLayout, the record layout is this namespace (m1) identifies the character set and array base for the stored data, a full description of any microdata (individual variable) structured data items, and a full description of each data item contained within an NCube Instance including a link to its description (matrix address) and its physical location in the record.</xs:documentation>
+         <xs:documentation>A member of the BaseRecordLayout substitution group intended for use with archival formats of NCube Instances or mixed NCube and microdata (i.e., a set of NCubes where the case identification is not described as a dimension of the NCube) held in an external file with fixed or delimited locations for data items arranged as one-dimensional rows. In addition to the link to the PhysicalStructure provided by BaseRecordLayout, the record layout is this namespace (m1) identifies the character set and array base for the stored data, a full description of any microdata (individual variable) structured data items, and a full description of each data item contained within an NCube Instance including a link to its description (matrix address) and its physical location in the record.</xs:documentation>
       </xs:annotation>
       <xs:complexContent>
          <xs:extension base="p:BaseRecordLayoutType">
@@ -53,11 +53,18 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
                      <xs:documentation>Use for variables that have content in the data file but are not part of an NCube structure, such as case identification variables, or situations where the primary record content is microdata but NCube structured data has been added (such as aggregated data on the City or State where the case is located). Includes a reference to a variable, and information about its data item location and its data type/format.</xs:documentation>
                   </xs:annotation>
                	  </xs:element>                   
-                  <xs:element ref="NCubeInstance" minOccurs="0" maxOccurs="unbounded">
-                  <xs:annotation>
-                     <xs:documentation>A container for defining an instance of an NCube, indicating the matrix address of each cell and where the data for each measure within a cell of the NCube is stored. Allows specifying the values of the attributes attached to a NCube.</xs:documentation>
-                  </xs:annotation>
-                  </xs:element>                   
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="NCubeInstance">
+				<xs:annotation>
+					<xs:documentation>A container for defining an instance of an NCube, indicating the matrix address of each cell and where the data for each measure within a cell of the NCube is stored. Allows specifying the values of the attributes attached to a NCube.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:NCubeInstanceReference">
+				<xs:annotation>
+					<xs:documentation>Reference to an NCubeInstance as expressed in a RecordLayout. TypeOfObject should be NCubeInstance. A container for defining an instance of an NCube, indicating the matrix address of each cell and where the data for each measure within a cell of the NCube is stored. Allows specifying the values of the attributes attached to a NCube.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
             </xs:sequence>
          </xs:extension>
       </xs:complexContent>
@@ -72,6 +79,11 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:element ref="r:NCubeReference">
                   <xs:annotation>
                      <xs:documentation>Reference to the logical NCube description.</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element ref="r:MeasureDimension" minOccurs="0">
+                  <xs:annotation>
+                     <xs:documentation>This element defines the structure of a measure dimension for the NCube Instance. A value along the MeasureDimension is defined by a stack of references to one or more MeasureDefinitions found in the logical description of the NCubean with each containing an attribute of orderValue which provides its value for use in the cell address (similar to the use of a CodeRepresentation of a Variable used as a conceptual dimension. This allows measures (whether one or several) to be handled in the same way as the conceptual dimension of the NCube in declaring a cell address. It is assumed that the value of the MeasureDimension is the last value in the address array. For example, for an NCube with 3 conceptual dimensions of rank 1 = Sex, rank 2 = Age, and rank 3 = Educational Attainment, plus a MeasureDimension. The cell address of 1,4,2,2 would indicate Code value of 1 for Sex, 4 for Age, 2 for Educational Attainment, and 2 for MeasureDimension. For systems translating to SDMX or an OLap structure DDI assumes that the MeasureDefinitionReference with the orderValue="1" is the equivalent of the PrimaryMeasure.</xs:documentation>
                   </xs:annotation>
                </xs:element>
                <xs:element ref="AttachedAttribute" minOccurs="0" maxOccurs="unbounded">
@@ -135,7 +147,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:element>
          <xs:element ref="Measure" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Identifies the specific measure of the cell by reference and provides information on the storage location of the value for the measure.</xs:documentation>
+               <xs:documentation>Identifies the specific measure of the cell by noting the order value of the measure within the MeasureDimension and provides information on the storage location of the cell value for the measure.</xs:documentation>
             </xs:annotation>
          </xs:element>
       </xs:sequence>
@@ -147,7 +159,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:complexType>
 <xs:element name="Measure" type="MeasureType">
       <xs:annotation>
-         <xs:documentation>Identifies the specific measure of the cell by reference and provides information on the storage location of the value for the measure.</xs:documentation>
+         <xs:documentation>Identifies the specific measure of the cell by noting the order value of the measure within the MeasureDimension and provides information on the storage location of the cell value for the measure.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:complexType name="MeasureType">

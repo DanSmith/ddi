@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2010 DDI Alliance, DDI 3.2 development release, 2010-09-21
+Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
 
-This file is part of DDI 3.2 dev XML Schema.
+This file is part of DDI 3.2 XML Schema.
 
-DDI 3.2 dev XML Schema is free software: you can redistribute it and/or modify
+DDI 3.2 XML Schema is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by the
 Free Software Foundation, either version 3 of the License, or (at your
 option) any later version.
 
-DDI 3.2 dev XML Schema is distributed in the hope that it will be useful, but
+DDI 3.2 XML Schema is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
 for more details.
 
 You should have received a copy of the GNU Lesser General Public License along
-with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
+with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_2_dev" xmlns:r="ddi:reusable:3_2_dev" targetNamespace="ddi:physicalinstance:3_2_dev" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	<xs:import namespace="ddi:reusable:3_2_dev" schemaLocation="reusable.xsd"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:physicalinstance:3_2" xmlns:r="ddi:reusable:3_2" targetNamespace="ddi:physicalinstance:3_2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
 	<xs:element name="PhysicalInstance" type="PhysicalInstanceType">
 		<xs:annotation>
-			<xs:documentation>Includes information about the physical instance of a data product (an actual data file). It completes the documentation contained in the Physical Data Product module that is specific to the individual file.</xs:documentation>
+			<xs:documentation>Includes information about the physical instance of a data product (an actual data file). It completes the documentation contained in the Physical Data Product module that is specific to the individual file and serves as a descriptive record of the external data file. Physical Instance provides a citation for the data file, a link to the RecordLayout(s) used by the files records, a description of it coverage (as a constraint if different from the study), check figures for quality control (e.g. digital fingerprint, record count, etc.), and a statistical summary of the data in the file at both the variable and category level.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:complexType name="PhysicalInstanceType">
 		<xs:annotation>
-			<xs:documentation>Includes information about the physical instance of a data product (an actual data file). It completes the documentation contained in the Physical Data Product module, which describes the physical layout and other characteristics of the data that do not change when a file is merged with another related file, or split into subsets. Includes a citation for the data file, provision of a digital fingerprint for the data file or the data content, coverage description, other material, reference to the record layouts contained in the file, a default description of missing values, reference to a quality statement, gross file structure information, proprietary information, a statistical summary of the data in the file, and the ability to specify byte order.</xs:documentation>
+			<xs:documentation>Includes information about the physical instance of a data product (an actual data file). It completes the documentation contained in the Physical Data Product module that is specific to the individual file and serves as a descriptive record of the external data file. Physical Instance provides a citation for the data file, a link to the RecordLayout(s) used by the files records, a description of it coverage (as a constraint if different from the study), check figures for quality control (e.g. digital fingerprint, record count, etc.), and a statistical summary of the data in the file at both the variable and category level.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="r:MaintainableType">
@@ -53,6 +53,11 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 							<xs:documentation>Provides information about other resources related to the physical instance.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element ref="r:DataRelationshipReference" minOccurs="0" maxOccurs="unbounded">
+					     <xs:annotation>		
+					         <xs:documentation>Reference to the DataRelationship containing the LogicalRecord to which the RecordLayout refers. Repeat for cases where LogicalRecords are described in multiple DataRelationship structures. Note that this does not imply that all of the LogicalRecords described in the DataRelationship are contained, wholely or in part in the PhysicalInstance. This reference allows for a direct path between the PhysicalInstance and the related content found in a LogicalProduct.</xs:documentation>
+					     </xs:annotation> 
+					</xs:element>
 					<xs:element ref="r:RecordLayoutReference" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>References the record layout of the data documented in the physical instance.</xs:documentation>
@@ -66,6 +71,11 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					<xs:element ref="DataFileIdentification" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Identifies the data file documented in the physical instance and provides information about its location.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="DataFileVersion" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Provides the version information for the data file related to this physical instance. Note that while Physical Instance allows for multiple copies of the same data file (such as backup copies) the assumption is that they are identical in terms of content, layout, format and version.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="r:QualityStatementReference" minOccurs="0" maxOccurs="unbounded">
@@ -97,6 +107,50 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+<xs:element name="DataFileVersion" type="DataFileVersionType">
+	<xs:annotation>
+		<xs:documentation>Provides the version information for the data file related to this physical instance. Note that while Physical Instance allows for multiple copies of the same data file (such as backup copies) the assumption is that they are identical in terms of content, layout, format and version.</xs:documentation>
+	</xs:annotation>
+</xs:element>
+<xs:complexType name="DataFileVersionType">
+	<xs:annotation>
+		<xs:documentation>Provides the version information for the data file related to this physical instance. Note that while Physical Instance allows for multiple copies of the same data file (such as backup copies) the assumption is that they are identical in terms of content, layout, format and version. The minimum information required is the versionNumber. Additional information on the versionDate, the type of version number when multiple types are supported by an agency, as well as information on VersionResponsibility (inline or by reference) and VersionRationale are available to provide additional information for process tracking and/or informing users of the differences between this and the previous version of the file.</xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+		<xs:element name="TypeOfVersionNumber" type="xs:string" minOccurs="0">
+			<xs:annotation>
+				<xs:documentation>This is the name of the versioning scheme as defined by the user's system, in cases where the user's system employs more than one versioning scheme.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+		<xs:choice minOccurs="0">
+			<xs:element ref="r:VersionResponsibility">
+				<xs:annotation>
+					<xs:documentation>Person and/or organization within the MaintenanceAgency responsible for the version change. This is primarily intended for internal use.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:VersionResponsibilityReference">
+				<xs:annotation>
+					<xs:documentation>Reference person and/or organization within the MaintenanceAgency responsible for the version change, as described in an OragizationScheme. This is primarily intended for internal use.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+		<xs:element ref="r:VersionRationale" minOccurs="0">
+			<xs:annotation>
+				<xs:documentation>Textual description of the rationale/purpose for a version change.</xs:documentation>
+			</xs:annotation>
+		</xs:element>
+	</xs:sequence>
+	<xs:attribute name="versionNumber" type="xs:string" use="required">
+		<xs:annotation>
+			<xs:documentation>The version number of the data file identified by this physical instance.</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+	<xs:attribute name="versionDate" type="r:BaseDateType" use="optional">
+		<xs:annotation>
+			<xs:documentation>Date of version using the union set BaseDateType. Duration should not be used in this field, even though allowed by the ISO format enforced by the parser.</xs:documentation>
+		</xs:annotation>
+	</xs:attribute>
+</xs:complexType>
 	<xs:element name="ByteOrder" type="r:CodeValueType">
 		<xs:annotation>
 			<xs:documentation>Contains a term indicating the byte ordering. Supports the use of a controlled vocabulary. DDI strongly recommends the use of a controlled vocabulary.</xs:documentation>
@@ -300,7 +354,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:choice>
          <xs:element ref="MissingValuesReference" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>Indicates the missing values that were excluded from the statistic by referencing the MissingValuesDelineation used by the Variable.</xs:documentation>
+               <xs:documentation>Indicates the missing values that were excluded from the statistic by referencing the ManagedMissingValuesRepresentation used by the Variable.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:element ref="SummaryStatistic" minOccurs="0" maxOccurs="unbounded">
@@ -339,7 +393,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
          <xs:documentation>A category value for which one or more statistics are recorded. Each VariableCategory has one category value and any number of associated statistics.</xs:documentation>
       </xs:annotation>
       <xs:sequence>
-         <xs:element name="CategoryValue">
+         <xs:element ref="CategoryValue">
             <xs:annotation>
                <xs:documentation>The value of the category.</xs:documentation>
             </xs:annotation>
@@ -464,11 +518,11 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
                <xs:documentation>Set to "true" if the statistic is weighted using the weight designated in VariableStatistics.</xs:documentation>
             </xs:annotation>
          </xs:attribute>
-         <xs:attribute name="includesMissing" type="xs:boolean">
-            <xs:annotation>
-               <xs:documentation>Set to "true" the statistic includes the missing values identified in VariableStatistics.</xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
+         <xs:attribute name="computationBase" type="ComputationBaseType">
+             <xs:annotation>
+                <xs:documentation>Defines the cases included in determining the statistic. The options are total=all cases, valid and missing (invalid); validOnly=Only valid values, missing (invalid) are not included in the caluculation; missingOnly=Only missing (invalid) cases included in the calculation.</xs:documentation>
+             </xs:annotation>
+          </xs:attribute>
        </xs:extension>  
      </xs:simpleContent>
    </xs:complexType>
@@ -509,12 +563,12 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
    </xs:element>
    <xs:element name="StandardWeightReference" type="r:ReferenceType">
       <xs:annotation>
-         <xs:documentation>Reference to an existing StandardWeight using the Reference structure.</xs:documentation>
+         <xs:documentation>Reference to an existing StandardWeight using the Reference structure. TypeOfObject should be set to StandardWeight.</xs:documentation>
       </xs:annotation>
    </xs:element>
    <xs:element name="MissingValuesReference" type="r:ReferenceType">
       <xs:annotation>
-         <xs:documentation>Reference to an existing MissingValuesDelineation using the Reference structure.</xs:documentation>
+         <xs:documentation>Reference to an existing MissingValuesRepresentation using the Reference structure. TypeOfObject should be set to ManagedMissingValuesRepresentation.</xs:documentation>
       </xs:annotation>
    </xs:element>
 	<xs:element name="DataFileIdentification" type="DataFileIdentificationType">
@@ -532,11 +586,6 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:documentation>Describes a specific software package.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="DataFileReference" type="r:ReferenceType">
-		<xs:annotation>
-			<xs:documentation>Reference to an existing DataFile using the Reference structure.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
 	<xs:element name="VariableStatistics" type="VariableStatisticsType">
 		<xs:annotation>
 			<xs:documentation>Contains summary and category level statistics for the referenced variable.</xs:documentation>
@@ -544,7 +593,7 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="FilterVariableReference" type="r:ReferenceType">
 		<xs:annotation>
-			<xs:documentation>Reference to an existing Variable using the Reference structure.</xs:documentation>
+			<xs:documentation>Reference to an existing Variable using the Reference structure. TypeOfObject should be set to Variable.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="ProcessingCheck" type="r:StructuredStringType">
@@ -574,12 +623,12 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="DefaultMissingValuesReference" type="DefaultMissingValuesReferenceType">
 		<xs:annotation>
-			<xs:documentation>Identifies the default missing value parameter for the this physical instance by referencing a MissingValuesDelineation plus flag to identify it as a system missing value.</xs:documentation>
+			<xs:documentation>Identifies the default missing value parameter for the this physical instance by referencing a ManagedMissingValuesRepresentation plus flag to identify it as a system missing value. TypeOfObject should be set to ManagedMissingValuesRepresentation.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:complexType name="DefaultMissingValuesReferenceType">
 		<xs:annotation>
-			<xs:documentation>Identifies the default missing value parameter for the this physical instance by referencing a MissingValuesDelineation. Note that this MissingValues declaration overrides the value found in the LogicalRecord if it conflicts. The assumption is that this is a System Missing Value declaration, specific to the storage format of the file. If not, change the value of isSystemMissingValue to "false".</xs:documentation>
+			<xs:documentation>Identifies the default missing value parameter for the this physical instance by referencing a ManagedMissingValuesRepresentation. Note that this MissingValues declaration overrides the value found in the LogicalRecord if it conflicts. The assumption is that this is a System Missing Value declaration, specific to the storage format of the file. If not, change the value of isSystemMissingValue to "false". TypeOfObject should be set to ManagedMissingValuesRepresentation.</xs:documentation>
 		</xs:annotation>
 	  <xs:complexContent>
 	    <xs:extension base="r:ReferenceType">
@@ -591,5 +640,26 @@ with DDI 3.2 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
         </xs:extension>
       </xs:complexContent>
     </xs:complexType>
-
+    <xs:simpleType name="ComputationBaseType">
+         <xs:annotation>
+             <xs:documentation>Defines the cases included in determining the statistic.</xs:documentation>
+         </xs:annotation>
+         <xs:restriction base="xs:string">
+             <xs:enumeration value="total">
+                 <xs:annotation>
+                     <xs:documentation>All cases, both valid and missing (invalid).</xs:documentation>
+                 </xs:annotation>
+             </xs:enumeration>
+             <xs:enumeration value="validOnly">
+                 <xs:annotation>
+                     <xs:documentation>Only valid values, missing (invalid) are not included in the caluculation.</xs:documentation>
+                 </xs:annotation>
+             </xs:enumeration>
+             <xs:enumeration value="missingOnly">
+                 <xs:annotation>
+                     <xs:documentation>Only missing (invalid) cases included in the calculation.</xs:documentation>
+                 </xs:annotation>
+             </xs:enumeration>
+         </xs:restriction>
+     </xs:simpleType>
 </xs:schema>
