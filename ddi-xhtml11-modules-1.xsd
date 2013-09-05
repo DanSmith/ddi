@@ -8,23 +8,16 @@ This file is part of DDI 3.2 XML Schema. 2013-09-01
 
 
 -->
+<xs:schema targetNamespace="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/1999/xhtml" blockDefault="#all">
 
-<xs:schema targetNamespace="http://www.w3.org/1999/xhtml"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns="http://www.w3.org/1999/xhtml"
-           blockDefault="#all">
+	<xs:annotation>
+		<xs:documentation>This schema includes all modules for XHTML1.1 Document Type.
+      $Id: ddi-xhtml11-modules-1.xsd,v 1.1 2007/02/08 16:03:11 jgager Exp $</xs:documentation>
+		<xs:documentation source="XHTML/xhtml-copyright-1.xsd"/>
+	</xs:annotation>
 
-  <xs:annotation>
-    <xs:documentation>
-      This schema includes all modules for XHTML1.1 Document Type.
-      $Id: ddi-xhtml11-modules-1.xsd,v 1.1 2007/02/08 16:03:11 jgager Exp $
-    </xs:documentation>
-    <xs:documentation source="XHTML/xhtml-copyright-1.xsd"/>
-  </xs:annotation>
-
-  <xs:annotation>
-    <xs:documentation>
-     This schema includes all modules (and redefinitions)
+	<xs:annotation>
+		<xs:documentation>This schema includes all modules (and redefinitions)
      for XHTML1.1 Document Type.
      XHTML1.1 Document Type includes the following Modules
 
@@ -50,29 +43,23 @@ This file is part of DDI 3.2 XML Schema. 2013-09-01
             +  Tables
             +  Forms
             +  Client side image maps
-            +  Server side image maps
+            +  Server side image maps</xs:documentation>
+	</xs:annotation>
 
-    </xs:documentation>
-  </xs:annotation>
-
-  <xs:include schemaLocation="XHTML/xhtml-framework-1.xsd">
-    <xs:annotation>
-      <xs:documentation>
-        Schema Framework Component Modules:
+	<xs:include schemaLocation="XHTML/xhtml-framework-1.xsd">
+		<xs:annotation>
+			<xs:documentation>Schema Framework Component Modules:
             +  notations
             +  datatypes
             +  common attributes
-            +  character entities
-      </xs:documentation>
-      <xs:documentation
-         source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_commonatts"/>
-    </xs:annotation>
-  </xs:include>
+            +  character entities</xs:documentation>
+			<xs:documentation source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_commonatts"/>
+		</xs:annotation>
+	</xs:include>
 
-  <xs:include schemaLocation="XHTML/xhtml-text-1.xsd">
-    <xs:annotation>
-      <xs:documentation>
-        Text module
+	<xs:include schemaLocation="XHTML/xhtml-text-1.xsd">
+		<xs:annotation>
+			<xs:documentation>Text module
 
         The Text module includes declarations for all core
         text container elements and their attributes.
@@ -86,27 +73,22 @@ This file is part of DDI 3.2 XML Schema. 2013-09-01
           * address, blockquote, pre, h1, h2, h3, h4, h5, h6
           * div, p
           * abbr, acronym, cite, code, dfn, em, kbd, q, samp, strong, var
-          * br, span
-      </xs:documentation>
-      <xs:documentation
-        source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_textmodule"/>
-    </xs:annotation>
-  </xs:include>
+          * br, span</xs:documentation>
+			<xs:documentation source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_textmodule"/>
+		</xs:annotation>
+	</xs:include>
 
-  <xs:include schemaLocation="XHTML/xhtml-hypertext-1.xsd">
-    <xs:annotation>
-      <xs:documentation>
-         Hypertext module
+	<xs:include schemaLocation="XHTML/xhtml-hypertext-1.xsd">
+		<xs:annotation>
+			<xs:documentation>Hypertext module
 
          Elements defined here:
-          * a
-      </xs:documentation>
-      <xs:documentation
-        source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_hypertextmodule"/>
-    </xs:annotation>
-  </xs:include>
+          * a</xs:documentation>
+			<xs:documentation source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_hypertextmodule"/>
+		</xs:annotation>
+	</xs:include>
 
-<!--
+	<!--
   <xs:redefine schemaLocation="XHTML/xhtml-hypertext-1.xsd">
     <xs:annotation>
       <xs:documentation>
@@ -138,19 +120,16 @@ This file is part of DDI 3.2 XML Schema. 2013-09-01
   </xs:redefine>
 -->
 
-  <xs:include schemaLocation="XHTML/xhtml-list-1.xsd">
-    <xs:annotation>
-      <xs:documentation>
-        Lists module
+	<xs:include schemaLocation="XHTML/xhtml-list-1.xsd">
+		<xs:annotation>
+			<xs:documentation>Lists module
 
         Elements defined here:
-          * dt, dd, dl, ol, ul, li
-      </xs:documentation>
-      <xs:documentation
-        source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_listmodule"/>
-    </xs:annotation>
-  </xs:include>
-<!--
+          * dt, dd, dl, ol, ul, li</xs:documentation>
+			<xs:documentation source="http://www.w3.org/TR/2001/REC-xhtml-modularization-20010410/abstract_modules.html#s_listmodule"/>
+		</xs:annotation>
+	</xs:include>
+	<!--
  <xs:include schemaLocation="xhtml-edit-1.xsd">
     <xs:annotation>
       <xs:documentation>
@@ -164,32 +143,26 @@ This file is part of DDI 3.2 XML Schema. 2013-09-01
     </xs:annotation>
   </xs:include>
 -->
-  <xs:include schemaLocation="XHTML/xhtml-bdo-1.xsd">
-    <xs:annotation>
-      <xs:documentation>
-        Bidirectional element module
+	<xs:include schemaLocation="XHTML/xhtml-bdo-1.xsd">
+		<xs:annotation>
+			<xs:documentation>Bidirectional element module
 
         Elements defined here:
-          * bdo
-      </xs:documentation>
-      <xs:documentation
-         source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_bdomodule"/>
-    </xs:annotation>
-  </xs:include>
+          * bdo</xs:documentation>
+			<xs:documentation source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_bdomodule"/>
+		</xs:annotation>
+	</xs:include>
 
-  <xs:include schemaLocation="XHTML/xhtml-pres-1.xsd">
-    <xs:annotation>
-      <xs:documentation>
-        Presentational module
+	<xs:include schemaLocation="XHTML/xhtml-pres-1.xsd">
+		<xs:annotation>
+			<xs:documentation>Presentational module
 
          Elements defined here:
-           * hr, b, big, i, small,sub, sup, tt
-      </xs:documentation>
-      <xs:documentation
-         source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_presentationmodule"/>
-    </xs:annotation>
-  </xs:include>
-<!--
+           * hr, b, big, i, small,sub, sup, tt</xs:documentation>
+			<xs:documentation source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_presentationmodule"/>
+		</xs:annotation>
+	</xs:include>
+	<!--
   <xs:include schemaLocation="XHTML/xhtml-link-1.xsd">
     <xs:annotation>
       <xs:documentation>
@@ -255,19 +228,16 @@ This file is part of DDI 3.2 XML Schema. 2013-09-01
     </xs:annotation>
   </xs:include>
 -->
-  <xs:include schemaLocation="XHTML/xhtml-inlstyle-1.xsd">
-    <xs:annotation>
-      <xs:documentation>
-        Style attribute module
+	<xs:include schemaLocation="XHTML/xhtml-inlstyle-1.xsd">
+		<xs:annotation>
+			<xs:documentation>Style attribute module
 
         Attribute defined here:
-          * style
-      </xs:documentation>
-      <xs:documentation
-         source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_styleattributemodule"/>
-    </xs:annotation>
-  </xs:include>
-<!--
+          * style</xs:documentation>
+			<xs:documentation source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_styleattributemodule"/>
+		</xs:annotation>
+	</xs:include>
+	<!--
   <xs:redefine schemaLocation="xhtml-image-1.xsd">
     <xs:annotation>
       <xs:documentation>
@@ -386,19 +356,16 @@ This file is part of DDI 3.2 XML Schema. 2013-09-01
     </xs:annotation>
   </xs:include>
 -->
-  <xs:include schemaLocation="XHTML/xhtml-table-1.xsd">
-    <xs:annotation>
-      <xs:documentation>
-        Tables module
+	<xs:include schemaLocation="XHTML/xhtml-table-1.xsd">
+		<xs:annotation>
+			<xs:documentation>Tables module
 
         Elements defined here:
-          * table, caption, thead, tfoot, tbody, colgroup, col, tr, th, td
-      </xs:documentation>
-      <xs:documentation
-         source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_tablemodule"/>
-    </xs:annotation>
-  </xs:include>
-<!--
+          * table, caption, thead, tfoot, tbody, colgroup, col, tr, th, td</xs:documentation>
+			<xs:documentation source="http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_tablemodule"/>
+		</xs:annotation>
+	</xs:include>
+	<!--
   <xs:redefine schemaLocation="xhtml-form-1.xsd">
     <xs:annotation>
       <xs:documentation>

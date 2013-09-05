@@ -19,7 +19,7 @@ You should have received a copy of the GNU Lesser General Public License along
 with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:archive:3_2" xmlns:r="ddi:reusable:3_2" targetNamespace="ddi:archive:3_2" elementFormDefault="qualified" attributeFormDefault="unqualified" >
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="ddi:archive:3_2" xmlns:r="ddi:reusable:3_2" targetNamespace="ddi:archive:3_2" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
 	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
 	<xs:element name="Archive" type="ArchiveType">
@@ -87,7 +87,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:complexType name="ArchiveSpecificType">
 		<xs:annotation>
-			<xs:documentation>Contains metadata specific to a particular archive's holding. This includes information on the items or collection of items held by the archive, the default terms of access, funding information and budget specific to the archive and its maintenance of this collection, reference to a quality statement related to archive activities, and coverage of the archive or sub-set of the archive. </xs:documentation>
+			<xs:documentation>Contains metadata specific to a particular archive's holding. This includes information on the items or collection of items held by the archive, the default terms of access, funding information and budget specific to the archive and its maintenance of this collection, reference to a quality statement related to archive activities, and coverage of the archive or sub-set of the archive.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element ref="ArchiveOrganizationReference" minOccurs="0">
@@ -107,7 +107,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="DefaultAccess" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Describes access to the archive in general. The restrictions noted at this level apply to all holdings of the archive unless overridden for specified collections or items. </xs:documentation>
+					<xs:documentation>Describes access to the archive in general. The restrictions noted at this level apply to all holdings of the archive unless overridden for specified collections or items.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:FundingInformation" minOccurs="0" maxOccurs="unbounded">
@@ -159,7 +159,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="CallNumber" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The name, code, or number used by the archive to uniquely identify the item within the archive. </xs:documentation>
+					<xs:documentation>The name, code, or number used by the archive to uniquely identify the item within the archive.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:URI" minOccurs="0">
@@ -179,7 +179,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="StudyClass" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>An archive specific classification for the item. This may be a topical classification, a classification of intended processing levels, or information on the processing status. </xs:documentation>
+					<xs:documentation>An archive specific classification for the item. This may be a topical classification, a classification of intended processing levels, or information on the processing status.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="Access" minOccurs="0">
@@ -209,7 +209,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="Item" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Allows for the nesting of Item descriptions with a item. </xs:documentation>
+					<xs:documentation>Allows for the nesting of Item descriptions with a item.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -231,7 +231,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="CallNumber" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The name, code, or number used by the archive to uniquely identify the collection within the archive. </xs:documentation>
+					<xs:documentation>The name, code, or number used by the archive to uniquely identify the collection within the archive.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:URI" minOccurs="0">
@@ -246,7 +246,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="StudyClass" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>An archive specific classification for the collection. This may be a topical classification, a classification of intended processing levels, or information on the processing status. </xs:documentation>
+					<xs:documentation>An archive specific classification for the collection. This may be a topical classification, a classification of intended processing levels, or information on the processing status.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="DefaultAccess" minOccurs="0">
@@ -281,7 +281,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="Collection" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Allows for the nesting of collection descriptions with a collection hierarchical groupings within a collection description. </xs:documentation>
+					<xs:documentation>Allows for the nesting of collection descriptions with a collection hierarchical groupings within a collection description.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -299,7 +299,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="ClassType" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>A term used to classify the study class. As these are archive specific, DDI strongly recommends the use of a controlled vocabulary. </xs:documentation>
+					<xs:documentation>A term used to classify the study class. As these are archive specific, DDI strongly recommends the use of a controlled vocabulary.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -403,7 +403,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="Statement" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>A statement regarding the use, coverage, and purpose of the form. </xs:documentation>
+					<xs:documentation>A statement regarding the use, coverage, and purpose of the form.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -420,7 +420,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="Collection" type="CollectionType">
 		<xs:annotation>
-			<xs:documentation>Describes a collection of items held or distributed by the archive in connection with a study, group of studies, or resource packages. What constitutes an collection is determined by the archive. </xs:documentation>
+			<xs:documentation>Describes a collection of items held or distributed by the archive in connection with a study, group of studies, or resource packages. What constitutes an collection is determined by the archive.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="DefaultAccess" type="AccessType">
@@ -553,7 +553,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:enumeration>
 			<xs:enumeration value="private">
 				<xs:annotation>
-					<xs:documentation>This information is private and at minimum access is restricted to the agency managing the metadata. Further restrictions may also apply. </xs:documentation>
+					<xs:documentation>This information is private and at minimum access is restricted to the agency managing the metadata. Further restrictions may also apply.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -570,20 +570,20 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:extension base="r:MaintainableType">
 				<xs:sequence>
 					<xs:element ref="OrganizationSchemeName" minOccurs="0" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>A name for the scheme. May be expressed in multiple languages. Repeat the element to express names with different content, for example different names for different systems.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
+						<xs:annotation>
+							<xs:documentation>A name for the scheme. May be expressed in multiple languages. Repeat the element to express names with different content, for example different names for different systems.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>A display label for the scheme. May be expressed in multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
+						<xs:annotation>
+							<xs:documentation>A display label for the scheme. May be expressed in multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element ref="r:Description" minOccurs="0">
-							<xs:annotation>
-								<xs:documentation>A description of the content and purpose of the scheme. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
+						<xs:annotation>
+							<xs:documentation>A description of the content and purpose of the scheme. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element ref="r:OrganizationSchemeReference" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Reference to an existing OrganizationScheme for inclusion by reference.</xs:documentation>
@@ -695,14 +695,14 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					</xs:element>
 					<xs:element ref="r:Subject" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-				     			<xs:documentation>If subjects are listed for this group, it is strongly recommended that the subjects listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of subject at the group level allows for associating objects as a type of subject based group or to identify subject characteristics of a reusable group of objects.</xs:documentation>
-				   		</xs:annotation>
-				 	</xs:element>
+							<xs:documentation>If subjects are listed for this group, it is strongly recommended that the subjects listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of subject at the group level allows for associating objects as a type of subject based group or to identify subject characteristics of a reusable group of objects.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element ref="r:Keyword" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-				     			<xs:documentation>If keywords are listed for this group, it is strongly recommended that the keywords listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of keyword at the group level allows for associating objects as a type of keyword based group or to identify keyword characteristics of a reusable group of objects.</xs:documentation>
-				   		</xs:annotation>
-				 	</xs:element>
+							<xs:documentation>If keywords are listed for this group, it is strongly recommended that the keywords listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of keyword at the group level allows for associating objects as a type of keyword based group or to identify keyword characteristics of a reusable group of objects.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:choice minOccurs="0" maxOccurs="unbounded">
 						<xs:element ref="OrganizationReference">
 							<xs:annotation>
@@ -752,42 +752,42 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="r:VersionableType">
-					<xs:sequence>
-						<xs:element ref="OrganizationIdentification" minOccurs="0">
-							<xs:annotation>
-								<xs:documentation>Identification information on the Organization. The structure contains a FormalOrganizationName for the current legal or formal name. In addition, one should be able to provide any number of OrganizationNames that have a) a specific contextual usage, or b) are of specific types (e.g. PreviousFormalName). The DDI Maintenance Agency ID and and organization images, such as a building picture or logo are found in OrganizationIdentification. Images and names can be individually date stamped.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element ref="r:Description" minOccurs="0">
-							<xs:annotation>
-								<xs:documentation>A description of the organization. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element ref="r:Keyword" minOccurs="0" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>Keyword used to classify the organization or its activities. Supports the use of an external controlled vocabulary.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element ref="RegionalCoverage" minOccurs="0" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>The geographic region within which this organization operates.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element ref="AdditionalInformation" minOccurs="0" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>Any additional information you which to note about the organization. This is a structured string so it can be formatted and a privacy tag can be applied.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element ref="VersionDistinction" minOccurs="0" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>Describes the data versioning scheme(s) used by an organization. If more than one, Name should differentiate between a standard versioning structure used by the organization and special structures used by specific projects or studies. Information on what drives and major and minor change and how they are structured.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element ref="ContactInformation" minOccurs="0" maxOccurs="unbounded">
-							<xs:annotation>
-								<xs:documentation>Contact information for the organization including location specification, address, URL, phone numbers, and other means of communication access. Address, location, telephone, and other means of communication can be repeated to express multiple means of a single type or change over time. Each major piece of contact information (with exception of URL contains the element EffectiveDates in order to date stamp the period for which the information is valid.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
+				<xs:sequence>
+					<xs:element ref="OrganizationIdentification" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Identification information on the Organization. The structure contains a FormalOrganizationName for the current legal or formal name. In addition, one should be able to provide any number of OrganizationNames that have a) a specific contextual usage, or b) are of specific types (e.g. PreviousFormalName). The DDI Maintenance Agency ID and and organization images, such as a building picture or logo are found in OrganizationIdentification. Images and names can be individually date stamped.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="r:Description" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A description of the organization. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="r:Keyword" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Keyword used to classify the organization or its activities. Supports the use of an external controlled vocabulary.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="RegionalCoverage" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The geographic region within which this organization operates.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="AdditionalInformation" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Any additional information you which to note about the organization. This is a structured string so it can be formatted and a privacy tag can be applied.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="VersionDistinction" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Describes the data versioning scheme(s) used by an organization. If more than one, Name should differentiate between a standard versioning structure used by the organization and special structures used by specific projects or studies. Information on what drives and major and minor change and how they are structured.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="ContactInformation" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Contact information for the organization including location specification, address, URL, phone numbers, and other means of communication access. Address, location, telephone, and other means of communication can be repeated to express multiple means of a single type or change over time. Each major piece of contact information (with exception of URL contains the element EffectiveDates in order to date stamp the period for which the information is valid.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 				<xs:attributeGroup ref="PRIVACY">
 					<xs:annotation>
@@ -814,7 +814,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="OrganizationName" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganziationName to indicate their appropriate usage. For example when the formal name of an organization changes, the previous name is moved to OrganizationName with a TypeOfOrganizationName indicating PreviousFormalName.</xs:documentation>
+					<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage. For example when the formal name of an organization changes, the previous name is moved to OrganizationName with a TypeOfOrganizationName indicating PreviousFormalName.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="DDIMaintenanceAgencyID" minOccurs="0" maxOccurs="unbounded">
@@ -836,27 +836,27 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 
 
-<xs:complexType name="FormalOrganizationNameType">
-	<xs:annotation>
-		<xs:documentation>The formal name and abbreviation of the Organization. When this name changes move the previous formal name to OrganizationName with a TypeOfOrganizationName indicating that it is a previous formal name and providing an end date to the EffectivePeriod.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="r:NameType">
-			<xs:sequence>
-				<xs:element ref="r:Abbreviation" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>An abbreviation or acronym for the name. This may be expressed in multiple languages. It is assumed that if only a single language is provided that it may be used in any of the other languages within which the name itself is expressed.</xs:documentation>
-					</xs:annotation>
-				</xs:element>	
-				<xs:element ref="r:EffectivePeriod" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The time period for which this name is accurate and in use.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:extension>	
-	</xs:complexContent>
-</xs:complexType>	
+	<xs:complexType name="FormalOrganizationNameType">
+		<xs:annotation>
+			<xs:documentation>The formal name and abbreviation of the Organization. When this name changes move the previous formal name to OrganizationName with a TypeOfOrganizationName indicating that it is a previous formal name and providing an end date to the EffectivePeriod.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="r:NameType">
+				<xs:sequence>
+					<xs:element ref="r:Abbreviation" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>An abbreviation or acronym for the name. This may be expressed in multiple languages. It is assumed that if only a single language is provided that it may be used in any of the other languages within which the name itself is expressed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="r:EffectivePeriod" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The time period for which this name is accurate and in use.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:element name="DDIMaintenanceAgencyID" type="DDIMaintenanceAgencyIDType">
 		<xs:annotation>
 			<xs:documentation>Provides the official DDI ID of a maintenance agency as a value taken from the registry cited in @registryID.</xs:documentation>
@@ -938,7 +938,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				<xs:sequence>
 					<xs:element ref="FormalIndividualName" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>The formal name by which this individual is known. This may be a legal name. </xs:documentation>
+							<xs:documentation>The formal name by which this individual is known. This may be a legal name.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="IndividualIdentification" minOccurs="0">
@@ -1061,12 +1061,12 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				<xs:annotation>
 					<xs:documentation>An abbreviation or acronym for the name. This may be expressed in multiple languages. It is assumed that if only a single language is provided that it may be used in any of the other languages within which the name itself is expressed.</xs:documentation>
 				</xs:annotation>
-			</xs:element>	
+			</xs:element>
 			<xs:element ref="TypeOfIndividualName" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The type of individual name provided. the use of a controlled vocabulary is strongly recommended. At minimum his should include, e.g. PreviousFormalName, Nickname (or CommonName), Other.</xs:documentation>
 				</xs:annotation>
-			</xs:element>	
+			</xs:element>
 		</xs:sequence>
 		<xs:attribute name="sex" type="SexSpecificationType" use="optional">
 			<xs:annotation>
@@ -1074,16 +1074,16 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="isPreferred" type="xs:boolean" use="optional">
-		     <xs:annotation>
-		         <xs:documentation>If more than one name for the object is provided, use the isPreferred attribute to indicate which is the preferred name content. All other names should be set to isPreferred="false".</xs:documentation>
-		     </xs:annotation>
-		 </xs:attribute>
-		 <xs:attribute name="context" type="xs:string" use="optional">
-		     <xs:annotation>
-		         <xs:documentation>A name may be specific to a particular context, i.e. common usage, business, social, etc.. Identify the context related to the specified name.</xs:documentation>
-		     </xs:annotation>
-		 </xs:attribute>
- 	</xs:complexType>
+			<xs:annotation>
+				<xs:documentation>If more than one name for the object is provided, use the isPreferred attribute to indicate which is the preferred name content. All other names should be set to isPreferred="false".</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="context" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>A name may be specific to a particular context, i.e. common usage, business, social, etc.. Identify the context related to the specified name.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
 	<xs:element name="TypeOfIndividualName" type="r:CodeValueType">
 		<xs:annotation>
 			<xs:documentation>The type of individual name provided. Supports the use of a controlled vocabulary.</xs:documentation>
@@ -1092,7 +1092,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 	<xs:element name="FormalIndividualName" type="IndividualNameType">
 		<xs:annotation>
-			<xs:documentation>The formal name by which this individual is known. This may be a legal name. </xs:documentation>
+			<xs:documentation>The formal name by which this individual is known. This may be a legal name.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 
@@ -1120,7 +1120,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		<xs:sequence>
 			<xs:element ref="r:Language">
 				<xs:annotation>
-					<xs:documentation>Specifies the language (and optionally the locale) of the individual. The language identifier is defined by IETF RFC 4646 or its successor. The base sub-tag is the ISO 639 2 or 3 digit language code. </xs:documentation>
+					<xs:documentation>Specifies the language (and optionally the locale) of the individual. The language identifier is defined by IETF RFC 4646 or its successor. The base sub-tag is the ISO 639 2 or 3 digit language code.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="Read" minOccurs="0">
@@ -1222,142 +1222,142 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		</xs:sequence>
 		<xs:attributeGroup ref="PRIVACY"/>
 	</xs:complexType>
- <xs:element name="SourceObject" type="SourceObjectType">
-         <xs:annotation>
-             <xs:documentation>Identifies the Source organization or individual in the relationship.</xs:documentation>
-         </xs:annotation>
-     </xs:element>
-         <xs:element name="TargetObject" type="TargetObjectType">
-         <xs:annotation>
-             <xs:documentation>Identifies the Target organization or individual in the relationship.</xs:documentation>
-         </xs:annotation>
-     </xs:element>
- 
-        <xs:element name="RelationshipCode" type="RelationshipCodeType">
-         <xs:annotation>
-             <xs:documentation>A specification of the relationship of the Source to the Target in terms of Parent (superior), Child (subordinate), or Sibling (on par</xs:documentation>
-         </xs:annotation>
-     </xs:element>
- 
-    
-     <xs:complexType name="SourceObjectType">
-         <xs:annotation>
-             <xs:documentation>Identifies the Source organization or individual in the relationship. References either an Organization or an Individual and specifies their relationship in terms of parent, child, or sibling.</xs:documentation>
-         </xs:annotation>
-         <xs:sequence>
-             <xs:choice>
-                 <xs:element ref="OrganizationReference">
-               <xs:annotation>
-                <xs:documentation>A reference to an Organization described in DDI.</xs:documentation>
-               </xs:annotation>
-             </xs:element>
-                 <xs:element ref="IndividualReference">
-               <xs:annotation>
-                     <xs:documentation>A reference to an Individual described in DDI.</xs:documentation>
-                  </xs:annotation>
-             </xs:element>
-             </xs:choice>
-             <xs:element ref="RelationshipCode" minOccurs="0">
-                   <xs:annotation>
-                     <xs:documentation>A specification of the relationship of the Source to the Target in terms of Parent (superior), Child (subordinate), or Sibling (on par).</xs:documentation>
-              </xs:annotation>
-         </xs:element>
-     </xs:sequence>
-     </xs:complexType> 
-    <xs:complexType name="TargetObjectType">
-         <xs:annotation>
-             <xs:documentation>Identifies the Target organization or individual in the relationship. References either an Organiztion or an Individual and specifies the role of the Target in relationship to the Source. Multiple roles for specified periods may be identified.</xs:documentation>
-         </xs:annotation>
-         <xs:sequence>
-             <xs:choice>
-                 <xs:element ref="OrganizationReference">
-               <xs:annotation>
-                <xs:documentation>A reference to an Organization described in DDI.</xs:documentation>
-               </xs:annotation>
-             </xs:element>
-                 <xs:element ref="IndividualReference">
-               <xs:annotation>
-                     <xs:documentation>A reference to an Individual described in DDI.</xs:documentation>
-                  </xs:annotation>
-             </xs:element>
-             </xs:choice>
-             <xs:element ref="Role" minOccurs="0" maxOccurs="unbounded">
-                   <xs:annotation>
-                     <xs:documentation>Describes the role of Target Individual or Organization in relation to the Source Object.</xs:documentation>
-              </xs:annotation>
-         </xs:element>
-     </xs:sequence>
-     </xs:complexType> 
+	<xs:element name="SourceObject" type="SourceObjectType">
+		<xs:annotation>
+			<xs:documentation>Identifies the Source organization or individual in the relationship.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="TargetObject" type="TargetObjectType">
+		<xs:annotation>
+			<xs:documentation>Identifies the Target organization or individual in the relationship.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 
-   <xs:simpleType name="RelationshipCodeType">
-       <xs:annotation>
-          <xs:documentation>Indicates relation.</xs:documentation>
-       </xs:annotation>
-       <xs:restriction base="xs:NMTOKEN">
-          <xs:enumeration value="Parent">
-             <xs:annotation>
-                <xs:documentation>Parent - Source is in a superior or higher position.</xs:documentation>
-             </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="Child">
-             <xs:annotation>
-                <xs:documentation>Child - Source is in an inferior or lower position.</xs:documentation>
-             </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="Sibling">
-             <xs:annotation>
-                <xs:documentation>Sibling - Source and Target are equals.</xs:documentation>
-             </xs:annotation>
-          </xs:enumeration>
-       </xs:restriction>
-    </xs:simpleType>
- 	
-<xs:complexType name="RelationType">
-	<xs:annotation>
-		<xs:documentation>Describes the relationship between any two organizations or individual, or an individual and an organization. This is a pairwise relationship and relationships may be unidirectional. Identifies the Source organization or individual and the Target organization or individual, describes the relationship, provides a keyword to classify the relationship, provides and effective period for the relationship, allows for addition information to be provided, and can contain a privacy specification.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent> 
-		<xs:extension base="r:VersionableType">
-			<xs:sequence>
-				<xs:element ref="SourceObject">
+	<xs:element name="RelationshipCode" type="RelationshipCodeType">
+		<xs:annotation>
+			<xs:documentation>A specification of the relationship of the Source to the Target in terms of Parent (superior), Child (subordinate), or Sibling (on par</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+
+	<xs:complexType name="SourceObjectType">
+		<xs:annotation>
+			<xs:documentation>Identifies the Source organization or individual in the relationship. References either an Organization or an Individual and specifies their relationship in terms of parent, child, or sibling.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element ref="OrganizationReference">
 					<xs:annotation>
-						<xs:documentation>Identifies the Source organization or individual in the relationship. Source to Target provides a directional perception when defining the relationship.</xs:documentation>
+						<xs:documentation>A reference to an Organization described in DDI.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element ref="TargetObject">
+				<xs:element ref="IndividualReference">
 					<xs:annotation>
-						<xs:documentation>Identifies the Target organization or individual in the relationship. The Target object describes its role in relationship to the Source object.</xs:documentation>
+						<xs:documentation>A reference to an Individual described in DDI.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element ref="r:Description" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>A description of the relationship. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element ref="r:Keyword" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>A brief textual identification of the relation type. Supports the use of an external controlled vocabulary.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element ref="r:EffectivePeriod" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Time period during which this relationship is valid.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element ref="AdditionalInformation" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>Any additional information you which to note about the relation. This is a structured string so it can be formatted and a privacy tag can be applied.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-			<xs:attributeGroup ref="PRIVACY">
+			</xs:choice>
+			<xs:element ref="RelationshipCode" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Specify the level privacy for the relationship specification as public, restricted, or private.</xs:documentation>
+					<xs:documentation>A specification of the relationship of the Source to the Target in terms of Parent (superior), Child (subordinate), or Sibling (on par).</xs:documentation>
 				</xs:annotation>
-			</xs:attributeGroup>
-		</xs:extension>
-	</xs:complexContent>
-</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TargetObjectType">
+		<xs:annotation>
+			<xs:documentation>Identifies the Target organization or individual in the relationship. References either an Organiztion or an Individual and specifies the role of the Target in relationship to the Source. Multiple roles for specified periods may be identified.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element ref="OrganizationReference">
+					<xs:annotation>
+						<xs:documentation>A reference to an Organization described in DDI.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="IndividualReference">
+					<xs:annotation>
+						<xs:documentation>A reference to an Individual described in DDI.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element ref="Role" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Describes the role of Target Individual or Organization in relation to the Source Object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="RelationshipCodeType">
+		<xs:annotation>
+			<xs:documentation>Indicates relation.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="Parent">
+				<xs:annotation>
+					<xs:documentation>Parent - Source is in a superior or higher position.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Child">
+				<xs:annotation>
+					<xs:documentation>Child - Source is in an inferior or lower position.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Sibling">
+				<xs:annotation>
+					<xs:documentation>Sibling - Source and Target are equals.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="RelationType">
+		<xs:annotation>
+			<xs:documentation>Describes the relationship between any two organizations or individual, or an individual and an organization. This is a pairwise relationship and relationships may be unidirectional. Identifies the Source organization or individual and the Target organization or individual, describes the relationship, provides a keyword to classify the relationship, provides and effective period for the relationship, allows for addition information to be provided, and can contain a privacy specification.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="r:VersionableType">
+				<xs:sequence>
+					<xs:element ref="SourceObject">
+						<xs:annotation>
+							<xs:documentation>Identifies the Source organization or individual in the relationship. Source to Target provides a directional perception when defining the relationship.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="TargetObject">
+						<xs:annotation>
+							<xs:documentation>Identifies the Target organization or individual in the relationship. The Target object describes its role in relationship to the Source object.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="r:Description" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A description of the relationship. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="r:Keyword" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>A brief textual identification of the relation type. Supports the use of an external controlled vocabulary.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="r:EffectivePeriod" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Time period during which this relationship is valid.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="AdditionalInformation" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Any additional information you which to note about the relation. This is a structured string so it can be formatted and a privacy tag can be applied.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attributeGroup ref="PRIVACY">
+					<xs:annotation>
+						<xs:documentation>Specify the level privacy for the relationship specification as public, restricted, or private.</xs:documentation>
+					</xs:annotation>
+				</xs:attributeGroup>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<!--LOCATION-->
 	<xs:complexType name="ContactInformationType">
 		<xs:annotation>
@@ -1416,36 +1416,36 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:documentation>A brief textual description of the type of location of the organization, i.e., Head Office, collection site, storage site, etc.. Supports the use of an external controlled vocabulary.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
- 	<xs:complexType name="AddressType" mixed="true">
- 		<xs:annotation>
- 			<xs:documentation>Location address identifying each part of the address as separate elements, identifying the type of address, the level of privacy associated with the release of the address, and a flag to identify the preferred address for contact.</xs:documentation>
- 		</xs:annotation>
- 		<xs:sequence>
- 			<xs:element ref="TypeOfAddress" minOccurs="0">
- 				<xs:annotation>
- 					<xs:documentation>Indicates address type (i.e. home, office, mailing, etc.)</xs:documentation>
- 				</xs:annotation>
- 			</xs:element>
- 			<xs:element name="Line" type="xs:string" minOccurs="0" maxOccurs="unbounded">
- 				<xs:annotation>
- 					<xs:documentation>Number and street including office or suite number. May use multiple lines.</xs:documentation>
- 				</xs:annotation>
- 			</xs:element>
- 			<xs:element name="CityPlaceLocal" type="xs:string" minOccurs="0">
- 				<xs:annotation>
- 					<xs:documentation>City, Place, or local area used as part of an address.</xs:documentation>
- 				</xs:annotation>
- 			</xs:element>
- 			<xs:element name="StateProvince" type="xs:string" minOccurs="0">
- 				<xs:annotation>
- 					<xs:documentation>A major subnational division such as a state or province used to identify a major region within an address.</xs:documentation>
- 				</xs:annotation>
- 			</xs:element>
- 			<xs:element name="PostalCode" type="xs:string" minOccurs="0">
- 				<xs:annotation>
- 					<xs:documentation>Postal or ZIP Code</xs:documentation>
- 				</xs:annotation>
- 			</xs:element>
+	<xs:complexType name="AddressType" mixed="true">
+		<xs:annotation>
+			<xs:documentation>Location address identifying each part of the address as separate elements, identifying the type of address, the level of privacy associated with the release of the address, and a flag to identify the preferred address for contact.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="TypeOfAddress" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates address type (i.e. home, office, mailing, etc.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Line" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Number and street including office or suite number. May use multiple lines.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CityPlaceLocal" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>City, Place, or local area used as part of an address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StateProvince" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A major subnational division such as a state or province used to identify a major region within an address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PostalCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Postal or ZIP Code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element ref="r:CountryCode" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Country of the location</xs:documentation>
@@ -1466,18 +1466,18 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					<xs:documentation>Clarifies when the identification information is accurate.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
- 		</xs:sequence>
- 		<xs:attributeGroup ref="PRIVACY">
- 			<xs:annotation>
- 				<xs:documentation>Specify the level privacy for the address as public, restricted, or private.</xs:documentation>
- 			</xs:annotation>
- 		</xs:attributeGroup>
- 		<xs:attribute name="isPreferred" type="xs:boolean" use="optional">
- 			<xs:annotation>
- 				<xs:documentation>Set to "true" if this is the preferred location for contacting the organization or individual.</xs:documentation>
- 			</xs:annotation>
- 		</xs:attribute>
- 	</xs:complexType>
+		</xs:sequence>
+		<xs:attributeGroup ref="PRIVACY">
+			<xs:annotation>
+				<xs:documentation>Specify the level privacy for the address as public, restricted, or private.</xs:documentation>
+			</xs:annotation>
+		</xs:attributeGroup>
+		<xs:attribute name="isPreferred" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Set to "true" if this is the preferred location for contacting the organization or individual.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
 	<xs:element name="TypeOfAddress" type="r:CodeValueType">
 		<xs:annotation>
 			<xs:documentation>A brief textual description of the type of address presented, i.e., mailing address, location address, etc. Supports the use of an external controlled vocabulary.</xs:documentation>
@@ -1601,7 +1601,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="Relation" type="RelationType">
 		<xs:annotation>
-			<xs:documentation>Describes the relationship between any two organizations or individual, or an individual and an organization. </xs:documentation>
+			<xs:documentation>Describes the relationship between any two organizations or individual, or an individual and an organization.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="Telephone" type="TelephoneType">
@@ -1655,22 +1655,22 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		</xs:annotation>
 	</xs:element>
 
-<xs:complexType name="LocationNameType">
-	<xs:annotation>
-		<xs:documentation>Name of the location using the DDI Name structure and the ability to add an effective date.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="r:NameType">
-			<xs:sequence>
-				<xs:element ref="r:EffectivePeriod" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The time period for which this name is accurate and in use.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:extension>	
-	</xs:complexContent>
-</xs:complexType>	
+	<xs:complexType name="LocationNameType">
+		<xs:annotation>
+			<xs:documentation>Name of the location using the DDI Name structure and the ability to add an effective date.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="r:NameType">
+				<xs:sequence>
+					<xs:element ref="r:EffectivePeriod" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The time period for which this name is accurate and in use.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:element name="Address" type="AddressType">
 		<xs:annotation>
 			<xs:documentation>Location address identifying each part of the address as separate elements.</xs:documentation>
@@ -1683,7 +1683,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="OrganizationName" type="OrganizationNameType">
 		<xs:annotation>
-			<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganziationName to indicate their appropriate usage.</xs:documentation>
+			<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="IndividualImage" type="PrivateImageType">
@@ -1696,32 +1696,32 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:documentation>Link to the image of an individual with and effective date and privacy settings.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-<xs:complexType name="OrganizationNameType">
-	<xs:annotation>
-		<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganziationName to indicate their appropriate usage.</xs:documentation>
-	</xs:annotation>
-	<xs:complexContent>
-		<xs:extension base="r:NameType">
-			<xs:sequence>
-				<xs:element ref="r:Abbreviation" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>An abbreviation or acronym for the name. This may be expressed in multiple languages. It is assumed that if only a single language is provided that it may be used in any of the other languages within which the name itself is expressed.</xs:documentation>
-					</xs:annotation>
-				</xs:element>	
-				<xs:element ref="TypeOfOrganizationName" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The type of organization name provided. the use of a controlled vocabulary is strongly recommended. At minimum this should include, e.g. PreviousFormalName, Nickname (or CommonName), Other.</xs:documentation>
-					</xs:annotation>
-				</xs:element>	
-				<xs:element ref="r:EffectivePeriod" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The time period for which this name is accurate and in use.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-			</xs:sequence>
-		</xs:extension>	
-	</xs:complexContent>
-</xs:complexType>	
+	<xs:complexType name="OrganizationNameType">
+		<xs:annotation>
+			<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="r:NameType">
+				<xs:sequence>
+					<xs:element ref="r:Abbreviation" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>An abbreviation or acronym for the name. This may be expressed in multiple languages. It is assumed that if only a single language is provided that it may be used in any of the other languages within which the name itself is expressed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="TypeOfOrganizationName" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The type of organization name provided. the use of a controlled vocabulary is strongly recommended. At minimum this should include, e.g. PreviousFormalName, Nickname (or CommonName), Other.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="r:EffectivePeriod" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The time period for which this name is accurate and in use.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 	<xs:element name="TypeOfOrganizationName" type="r:CodeValueType">
 		<xs:annotation>
 			<xs:documentation>The type of organization name provided. Supports the use of a controlled vocabulary.</xs:documentation>
@@ -1746,7 +1746,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					</xs:annotation>
 				</xs:attributeGroup>
 			</xs:extension>
-		</xs:complexContent>	
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:element name="AdditionalInformation" type="AdditionalInformationType">
 		<xs:annotation>
@@ -1784,9 +1784,9 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:documentation>The DataFileQuantity expressed as an xs:integer.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-    <xs:element name="RelationReference" type="r:ReferenceType">
+	<xs:element name="RelationReference" type="r:ReferenceType">
 		<xs:annotation>
 			<xs:documentation>Reference to an existing Relation using the Reference structure. TypeOfObject should be set to Relation.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
- </xs:schema>
+</xs:schema>

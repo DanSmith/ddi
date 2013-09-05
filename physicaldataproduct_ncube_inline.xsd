@@ -70,11 +70,11 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 							<xs:documentation>Reference to the logical NCube description.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-			               <xs:element ref="r:MeasureDimension" minOccurs="0">
-			                  <xs:annotation>
-			                     <xs:documentation>This element defines the structure of a measure dimension for the NCube Instance. A value along the MeasureDimension is defined by a stack of references to one or more MeasureDefinitions found in the logical description of the NCubean with each containing an attribute of orderValue which provides its value for use in the cell address (similar to the use of a CodeRepresentation of a Variable used as a conceptual dimension. This allows measures (whether one or several) to be handled in the same way as the conceptual dimension of the NCube in declaring a cell address. It is assumed that the value of the MeasureDimension is the last value in the address array. For example, for an NCube with 3 conceptual dimensions of rank 1 = Sex, rank 2 = Age, and rank 3 = Educational Attainment, plus a MeasureDimension. The cell address of 1,4,2,2 would indicate Code value of 1 for Sex, 4 for Age, 2 for Educational Attainment, and 2 for MeasureDimension. For systems translating to SDMX or an OLap structure DDI assumes that the MeasureDefinitionReference with the orderValue="1" is the equivalent of the PrimaryMeasure.</xs:documentation>
-			                  </xs:annotation>
-			               </xs:element>
+					<xs:element ref="r:MeasureDimension" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>This element defines the structure of a measure dimension for the NCube Instance. A value along the MeasureDimension is defined by a stack of references to one or more MeasureDefinitions found in the logical description of the NCube with each containing an attribute of orderValue which provides its value for use in the cell address (similar to the use of a CodeRepresentation of a Variable used as a conceptual dimension. This allows measures (whether one or several) to be handled in the same way as the conceptual dimension of the NCube in declaring a cell address. It is assumed that the value of the MeasureDimension is the last value in the address array. For example, for an NCube with 3 conceptual dimensions of rank 1 = Sex, rank 2 = Age, and rank 3 = Educational Attainment, plus a MeasureDimension. The cell address of 1,4,2,2 would indicate Code value of 1 for Sex, 4 for Age, 2 for Educational Attainment, and 2 for MeasureDimension. For systems translating to SDMX or an OLap structure DDI assumes that the MeasureDefinitionReference with the orderValue="1" is the equivalent of the PrimaryMeasure.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element ref="AttachedAttribute" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>This is an attribute attached to the NCube as a whole or a region of the NCube as defined in the logical description as a CoordinateGroup. The content of the attribute can be provided as a single value or reference a location in the data store where the attribute value will be found. This may be in addition to attribute information described in the logical structure.</xs:documentation>
@@ -136,7 +136,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="Measure" maxOccurs="unbounded">
 				<xs:annotation>
-               		<xs:documentation>Identifies the specific measure of the cell by noting the order value of the measure within the MeasureDimension and the value for the measure.</xs:documentation>
+					<xs:documentation>Identifies the specific measure of the cell by noting the order value of the measure within the MeasureDimension and the value for the measure.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -146,23 +146,23 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
-   <xs:complexType name="MeasureType">
-      <xs:annotation>
-         <xs:documentation>Identifies the specific measure of the cell designating the order value of the Measure within the MeasureDimension and the value of the measure. It is recommended to repeat Measure to define each measure definition and value separately. When Value contains multiple measures expressed as an ordered array list each measure in the array as a MeasureDimensionValue with its specified arrayOrder within a single Measure definition.</xs:documentation>
-      </xs:annotation>
-      <xs:sequence>
-         <xs:element ref="r:MeasureDimensionValue" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>Specifies the orderValue of the Measure in the MeasureDimension described in the NCubeInstance along with its arrayOrder if multiple measures are provided as an array in a single storage location.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-	<xs:element ref="r:Value">
+	<xs:complexType name="MeasureType">
 		<xs:annotation>
-			<xs:documentation>Value of the Measure expressed as a single value or ordered array.</xs:documentation>
+			<xs:documentation>Identifies the specific measure of the cell designating the order value of the Measure within the MeasureDimension and the value of the measure. It is recommended to repeat Measure to define each measure definition and value separately. When Value contains multiple measures expressed as an ordered array list each measure in the array as a MeasureDimensionValue with its specified arrayOrder within a single Measure definition.</xs:documentation>
 		</xs:annotation>
-	</xs:element>
-      </xs:sequence>
-   </xs:complexType>
+		<xs:sequence>
+			<xs:element ref="r:MeasureDimensionValue" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Specifies the orderValue of the Measure in the MeasureDimension described in the NCubeInstance along with its arrayOrder if multiple measures are provided as an array in a single storage location.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="r:Value">
+				<xs:annotation>
+					<xs:documentation>Value of the Measure expressed as a single value or ordered array.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 
 	<xs:element name="NCubeInstance" type="NCubeInstanceType">
 		<xs:annotation>
@@ -176,7 +176,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="Measure" type="MeasureType">
 		<xs:annotation>
-         	<xs:documentation>Identifies the specific measure of the cell by noting the order value of the measure within the MeasureDimension and the value for the measure.</xs:documentation>
+			<xs:documentation>Identifies the specific measure of the cell by noting the order value of the measure within the MeasureDimension and the value for the measure.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="AttachedAttribute" type="AttachedAttributeType">

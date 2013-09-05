@@ -55,7 +55,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					</xs:element>
 					<xs:element ref="r:DataRelationshipReference" minOccurs="0" maxOccurs="unbounded">
 					     <xs:annotation>		
-					         <xs:documentation>Reference to the DataRelationship containing the LogicalRecord to which the RecordLayout refers. Repeat for cases where LogicalRecords are described in multiple DataRelationship structures. Note that this does not imply that all of the LogicalRecords described in the DataRelationship are contained, wholely or in part in the PhysicalInstance. This reference allows for a direct path between the PhysicalInstance and the related content found in a LogicalProduct.</xs:documentation>
+					         <xs:documentation>Reference to the DataRelationship containing the LogicalRecord to which the RecordLayout refers. Repeat for cases where LogicalRecords are described in multiple DataRelationship structures. Note that this does not imply that all of the LogicalRecords described in the DataRelationship are contained, wholly or in part in the PhysicalInstance. This reference allows for a direct path between the PhysicalInstance and the related content found in a LogicalProduct.</xs:documentation>
 					     </xs:annotation> 
 					</xs:element>
 					<xs:element ref="r:RecordLayoutReference" minOccurs="0" maxOccurs="unbounded">
@@ -123,14 +123,17 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:annotation>
 		</xs:element>
 		<xs:choice minOccurs="0">
+			<xs:annotation>
+				<xs:documentation>Allows for identification of the person or organization within the maintenance agency responsible for the new version.  This is primarily intended for internal use.</xs:documentation>
+			</xs:annotation>
 			<xs:element ref="r:VersionResponsibility">
 				<xs:annotation>
-					<xs:documentation>Person and/or organization within the MaintenanceAgency responsible for the version change. This is primarily intended for internal use.</xs:documentation>
+					<xs:documentation>Person or organization within the MaintenanceAgency responsible for the version change. If it is important to retain the affiliation between and individual responsible for the version and his/her agency, it may be included in this notation. This is primarily intended for internal use.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="r:VersionResponsibilityReference">
 				<xs:annotation>
-					<xs:documentation>Reference person and/or organization within the MaintenanceAgency responsible for the version change, as described in an OragizationScheme. This is primarily intended for internal use.</xs:documentation>
+					<xs:documentation>Reference person or organization within the MaintenanceAgency responsible for the version change, as described in an OrganizationScheme. If it is important to retain the affiliation between and individual responsible for the version and his/her agency, a Relation should be created between the individual referenced here and his/her organization. This is primarily intended for internal use.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:choice>
@@ -295,14 +298,21 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
       <xs:sequence>
          <xs:element ref="StatisticalDataLocation" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation>
-               <xs:documentation>Reference to a PhysicalInstance that describes a data file containing the summary and/or category statistics OR contains the statistics in-line as in the case of the same data stored as an acai file and as an ORACLE file where the summary and category statistics are listed only in one of the physical instance files.</xs:documentation>
+               <xs:documentation>Reference to a PhysicalInstance that describes a data file containing the summary and/or category statistics OR contains the statistics in-line as in the case of the same data stored as an ASCII file and as an ORACLE file where the summary and category statistics are listed only in one of the physical instance files.</xs:documentation>
             </xs:annotation>
          </xs:element>
-         <xs:element ref="VariableStatistics" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>One or more statistical measures that describe the responses to a particular variable. Include both variable and category level statistics.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
+         <xs:choice minOccurs="0" maxOccurs="unbounded">
+         	<xs:element ref="VariableStatistics">
+            		<xs:annotation>
+               			<xs:documentation>One or more statistical measures that describe the responses to a particular variable. Include both variable and category level statistics.</xs:documentation>
+            		</xs:annotation>
+         	</xs:element>
+         	<xs:element ref="VariableStatisticsReference">
+            		<xs:annotation>
+               			<xs:documentation>Inclusion of a VariableStatistics by reference.</xs:documentation>
+            		</xs:annotation>
+         	</xs:element>
+         </xs:choice>
       </xs:sequence>
    </xs:complexType>
    <xs:complexType name="StatisticalDataLocationType">
@@ -336,8 +346,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:element>
          <xs:element name="TotalResponses" type="xs:integer" minOccurs="0">
             <xs:annotation>
-               <xs:documentation>The total number of responses to this variable. This element is especially useful if the number of responses does not match added case counts. It may also be used to sum the frequencies for variable categories.
-</xs:documentation>
+               <xs:documentation>The total number of responses to this variable. This element is especially useful if the number of responses does not match added case counts. It may also be used to sum the frequencies for variable categories.</xs:documentation>
             </xs:annotation>
          </xs:element>
          <xs:choice minOccurs="0">
@@ -520,7 +529,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
          </xs:attribute>
          <xs:attribute name="computationBase" type="ComputationBaseType">
              <xs:annotation>
-                <xs:documentation>Defines the cases included in determining the statistic. The options are total=all cases, valid and missing (invalid); validOnly=Only valid values, missing (invalid) are not included in the caluculation; missingOnly=Only missing (invalid) cases included in the calculation.</xs:documentation>
+                <xs:documentation>Defines the cases included in determining the statistic. The options are total=all cases, valid and missing (invalid); validOnly=Only valid values, missing (invalid) are not included in the calculation; missingOnly=Only missing (invalid) cases included in the calculation.</xs:documentation>
              </xs:annotation>
           </xs:attribute>
        </xs:extension>  
@@ -626,6 +635,11 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:documentation>Identifies the default missing value parameter for the this physical instance by referencing a ManagedMissingValuesRepresentation plus flag to identify it as a system missing value. TypeOfObject should be set to ManagedMissingValuesRepresentation.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	<xs:element name="VariableStatisticsReference" type="r:ReferenceType">
+		<xs:annotation>
+			<xs:documentation>Inclusion of a VariableStatistics by reference TypeOfObject should be set to VariableStatistics.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:complexType name="DefaultMissingValuesReferenceType">
 		<xs:annotation>
 			<xs:documentation>Identifies the default missing value parameter for the this physical instance by referencing a ManagedMissingValuesRepresentation. Note that this MissingValues declaration overrides the value found in the LogicalRecord if it conflicts. The assumption is that this is a System Missing Value declaration, specific to the storage format of the file. If not, change the value of isSystemMissingValue to "false". TypeOfObject should be set to ManagedMissingValuesRepresentation.</xs:documentation>
@@ -652,7 +666,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
              </xs:enumeration>
              <xs:enumeration value="validOnly">
                  <xs:annotation>
-                     <xs:documentation>Only valid values, missing (invalid) are not included in the caluculation.</xs:documentation>
+                     <xs:documentation>Only valid values, missing (invalid) are not included in the calculation.</xs:documentation>
                  </xs:annotation>
              </xs:enumeration>
              <xs:enumeration value="missingOnly">
