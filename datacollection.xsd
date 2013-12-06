@@ -2810,7 +2810,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:complexType>
 	<xs:element name="DomainSpecificValue" type="DomainSpecificValueType">
 		<xs:annotation>
-			<xs:documentation>References a Delineation used by the Response Domain using the reference structure and specifies one or more values within the delineation.</xs:documentation>
+			<xs:documentation>Identifies the value of the ResponseDomain to which the new ResponseDomain is attached by specifying its attachmentBase number of the target ResponseDomain in the attribute attachmentDomain. Specifies one or more values within the ResponseDomain to which the object is attached (i.e. single item or set).</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:complexType name="DomainSpecificValueType">

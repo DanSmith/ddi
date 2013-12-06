@@ -22,15 +22,15 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 <!--
 Documentation of the DDI specification is provided in three ways:
 
-Field Level Documentation
+<A HREF="http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/FieldLevelDocumentation/index.html">Field Level Documentation</A>
 AUDIENCE: Developers, database developers, mappings, base level for content providers (what an object is in relation to parent and child elements)
 This documentation is found within the DDI Schemas and displayed in the HTML documentation. It provides a brief description of the purpose and content of the object. Documentation found in the complex Type description will provide more detail than the element documentation. Within a complex type, the additional documentation of sub-elements will focus on its purpose within the context of the complex type. 
 
-Part I - Technical Documentation and Overview
+<A HREF="http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/HighLevelDocumentation/DDI_Part_I_TechnicalDocument.pdf">Part I - Technical Documentation</A>
 AUDIENCE: Developers, integrated usage and applications for content providers
 Organized by related sets of objects, e.g. Question Item, Question Grid, and Question Block, this documentation provides details of the structure and its intended application. Each set contains examples of usage. It contains information on the relationship of DDI to other standards, common XML structures used by DDI, design and consistency rules, description of major structural types (modules and schemes), technical features for identification and reference, basic types for dates and strings, and all major complex elements. The complex element content is organized alphabetically by set and an index is provided for all elements. This documentation also contains lists of: 3.1 to 3.2 changes, all unique element and attribute names, and elements by extension base (Identifiable, Versionable, Maintainable, Reference, CodeValue, etc.).
 
-Part II - User Guide
+<A HREF="http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/HighLevelDocumentation/DDI_Part_II_UserGuide.pdf">Part II - User Guide</A>
 AUDIENCE: Content providers, those focusing on specific applied uses of DDI
 Provides instructions for navigating the HTML Field Level Documentation and reviews basic structural features focusing on their usage, such as exchange structures, organizing publication package content, managing data over time, common structure like strings, controlled vocabularies, dates, citation and coverage, notes and other material. This general section is followed by a set of user stories (applying DDI). The focus is on how the parts of DDI work together to describe the metadata and data for particular functions such as documenting a longitudinal study or developing a questionnaire. Wherever appropriate, Part I will reference the more detailed technical documentation in Part I.
 -->
