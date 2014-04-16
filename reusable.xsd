@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
+Copyright (c) 2014 DDI Alliance, DDI 3.2 release, 2014-02-05
 
 This file is part of DDI 3.2 XML Schema.
 
@@ -504,7 +504,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:complexType name="CommandCodeType">
 		<xs:annotation>
-			<xs:documentation>Contains information on the command used for processing data. Contains a description of the command which should clarify for the user the purpose and process of the command, an in-line provision of the command itself, a reference to an external version of the command such as a coding script, and the option for attaching an extension to DDI to permit insertion of a command code in a foreign namespace.</xs:documentation>
+			<xs:documentation>Contains information on the command used for processing data. Contains a description of the command which should clarify for the user the purpose and process of the command, an in-line provision of the command itself, a reference to an external version of the command such as a coding script, and the option for attaching an extension to DDI to permit insertion of a command code in a foreign namespace. Both Command and CommandFile may be repeated to provide command information in additional programming languages. Multiple Command and CommandFile contents are differentiated by the content of the contained element ProgramLanguage.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element ref="Description" minOccurs="0">
@@ -512,12 +512,12 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					<xs:documentation>A description of the purpose and use of the command code provided. Supports multiple languages.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="Command" minOccurs="0">
+			<xs:element ref="Command" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>This is an in-line provision of the command itself.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="CommandFile" minOccurs="0">
+			<xs:element ref="CommandFile" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Identifies and provides a link to an external copy of the command, for example, a SAS Command Code script.</xs:documentation>
 				</xs:annotation>
@@ -1176,9 +1176,9 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					<xs:documentation>Use for reference to the following object(s): d:CollectionSituation</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-			<xs:enumeration value="CoordinateGroup">
+			<xs:enumeration value="CoordinateRegion">
 				<xs:annotation>
-					<xs:documentation>Use for reference to the following object(s): l:CoordinateGroup</xs:documentation>
+					<xs:documentation>Use for reference to the following object(s): l:CoordinateRegion</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="DataCollectionMethodology">
@@ -2614,7 +2614,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			</xs:element>
 			<xs:element ref="Date" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>Release date of the software package.</xs:documentation>
+					<xs:documentation>Supported date of the software package with, at minimum, a release date if known.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="Function" minOccurs="0" maxOccurs="unbounded">
@@ -3412,26 +3412,54 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					<xs:documentation>A display label for the number range. May be expressed in multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element ref="Low" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The lower bound of the range. If not present, then there is no lower bound.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element ref="High" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The upper bound of the range. If not present, then there is no upper bound.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TopCode" type="xs:decimal" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates that any response equal to or greater than this value has been coded as the top-code value.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="BottomCode" type="xs:decimal" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates that any response equal to or less than this value has been coded as the bottom-code value.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element ref="Low">
+					<xs:annotation>
+						<xs:documentation>The lower bound of the range expressed in the datatype xs:decimal. If not present, then there is no lower bound.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="LowDouble">
+					<xs:annotation>
+						<xs:documentation>The lower bound of the range expressed in the datatype xs:double. If not present, then there is no lower bound.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element ref="High" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The upper bound of the range in the datatype xs:decimal. If not present, then there is no upper bound.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="HighDouble" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The upper bound of the range in the datatype xs:double. If not present, then there is no upper bound.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="TopCode" type="xs:decimal">
+					<xs:annotation>
+						<xs:documentation>Indicates that any response equal to or greater than this value has been coded as the top-code value. Expressed in the datatype xs:decimal.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="TopCodeDouble" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>Indicates that any response equal to or greater than this value has been coded as the top-code value. Expressed in the datatype xs:decimal.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:choice minOccurs="0">
+				<xs:element name="BottomCode" type="xs:decimal">
+					<xs:annotation>
+						<xs:documentation>Indicates that any response equal to or less than this value has been coded as the bottom-code value. Expressed in the datatype xs:double.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="BottomCodeDouble" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>Indicates that any response equal to or less than this value has been coded as the bottom-code value. Expressed in the datatype xs:double.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
 		</xs:sequence>
 		<xs:attribute name="regExp" type="xs:string" use="optional">
 			<xs:annotation>
@@ -3455,6 +3483,30 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xs:decimal">
+				<xs:attribute name="isInclusive" type="xs:boolean" default="true">
+					<xs:annotation>
+						<xs:documentation>Indicates that the value is included in the range. Set to false if the range includes numbers up to but no including the designated value.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="LowDouble" type="DoubleNumberRangeValueType">
+		<xs:annotation>
+			<xs:documentation>The lower bound of the number range.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="HighDouble" type="DoubleNumberRangeValueType">
+		<xs:annotation>
+			<xs:documentation>The upper bound of the number range.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="DoubleNumberRangeValueType">
+		<xs:annotation>
+			<xs:documentation>Describes a bounding value for a number range expressed as an xs:double.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:double">
 				<xs:attribute name="isInclusive" type="xs:boolean" default="true">
 					<xs:annotation>
 						<xs:documentation>Indicates that the value is included in the range. Set to false if the range includes numbers up to but no including the designated value.</xs:documentation>
@@ -4816,12 +4868,12 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="Subject" type="InternationalCodeValueType">
 		<xs:annotation>
-			<xs:documentation>Allows for string content which may be taken from an externally maintained controlled vocabulary (code value) including a language-location specification for the code value. Used in cases where controlled vocabularies are assumed to be highly language specific, such as nationally maintained subject headings, thesauri, or keywords derived from the content of documents.</xs:documentation>
+			<xs:documentation>Contains values from a formal topical or subject classification such as the U.S. Library of Congress Subject Headings, MESH (Medical Subject Headings), CESSDA Topic Classification, etc.). Subject classifications are generally organized hierarchically and grouped by related subject matter. They may use codified identifiers (i.e. Dewey Decimal Classification). The International Code Value allows for string content which may be taken from an externally maintained controlled vocabulary (code value) including a language-location specification for the code value. Used in cases where controlled vocabularies are assumed to be highly language specific, such as nationally maintained subject headings, thesauri, or keywords derived from the content of documents.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="Keyword" type="InternationalCodeValueType">
 		<xs:annotation>
-			<xs:documentation>Allows for string content which may be taken from an externally maintained controlled vocabulary (code value) including a language-location specification for the code value. Used in cases where controlled vocabularies are assumed to be highly language specific, such as nationally maintained subject headings, thesauri, or keywords derived from the content of documents.</xs:documentation>
+			<xs:documentation>Keywords should preferably come from Thesauri designed to support searching by organizing and grouping synonyms in one or more languages. Keywords are generally listed in alphabetical order do not use codified identifiers. Thesauri may be general (Roget's Thesaurus) or confined to a specific topical area (ELSST). The International Code Value allows for string content which may be taken from an externally maintained controlled vocabulary (code value) including a language-location specification for the code value. Used in cases where controlled vocabularies are assumed to be highly language specific, such as nationally maintained subject headings, thesauri, or keywords derived from the content of documents.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="BoundingBox" type="BoundingBoxType">
@@ -5869,6 +5921,16 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+		<xs:attribute name="dimensionNumber" type="xs:integer" default="1">
+			<xs:annotation>
+				<xs:documentation>A number used to identify this dimension when describing its intersect point with one or more dimensions in the same scale representation. The dimension is denoted with a 1-based indexing. Dimension in the scale are numbered (1,2,n).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="degreeSlopeFromHorizontal" type="xs:integer" default="0">
+			<xs:annotation>
+				<xs:documentation>A horizontal line is described as a 0 (zero) slope. Expressed as the number of degrees positive (right end angle above the horizontal line) or degrees positive (right end descending below the horizontal line). </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="Anchor" type="AnchorType">
 		<xs:annotation>
@@ -6504,7 +6566,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 							<xs:documentation>This field provides a recommended generic treatment of the data for display by an application. The value should come from a controlled vocabulary.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ref="NumberRange" minOccurs="0">
+					<xs:element ref="NumberRange" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Defines the valid number range or number values for the representation.</xs:documentation>
 						</xs:annotation>
@@ -6796,7 +6858,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-	<xs:complexType name="RepresentationReferenceType" abstract="true">
+	<xs:complexType name="RepresentationReferenceType">
 		<xs:annotation>
 			<xs:documentation>References the managed representation of the variables' values. Allows for the listing of values to be treated as missing in order to support 3.1 structures. The prefered method is the use of a reference to MissingValues description using MissingValuesReference. If both are used and there is a conflict in the content, MissingValuesReference will override the content provided in the ValueRepresentationReference. TypeOfObject should be set to ManagedDateTimeRepresentation, ManagedNumericRepresentation, ManagedScaleRepresentation, or ManagedTextRepresentation.</xs:documentation>
 		</xs:annotation>

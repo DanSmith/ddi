@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
+Copyright (c) 2014 DDI Alliance, DDI 3.2 release, 2014-02-05
 
 This file is part of DDI 3.2 XML Schema.
 
@@ -242,6 +242,11 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		<xs:complexContent>
 			<xs:extension base="r:VersionableType">
 				<xs:sequence>
+					<xs:element ref="TypeOfCategoryGroup" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A brief textual identification of the group type. Supports the use of an external controlled vocabulary.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element ref="CategoryGroupName" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>A name for the group. May be expressed in multiple languages. Repeat the element to express names with different content, for example different names for different systems.</xs:documentation>
@@ -306,6 +311,11 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	<xs:element name="DefiningCategoryReference" type="r:ReferenceType">
 		<xs:annotation>
 			<xs:documentation>Reference to an existing Category using the Reference structure. TypeOfObject should be set to Category.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="TypeOfCategoryGroup" type="r:CodeValueType">
+		<xs:annotation>
+			<xs:documentation>A brief textual description of the type of group created to associate a number of Categories. Supports the use of an external controlled vocabulary.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="CategoryGroupName" type="r:NameType">
@@ -1173,9 +1183,9 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 							</xs:annotation>
 						</xs:element>
 					</xs:choice>
-					<xs:element ref="AttachmentGroupReference" minOccurs="0">
+					<xs:element ref="AttachmentRegionReference" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Reference to the CoordinateGroup that defines the attachment point for the attribute.</xs:documentation>
+							<xs:documentation>Reference to the CoordinateRegion that defines the attachment point for the attribute.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="r:MeasureDefinitionReference" minOccurs="0" maxOccurs="unbounded">
@@ -1191,7 +1201,7 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				</xs:sequence>
 				<xs:attribute name="attachmentLevel" type="AttachmentLevelCodeType" default="Cube">
 					<xs:annotation>
-						<xs:documentation>Describes the attachment level of the attribute as Cube, CoordinateGroup, Dimension, Measurement, or MeasurementValue.</xs:documentation>
+						<xs:documentation>Describes the attachment level of the attribute as Cube, CoordinateRegion, Dimension, Measurement, or MeasurementValue.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
@@ -1249,7 +1259,7 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 							<xs:documentation>NCubes are defined by their dimensions. A dimension is provided a rank and a reference to a variable that describes it. Cell locations are "addressed" by the value of their intersect on each dimension provided in rank order.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ref="CoordinateGroup" minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="CoordinateRegion" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Defines the area of attachment for an attribute. It may be defined as the NCube as a whole or as certain dimensions or values of dimensions.</xs:documentation>
 						</xs:annotation>
@@ -1277,7 +1287,7 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				</xs:attribute>
 				<xs:attribute name="isClean" type="xs:boolean" default="true">
 					<xs:annotation>
-						<xs:documentation>A value of "true" indicates that all cells have the potential for content values. If set to "false" Attribute and CoordinateGroup should be used to define the sparse areas of the NCube, those that have no content by definition. For example a cross-tabulation between Household Type (Family, Non-Family) and Number of persons in Household (1,2,3,4,5,6,7+) would need an attribute for Family/1 Person as this will always be empty due to the definition of Family as two or more related persons.</xs:documentation>
+						<xs:documentation>A value of "true" indicates that all cells have the potential for content values. If set to "false" Attribute and CoordinateRegion should be used to define the sparse areas of the NCube, those that have no content by definition. For example a cross-tabulation between Household Type (Family, Non-Family) and Number of persons in Household (1,2,3,4,5,6,7+) would need an attribute for Family/1 Person as this will always be empty due to the definition of Family as two or more related persons.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
@@ -1834,7 +1844,7 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:documentation>Name of the NCube Scheme using the DDI Name structure.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:complexType name="CoordinateGroupType">
+	<xs:complexType name="CoordinateRegionType">
 		<xs:annotation>
 			<xs:documentation>Defines the area of attachment for an NCube attribute. It may be defined as the NCube as a whole or as certain dimensions or values of dimensions.</xs:documentation>
 		</xs:annotation>
@@ -1843,17 +1853,17 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				<xs:sequence>
 					<xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>A display label for the CoordinateGroup. May be expressed in multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.</xs:documentation>
+							<xs:documentation>A display label for the CoordinateRegion. May be expressed in multiple languages. Repeat for labels with different content, for example, labels with differing length limitations.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="r:UniverseReference" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>Reference to the universe statement containing a description of the persons or other elements that this CoordinateGroup refers to, and to which any analytic results refer. If more than one universe is referenced the universe of the CoordinateGroup is the intersect of the referenced universes. Use when the CoordinateGroup describes a subset of the NCube universe.</xs:documentation>
+							<xs:documentation>Reference to the universe statement containing a description of the persons or other elements that this CoordinateRegion refers to, and to which any analytic results refer. If more than one universe is referenced the universe of the CoordinateRegion is the intersect of the referenced universes. Use when the CoordinateRegion describes a subset of the NCube universe.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="r:Description" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>A description of the content of the CoordinateGroup. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
+							<xs:documentation>A description of the content of the CoordinateRegion. May be expressed in multiple languages and supports the use of structured content.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="DimensionValue" minOccurs="0" maxOccurs="unbounded">
@@ -1913,7 +1923,7 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		</xs:sequence>
 		<xs:attribute name="rank" type="xs:integer" use="required">
 			<xs:annotation>
-				<xs:documentation>Provides coordinate order (1,2,n) for the intersect point of this dimension within the cell address. For example, if the rank of this dimension is 2, the intersect point on this dimension will be the second value listed in the cell address.</xs:documentation>
+				<xs:documentation>The rank order of this dimension (the order in which the value for this dimension will appear in the cell address)denoted with a 1-based indexing. Provides coordinate order (1,2,n) for the intersect point of this dimension within the cell address. For example, if the rank of this dimension is 2, the intersect point on this dimension will be the second value listed in the cell address.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
@@ -2017,9 +2027,9 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					<xs:documentation>Attaches to the whole NCube.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
-			<xs:enumeration value="CoordinateGroup">
+			<xs:enumeration value="CoordinateRegion">
 				<xs:annotation>
-					<xs:documentation>Attaches to a group of cells described by a coordinate group which specifies the range of coordinate values contained within the group.</xs:documentation>
+					<xs:documentation>Attaches to a group of cells described by a coordinate region which specifies the range of coordinate values contained within the region.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="Dimension">
@@ -2169,12 +2179,12 @@ with DDI 3 dev XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:documentation>Contains a group of NCubes, which may be ordered or hierarchical.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="AttachmentGroupReference" type="r:ReferenceType">
+	<xs:element name="AttachmentRegionReference" type="r:ReferenceType">
 		<xs:annotation>
-			<xs:documentation>Reference to an existing CoordinateGroup using the Reference structure. TypeOfObject should be set to CoordinateGroup.</xs:documentation>
+			<xs:documentation>Reference to an existing CoordinateRegion using the Reference structure. TypeOfObject should be set to CoordinateRegion.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="CoordinateGroup" type="CoordinateGroupType">
+	<xs:element name="CoordinateRegion" type="CoordinateRegionType">
 		<xs:annotation>
 			<xs:documentation>Defines the area of attachment for an NCube attribute.</xs:documentation>
 		</xs:annotation>

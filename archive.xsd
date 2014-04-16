@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
+Copyright (c) 2014 DDI Alliance, DDI 3.2 release, 2014-02-05
 
 This file is part of DDI 3.2 XML Schema.
 
@@ -755,7 +755,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				<xs:sequence>
 					<xs:element ref="OrganizationIdentification" minOccurs="0">
 						<xs:annotation>
-							<xs:documentation>Identification information on the Organization. The structure contains a FormalOrganizationName for the current legal or formal name. In addition, one should be able to provide any number of OrganizationNames that have a) a specific contextual usage, or b) are of specific types (e.g. PreviousFormalName). The DDI Maintenance Agency ID and and organization images, such as a building picture or logo are found in OrganizationIdentification. Images and names can be individually date stamped.</xs:documentation>
+							<xs:documentation>Identification information on the Organization. The structure contains a OrganizationName which can be repeated to provide any number of OrganizationNames that have a) a specific contextual usage, or b) are of specific types (e.g. PreviousFormalName). The DDI Maintenance Agency ID and and organization images, such as a building picture or logo are found in OrganizationIdentification. Images and names can be individually date stamped.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="r:Description" minOccurs="0">
@@ -804,17 +804,12 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:complexType name="OrganizationIdentificationType">
 		<xs:annotation>
-			<xs:documentation>Means of identifying an organization. The structure contains a FormalOrganizationName for the current legal or formal name. In addition, one should be able to provide any number of OrganizationNames that have a) a specific contextual usage, or b) are of specific types (e.g. PreviousFormalName). The DDI Maintenance Agency ID and and organization images, such as a building picture or logo are found in OrganizationIdentification. Images and names can be individually date stamped.</xs:documentation>
+			<xs:documentation>Means of identifying an organization. The structure contains a repeatable OrganizationName. At minimum enter the current legal or formal name setting the attribute isFormal to "true". Additional OrganizationNames may be provided that have a) a specific contextual usage, or b) are of specific types (e.g. PreviousFormalName). The DDI Maintenance Agency ID and and organization images, such as a building picture or logo are found in OrganizationIdentification. Images and names can be individually date stamped.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element ref="FormalOrganizationName" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The formal name and abbreviation of the Organization. When this name changes move the previous formal name to OrganizationName with a TypeOfOrganizationName indicating that it is a previous formal name and providing an end date to the EffectivePeriod.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
 			<xs:element ref="OrganizationName" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage. For example when the formal name of an organization changes, the previous name is moved to OrganizationName with a TypeOfOrganizationName indicating PreviousFormalName.</xs:documentation>
+					<xs:documentation>Names by which the organization is known. Use the attribute isFormal="true" to designate the legal or formal name of the Organization. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="DDIMaintenanceAgencyID" minOccurs="0" maxOccurs="unbounded">
@@ -828,34 +823,6 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-	</xs:complexType>
-	<xs:element name="FormalOrganizationName" type="FormalOrganizationNameType">
-		<xs:annotation>
-			<xs:documentation>The formal name and abbreviation of the Organization. When this name changes move the previous formal name to OrganizationName with a TypeOfOrganizationName indicating that it is a previous formal name and providing an end date to the EffectivePeriod.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-
-
-	<xs:complexType name="FormalOrganizationNameType">
-		<xs:annotation>
-			<xs:documentation>The formal name and abbreviation of the Organization. When this name changes move the previous formal name to OrganizationName with a TypeOfOrganizationName indicating that it is a previous formal name and providing an end date to the EffectivePeriod.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="r:NameType">
-				<xs:sequence>
-					<xs:element ref="r:Abbreviation" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>An abbreviation or acronym for the name. This may be expressed in multiple languages. It is assumed that if only a single language is provided that it may be used in any of the other languages within which the name itself is expressed.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="r:EffectivePeriod" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The time period for which this name is accurate and in use.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
 	</xs:complexType>
 	<xs:element name="DDIMaintenanceAgencyID" type="DDIMaintenanceAgencyIDType">
 		<xs:annotation>
@@ -936,11 +903,6 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		<xs:complexContent>
 			<xs:extension base="r:VersionableType">
 				<xs:sequence>
-					<xs:element ref="FormalIndividualName" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>The formal name by which this individual is known. This may be a legal name.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 					<xs:element ref="IndividualIdentification" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Identifying information about the individual.</xs:documentation>
@@ -997,7 +959,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		<xs:sequence>
 			<xs:element ref="IndividualName" minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The name or names by which the known is known. The preferred name should be noted with the isPreferred attribute.</xs:documentation>
+					<xs:documentation>The name or names by which the individual is known. The legal or formal name of the individual should have the isFormal attribute set to true. The preferred name should be noted with the isPreferred attribute.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element ref="DDIMaintenanceAgencyID" minOccurs="0" maxOccurs="unbounded">
@@ -1019,7 +981,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:complexType>
 	<xs:complexType name="IndividualNameType">
 		<xs:annotation>
-			<xs:documentation>The name of an individual broken out into its component parts of prefix, first/given name, middle name, last/family/surname, and suffix. The preferred compilation of the name parts may also be provided. The attribute sex provides information to assist in the appropriate use of pronouns.</xs:documentation>
+			<xs:documentation>The name of an individual broken out into its component parts of prefix, first/given name, middle name, last/family/surname, and suffix. The preferred compilation of the name parts may also be provided. The legal or formal name of the individual should have the isFormal attribute set to true. The preferred name should be noted with the isPreferred attribute. The attribute sex provides information to assist in the appropriate use of pronouns.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence minOccurs="0">
 			<xs:element name="Prefix" type="xs:string" minOccurs="0">
@@ -1070,7 +1032,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		</xs:sequence>
 		<xs:attribute name="sex" type="SexSpecificationType" use="optional">
 			<xs:annotation>
-				<xs:documentation>Sex allows for the specification of either male or female. The purpose of providing this information is to assist others in the appropriate use of pronouns when addressing the individual.</xs:documentation>
+				<xs:documentation>Sex allows for the specification of male, female or neutral. The purpose of providing this information is to assist others in the appropriate use of pronouns when addressing the individual. Note that many countries/languages may offer a neutral pronoun form.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="isPreferred" type="xs:boolean" use="optional">
@@ -1083,19 +1045,17 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 				<xs:documentation>A name may be specific to a particular context, i.e. common usage, business, social, etc.. Identify the context related to the specified name.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+		<xs:attribute name="isFormal" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>The legal or formal name of the individual should have the isFormal attribute set to true. To avoid confusion only one individual name should have the isFormal attribute set to true. Use the TypeOfIndividualName to further differentiate the type and applied usage when multiple names are provided.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
 	</xs:complexType>
 	<xs:element name="TypeOfIndividualName" type="r:CodeValueType">
 		<xs:annotation>
 			<xs:documentation>The type of individual name provided. Supports the use of a controlled vocabulary.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-
-	<xs:element name="FormalIndividualName" type="IndividualNameType">
-		<xs:annotation>
-			<xs:documentation>The formal name by which this individual is known. This may be a legal name.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-
 	<xs:simpleType name="SexSpecificationType">
 		<xs:annotation>
 			<xs:documentation>Sex specification is limited to the purpose of determining the proper pronoun to use in addressing the individual. This may be based on conventional usage or personal preference.</xs:documentation>
@@ -1109,6 +1069,11 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:enumeration value="F">
 				<xs:annotation>
 					<xs:documentation>Use the feminine pronoun.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="N">
+				<xs:annotation>
+					<xs:documentation>Use a neutral or non-specified pronoun.</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 		</xs:restriction>
@@ -1683,7 +1648,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="OrganizationName" type="OrganizationNameType">
 		<xs:annotation>
-			<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage.</xs:documentation>
+			<xs:documentation>Names by which the organization is known. Use the attribute isFormal="true" to designate the legal or formal name of the Organization. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="IndividualImage" type="PrivateImageType">
@@ -1698,7 +1663,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:complexType name="OrganizationNameType">
 		<xs:annotation>
-			<xs:documentation>Additional names by which the organization is known. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage.</xs:documentation>
+			<xs:documentation>Names by which the organization is known. Use the attribute isFormal="true" to designate the legal or formal name of the Organization. The preferred name should be noted with the isPreferred attribute. Names may be typed with TypeOfOrganizationName to indicate their appropriate usage.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="r:NameType">
@@ -1719,6 +1684,11 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
+				<xs:attribute name="isFormal" type="xs:boolean" use="optional">
+					<xs:annotation>
+						<xs:documentation>The legal or formal name of the organization should have the isFormal attribute set to true. To avoid confusion only one organization name should have the isFormal attribute set to true. Use the TypeOfOrganizationName to further differentiate the type and applied usage when multiple names are provided.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -1734,7 +1704,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		<xs:complexContent>
 			<xs:extension base="r:ImageType">
 				<xs:sequence>
-					<xs:element ref="r:EffectivePeriod">
+					<xs:element ref="r:EffectivePeriod" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The period for which this image is effective/valid.</xs:documentation>
 						</xs:annotation>

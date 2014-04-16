@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
+Copyright (c) 2014 DDI Alliance, DDI 3.2 release, 2014-02-05
 
 This file is part of DDI 3.2 XML Schema.
 
@@ -107,7 +107,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 					</xs:element>
 					<xs:element ref="AttachedAttribute" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
-							<xs:documentation>This is an attribute attached to the NCube as a whole or a region of the NCube as defined in the logical description as a CoordinateGroup. The content of the attribute can be provided as a single value or reference a location in the data store where the attribute value will be found. This may be in addition to attribute information described in the logical structure.</xs:documentation>
+							<xs:documentation>This is an attribute attached to the NCube as a whole or a region of the NCube as defined in the logical description as a CoordinateRegion. The content of the attribute can be provided as a single value or reference a location in the data store where the attribute value will be found. This may be in addition to attribute information described in the logical structure.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="DataItem" minOccurs="0" maxOccurs="unbounded">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
+Copyright (c) 2014 DDI Alliance, DDI 3.2 release, 2014-02-05
 
 This file is part of DDI 3.2 XML Schema.
 
@@ -23,12 +23,12 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	<xs:import namespace="ddi:reusable:3_2" schemaLocation="reusable.xsd"/>
 	<xs:element name="ConceptualComponent" type="ConceptualComponentType">
 		<xs:annotation>
-			<xs:documentation>A maintainable module for the conceptual components of the study or group of studies. Conceptual components include the objects used to describe the concepts the study is examining, the universe (population) and sub-universes those concepts to which they are related, and the geographic structures and locations wherein those populations reside. Concepts, and ConceptualVariable (containing a concept linked to a universe) provide an abstract view of what is being measured by questions or other forms of data capture, and the variables which are used to describe the data that will be collected. Universe describes the populations (objects) about whom information is sought. GeographicStructure and GeographicLocation specify the geographical locations of those objects and the structural relationships between locations of different types, e.g. the relationship of a city to the state that contains it.</xs:documentation>
+			<xs:documentation>A maintainable module for the conceptual components of the study or group of studies. Conceptual components include the objects used to describe the concepts the study is examining, the universe (population) and sub-universes those concepts to which they are related, and the geographic structures and locations wherein those populations reside. Concepts, and ConceptualVariables (containing a concept linked to a universe) provide an abstract view of what is being measured by questions or other forms of data capture, and the variables which are used to describe the data that will be collected. Universe describes the populations (objects) about whom information is sought. GeographicStructure and GeographicLocation specify the geographical locations of those objects and the structural relationships between locations of different types, e.g. the relationship of a city to the state that contains it. In addition to the standard name, label, and description, ConceptualComponent contains ConceptSchemes, ConceptualVariableSchemes, UniverseSchemes, GeographicStructureSchemes, and GeographicLocationSchemes both in-line and by reference.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:complexType name="ConceptualComponentType">
 		<xs:annotation>
-			<xs:documentation>A maintainable module for the conceptual components of the study or group of studies. Conceptual components include the objects used to describe the concepts the study is examining, the universe (population) and sub-universes those concepts to which they are related, and the geographic structures and locations wherein those populations reside. Concepts, and ConceptualVariables (containing a concept linked to a universe) provide an abstract view of what is being measured by questions or other forms of data capture, and the variables which are used to describe the data that will be collected. Universe describes the populations (objects) about whom information is sought. GeographicStructure and GeographicLocation specify the geographical locations of those objects and the structural relationships between locations of different types, e.g. the relationship of a city to the state that contains it. In addition to the standard name, label, and description, ConceptualComponent contains ConceptSchemes, DataElementConceptSchemes, UniverseSchemes, DataElementSchemes, GeographicStructureSchemes, and GeographicLocationSchemes both in-line and by reference.</xs:documentation>
+			<xs:documentation>A maintainable module for the conceptual components of the study or group of studies. Conceptual components include the objects used to describe the concepts the study is examining, the universe (population) and sub-universes those concepts to which they are related, and the geographic structures and locations wherein those populations reside. Concepts, and ConceptualVariables (containing a concept linked to a universe) provide an abstract view of what is being measured by questions or other forms of data capture, and the variables which are used to describe the data that will be collected. Universe describes the populations (objects) about whom information is sought. GeographicStructure and GeographicLocation specify the geographical locations of those objects and the structural relationships between locations of different types, e.g. the relationship of a city to the state that contains it. In addition to the standard name, label, and description, ConceptualComponent contains ConceptSchemes, ConceptualVariableSchemes, UniverseSchemes, GeographicStructureSchemes, and GeographicLocationSchemes both in-line and by reference.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="r:MaintainableType">
@@ -358,14 +358,14 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		<xs:complexContent>
 			<xs:extension base="r:VersionableType">
 				<xs:sequence>
+					<xs:element ref="TypeOfConceptGroup" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Specifies the purpose of the ConceptGroup. If conceptual the GroupingConceptReference or GroupingUniverseReference should be used to further define the group. The object allows for specification of the purpose using a brief string or term. Supports the use of an external controlled vocabulary.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 					<xs:element ref="ConceptGroupName" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>A name for the ConceptGroup. May be expressed in multiple languages. Repeat the element to express names with different content, for example different names for different systems.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="TypeOfConceptGroup">
-						<xs:annotation>
-							<xs:documentation>Specifies the purpose of the ConceptGroup. If conceptual the GroupingConceptReference or GroupingUniverseReference should be used to further define the group. The object allows for specification of the purpose using a brief string or term. Supports the use of an external controlled vocabulary.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element ref="r:Label" minOccurs="0" maxOccurs="unbounded">

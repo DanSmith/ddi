@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Copyright (c) 2013 DDI Alliance, DDI 3.2 release, 2013-09-01
+Copyright (c) 2014 DDI Alliance, DDI 3.2 release, 2014-02-05
 
 This file is part of DDI 3.2 XML Schema.
 
@@ -1278,7 +1278,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		<xs:complexContent>
 			<xs:extension base="r:VersionableType">
 				<xs:sequence>
-					<xs:element ref="TypeOfInstrumentGroup">
+					<xs:element ref="TypeOfInstrumentGroup" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>A generic element for specifying a reason for a instrument group. Note that this element can contain either a term from a controlled vocabulary list or a textual description.</xs:documentation>
 						</xs:annotation>
@@ -1318,17 +1318,24 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 							<xs:documentation>If keywords are listed for this group, it is strongly recommended that the keywords listed also be found in the TopicalCoverage element for the parent packaging element when this group is included directly or by reference in a module containing a coverage element. Use of keyword at the group level allows for associating objects as a type of keyword based group or to identify keyword characteristics of a reusable group of objects.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element ref="InstrumentReference" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Reference to constituent instrument.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element ref="InstrumentGroupReference" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>Reference to constituent instrument group. This allows for nesting of instrument groups.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="InstrumentReference">
+							<xs:annotation>
+								<xs:documentation>Reference to constituent instrument.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element ref="InstrumentGroupReference">
+							<xs:annotation>
+								<xs:documentation>Reference to constituent instrument group. This allows for nesting of instrument groups.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>	
 				</xs:sequence>
+				<xs:attribute name="isOrdered" type="xs:boolean" default="false">
+					<xs:annotation>
+						<xs:documentation>If set to "true" indicates that the content of the group is ordered as it appears within the XML structure.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -2067,7 +2074,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 	</xs:element>
 	<xs:element name="QuestionBlock" type="QuestionBlockType">
 		<xs:annotation>
-			<xs:documentation>A QuestionBlock is a specific structure used in educational and other types of testing where an object (Evaluation Material) is provided and a set of questions are asked regarding the object.</xs:documentation>
+			<xs:documentation>A QuestionBlock is a specific structure used in educational and other types of testing where an object (Stimulus Material) is provided and a set of questions are asked regarding the object.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="QuestionGroup" type="QuestionGroupType">
@@ -2175,7 +2182,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 
 	<xs:complexType name="QuestionBlockType">
 		<xs:annotation>
-			<xs:documentation>A QuestionBlock is a specific structure used in educational and other types of testing where an object (Evaluation Material) is provided and a set of questions are asked regarding the object. The QuestionBlock generally has related QuestionBlocks that measure similar skills or aptitudes and is used randomly within a set of questionnaires to create multiple versions of a single questionnaire that can be used with large groups for testing purposes. Assembly of the QuestionBlocks into a questionnaire may the result of selection based on an experimental design model. It contains information on what the QuestionBlock is intended to measure, input and output parameters for the QuestionBlock, a description of the evaluation material and the questions related to it, instructions on sequencing and number of allowed responses, references to external aids and instructions, and an estimate of the time needed to complete the question. Note that the QuestionBlock is a reusable format for use in any number of applied uses. External aids, instructions, response sequencing etc. should contain information consistent with the general use of the QuestionBlock (QuestionItems and QuestionGrids will contain information specific to the individual question). Additional materials and information can be added within the QuestionConstruct which is the applied use of a question.</xs:documentation>
+			<xs:documentation>A QuestionBlock is a specific structure used in educational and other types of testing where an object (Stimulus Material) is provided and a set of questions are asked regarding the object. The QuestionBlock generally has related QuestionBlocks that measure similar skills or aptitudes and is used randomly within a set of questionnaires to create multiple versions of a single questionnaire that can be used with large groups for testing purposes. Assembly of the QuestionBlocks into a questionnaire may the result of selection based on an experimental design model. It contains information on what the QuestionBlock is intended to measure, input and output parameters for the QuestionBlock, a description of the stimulus material and the questions related to it, instructions on sequencing and number of allowed responses, references to external aids and instructions, and an estimate of the time needed to complete the question. Note that the QuestionBlock is a reusable format for use in any number of applied uses. External aids, instructions, response sequencing etc. should contain information consistent with the general use of the QuestionBlock (QuestionItems and QuestionGrids will contain information specific to the individual question). Additional materials and information can be added within the QuestionConstruct which is the applied use of a question.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="r:VersionableType">
@@ -2213,12 +2220,12 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 						</xs:element>
 						<xs:element ref="QuestionItemReference">
 							<xs:annotation>
-								<xs:documentation>Reference to a QuestionItem containing a question regarding the evaluation material.</xs:documentation>
+								<xs:documentation>Reference to a QuestionItem containing a question regarding the stimulus material.</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 						<xs:element ref="QuestionGridReference">
 							<xs:annotation>
-								<xs:documentation>Reference to a QuestionGrid containing a question regarding the evaluation material.</xs:documentation>
+								<xs:documentation>Reference to a QuestionGrid containing a question regarding the stimulus material.</xs:documentation>
 							</xs:annotation>
 						</xs:element>
 					</xs:choice>
@@ -2605,15 +2612,15 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 			<xs:documentation>Name of the Question Grid using the DDI Name structure.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:complexType name="GridDimensionType">
-		<xs:annotation>
-			<xs:documentation>Describes each dimension of the grid including dimension rank (for the purpose of identifying a cell address), a text for the dimension, and optional labels and codes used as column and row stubs. May also describe a roster (a set of unlabeled rows or columns depending upon display situation).</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:choice>
-				<xs:element ref="CodeDomain">
-					<xs:annotation>
-						<xs:documentation>This is a reference to a CodeScheme that is used for the labels contained in the dimension. CodeSchemes are used even when the code is not being displayed in order to use this information for creating the cell coordinate address.</xs:documentation>
+      <xs:complexType name="GridDimensionType">
+          <xs:annotation>
+              <xs:documentation>Describes each dimension of the grid including dimension rank (for the purpose of identifying a cell address), a text for the dimension, and optional labels and codes used as column and row stubs. May also describe a roster (a set of unlabeled rows or columns depending upon display situation).</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+              <xs:choice>
+                  <xs:element ref="CodeDomain">
+                      <xs:annotation>
+                         <xs:documentation>This includes a reference to a CodeList that is used for the labels contained in the dimension. CodeLists are used even when the code is not being displayed in order to use this information for creating the cell coordinate address.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="Roster">
@@ -2625,7 +2632,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		</xs:sequence>
 		<xs:attribute name="rank" use="required" type="xs:integer">
 			<xs:annotation>
-				<xs:documentation>The rank order of this dimension (the order in which the value for this dimension will appear in the cell address).</xs:documentation>
+				<xs:documentation>The rank order of this dimension (the order in which the value for this dimension will appear in the cell address)denoted with a 1-based indexing. Provides coordinate order (1,2,n) for the intersect point of this dimension within the cell address. For example, if the rank of this dimension is 2, the intersect point on this dimension will be the second value listed in the cell address.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="displayCode" type="xs:boolean" default="true">
@@ -3468,7 +3475,7 @@ with DDI 3.2 XML Schema. If not, see <http://www.gnu.org/licenses/>.
 		</xs:annotation>
 	</xs:element>
 
-	<xs:complexType name="DomainReferenceType" abstract="true">
+	<xs:complexType name="DomainReferenceType">
 		<xs:annotation>
 			<xs:documentation>Abstract type for the head of a substitution group that allows for the use of a response domain by reference. If specific values are used to denote missing values, these can be indicated as a space-delimited list in the missingValue attribute. If the missing value is indicated by a blank, this should be indicated by setting the value of blankIsMissingValue to true.</xs:documentation>
 		</xs:annotation>
